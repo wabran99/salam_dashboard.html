@@ -52,9 +52,9 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 
 /* ── SEARCH ── */
 .search-wrap{position:relative;margin-bottom:16px}
-.search-input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:10px 14px 10px 36px;font-size:13px;color:#fff;outline:none;transition:border .2s}
-.search-input:focus{border-color:var(--border2)}
-.search-input::placeholder{color:var(--t4)}
+.search-input{width:100%;background:rgba(255,255,255,0.08);border:1px solid rgba(61,214,140,0.35);border-radius:var(--r2);padding:10px 14px 10px 36px;font-size:13px;color:#fff;outline:none;transition:border .2s}
+.search-input:focus{border-color:var(--g6);background:rgba(255,255,255,0.11)}
+.search-input::placeholder{color:#5A9A72}
 .search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--t3);font-size:14px;pointer-events:none}
 .search-results{background:var(--g3);border:1px solid var(--border2);border-radius:var(--r2);margin-top:6px;overflow:hidden;display:none}
 .search-result-item{padding:10px 14px;font-size:12px;cursor:pointer;border-bottom:1px solid var(--border);transition:background .1s}
@@ -99,7 +99,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 .rk.g{color:var(--gold)}.rk.s{color:var(--silver)}.rk.b{color:var(--bronze)}
 .emp-n{font-size:12px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .emp-b{font-size:10px;color:var(--t3);margin-top:1px}
-.emp-sup{font-size:10px;color:var(--t4);margin-top:1px}
+.emp-sup{font-size:11px;color:#7DD99A;margin-top:1px;font-weight:500}
 .num-w{font-size:14px;font-weight:700;color:#fff;text-align:center}
 .num-t{font-size:12px;color:var(--t2);text-align:center}
 .pct-v{font-size:12px;font-weight:600;text-align:center}
@@ -461,7 +461,7 @@ function renderTable(emps, branchFilter) {
     const rc = i===0?'g':i===1?'s':i===2?'b':'';
     const supShort = e.mgr.split(' ')[0];
     return `
-      <div class="tbl-row ${rk}">
+      <div class="tbl-row ${rk}" style="cursor:pointer" onclick="openEmployeeModal(${JSON.stringify(e).replace(/'/g,'&#39;')})">
         <span class="rk ${rc}">${i+1}</span>
         <div><div class="emp-n">${e.name}</div><div class="emp-b">${e.branch}</div></div>
         <div class="emp-sup">${supShort}</div>
@@ -501,7 +501,7 @@ function handleSearch(val) {
   if (matches.length === 0) { res.style.display = 'none'; return; }
   res.style.display = 'block';
   res.innerHTML = matches.map(e => `
-    <div class="search-result-item" onclick="selectSearch('${e.mgr.replace(/'/g,"\\'")}')">
+    <div class="search-result-item" onclick="selectSearch('${e.user}')">
       <div class="sri-name">${e.name}</div>
       <div class="sri-meta">${e.user} · ${e.branch} · ${e.sales} sales (${e.pct}%)</div>
     </div>`).join('');
@@ -511,11 +511,10 @@ function handleSearch(val) {
   renderTable(emps, ACTIVE_FILTER);
 }
 
-function selectSearch(mgr) {
+function selectSearch(user) {
   document.getElementById('search-res').style.display = 'none';
-  SEARCH_TERM = document.getElementById('search-inp').value;
-  const emps = CURRENT_VIEW === 'all' ? DATA : DATA.filter(e => e.mgr.includes(CURRENT_VIEW.split(' ')[0]));
-  renderTable(emps, ACTIVE_FILTER);
+  const emp = DATA.find(e => e.user === user);
+  if (emp) openEmployeeModal(emp);
 }
 
 // ── Charts ───────────────────────────────────────────────────
@@ -533,8 +532,8 @@ function renderCharts(emps, branches) {
     data: {
       labels: brData.map(d => d.b.replace(' FBO','').replace('Kiosk ','K. ')),
       datasets: [
-        { label: 'Sales', data: brData.map(d=>d.s), backgroundColor: '#1A9E52', borderRadius: 4 },
-        { label: 'Target', data: brData.map(d=>d.t), backgroundColor: 'rgba(255,255,255,0.08)', borderRadius: 4 }
+        { label: 'Sales', data: brData.map(d=>d.s), backgroundColor: '#3DD68C', borderRadius: 4 },
+        { label: 'Target', data: brData.map(d=>d.t), backgroundColor: 'rgba(255,255,255,0.22)', borderRadius: 4 }
       ]
     },
     options: {
@@ -589,6 +588,107 @@ async function exportPNG() {
   a.download = 'salam_dashboard_' + new Date().toISOString().slice(0,10) + '.png';
   a.href = c.toDataURL('image/png');
   a.click();
+}
+
+
+// ── Employee Modal ───────────────────────────────────────────
+function openEmployeeModal(emp) {
+  const existing = document.getElementById('emp-modal');
+  if (existing) existing.remove();
+
+  const pct = emp.pct;
+  const pctColor = pc(pct);
+  const rank = [...DATA].sort((a,b)=>b.sales-a.sales).findIndex(e=>e.user===emp.user)+1;
+  const branchEmps = DATA.filter(e=>e.branch===emp.branch).sort((a,b)=>b.sales-a.sales);
+  const branchRank = branchEmps.findIndex(e=>e.user===emp.user)+1;
+  const branchTotal = branchEmps.reduce((a,e)=>a+e.sales,0);
+
+  const modal = document.createElement('div');
+  modal.id = 'emp-modal';
+  modal.style.cssText = `
+    position:fixed;top:0;left:0;right:0;bottom:0;
+    background:rgba(0,0,0,0.75);z-index:999;
+    display:flex;align-items:center;justify-content:center;
+    padding:20px;
+  `;
+  modal.onclick = (e) => { if(e.target===modal) modal.remove(); };
+
+  modal.innerHTML = `
+    <div style="
+      background:#0D3D26;border:1px solid rgba(61,214,140,0.3);
+      border-radius:16px;padding:28px;width:100%;max-width:480px;
+      position:relative;
+    ">
+      <button onclick="document.getElementById('emp-modal').remove()"
+        style="position:absolute;top:14px;right:16px;background:rgba(255,255,255,0.08);
+        border:none;color:#fff;width:28px;height:28px;border-radius:50%;
+        cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center">✕</button>
+
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px">
+        <div style="width:52px;height:52px;border-radius:50%;
+          background:linear-gradient(135deg,#1A9E52,#3DD68C);
+          display:flex;align-items:center;justify-content:center;
+          font-size:18px;font-weight:800;color:#fff;flex-shrink:0">
+          ${emp.name.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase()}
+        </div>
+        <div>
+          <div style="font-size:16px;font-weight:700;color:#fff">${emp.name}</div>
+          <div style="font-size:12px;color:#6FD49A;margin-top:3px">${emp.user}</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px">
+        <div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:14px">
+          <div style="font-size:9px;color:#4A8A62;text-transform:uppercase;letter-spacing:.07em;font-weight:700">Branch</div>
+          <div style="font-size:14px;font-weight:600;color:#fff;margin-top:4px">${emp.branch}</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:14px">
+          <div style="font-size:9px;color:#4A8A62;text-transform:uppercase;letter-spacing:.07em;font-weight:700">Supervisor</div>
+          <div style="font-size:14px;font-weight:600;color:#7DD99A;margin-top:4px">${emp.mgr.split(' ')[0]}</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:14px">
+          <div style="font-size:9px;color:#4A8A62;text-transform:uppercase;letter-spacing:.07em;font-weight:700">Operating Co.</div>
+          <div style="font-size:14px;font-weight:600;color:#fff;margin-top:4px">${emp.opco||'—'}</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:14px">
+          <div style="font-size:9px;color:#4A8A62;text-transform:uppercase;letter-spacing:.07em;font-weight:700">Overall Rank</div>
+          <div style="font-size:22px;font-weight:800;color:${rank<=3?'#D4A017':'#fff'};margin-top:2px">#${rank}</div>
+        </div>
+      </div>
+
+      <div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:16px;margin-bottom:14px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:10px">
+          <div>
+            <div style="font-size:9px;color:#4A8A62;text-transform:uppercase;letter-spacing:.07em;font-weight:700">Sales</div>
+            <div style="font-size:32px;font-weight:800;color:#fff;line-height:1">${emp.sales}</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:9px;color:#4A8A62;text-transform:uppercase;letter-spacing:.07em;font-weight:700">Target</div>
+            <div style="font-size:32px;font-weight:800;color:#fff;line-height:1">${emp.target}</div>
+          </div>
+        </div>
+        <div style="height:8px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden">
+          <div style="height:100%;width:${Math.min(100,pct)}%;background:${pctColor};border-radius:4px;transition:width .8s"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:6px">
+          <div style="font-size:11px;color:#7DD99A">${emp.sales} of ${emp.target}</div>
+          <div style="font-size:13px;font-weight:700;color:${pctColor}">${pct}%</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:12px;text-align:center">
+          <div style="font-size:9px;color:#4A8A62;text-transform:uppercase;letter-spacing:.07em;font-weight:700">Branch rank</div>
+          <div style="font-size:22px;font-weight:800;color:#fff;margin-top:4px">#${branchRank} <span style="font-size:12px;color:#4A8A62">of ${branchEmps.length}</span></div>
+        </div>
+        <div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:12px;text-align:center">
+          <div style="font-size:9px;color:#4A8A62;text-transform:uppercase;letter-spacing:.07em;font-weight:700">Branch contribution</div>
+          <div style="font-size:22px;font-weight:800;color:#3DD68C;margin-top:4px">${branchTotal>0?Math.round(emp.sales/branchTotal*100):0}%</div>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
 }
 
 // ── Init ─────────────────────────────────────────────────────
