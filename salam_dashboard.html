@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salam — Abdulwahab Team Dashboard</title>
+<style>
+  :root {
+    --g1: #0A2E1C; --g2: #0D3D26; --g3: #1A5C35; --g4: #1A9E52;
+    --g5: #3DD68C; --g6: #6FD49A; --g7: #C6F0D8; --g8: #EAF5EE;
+    --gold: #D4A017; --silver: #8FA0AE; --bronze: #B07030;
+    --text: #E8F5EE; --text2: #9ACDB0; --text3: #4A8A62;
+    --card: rgba(255,255,255,0.05); --card2: rgba(255,255,255,0.08);
+    --border: rgba(61,214,140,0.15); --border2: rgba(61,214,140,0.3);
+    --radius: 14px; --radius-sm: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--g1);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(135deg, var(--g2) 0%, #0F4A2E 100%);
+    border-bottom: 1px solid var(--border2);
+    padding: 16px 28px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+    backdrop-filter: blur(10px);
+  }
+  .logo { font-size: 26px; font-weight: 800; color: #fff; letter-spacing: -1px; }
+  .logo span { color: var(--g5); }
+  .header-center h1 { font-size: 15px; font-weight: 600; color: #fff; text-align: center; }
+  .header-center p { font-size: 11px; color: var(--g6); text-align: center; margin-top: 2px; }
+  .header-right { display: flex; gap: 10px; align-items: center; }
+
+  .btn {
+    padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 600;
+    cursor: pointer; border: none; transition: all 0.2s;
+  }
+  .btn-outline {
+    background: transparent; border: 1px solid var(--border2);
+    color: var(--g6);
+  }
+  .btn-outline:hover { background: var(--card2); }
+  .btn-solid {
+    background: var(--g4); color: #fff;
+  }
+  .btn-solid:hover { background: var(--g5); color: var(--g1); }
+
+  .status-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--g5); display: inline-block;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; } 50% { opacity: 0.4; }
+  }
+  .status-text { font-size: 11px; color: var(--g6); display: flex; align-items: center; gap: 5px; }
+
+  /* ── MAIN ── */
+  .main { padding: 24px 28px; max-width: 1400px; margin: 0 auto; }
+
+  /* ── KPI STRIP ── */
+  .kpi-strip {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+    margin-bottom: 24px;
+  }
+  .kpi-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    position: relative; overflow: hidden;
+  }
+  .kpi-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 3px; background: linear-gradient(90deg, var(--g4), var(--g5));
+  }
+  .kpi-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
+  .kpi-value { font-size: 32px; font-weight: 800; color: #fff; line-height: 1.1; margin: 6px 0 2px; }
+  .kpi-sub { font-size: 11px; color: var(--text2); }
+  .kpi-accent { color: var(--g5); }
+
+  /* ── SECTION TITLE ── */
+  .sec-title {
+    font-size: 11px; font-weight: 700; color: var(--text3);
+    text-transform: uppercase; letter-spacing: 0.1em;
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .sec-title::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+
+  /* ── BRANCH TABS ── */
+  .branch-tabs {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;
+  }
+  .branch-tab {
+    padding: 7px 16px; border-radius: 20px; font-size: 12px; font-weight: 500;
+    border: 1px solid var(--border); background: var(--card);
+    color: var(--text2); cursor: pointer; transition: all 0.2s;
+  }
+  .branch-tab:hover { border-color: var(--border2); color: var(--text); }
+  .branch-tab.active {
+    background: var(--g4); color: #fff; border-color: var(--g4); font-weight: 600;
+  }
+
+  /* ── BRANCH DETAIL ── */
+  .branch-detail {
+    display: grid; grid-template-columns: 1fr 2fr; gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .branch-hero {
+    background: linear-gradient(135deg, var(--g3) 0%, var(--g2) 100%);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius);
+    padding: 24px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .branch-name-big {
+    font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 4px;
+  }
+  .branch-tag {
+    font-size: 11px; color: var(--g6); margin-bottom: 20px;
+  }
+  .branch-big-num {
+    font-size: 56px; font-weight: 800; color: var(--g5); line-height: 1;
+  }
+  .branch-big-lbl { font-size: 12px; color: var(--text2); margin-top: 4px; }
+
+  .branch-stats {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  }
+  .stat-box { }
+  .stat-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.07em; font-weight: 600; margin-bottom: 4px; }
+  .stat-value { font-size: 24px; font-weight: 700; color: #fff; line-height: 1; }
+  .stat-sub { font-size: 11px; color: var(--text2); margin-top: 3px; }
+  .stat-bar { height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 8px; overflow: hidden; }
+  .stat-bar-fill { height: 100%; border-radius: 3px; transition: width 0.6s ease; }
+
+  .top-performer-badge {
+    background: linear-gradient(135deg, rgba(212,160,23,0.2), rgba(212,160,23,0.05));
+    border: 1px solid rgba(212,160,23,0.4);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    grid-column: 1 / -1;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .top-badge-left { }
+  .top-badge-label { font-size: 10px; color: rgba(212,160,23,0.8); text-transform: uppercase; letter-spacing: 0.07em; font-weight: 600; }
+  .top-badge-name { font-size: 16px; font-weight: 700; color: #fff; margin-top: 2px; }
+  .top-badge-right { text-align: right; }
+  .top-badge-score { font-size: 28px; font-weight: 800; color: var(--gold); line-height: 1; }
+  .top-badge-lbl { font-size: 10px; color: rgba(212,160,23,0.7); }
+
+  /* ── EMPLOYEE TABLE ── */
+  .emp-table-wrap {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .emp-table-head {
+    display: grid;
+    grid-template-columns: 32px 2fr 80px 80px 80px 80px 160px;
+    gap: 8px; padding: 10px 20px;
+    background: rgba(255,255,255,0.04);
+    border-bottom: 1px solid var(--border);
+  }
+  .th { font-size: 10px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; }
+  .th-c { text-align: center; }
+  .th-r { text-align: right; }
+
+  .emp-row {
+    display: grid;
+    grid-template-columns: 32px 2fr 80px 80px 80px 80px 160px;
+    gap: 8px; padding: 12px 20px;
+    border-bottom: 1px solid rgba(61,214,140,0.06);
+    transition: background 0.15s; align-items: center;
+  }
+  .emp-row:last-child { border-bottom: none; }
+  .emp-row:hover { background: var(--card2); }
+  .emp-row.rank1 { background: rgba(212,160,23,0.06); }
+  .emp-row.rank2 { background: rgba(143,160,174,0.06); }
+  .emp-row.rank3 { background: rgba(176,112,48,0.06); }
+
+  .emp-rank { font-size: 12px; font-weight: 700; color: var(--text3); text-align: center; }
+  .rank-gold { color: var(--gold) !important; }
+  .rank-silver { color: var(--silver) !important; }
+  .rank-bronze { color: var(--bronze) !important; }
+
+  .emp-name { font-size: 13px; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .emp-branch-tag { font-size: 10px; color: var(--text3); margin-top: 1px; }
+
+  .emp-num { font-size: 14px; font-weight: 700; color: var(--g5); text-align: center; }
+  .emp-tgt { font-size: 13px; color: var(--text2); text-align: center; }
+  .emp-pp { font-size: 12px; color: var(--text2); text-align: center; }
+  .emp-pct-cell { font-size: 12px; font-weight: 600; text-align: center; }
+
+  .progress-wrap { display: flex; flex-direction: column; gap: 4px; }
+  .progress-bar { height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 3px; transition: width 0.8s ease; }
+  .progress-text { font-size: 11px; color: var(--text2); text-align: right; }
+
+  /* ── CAPTURE MODE ── */
+  body.capture-mode .header { position: relative; }
+  body.capture-mode .branch-tabs { display: none; }
+
+  /* ── LOADING ── */
+  .loading-state {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    min-height: 400px; gap: 16px;
+  }
+  .spinner {
+    width: 40px; height: 40px; border: 3px solid var(--border);
+    border-top-color: var(--g5); border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-text { font-size: 13px; color: var(--text2); }
+
+  /* ── ERROR STATE ── */
+  .error-state {
+    background: rgba(255,80,80,0.08); border: 1px solid rgba(255,80,80,0.2);
+    border-radius: var(--radius); padding: 24px; text-align: center; margin: 24px 0;
+  }
+  .error-state h3 { color: #ff8080; margin-bottom: 8px; }
+  .error-state p { font-size: 13px; color: var(--text2); }
+
+  /* ── LAST UPDATE ── */
+  .last-update { font-size: 11px; color: var(--text3); text-align: center; margin-top: 12px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .kpi-strip { grid-template-columns: repeat(2,1fr); }
+    .branch-detail { grid-template-columns: 1fr; }
+    .emp-table-head, .emp-row {
+      grid-template-columns: 28px 1fr 60px 60px 120px;
+    }
+    .emp-row > :nth-child(4),
+    .emp-row > :nth-child(5),
+    .emp-row > :nth-child(6),
+    .emp-table-head > :nth-child(4),
+    .emp-table-head > :nth-child(5),
+    .emp-table-head > :nth-child(6) { display: none; }
+  }
+
+  @media print {
+    .header { position: relative; }
+    .btn, .branch-tabs { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">salam</div>
+  <div class="header-center">
+    <h1>Abdulwahab Team — Performance Dashboard</h1>
+    <p id="subtitle">Loading data...</p>
+  </div>
+  <div class="header-right">
+    <div class="status-text">
+      <span class="status-dot"></span>
+      <span id="status-lbl">Live</span>
+    </div>
+    <button class="btn btn-outline" onclick="refreshData()">↻ Refresh</button>
+    <button class="btn btn-outline" onclick="toggleCapture()">📷 Capture</button>
+    <button class="btn btn-solid" onclick="downloadPNG()">↓ PNG</button>
+  </div>
+</div>
+
+<div class="main" id="main-content">
+  <div class="loading-state" id="loading">
+    <div class="spinner"></div>
+    <div class="loading-text">Connecting to Google Sheets...</div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQzH2quWsRx-NsAhxFeqOsz9n_KElh80hZq64gnjviHC0OGVSXTGgQIC7HbhazVChH7Cde__gKhnQut/pub?gid=1620899073&single=true&output=csv';
+
+let ALL_DATA = [];
+let ACTIVE_BRANCH = null;
+let CAPTURE_MODE = false;
+
+// ── Fetch + Parse CSV ────────────────────────────────────────
+async function fetchData() {
+  try {
+    const res = await fetch(CSV_URL + '&t=' + Date.now());
+    const txt = await res.text();
+    return parseCSV(txt);
+  } catch(e) {
+    return null;
+  }
+}
+
+function parseCSV(txt) {
+  const lines = txt.trim().split('\n').map(l => l.split(',').map(c => c.replace(/^"|"$/g,'').trim()));
+  if (lines.length < 2) return [];
+
+  const headers = lines[0].map(h => h.toLowerCase().trim());
+  const rows = [];
+
+  for (let i = 1; i < lines.length; i++) {
+    const row = lines[i];
+    if (row.every(c => !c)) continue;
+
+    const obj = {};
+    headers.forEach((h, idx) => { obj[h] = row[idx] || ''; });
+
+    // Skip header/total rows
+    const region = obj['region'] || '';
+    const name   = obj['name']   || '';
+    if (!name || name.toLowerCase().includes('total') || name.toLowerCase().includes('region') || name === 'Name') continue;
+    if (!region || region.toLowerCase().includes('region') === false && !obj['username'] && !obj['username ']) continue;
+
+    rows.push({
+      region:   obj['region']   || '',
+      shopCode: obj['shop code']|| obj['shopcode'] || '',
+      name:     name,
+      user:     obj['username'] || obj['username '] || '',
+      target:   parseFloat(obj['total target '] || obj['total target'] || obj['target'] || 0) || 0,
+      achieved: parseFloat(obj['salestype'] || obj['achieved'] || obj['saletype'] || 0) || 0,
+      postpaid: parseFloat(obj['postpaid'] || 0) || 0,
+      prepaid:  parseFloat(obj['prepaid']  || 0) || 0,
+      branch:   '',
+    });
+  }
+  return rows;
+}
+
+// ── Alternative parse: detect branch headers ────────────────
+function parseWithBranches(txt) {
+  const lines = txt.trim().split('\n');
+  const result = [];
+  let currentBranch = '';
+  let headerIdx = -1;
+  let headers = [];
+
+  for (let i = 0; i < lines.length; i++) {
+    const raw = lines[i];
+    const cells = raw.split(',').map(c => c.replace(/^"|"$/g,'').trim());
+
+    // Detect branch header row (row with branch name, no username)
+    if (cells[0] && !cells[3] && cells[0] !== 'Region' && cells[0] !== 'Franchisee' && cells[0] !== '') {
+      // Check if it looks like a branch total row
+      if (cells[4] && !isNaN(parseFloat(cells[4]))) {
+        currentBranch = cells[0];
+        continue;
+      }
+    }
+
+    // Detect column header row
+    if (cells.some(c => c.toLowerCase().includes('name') || c.toLowerCase().includes('username'))) {
+      headers = cells.map(c => c.toLowerCase().trim());
+      headerIdx = i;
+      continue;
+    }
+
+    if (headerIdx === -1) continue;
+
+    // Data rows: must have a name or username
+    const nameIdx   = headers.findIndex(h => h === 'name');
+    const userIdx   = headers.findIndex(h => h.includes('username'));
+    const tgtIdx    = headers.findIndex(h => h.includes('target'));
+    const achIdx    = headers.findIndex(h => h.includes('achieved') || h.includes('salestype'));
+    const postIdx   = headers.findIndex(h => h.includes('post'));
+    const preIdx    = headers.findIndex(h => h.includes('prep'));
+
+    const name = nameIdx >= 0 ? cells[nameIdx] : '';
+    const user = userIdx >= 0 ? cells[userIdx] : '';
+
+    if (!name && !user) continue;
+    if (name.toLowerCase().includes('total') || name.toLowerCase() === 'name') continue;
+    if (!name || name.length < 2) continue;
+
+    result.push({
+      branch:   currentBranch,
+      name:     name,
+      user:     user,
+      target:   tgtIdx >= 0   ? (parseFloat(cells[tgtIdx])  || 0) : 0,
+      achieved: achIdx >= 0   ? (parseFloat(cells[achIdx])  || 0) : 0,
+      postpaid: postIdx >= 0  ? (parseFloat(cells[postIdx]) || 0) : 0,
+      prepaid:  preIdx >= 0   ? (parseFloat(cells[preIdx])  || 0) : 0,
+    });
+  }
+  return result;
+}
+
+// ── Smart parse: try both methods ───────────────────────────
+async function smartFetch() {
+  try {
+    const res = await fetch(CSV_URL + '&t=' + Date.now());
+    const txt = await res.text();
+
+    // Debug: show first few lines
+    console.log('CSV Preview:', txt.substring(0, 500));
+
+    let data = parseWithBranches(txt);
+    if (data.length === 0) data = parseCSV(txt);
+    return { data, raw: txt };
+  } catch(e) {
+    console.error('Fetch error:', e);
+    return null;
+  }
+}
+
+// ── Render Dashboard ─────────────────────────────────────────
+function pct(a, t) { return t > 0 ? Math.round(a/t*100) : 0; }
+function pctColor(p) { return p>=75?'#1A9E52':p>=50?'#3DBB72':p>=25?'#EF9F27':'#E24B4A'; }
+
+function renderDashboard(data) {
+  ALL_DATA = data;
+
+  // Group by branch
+  const branches = {};
+  data.forEach(emp => {
+    const b = emp.branch || 'General';
+    if (!branches[b]) branches[b] = [];
+    branches[b].push(emp);
+  });
+
+  const branchNames = Object.keys(branches).filter(b => b && b.trim());
+  if (!ACTIVE_BRANCH || !branches[ACTIVE_BRANCH]) ACTIVE_BRANCH = branchNames[0];
+
+  // Team totals
+  const teamTarget   = data.reduce((s,e) => s+e.target,   0);
+  const teamAchieved = data.reduce((s,e) => s+e.achieved, 0);
+  const teamPct      = pct(teamAchieved, teamTarget);
+  const teamPost     = data.reduce((s,e) => s+e.postpaid, 0);
+  const teamPre      = data.reduce((s,e) => s+e.prepaid,  0);
+  const top          = [...data].sort((a,b) => b.achieved-a.achieved)[0];
+
+  document.getElementById('subtitle').textContent = `April 2026  ·  ${data.length} agents  ·  ${branchNames.length} branches`;
+
+  const main = document.getElementById('main-content');
+  main.innerHTML = `
+    <!-- KPI Strip -->
+    <div class="kpi-strip">
+      <div class="kpi-card">
+        <div class="kpi-label">Total sales</div>
+        <div class="kpi-value kpi-accent">${teamAchieved}</div>
+        <div class="kpi-sub">of ${teamTarget} target</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Achievement</div>
+        <div class="kpi-value" style="color:${pctColor(teamPct)}">${teamPct}%</div>
+        <div class="kpi-sub">${teamAchieved} achieved</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Top performer</div>
+        <div class="kpi-value" style="color:var(--gold);font-size:18px;padding-top:6px">${top ? top.name : '—'}</div>
+        <div class="kpi-sub">${top ? top.achieved + ' sales · ' + top.branch : ''}</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Active agents</div>
+        <div class="kpi-value">${data.filter(e=>e.achieved>0).length}<span style="font-size:16px;color:var(--text2)"> / ${data.length}</span></div>
+        <div class="kpi-sub">${data.filter(e=>e.achieved===0).length} with zero sales</div>
+      </div>
+    </div>
+
+    <!-- Branch Tabs -->
+    <div class="sec-title">Branch view</div>
+    <div class="branch-tabs" id="branch-tabs">
+      ${branchNames.map(b => `
+        <button class="branch-tab ${b===ACTIVE_BRANCH?'active':''}" onclick="switchBranch('${b.replace(/'/g,"\\'")}')">
+          ${b}
+        </button>
+      `).join('')}
+      <button class="branch-tab ${ACTIVE_BRANCH==='__all__'?'active':''}" onclick="switchBranch('__all__')" style="margin-left:auto">
+        All branches
+      </button>
+    </div>
+
+    <div id="branch-content"></div>
+    <div class="last-update" id="last-update"></div>
+  `;
+
+  renderBranch(ACTIVE_BRANCH, branches);
+  document.getElementById('last-update').textContent = 'Last updated: ' + new Date().toLocaleString('en-US', {hour:'2-digit',minute:'2-digit',hour12:true}) + ' · Auto-refresh every 5 min';
+}
+
+function switchBranch(b) {
+  ACTIVE_BRANCH = b;
+  const branches = {};
+  ALL_DATA.forEach(emp => {
+    const br = emp.branch || 'General';
+    if (!branches[br]) branches[br] = [];
+    branches[br].push(emp);
+  });
+  document.querySelectorAll('.branch-tab').forEach(t => {
+    t.classList.toggle('active', t.textContent.trim() === b || (b==='__all__' && t.textContent.trim()==='All branches'));
+  });
+  renderBranch(b, branches);
+}
+
+function renderBranch(branchName, branches) {
+  let emps;
+  if (branchName === '__all__') {
+    emps = [...ALL_DATA];
+  } else {
+    emps = branches[branchName] || [];
+  }
+
+  const sorted = [...emps].sort((a,b) => b.achieved - a.achieved);
+  const brTarget   = emps.reduce((s,e) => s+e.target,   0);
+  const brAchieved = emps.reduce((s,e) => s+e.achieved, 0);
+  const brPct      = pct(brAchieved, brTarget);
+  const brPost     = emps.reduce((s,e) => s+e.postpaid, 0);
+  const brPre      = emps.reduce((s,e) => s+e.prepaid,  0);
+  const brTop      = sorted[0];
+  const displayName = branchName === '__all__' ? 'All Branches' : branchName;
+
+  document.getElementById('branch-content').innerHTML = `
+    <!-- Branch Hero -->
+    <div class="branch-detail">
+      <div class="branch-hero">
+        <div>
+          <div class="branch-name-big">${displayName}</div>
+          <div class="branch-tag">${emps.length} agents · April 2026</div>
+        </div>
+        <div>
+          <div class="branch-big-num">${brAchieved}</div>
+          <div class="branch-big-lbl">total sales</div>
+        </div>
+      </div>
+      <div class="branch-stats">
+        <div class="stat-box">
+          <div class="stat-label">Target</div>
+          <div class="stat-value">${brTarget}</div>
+          <div class="stat-sub">${brAchieved} achieved</div>
+          <div class="stat-bar"><div class="stat-bar-fill" style="width:${Math.min(100,brPct)}%;background:${pctColor(brPct)}"></div></div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Achievement</div>
+          <div class="stat-value" style="color:${pctColor(brPct)}">${brPct}%</div>
+          <div class="stat-sub">${brTarget - brAchieved} remaining</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Postpaid</div>
+          <div class="stat-value">${brPost}</div>
+          <div class="stat-sub">${brAchieved>0?Math.round(brPost/brAchieved*100):0}% of sales</div>
+          <div class="stat-bar"><div class="stat-bar-fill" style="width:${brAchieved>0?Math.round(brPost/brAchieved*100):0}%;background:var(--g4)"></div></div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Prepaid</div>
+          <div class="stat-value">${brPre}</div>
+          <div class="stat-sub">${brAchieved>0?Math.round(brPre/brAchieved*100):0}% of sales</div>
+          <div class="stat-bar"><div class="stat-bar-fill" style="width:${brAchieved>0?Math.round(brPre/brAchieved*100):0}%;background:var(--g6)"></div></div>
+        </div>
+        ${brTop ? `
+        <div class="top-performer-badge">
+          <div class="top-badge-left">
+            <div class="top-badge-label">⭐ Top performer</div>
+            <div class="top-badge-name">${brTop.name}</div>
+          </div>
+          <div class="top-badge-right">
+            <div class="top-badge-score">${brTop.achieved}</div>
+            <div class="top-badge-lbl">sales · ${pct(brTop.achieved,brTop.target)}% target</div>
+          </div>
+        </div>` : ''}
+      </div>
+    </div>
+
+    <!-- Employee Table -->
+    <div class="sec-title">Employee leaderboard</div>
+    <div class="emp-table-wrap">
+      <div class="emp-table-head">
+        <span class="th th-c">#</span>
+        <span class="th">Name</span>
+        <span class="th th-c">Sales</span>
+        <span class="th th-c">Target</span>
+        <span class="th th-c">Post</span>
+        <span class="th th-c">Pre</span>
+        <span class="th th-r">Progress</span>
+      </div>
+      ${sorted.map((emp, i) => {
+        const p = pct(emp.achieved, emp.target);
+        const rankClass = i===0?'rank1':i===1?'rank2':i===2?'rank3':'';
+        const rankColor = i===0?'rank-gold':i===1?'rank-silver':i===2?'rank-bronze':'';
+        const postPct = emp.achieved>0 ? Math.round(emp.postpaid/emp.achieved*100) : 0;
+        const prePct  = emp.achieved>0 ? Math.round(emp.prepaid /emp.achieved*100) : 0;
+        return `
+          <div class="emp-row ${rankClass}">
+            <span class="emp-rank ${rankColor}">${i+1}</span>
+            <div>
+              <div class="emp-name">${emp.name}</div>
+              ${branchName==='__all__'?`<div class="emp-branch-tag">${emp.branch}</div>`:''}
+            </div>
+            <span class="emp-num">${emp.achieved}</span>
+            <span class="emp-tgt">${emp.target}</span>
+            <span class="emp-pp">${emp.postpaid}<span style="font-size:10px;color:var(--text3)"> (${postPct}%)</span></span>
+            <span class="emp-pp">${emp.prepaid}<span style="font-size:10px;color:var(--text3)"> (${prePct}%)</span></span>
+            <div class="progress-wrap">
+              <div class="progress-bar">
+                <div class="progress-fill" style="width:${Math.min(100,p)}%;background:${pctColor(p)}"></div>
+              </div>
+              <div class="progress-text">${p}%</div>
+            </div>
+          </div>`;
+      }).join('')}
+    </div>
+  `;
+}
+
+// ── Controls ─────────────────────────────────────────────────
+function toggleCapture() {
+  CAPTURE_MODE = !CAPTURE_MODE;
+  document.body.classList.toggle('capture-mode', CAPTURE_MODE);
+}
+
+async function downloadPNG() {
+  const el = document.getElementById('main-content');
+  const canvas = await html2canvas(el, { backgroundColor: '#0A2E1C', scale: 2 });
+  const a = document.createElement('a');
+  a.download = 'salam_dashboard_' + new Date().toISOString().slice(0,10) + '.png';
+  a.href = canvas.toDataURL('image/png');
+  a.click();
+}
+
+async function refreshData() {
+  document.getElementById('status-lbl').textContent = 'Refreshing...';
+  const result = await smartFetch();
+  if (result && result.data.length > 0) {
+    renderDashboard(result.data);
+    document.getElementById('status-lbl').textContent = 'Live';
+  } else {
+    document.getElementById('status-lbl').textContent = 'Error';
+    showRawDebug(result);
+  }
+}
+
+function showRawDebug(result) {
+  const main = document.getElementById('main-content');
+  const raw = result ? result.raw : 'No data';
+  main.innerHTML = `
+    <div class="error-state">
+      <h3>Could not parse data</h3>
+      <p>The sheet structure may differ from expected. Here are the first rows:</p>
+      <pre style="text-align:left;margin-top:12px;font-size:11px;color:var(--text2);overflow:auto;max-height:300px">${raw.substring(0,1500)}</pre>
+      <p style="margin-top:12px">Please share this with the developer to fix the parser.</p>
+    </div>`;
+}
+
+// ── Init ─────────────────────────────────────────────────────
+async function init() {
+  const result = await smartFetch();
+  if (result && result.data.length > 0) {
+    renderDashboard(result.data);
+  } else {
+    showRawDebug(result);
+  }
+}
+
+// Auto-refresh every 5 minutes
+setInterval(refreshData, 5 * 60 * 1000);
+
+init();
+</script>
+</body>
+</html>
