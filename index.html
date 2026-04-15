@@ -8,20 +8,20 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 :root {
-  --g1:#061A10; --g2:#0A2E1C; --g3:#0D3D26; --g4:#1A5C35;
-  --g5:#1A9E52; --g6:#3DD68C; --g7:#6FD49A; --g8:#C6F0D8;
-  --gold:#D4A017; --silver:#8FA0AE; --bronze:#B07030;
-  --red:#E24B4A; --amber:#EF9F27;
-  --t1:#FFFFFF; --t2:#9ACDB0; --t3:#4A8A62; --t4:#2A5A3A;
-  --card:rgba(255,255,255,0.04); --card2:rgba(255,255,255,0.08);
-  --border:rgba(61,214,140,0.12); --border2:rgba(61,214,140,0.25);
-  --r:12px; --r2:8px;
+  --g1:#061A10;--g2:#0A2E1C;--g3:#0D3D26;--g4:#1A5C35;
+  --g5:#1A9E52;--g6:#3DD68C;--g7:#6FD49A;--g8:#C6F0D8;
+  --gold:#D4A017;--silver:#8FA0AE;--bronze:#B07030;
+  --red:#E24B4A;--amber:#EF9F27;--blue:#378ADD;
+  --t1:#FFFFFF;--t2:#9ACDB0;--t3:#4A8A62;--t4:#2A5A3A;
+  --card:rgba(255,255,255,0.04);--card2:rgba(255,255,255,0.08);
+  --border:rgba(61,214,140,0.12);--border2:rgba(61,214,140,0.28);
+  --r:12px;--r2:8px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(--t1);min-height:100vh}
 
-/* ── HEADER ── */
-.hdr{background:var(--g3);border-bottom:1px solid var(--border2);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
+/* HEADER */
+.hdr{background:var(--g3);border-bottom:1px solid var(--border2);padding:13px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
 .logo{font-size:24px;font-weight:800;color:#fff;letter-spacing:-1px}
 .hdr-mid h1{font-size:14px;font-weight:600;color:#fff;text-align:center}
 .hdr-mid p{font-size:11px;color:var(--g7);text-align:center;margin-top:2px}
@@ -34,118 +34,172 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 .btn-o:hover{background:var(--card2)}
 .btn-g{background:var(--g5);color:#fff}
 .btn-g:hover{background:var(--g6);color:var(--g1)}
+.btn-gold{background:linear-gradient(135deg,#B8860B,#D4A017);color:#fff}
+.btn-gold:hover{background:linear-gradient(135deg,#D4A017,#F6C94E);color:#1a1a00}
 
-/* ── LAYOUT ── */
-.wrap{display:flex;min-height:calc(100vh - 57px)}
-.sidebar{width:220px;flex-shrink:0;background:var(--g2);border-right:1px solid var(--border);padding:16px 0;position:sticky;top:57px;height:calc(100vh - 57px);overflow-y:auto}
-.content{flex:1;padding:20px 24px;overflow:hidden}
+/* LAYOUT */
+.wrap{display:flex;min-height:calc(100vh - 54px)}
+.sidebar{width:215px;flex-shrink:0;background:var(--g2);border-right:1px solid var(--border);padding:14px 0;position:sticky;top:54px;height:calc(100vh - 54px);overflow-y:auto}
+.content{flex:1;padding:18px 22px;overflow:hidden}
 
-/* ── SIDEBAR ── */
-.sb-section{padding:0 12px;margin-bottom:20px}
-.sb-label{font-size:9px;font-weight:700;color:var(--t4);text-transform:uppercase;letter-spacing:.1em;padding:0 8px;margin-bottom:8px}
-.sb-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--r2);cursor:pointer;transition:all .15s;font-size:13px;color:var(--t2);border:none;background:transparent;width:100%;text-align:left}
+/* SIDEBAR */
+.sb-section{padding:0 10px;margin-bottom:18px}
+.sb-label{font-size:9px;font-weight:700;color:var(--t4);text-transform:uppercase;letter-spacing:.1em;padding:0 8px;margin-bottom:6px}
+.sb-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:var(--r2);cursor:pointer;transition:all .15s;font-size:12px;color:var(--t2);border:none;background:transparent;width:100%;text-align:left}
 .sb-item:hover{background:var(--card);color:var(--t1)}
 .sb-item.active{background:var(--card2);color:#fff;font-weight:600}
-.sb-item .sb-dot{width:8px;height:8px;border-radius:50%;background:var(--g5);flex-shrink:0}
-.sb-item .sb-count{margin-left:auto;font-size:10px;background:var(--card2);padding:2px 7px;border-radius:10px;color:var(--g7)}
-.sb-divider{height:1px;background:var(--border);margin:8px 12px}
+.sb-dot{width:7px;height:7px;border-radius:50%;background:var(--g5);flex-shrink:0}
+.sb-count{margin-left:auto;font-size:10px;background:var(--card2);padding:2px 6px;border-radius:8px;color:var(--g7)}
+.sb-div{height:1px;background:var(--border);margin:8px 10px}
+.qs-val{font-size:20px;font-weight:700;color:#fff}
+.qs-lbl{font-size:10px;color:var(--t3);margin-bottom:8px}
 
-/* ── SEARCH ── */
-.search-wrap{position:relative;margin-bottom:16px}
-.search-input{width:100%;background:rgba(255,255,255,0.08);border:1px solid rgba(61,214,140,0.35);border-radius:var(--r2);padding:10px 14px 10px 36px;font-size:13px;color:#fff;outline:none;transition:border .2s}
-.search-input:focus{border-color:var(--g6);background:rgba(255,255,255,0.11)}
-.search-input::placeholder{color:#5A9A72}
-.search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--t3);font-size:14px;pointer-events:none}
-.search-results{background:var(--g3);border:1px solid var(--border2);border-radius:var(--r2);margin-top:6px;overflow:hidden;display:none}
-.search-result-item{padding:10px 14px;font-size:12px;cursor:pointer;border-bottom:1px solid var(--border);transition:background .1s}
-.search-result-item:hover{background:var(--card2)}
-.search-result-item:last-child{border-bottom:none}
-.sri-name{font-weight:600;color:#fff}
-.sri-meta{font-size:10px;color:var(--t3);margin-top:2px}
-
-/* ── KPI GRID ── */
+/* ── PREMIUM KPI ── */
 .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
-.kpi{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;position:relative;overflow:hidden}
-.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--g5),var(--g6))}
-.kpi-l{font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em}
-.kpi-v{font-size:28px;font-weight:800;color:#fff;line-height:1.1;margin:5px 0 2px}
-.kpi-s{font-size:11px;color:var(--t2)}
-.kpi.accent::before{background:linear-gradient(90deg,var(--gold),#F6C94E)}
-.kpi.accent .kpi-v{color:var(--gold)}
-.kpi.warn .kpi-v{color:var(--amber)}
-.kpi.danger .kpi-v{color:var(--red)}
 
-/* ── CHARTS ROW ── */
-.charts-row{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:20px}
+.kpi-card{border-radius:var(--r);padding:18px 20px;position:relative;overflow:hidden;border:1px solid transparent}
+
+.kpi-card.kpi-sales{
+  background:linear-gradient(135deg,#0D3D26 0%,#1A5C35 100%);
+  border-color:rgba(61,214,140,0.3);
+}
+.kpi-card.kpi-ach{
+  background:linear-gradient(135deg,#0A2415 0%,#1A4A25 100%);
+  border-color:rgba(61,214,140,0.2);
+}
+.kpi-card.kpi-top{
+  background:linear-gradient(135deg,#2A1E00 0%,#3D2E00 100%);
+  border-color:rgba(212,160,23,0.35);
+}
+.kpi-card.kpi-agents{
+  background:linear-gradient(135deg,#0A1E2E 0%,#122E45 100%);
+  border-color:rgba(55,138,221,0.3);
+}
+
+.kpi-icon{font-size:22px;margin-bottom:10px;display:block;line-height:1}
+.kpi-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.kpi-card.kpi-sales .kpi-label{color:#5DC48A}
+.kpi-card.kpi-ach   .kpi-label{color:#4AB870}
+.kpi-card.kpi-top   .kpi-label{color:#B89020}
+.kpi-card.kpi-agents .kpi-label{color:#4A88BB}
+
+.kpi-value{font-size:32px;font-weight:800;line-height:1;margin-bottom:4px}
+.kpi-card.kpi-sales  .kpi-value{color:#fff}
+.kpi-card.kpi-ach    .kpi-value{color:#3DD68C}
+.kpi-card.kpi-top    .kpi-value{color:#F6C94E;font-size:17px;padding-top:5px;line-height:1.3}
+.kpi-card.kpi-agents .kpi-value{color:#85B7EB}
+
+.kpi-sub{font-size:11px}
+.kpi-card.kpi-sales  .kpi-sub{color:#4A8A62}
+.kpi-card.kpi-ach    .kpi-sub{color:#3A7A56}
+.kpi-card.kpi-top    .kpi-sub{color:#8A7020}
+.kpi-card.kpi-agents .kpi-sub{color:#3A6080}
+
+.kpi-bar{height:3px;border-radius:2px;margin-top:12px;overflow:hidden;background:rgba(255,255,255,0.08)}
+.kpi-bar-fill{height:100%;border-radius:2px}
+.kpi-card.kpi-sales  .kpi-bar-fill{background:linear-gradient(90deg,#1A9E52,#3DD68C)}
+.kpi-card.kpi-ach    .kpi-bar-fill{background:linear-gradient(90deg,#1A9E52,#3DD68C)}
+.kpi-card.kpi-top    .kpi-bar-fill{background:linear-gradient(90deg,#D4A017,#F6C94E)}
+.kpi-card.kpi-agents .kpi-bar-fill{background:linear-gradient(90deg,#185FA5,#378ADD)}
+
+/* CHARTS */
+.charts-row{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:18px}
 .chart-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px}
-.chart-title{font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px}
-.chart-wrap{position:relative}
+.chart-title{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.09em;margin-bottom:12px}
 
-/* ── TABLE ── */
+/* SUPERVISOR CARDS */
+.sup-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:18px}
+.sup-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:15px;cursor:pointer;transition:all .2s}
+.sup-card:hover{border-color:var(--border2);background:var(--card2);transform:translateY(-1px)}
+.sup-card.active-sup{border-color:var(--g5);background:rgba(26,158,82,.08)}
+.sup-name{font-size:14px;font-weight:700;color:#fff;margin-bottom:3px}
+.sup-meta{font-size:11px;color:var(--t3);margin-bottom:10px}
+.sup-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.sup-nv{font-size:18px;font-weight:700;color:#fff;text-align:center}
+.sup-nl{font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;text-align:center;margin-top:2px}
+.sup-pbar{height:3px;background:rgba(255,255,255,0.08);border-radius:2px;margin-top:10px;overflow:hidden}
+.sup-pbar-fill{height:100%;border-radius:2px}
+
+/* FILTER + TABLE */
+.sec-t{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sec-t::after{content:'';flex:1;height:1px;background:var(--border)}
+.filter-row{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;align-items:center}
+.pill{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:500;border:1px solid var(--border);background:var(--card);color:var(--t2);cursor:pointer;transition:all .15s}
+.pill:hover{border-color:var(--border2);color:var(--t1)}
+.pill.on{background:var(--g5);color:#fff;border-color:var(--g5);font-weight:600}
+
 .table-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
-.table-hdr-bar{padding:12px 18px;background:rgba(255,255,255,0.03);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.table-title-txt{font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em}
-.table-count{font-size:11px;color:var(--t3)}
-.tbl-head{display:grid;grid-template-columns:28px 2fr 1fr 70px 70px 70px 120px;gap:8px;padding:9px 18px;background:rgba(255,255,255,0.03);border-bottom:1px solid var(--border)}
+.tbl-hdr{padding:11px 18px;background:rgba(255,255,255,0.03);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.tbl-title{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em}
+.tbl-cnt{font-size:11px;color:var(--t3)}
+
+.tbl-head{display:grid;grid-template-columns:28px 2fr 1fr 70px 70px 70px 120px;gap:8px;padding:8px 18px;background:rgba(255,255,255,0.03);border-bottom:1px solid var(--border)}
 .th{font-size:9px;font-weight:700;color:var(--t4);text-transform:uppercase;letter-spacing:.06em}
 .thc{text-align:center}.thr{text-align:right}
-.tbl-row{display:grid;grid-template-columns:28px 2fr 1fr 70px 70px 70px 120px;gap:8px;padding:11px 18px;border-bottom:1px solid rgba(61,214,140,0.05);align-items:center;transition:background .1s}
+
+.tbl-row{display:grid;grid-template-columns:28px 2fr 1fr 70px 70px 70px 120px;gap:8px;padding:11px 18px;border-bottom:1px solid rgba(61,214,140,0.05);align-items:center;transition:background .12s;cursor:pointer}
 .tbl-row:last-child{border-bottom:none}
 .tbl-row:hover{background:var(--card2)}
 .tbl-row.r1{background:rgba(212,160,23,.05)}
 .tbl-row.r2{background:rgba(143,160,174,.04)}
 .tbl-row.r3{background:rgba(176,112,48,.04)}
+
 .rk{font-size:11px;font-weight:700;color:var(--t3);text-align:center}
 .rk.g{color:var(--gold)}.rk.s{color:var(--silver)}.rk.b{color:var(--bronze)}
-.emp-n{font-size:12px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.emp-b{font-size:10px;color:var(--t3);margin-top:1px}
-.emp-sup{font-size:11px;color:#7DD99A;margin-top:1px;font-weight:500}
-.num-w{font-size:14px;font-weight:700;color:#fff;text-align:center}
-.num-t{font-size:12px;color:var(--t2);text-align:center}
-.pct-v{font-size:12px;font-weight:600;text-align:center}
+.en{font-size:12px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.eb{font-size:10px;color:var(--t3);margin-top:1px}
+.esup{font-size:11px;color:#7DD99A;font-weight:500}
+.nw{font-size:14px;font-weight:700;color:#fff;text-align:center}
+.nt{font-size:12px;color:#aaa;text-align:center}
+.pv{font-size:12px;font-weight:600;text-align:center}
 .prog{display:flex;flex-direction:column;gap:3px}
 .prog-bar{height:5px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden}
-.prog-fill{height:100%;border-radius:3px;transition:width .8s ease}
+.prog-fill{height:100%;border-radius:3px;transition:width .8s}
 .prog-t{font-size:10px;color:var(--t2);text-align:right}
 
-/* ── SUPERVISOR CARDS ── */
-.sup-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px}
-.sup-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px;cursor:pointer;transition:all .2s}
-.sup-card:hover{border-color:var(--border2);background:var(--card2)}
-.sup-card.active-sup{border-color:var(--g5);background:rgba(26,158,82,.08)}
-.sup-name{font-size:14px;font-weight:700;color:#fff;margin-bottom:4px}
-.sup-meta{font-size:11px;color:var(--t3);margin-bottom:12px}
-.sup-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.sup-num-item{text-align:center}
-.sup-num-v{font-size:18px;font-weight:700;color:#fff}
-.sup-num-l{font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
-.sup-bar{height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin-top:10px;overflow:hidden}
-.sup-bar-fill{height:100%;border-radius:2px}
+/* SEARCH */
+.search-wrap{position:relative;margin-bottom:16px}
+.search-inp{width:100%;background:rgba(255,255,255,0.08);border:1px solid rgba(61,214,140,0.35);border-radius:var(--r2);padding:10px 14px 10px 36px;font-size:13px;color:#fff;outline:none;transition:all .2s}
+.search-inp:focus{border-color:var(--g6);background:rgba(255,255,255,0.11)}
+.search-inp::placeholder{color:#5A9A72}
+.si{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--t3);font-size:14px;pointer-events:none}
+.s-res{background:var(--g3);border:1px solid var(--border2);border-radius:var(--r2);margin-top:6px;overflow:hidden;display:none;position:absolute;width:100%;z-index:100}
+.s-item{padding:10px 14px;font-size:12px;cursor:pointer;border-bottom:1px solid var(--border);transition:background .1s}
+.s-item:hover{background:var(--card2)}
+.s-item:last-child{border-bottom:none}
+.si-n{font-weight:600;color:#fff}
+.si-m{font-size:10px;color:var(--t3);margin-top:2px}
 
-/* ── SECTION TITLE ── */
-.sec-t{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.sec-t::after{content:'';flex:1;height:1px;background:var(--border)}
+/* EXPORT PANEL */
+.export-panel{background:linear-gradient(135deg,#1A3D10 0%,#0D2E1C 100%);border:1px solid rgba(212,160,23,0.3);border-radius:var(--r);padding:18px 20px;margin-bottom:18px}
+.ep-title{font-size:11px;font-weight:700;color:#B89020;text-transform:uppercase;letter-spacing:.09em;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.ep-row{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}
+.ep-group{display:flex;flex-direction:column;gap:5px;flex:1;min-width:140px}
+.ep-label{font-size:10px;color:#8A7030;font-weight:600;text-transform:uppercase;letter-spacing:.07em}
+.ep-select{background:rgba(255,255,255,0.07);border:1px solid rgba(212,160,23,0.25);border-radius:var(--r2);padding:8px 12px;font-size:12px;color:#fff;outline:none;cursor:pointer;transition:border .2s}
+.ep-select:focus{border-color:rgba(212,160,23,0.6)}
+.ep-select option{background:#0D3D26;color:#fff}
 
-/* ── FILTER PILLS ── */
-.filter-row{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
-.pill{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:500;border:1px solid var(--border);background:var(--card);color:var(--t2);cursor:pointer;transition:all .15s}
-.pill:hover{border-color:var(--border2);color:var(--t1)}
-.pill.on{background:var(--g5);color:#fff;border-color:var(--g5);font-weight:600}
-
-/* ── LOADING ── */
+/* LOADING/EMPTY */
 .loading{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:400px;gap:14px}
 .spin{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--g6);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading p{font-size:13px;color:var(--t2)}
+.empty{text-align:center;padding:36px;color:var(--t3);font-size:13px}
 
-/* ── EMPTY ── */
-.empty{text-align:center;padding:40px;color:var(--t3);font-size:13px}
+/* MODAL */
+.modal-bg{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);z-index:999;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal-box{background:#0D3D26;border:1px solid rgba(61,214,140,0.3);border-radius:16px;padding:26px;width:100%;max-width:480px;position:relative}
+.modal-close{position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.08);border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
+.modal-close:hover{background:rgba(255,255,255,0.15)}
+
+/* BRANCH REPORT (hidden, for export) */
+#branch-report{position:fixed;top:-9999px;left:-9999px;width:800px;background:#0A2E1C;font-family:'Segoe UI',system-ui,sans-serif;color:#fff;padding:0}
 
 @media(max-width:1100px){
-  .sidebar{display:none}
-  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .sidebar{display:none}.kpi-grid{grid-template-columns:repeat(2,1fr)}
   .charts-row{grid-template-columns:1fr}
-  .tbl-head,.tbl-row{grid-template-columns:28px 1fr 70px 90px}
+  .tbl-head,.tbl-row{grid-template-columns:28px 1fr 70px 100px}
   .tbl-head>:nth-child(3),.tbl-head>:nth-child(5),.tbl-head>:nth-child(6),
   .tbl-row>:nth-child(3),.tbl-row>:nth-child(5),.tbl-row>:nth-child(6){display:none}
 }
@@ -171,31 +225,31 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <div class="sb-section">
       <div class="sb-label">Views</div>
       <button class="sb-item active" onclick="setView('all',this)">
-        <span class="sb-dot"></span> All Supervisors <span class="sb-count" id="cnt-all">—</span>
+        <span class="sb-dot"></span>All Supervisors<span class="sb-count" id="cnt-all">—</span>
       </button>
-      <button class="sb-item" onclick="setView('Abdulwahab M AlShammari',this)">
-        <span class="sb-dot" style="background:#F6C94E"></span> Abdulwahab <span class="sb-count" id="cnt-aw">—</span>
+      <button class="sb-item" onclick="setView('Abdulwahab',this)">
+        <span class="sb-dot" style="background:#F6C94E"></span>Abdulwahab<span class="sb-count" id="cnt-aw">—</span>
       </button>
-      <button class="sb-item" onclick="setView('Ahmed AlMutairi',this)">
-        <span class="sb-dot" style="background:#85B7EB"></span> Ahmed <span class="sb-count" id="cnt-am">—</span>
+      <button class="sb-item" onclick="setView('Ahmed',this)">
+        <span class="sb-dot" style="background:#85B7EB"></span>Ahmed<span class="sb-count" id="cnt-am">—</span>
       </button>
-      <button class="sb-item" onclick="setView('Mohammed AlShehri',this)">
-        <span class="sb-dot" style="background:#5DCAA5"></span> Mohammed <span class="sb-count" id="cnt-ms">—</span>
+      <button class="sb-item" onclick="setView('Mohammed',this)">
+        <span class="sb-dot" style="background:#5DCAA5"></span>Mohammed<span class="sb-count" id="cnt-ms">—</span>
       </button>
-      <button class="sb-item" onclick="setView('Najwah AlOmari',this)">
-        <span class="sb-dot" style="background:#ED93B1"></span> Najwah <span class="sb-count" id="cnt-na">—</span>
+      <button class="sb-item" onclick="setView('Najwah',this)">
+        <span class="sb-dot" style="background:#ED93B1"></span>Najwah<span class="sb-count" id="cnt-na">—</span>
       </button>
     </div>
-    <div class="sb-divider"></div>
+    <div class="sb-div"></div>
     <div class="sb-section">
-      <div class="sb-label">Quick Stats</div>
-      <div style="padding:8px 12px">
-        <div style="font-size:11px;color:var(--t3);margin-bottom:4px">Total agents</div>
-        <div style="font-size:20px;font-weight:700;color:#fff" id="sb-agents">—</div>
-        <div style="font-size:11px;color:var(--t3);margin-top:10px;margin-bottom:4px">Team sales</div>
-        <div style="font-size:20px;font-weight:700;color:var(--g6)" id="sb-sales">—</div>
-        <div style="font-size:11px;color:var(--t3);margin-top:10px;margin-bottom:4px">Achievement</div>
-        <div style="font-size:20px;font-weight:700" id="sb-pct">—</div>
+      <div class="sb-label">Team Stats</div>
+      <div style="padding:6px 8px">
+        <div class="qs-lbl">Total agents</div>
+        <div class="qs-val" id="sb-agents">—</div>
+        <div class="qs-lbl" style="margin-top:10px">Team sales</div>
+        <div class="qs-val" style="color:var(--g6)" id="sb-sales">—</div>
+        <div class="qs-lbl" style="margin-top:10px">Achievement</div>
+        <div class="qs-val" id="sb-pct">—</div>
       </div>
     </div>
   </div>
@@ -205,494 +259,530 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   </div>
 </div>
 
-<script>
-const CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQzH2quWsRx-NsAhxFeqOsz9n_KElh80hZq64gnjviHC0OGVSXTGgQIC7HbhazVChH7Cde__gKhnQut/pub?gid=59746245&single=true&output=csv';
+<!-- Hidden branch report template -->
+<div id="branch-report"></div>
 
-let DATA = [];
-let CURRENT_VIEW = 'all';
-let SEARCH_TERM = '';
-let ACTIVE_FILTER = 'all';
-let barChart = null, donutChart = null;
+<script>
+const CSV='https://docs.google.com/spreadsheets/d/e/2PACX-1vQzH2quWsRx-NsAhxFeqOsz9n_KElh80hZq64gnjviHC0OGVSXTGgQIC7HbhazVChH7Cde__gKhnQut/pub?gid=59746245&single=true&output=csv';
+let DATA=[],CURRENT_VIEW='all',SEARCH='',FILTER='all';
+let barChart=null,donutChart=null;
 
 // ── Parse ────────────────────────────────────────────────────
-async function loadData() {
-  document.getElementById('live-lbl').textContent = 'Updating...';
-  try {
-    const r = await fetch(CSV + '&t=' + Date.now());
-    const txt = await r.text();
-    DATA = parseCSV(txt);
-    if (DATA.length === 0) throw new Error('No data');
+async function loadData(){
+  document.getElementById('live-lbl').textContent='Updating...';
+  try{
+    const r=await fetch(CSV+'&t='+Date.now());
+    const txt=await r.text();
+    DATA=parseCSV(txt);
+    if(!DATA.length) throw new Error('empty');
     updateSidebar();
     renderView(CURRENT_VIEW);
-    document.getElementById('live-lbl').textContent = 'Live';
-    document.getElementById('hdr-sub').textContent =
-      'April 2026  ·  ' + DATA.length + ' agents  ·  Last updated ' +
+    document.getElementById('live-lbl').textContent='Live';
+    document.getElementById('hdr-sub').textContent=
+      'April 2026 · '+DATA.length+' agents · Updated '+
       new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
-  } catch(e) {
-    document.getElementById('live-lbl').textContent = 'Error';
-    document.getElementById('content').innerHTML =
-      `<div class="empty">⚠️ Could not load data. <button class="btn btn-o" style="margin-left:10px" onclick="loadData()">Retry</button></div>`;
+  }catch(e){
+    document.getElementById('live-lbl').textContent='Error';
+    document.getElementById('content').innerHTML=
+      '<div class="empty">⚠️ Could not load data.<button class="btn btn-o" style="margin-left:10px" onclick="loadData()">Retry</button></div>';
   }
 }
 
-function parseCSV(txt) {
-  const lines = txt.trim().split('\n');
-  if (lines.length < 2) return [];
-  const headers = lines[0].split(',').map(h => h.replace(/"/g,'').trim().toLowerCase());
-  const rows = [];
-  for (let i = 1; i < lines.length; i++) {
-    const cells = splitCSVLine(lines[i]);
-    if (cells.length < 5) continue;
-    const obj = {};
-    headers.forEach((h,j) => obj[h] = (cells[j]||'').replace(/"/g,'').trim());
-
-    const name = obj['employee name'] || obj['name'] || '';
-    const user = obj['user'] || obj['username'] || '';
-    const mgr  = obj['manager'] || '';
-    if (!name || !mgr || name.toLowerCase().includes('auto') || name === '') continue;
-
-    const target  = parseFloat(obj['target'] || 0) || 0;
-    const sales   = parseFloat(obj['user sales'] || obj['achieved'] || 0) || 0;
-    const pct     = target > 0 ? Math.round(sales/target*100) : 0;
-    const branch  = obj['branch name'] || obj['branch'] || '';
-    const opco    = obj['operating company'] || '';
-
-    rows.push({ name, user, mgr, branch, opco, target, sales, pct });
+function parseCSV(txt){
+  const lines=txt.trim().split('\n');
+  if(lines.length<2) return [];
+  const hdrs=lines[0].split(',').map(h=>h.replace(/"/g,'').trim().toLowerCase());
+  const rows=[];
+  for(let i=1;i<lines.length;i++){
+    const c=splitLine(lines[i]);
+    const o={};
+    hdrs.forEach((h,j)=>o[h]=(c[j]||'').replace(/"/g,'').trim());
+    const name=o['employee name']||o['name']||'';
+    const mgr=o['manager']||'';
+    if(!name||!mgr||name.toLowerCase().includes('auto')||name.length<2) continue;
+    const target=parseFloat(o['target']||0)||0;
+    const sales=parseFloat(o['user sales']||o['achieved']||0)||0;
+    rows.push({
+      name,user:o['user']||'',mgr,
+      branch:o['branch name']||o['branch']||'',
+      opco:o['operating company']||'',
+      target,sales,pct:target>0?Math.round(sales/target*100):0
+    });
   }
   return rows;
 }
 
-function splitCSVLine(line) {
-  const result = []; let cur = ''; let inQ = false;
-  for (let i = 0; i < line.length; i++) {
-    const c = line[i];
-    if (c === '"') { inQ = !inQ; }
-    else if (c === ',' && !inQ) { result.push(cur); cur = ''; }
-    else { cur += c; }
+function splitLine(l){
+  const r=[];let c='';let q=false;
+  for(let i=0;i<l.length;i++){
+    if(l[i]==='"'){q=!q;}
+    else if(l[i]===','&&!q){r.push(c);c='';}
+    else c+=l[i];
   }
-  result.push(cur);
-  return result;
+  r.push(c);return r;
 }
 
 // ── Sidebar ──────────────────────────────────────────────────
-function updateSidebar() {
-  const counts = {};
-  DATA.forEach(e => {
-    const k = mgrKey(e.mgr);
-    counts[k] = (counts[k]||0) + 1;
-  });
-  document.getElementById('cnt-all').textContent = DATA.length;
-  document.getElementById('cnt-aw').textContent  = counts['aw'] || 0;
-  document.getElementById('cnt-am').textContent  = counts['am'] || 0;
-  document.getElementById('cnt-ms').textContent  = counts['ms'] || 0;
-  document.getElementById('cnt-na').textContent  = counts['na'] || 0;
-
-  const tS = DATA.reduce((a,e)=>a+e.sales,0);
-  const tT = DATA.reduce((a,e)=>a+e.target,0);
-  const tP = tT>0?Math.round(tS/tT*100):0;
-  document.getElementById('sb-agents').textContent = DATA.length;
-  document.getElementById('sb-sales').textContent  = tS;
-  const pEl = document.getElementById('sb-pct');
-  pEl.textContent = tP + '%';
-  pEl.style.color = pc(tP);
+function updateSidebar(){
+  const ks={aw:0,am:0,ms:0,na:0};
+  DATA.forEach(e=>{const k=mk(e.mgr);if(ks[k]!==undefined)ks[k]++;});
+  document.getElementById('cnt-all').textContent=DATA.length;
+  document.getElementById('cnt-aw').textContent=ks.aw;
+  document.getElementById('cnt-am').textContent=ks.am;
+  document.getElementById('cnt-ms').textContent=ks.ms;
+  document.getElementById('cnt-na').textContent=ks.na;
+  const tS=DATA.reduce((a,e)=>a+e.sales,0);
+  const tT=DATA.reduce((a,e)=>a+e.target,0);
+  const tP=tT>0?Math.round(tS/tT*100):0;
+  document.getElementById('sb-agents').textContent=DATA.length;
+  document.getElementById('sb-sales').textContent=tS;
+  const pe=document.getElementById('sb-pct');
+  pe.textContent=tP+'%';pe.style.color=pc(tP);
 }
-
-function mgrKey(mgr) {
-  if (!mgr) return '';
-  const m = mgr.toLowerCase();
-  if (m.includes('abdulwahab')) return 'aw';
-  if (m.includes('ahmed'))      return 'am';
-  if (m.includes('mohammed'))   return 'ms';
-  if (m.includes('najwah'))     return 'na';
-  return 'other';
+function mk(m){
+  if(!m)return'';const l=m.toLowerCase();
+  if(l.includes('abdulwahab'))return'aw';
+  if(l.includes('ahmed'))return'am';
+  if(l.includes('mohammed'))return'ms';
+  if(l.includes('najwah'))return'na';
+  return'other';
 }
 
 // ── View ─────────────────────────────────────────────────────
-function setView(view, el) {
-  CURRENT_VIEW = view;
-  ACTIVE_FILTER = 'all';
-  document.querySelectorAll('.sb-item').forEach(b => b.classList.remove('active'));
-  if (el) el.classList.add('active');
-  renderView(view);
+function setView(v,el){
+  CURRENT_VIEW=v;FILTER='all';
+  document.querySelectorAll('.sb-item').forEach(b=>b.classList.remove('active'));
+  if(el)el.classList.add('active');
+  renderView(v);
 }
 
-function renderView(view) {
-  let emps = view === 'all' ? DATA : DATA.filter(e => e.mgr === view || e.mgr.includes(view.split(' ')[0]));
-  const content = document.getElementById('content');
+function renderView(view){
+  const emps=view==='all'?DATA:DATA.filter(e=>e.mgr.toLowerCase().includes(view.toLowerCase()));
+  const tS=emps.reduce((a,e)=>a+e.sales,0);
+  const tT=emps.reduce((a,e)=>a+e.target,0);
+  const tP=tT>0?Math.round(tS/tT*100):0;
+  const top=[...emps].sort((a,b)=>b.sales-a.sales)[0];
+  const active=emps.filter(e=>e.sales>0).length;
+  const branches=[...new Set(emps.map(e=>e.branch))].filter(Boolean).sort();
+  const supNames=[...new Set(emps.map(e=>e.mgr.split(' ')[0]))].filter(Boolean);
 
-  const tS = emps.reduce((a,e)=>a+e.sales,0);
-  const tT = emps.reduce((a,e)=>a+e.target,0);
-  const tP = tT>0?Math.round(tS/tT*100):0;
-  const top = [...emps].sort((a,b)=>b.sales-a.sales)[0];
-  const active = emps.filter(e=>e.sales>0).length;
-  const branches = [...new Set(emps.map(e=>e.branch))].filter(Boolean);
-
-  content.innerHTML = `
-    <!-- Search -->
-    <div class="search-wrap">
-      <span class="search-icon">🔍</span>
-      <input class="search-input" id="search-inp" placeholder="Search by name, username, or branch..."
-        oninput="handleSearch(this.value)" autocomplete="off">
-      <div class="search-results" id="search-res"></div>
+  document.getElementById('content').innerHTML=`
+    <div class="search-wrap" style="position:relative">
+      <span class="si">🔍</span>
+      <input class="search-inp" id="sinp" placeholder="Search by name, username or branch..." oninput="doSearch(this.value)" autocomplete="off">
+      <div class="s-res" id="sres"></div>
     </div>
 
-    <!-- KPIs -->
+    <!-- PREMIUM KPI -->
     <div class="kpi-grid">
-      <div class="kpi">
-        <div class="kpi-l">Total sales</div>
-        <div class="kpi-v">${tS}</div>
-        <div class="kpi-s">of ${tT} target</div>
+      <div class="kpi-card kpi-sales">
+        <span class="kpi-icon">📊</span>
+        <div class="kpi-label">Total sales</div>
+        <div class="kpi-value">${tS}</div>
+        <div class="kpi-sub">of ${tT} target</div>
+        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:${Math.min(100,tP)}%"></div></div>
       </div>
-      <div class="kpi ${tP>=75?'':tP>=50?'warn':'danger'}">
-        <div class="kpi-l">Achievement</div>
-        <div class="kpi-v" style="color:${pc(tP)}">${tP}%</div>
-        <div class="kpi-s">${tT-tS} remaining</div>
+      <div class="kpi-card kpi-ach">
+        <span class="kpi-icon">🎯</span>
+        <div class="kpi-label">Achievement</div>
+        <div class="kpi-value" style="color:${pc(tP)}">${tP}%</div>
+        <div class="kpi-sub">${tT-tS} remaining to target</div>
+        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:${Math.min(100,tP)}%;background:${pc(tP)}"></div></div>
       </div>
-      <div class="kpi accent">
-        <div class="kpi-l">Top performer</div>
-        <div class="kpi-v" style="font-size:16px;padding-top:4px">${top?top.name:'—'}</div>
-        <div class="kpi-s">${top?top.sales+' sales · '+top.branch:''}</div>
+      <div class="kpi-card kpi-top">
+        <span class="kpi-icon">🏆</span>
+        <div class="kpi-label">Top performer</div>
+        <div class="kpi-value">${top?top.name:'—'}</div>
+        <div class="kpi-sub">${top?top.sales+' sales · '+top.pct+'% target':''}</div>
+        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:${top?Math.min(100,top.pct):0}%"></div></div>
       </div>
-      <div class="kpi">
-        <div class="kpi-l">Active agents</div>
-        <div class="kpi-v">${active}<span style="font-size:14px;color:var(--t2)"> / ${emps.length}</span></div>
-        <div class="kpi-s">${emps.length-active} with zero sales</div>
+      <div class="kpi-card kpi-agents">
+        <span class="kpi-icon">👥</span>
+        <div class="kpi-label">Active agents</div>
+        <div class="kpi-value">${active}<span style="font-size:15px;opacity:.6"> / ${emps.length}</span></div>
+        <div class="kpi-sub">${emps.length-active} agents with zero sales</div>
+        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:${Math.round(active/emps.length*100)}%"></div></div>
       </div>
     </div>
 
-    <!-- Supervisor cards (only on all view) -->
-    ${view === 'all' ? renderSupCards() : ''}
+    ${view==='all'?renderSupCards():''}
 
-    <!-- Charts -->
+    <!-- EXPORT PANEL -->
+    <div class="export-panel">
+      <div class="ep-title">📤 Export branch report</div>
+      <div class="ep-row">
+        <div class="ep-group">
+          <div class="ep-label">Supervisor</div>
+          <select class="ep-select" id="ep-sup" onchange="fillBranchSelect()">
+            <option value="">— Select supervisor —</option>
+            ${[...new Set(DATA.map(e=>e.mgr))].filter(Boolean).map(s=>`<option value="${s}">${s.split(' ')[0]}</option>`).join('')}
+          </select>
+        </div>
+        <div class="ep-group">
+          <div class="ep-label">Branch</div>
+          <select class="ep-select" id="ep-br">
+            <option value="">— Select branch —</option>
+          </select>
+        </div>
+        <button class="btn btn-gold" onclick="exportBranchReport()" style="height:36px;padding:0 20px;flex-shrink:0">
+          📸 Export PNG
+        </button>
+      </div>
+    </div>
+
+    <!-- CHARTS -->
     <div class="charts-row">
       <div class="chart-card">
-        <div class="chart-title">Branch performance</div>
-        <div class="chart-wrap" style="height:220px">
-          <canvas id="barChart"></canvas>
-        </div>
+        <div class="chart-title">Branch performance — sales vs target</div>
+        <div style="position:relative;height:220px"><canvas id="barChart"></canvas></div>
       </div>
       <div class="chart-card">
-        <div class="chart-title">Sales distribution</div>
-        <div class="chart-wrap" style="height:220px;display:flex;align-items:center;justify-content:center">
+        <div class="chart-title">Sales distribution by supervisor</div>
+        <div style="height:220px;display:flex;align-items:center;justify-content:center">
           <canvas id="donutChart" style="max-height:200px"></canvas>
         </div>
       </div>
     </div>
 
-    <!-- Filter pills -->
-    <div class="filter-row" id="filter-row">
-      <button class="pill on" onclick="filterBranch('all',this)">All branches</button>
-      ${branches.map(b=>`<button class="pill" onclick="filterBranch('${b.replace(/'/g,"\\'")}',this)">${b}</button>`).join('')}
+    <!-- TABLE -->
+    <div class="sec-t">Employee leaderboard</div>
+    <div class="filter-row" id="fpills">
+      <button class="pill on" onclick="doFilter('all',this)">All branches</button>
+      ${branches.map(b=>`<button class="pill" onclick="doFilter('${b.replace(/'/g,"\\'")}',this)">${b}</button>`).join('')}
     </div>
-
-    <!-- Table -->
-    <div class="table-card" id="emp-table">
-      <div class="table-hdr-bar">
-        <span class="table-title-txt">Employee leaderboard</span>
-        <span class="table-count" id="emp-count">${emps.length} agents</span>
+    <div class="table-card">
+      <div class="tbl-hdr">
+        <span class="tbl-title">Ranked by sales</span>
+        <span class="tbl-cnt" id="tbl-cnt">${emps.length} agents</span>
       </div>
       <div class="tbl-head">
-        <span class="th thc">#</span>
-        <span class="th">Name</span>
+        <span class="th thc">#</span><span class="th">Name</span>
         <span class="th">Supervisor</span>
-        <span class="th thc">Sales</span>
-        <span class="th thc">Target</span>
-        <span class="th thc">Ach%</span>
-        <span class="th thr">Progress</span>
+        <span class="th thc">Sales</span><span class="th thc">Target</span>
+        <span class="th thc">Ach%</span><span class="th thr">Progress</span>
       </div>
-      <div id="emp-rows"></div>
+      <div id="tbl-rows"></div>
     </div>
-    <div style="font-size:11px;color:var(--t4);text-align:center;margin-top:12px" id="upd-lbl"></div>
+    <div style="font-size:11px;color:var(--t4);text-align:center;margin-top:10px">
+      Auto-refresh every 5 min · ${new Date().toLocaleString('en-US',{hour:'2-digit',minute:'2-digit',hour12:true})}
+    </div>
   `;
 
-  document.getElementById('upd-lbl').textContent =
-    'Auto-refresh every 5 min · ' + new Date().toLocaleString('en-US',{hour:'2-digit',minute:'2-digit',hour12:true});
-
-  renderTable(emps, 'all');
-  renderCharts(emps, branches);
+  renderTable(emps,'all');
+  renderCharts(emps,branches);
 }
 
-function renderSupCards() {
-  const sups = [
-    {key:'Abdulwahab M AlShammari', short:'Abdulwahab', color:'#F6C94E'},
-    {key:'Ahmed AlMutairi',          short:'Ahmed',       color:'#85B7EB'},
-    {key:'Mohammed AlShehri',        short:'Mohammed',    color:'#5DCAA5'},
-    {key:'Najwah AlOmari',           short:'Najwah',      color:'#ED93B1'},
+function renderSupCards(){
+  const sups=[
+    {key:'Abdulwahab',color:'#F6C94E'},
+    {key:'Ahmed',     color:'#85B7EB'},
+    {key:'Mohammed',  color:'#5DCAA5'},
+    {key:'Najwah',    color:'#ED93B1'},
   ];
-  return `
-    <div class="sec-t">Supervisor overview</div>
-    <div class="sup-grid">
-      ${sups.map(s => {
-        const emps = DATA.filter(e => e.mgr.includes(s.key.split(' ')[0]));
-        const tS = emps.reduce((a,e)=>a+e.sales,0);
-        const tT = emps.reduce((a,e)=>a+e.target,0);
-        const tP = tT>0?Math.round(tS/tT*100):0;
-        const br = [...new Set(emps.map(e=>e.branch))].filter(Boolean).length;
-        return `
-          <div class="sup-card" onclick="setView('${s.key}',null)">
-            <div class="sup-name">${s.short}</div>
-            <div class="sup-meta">${emps.length} agents · ${br} branches</div>
-            <div class="sup-nums">
-              <div class="sup-num-item"><div class="sup-num-v">${tS}</div><div class="sup-num-l">Sales</div></div>
-              <div class="sup-num-item"><div class="sup-num-v">${tT}</div><div class="sup-num-l">Target</div></div>
-              <div class="sup-num-item"><div class="sup-num-v" style="color:${pc(tP)}">${tP}%</div><div class="sup-num-l">Ach%</div></div>
-            </div>
-            <div class="sup-bar"><div class="sup-bar-fill" style="width:${Math.min(100,tP)}%;background:${s.color}"></div></div>
-          </div>`;
-      }).join('')}
-    </div>`;
-}
-
-function renderTable(emps, branchFilter) {
-  let filtered = branchFilter === 'all' ? emps : emps.filter(e => e.branch === branchFilter);
-  if (SEARCH_TERM) {
-    const q = SEARCH_TERM.toLowerCase();
-    filtered = filtered.filter(e =>
-      e.name.toLowerCase().includes(q) ||
-      e.user.toLowerCase().includes(q) ||
-      e.branch.toLowerCase().includes(q)
-    );
-  }
-  const sorted = [...filtered].sort((a,b) => b.sales - a.sales);
-  document.getElementById('emp-count').textContent = sorted.length + ' agents';
-
-  const rows = sorted.map((e,i) => {
-    const rk = i===0?'r1':i===1?'r2':i===2?'r3':'';
-    const rc = i===0?'g':i===1?'s':i===2?'b':'';
-    const supShort = e.mgr.split(' ')[0];
-    return `
-      <div class="tbl-row ${rk}" style="cursor:pointer" onclick="openEmployeeModal(${JSON.stringify(e).replace(/'/g,'&#39;')})">
-        <span class="rk ${rc}">${i+1}</span>
-        <div><div class="emp-n">${e.name}</div><div class="emp-b">${e.branch}</div></div>
-        <div class="emp-sup">${supShort}</div>
-        <span class="num-w">${e.sales}</span>
-        <span class="num-t">${e.target}</span>
-        <span class="pct-v" style="color:${pc(e.pct)}">${e.pct}%</span>
-        <div class="prog">
-          <div class="prog-bar"><div class="prog-fill" style="width:${Math.min(100,e.pct)}%;background:${pc(e.pct)}"></div></div>
-          <div class="prog-t">${e.pct}%</div>
+  return`<div class="sec-t">Supervisor overview</div>
+  <div class="sup-grid">
+    ${sups.map(s=>{
+      const e=DATA.filter(d=>d.mgr.toLowerCase().includes(s.key.toLowerCase()));
+      const tS=e.reduce((a,d)=>a+d.sales,0);
+      const tT=e.reduce((a,d)=>a+d.target,0);
+      const tP=tT>0?Math.round(tS/tT*100):0;
+      const br=[...new Set(e.map(d=>d.branch))].filter(Boolean).length;
+      return`<div class="sup-card" onclick="setView('${s.key}',null)">
+        <div class="sup-name">${s.key}</div>
+        <div class="sup-meta">${e.length} agents · ${br} branches</div>
+        <div class="sup-nums">
+          <div><div class="sup-nv">${tS}</div><div class="sup-nl">Sales</div></div>
+          <div><div class="sup-nv">${tT}</div><div class="sup-nl">Target</div></div>
+          <div><div class="sup-nv" style="color:${pc(tP)}">${tP}%</div><div class="sup-nl">Ach%</div></div>
         </div>
+        <div class="sup-pbar"><div class="sup-pbar-fill" style="width:${Math.min(100,tP)}%;background:${s.color}"></div></div>
       </div>`;
-  }).join('') || '<div class="empty">No results found</div>';
-
-  document.getElementById('emp-rows').innerHTML = rows;
+    }).join('')}
+  </div>`;
 }
 
-function filterBranch(branch, el) {
-  ACTIVE_FILTER = branch;
-  document.querySelectorAll('.pill').forEach(p => p.classList.remove('on'));
-  if (el) el.classList.add('on');
-  const emps = CURRENT_VIEW === 'all' ? DATA : DATA.filter(e => e.mgr.includes(CURRENT_VIEW.split(' ')[0]));
-  renderTable(emps, branch);
+function renderTable(emps, brFilter){
+  let f=brFilter==='all'?emps:emps.filter(e=>e.branch===brFilter);
+  if(SEARCH){const q=SEARCH.toLowerCase();f=f.filter(e=>e.name.toLowerCase().includes(q)||e.user.toLowerCase().includes(q)||e.branch.toLowerCase().includes(q));}
+  const sorted=[...f].sort((a,b)=>b.sales-a.sales);
+  document.getElementById('tbl-cnt').textContent=sorted.length+' agents';
+  document.getElementById('tbl-rows').innerHTML=sorted.length?sorted.map((e,i)=>{
+    const rk=i===0?'r1':i===1?'r2':i===2?'r3':'';
+    const rc=i===0?'g':i===1?'s':i===2?'b':'';
+    const eStr=encodeURIComponent(JSON.stringify(e));
+    return`<div class="tbl-row ${rk}" onclick="openModal(decodeURIComponent('${eStr}'))">
+      <span class="rk ${rc}">${i+1}</span>
+      <div><div class="en">${e.name}</div><div class="eb">${e.branch}</div></div>
+      <div class="esup">${e.mgr.split(' ')[0]}</div>
+      <span class="nw">${e.sales}</span>
+      <span class="nt">${e.target}</span>
+      <span class="pv" style="color:${pc(e.pct)}">${e.pct}%</span>
+      <div class="prog">
+        <div class="prog-bar"><div class="prog-fill" style="width:${Math.min(100,e.pct)}%;background:${pc(e.pct)}"></div></div>
+        <div class="prog-t">${e.pct}%</div>
+      </div>
+    </div>`;
+  }).join(''):'<div class="empty">No results found</div>';
+}
+
+function doFilter(br,el){
+  FILTER=br;
+  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('on'));
+  if(el)el.classList.add('on');
+  const emps=CURRENT_VIEW==='all'?DATA:DATA.filter(e=>e.mgr.toLowerCase().includes(CURRENT_VIEW.toLowerCase()));
+  renderTable(emps,br);
 }
 
 // ── Search ───────────────────────────────────────────────────
-function handleSearch(val) {
-  SEARCH_TERM = val;
-  const res = document.getElementById('search-res');
-  if (!val || val.length < 2) { res.style.display = 'none'; return; }
-  const q = val.toLowerCase();
-  const matches = DATA.filter(e =>
-    e.name.toLowerCase().includes(q) ||
-    e.user.toLowerCase().includes(q) ||
-    e.branch.toLowerCase().includes(q)
-  ).slice(0, 8);
-
-  if (matches.length === 0) { res.style.display = 'none'; return; }
-  res.style.display = 'block';
-  res.innerHTML = matches.map(e => `
-    <div class="search-result-item" onclick="selectSearch('${e.user}')">
-      <div class="sri-name">${e.name}</div>
-      <div class="sri-meta">${e.user} · ${e.branch} · ${e.sales} sales (${e.pct}%)</div>
+function doSearch(val){
+  SEARCH=val;
+  const res=document.getElementById('sres');
+  if(!val||val.length<2){res.style.display='none';
+    const emps=CURRENT_VIEW==='all'?DATA:DATA.filter(e=>e.mgr.toLowerCase().includes(CURRENT_VIEW.toLowerCase()));
+    renderTable(emps,FILTER);return;
+  }
+  const q=val.toLowerCase();
+  const matches=DATA.filter(e=>e.name.toLowerCase().includes(q)||e.user.toLowerCase().includes(q)||e.branch.toLowerCase().includes(q)).slice(0,7);
+  res.style.display=matches.length?'block':'none';
+  res.innerHTML=matches.map(e=>`
+    <div class="s-item" onclick="openModal('${encodeURIComponent(JSON.stringify(e))}');document.getElementById('sres').style.display='none'">
+      <div class="si-n">${e.name}</div>
+      <div class="si-m">${e.user} · ${e.branch} · ${e.sales} sales (${e.pct}%)</div>
     </div>`).join('');
-
-  // Also filter table live
-  const emps = CURRENT_VIEW === 'all' ? DATA : DATA.filter(e => e.mgr.includes(CURRENT_VIEW.split(' ')[0]));
-  renderTable(emps, ACTIVE_FILTER);
+  const emps=CURRENT_VIEW==='all'?DATA:DATA.filter(e=>e.mgr.toLowerCase().includes(CURRENT_VIEW.toLowerCase()));
+  renderTable(emps,FILTER);
 }
 
-function selectSearch(user) {
-  document.getElementById('search-res').style.display = 'none';
-  const emp = DATA.find(e => e.user === user);
-  if (emp) openEmployeeModal(emp);
+// ── Export branch select ─────────────────────────────────────
+function fillBranchSelect(){
+  const sup=document.getElementById('ep-sup').value;
+  const brs=[...new Set(DATA.filter(e=>e.mgr===sup).map(e=>e.branch))].filter(Boolean).sort();
+  document.getElementById('ep-br').innerHTML=
+    '<option value="">— Select branch —</option>'+
+    brs.map(b=>`<option value="${b}">${b}</option>`).join('');
+}
+
+async function exportBranchReport(){
+  const sup=document.getElementById('ep-sup').value;
+  const br=document.getElementById('ep-br').value;
+  if(!sup||!br){alert('Please select a supervisor and branch first.');return;}
+
+  const emps=DATA.filter(e=>e.mgr===sup&&e.branch===br).sort((a,b)=>b.sales-a.sales);
+  if(!emps.length){alert('No data found for this selection.');return;}
+
+  const tS=emps.reduce((a,e)=>a+e.sales,0);
+  const tT=emps.reduce((a,e)=>a+e.target,0);
+  const tP=tT>0?Math.round(tS/tT*100):0;
+  const top=emps[0];
+  const supShort=sup.split(' ')[0];
+  const barW=(p)=>Math.min(100,p);
+
+  const report=document.getElementById('branch-report');
+  report.style.cssText='position:fixed;top:-9999px;left:-9999px;width:800px;background:#0A2E1C;font-family:Segoe UI,system-ui,sans-serif;color:#fff;padding:0';
+
+  report.innerHTML=`
+  <div style="background:#0D3D26;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid rgba(61,214,140,0.3)">
+    <div>
+      <div style="font-size:26px;font-weight:800;color:#fff;letter-spacing:-1px;margin-bottom:4px">salam</div>
+      <div style="font-size:11px;color:#5DC48A">Sales Performance Report</div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-size:18px;font-weight:700;color:#fff">${br}</div>
+      <div style="font-size:11px;color:#5DC48A;margin-top:3px">Supervisor: ${supShort} · April 2026</div>
+    </div>
+  </div>
+  <div style="padding:20px 28px">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px">
+      <div style="background:linear-gradient(135deg,#0D3D26,#1A5C35);border:1px solid rgba(61,214,140,0.3);border-radius:12px;padding:16px">
+        <div style="font-size:9px;font-weight:700;color:#5DC48A;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Total Sales</div>
+        <div style="font-size:34px;font-weight:800;color:#fff">${tS}</div>
+        <div style="font-size:11px;color:#4A8A62">of ${tT} target</div>
+        <div style="height:3px;background:rgba(255,255,255,0.1);border-radius:2px;margin-top:10px;overflow:hidden">
+          <div style="height:100%;width:${barW(tP)}%;background:linear-gradient(90deg,#1A9E52,#3DD68C);border-radius:2px"></div>
+        </div>
+      </div>
+      <div style="background:linear-gradient(135deg,#0A2415,#1A4A25);border:1px solid rgba(61,214,140,0.2);border-radius:12px;padding:16px">
+        <div style="font-size:9px;font-weight:700;color:#4AB870;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Achievement</div>
+        <div style="font-size:34px;font-weight:800;color:${pc(tP)}">${tP}%</div>
+        <div style="font-size:11px;color:#3A7A56">${tT-tS} remaining</div>
+        <div style="height:3px;background:rgba(255,255,255,0.1);border-radius:2px;margin-top:10px;overflow:hidden">
+          <div style="height:100%;width:${barW(tP)}%;background:${pc(tP)};border-radius:2px"></div>
+        </div>
+      </div>
+      <div style="background:linear-gradient(135deg,#2A1E00,#3D2E00);border:1px solid rgba(212,160,23,0.3);border-radius:12px;padding:16px">
+        <div style="font-size:9px;font-weight:700;color:#B89020;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">🏆 Top Performer</div>
+        <div style="font-size:16px;font-weight:700;color:#F6C94E;line-height:1.3">${top.name}</div>
+        <div style="font-size:11px;color:#8A7020;margin-top:4px">${top.sales} sales · ${top.pct}% of target</div>
+      </div>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(61,214,140,0.1);border-radius:12px;overflow:hidden">
+      <div style="display:grid;grid-template-columns:28px 2.5fr 80px 80px 180px;gap:8px;padding:10px 16px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(61,214,140,0.1)">
+        <span style="font-size:9px;font-weight:700;color:#3A6A50;text-transform:uppercase;text-align:center">#</span>
+        <span style="font-size:9px;font-weight:700;color:#3A6A50;text-transform:uppercase">Name</span>
+        <span style="font-size:9px;font-weight:700;color:#3A6A50;text-transform:uppercase;text-align:center">Sales</span>
+        <span style="font-size:9px;font-weight:700;color:#3A6A50;text-transform:uppercase;text-align:center">Target</span>
+        <span style="font-size:9px;font-weight:700;color:#3A6A50;text-transform:uppercase;text-align:right">Progress</span>
+      </div>
+      ${emps.map((e,i)=>{
+        const rc=i===0?'rgba(212,160,23,.08)':i===1?'rgba(143,160,174,.06)':i===2?'rgba(176,112,48,.06)':'transparent';
+        const rclr=i===0?'#D4A017':i===1?'#8FA0AE':i===2?'#B07030':'#4A8A62';
+        return`<div style="display:grid;grid-template-columns:28px 2.5fr 80px 80px 180px;gap:8px;padding:12px 16px;background:${rc};border-bottom:1px solid rgba(61,214,140,0.06);align-items:center">
+          <span style="font-size:12px;font-weight:700;color:${rclr};text-align:center">${i+1}</span>
+          <span style="font-size:13px;font-weight:600;color:#fff">${e.name}</span>
+          <span style="font-size:15px;font-weight:700;color:#fff;text-align:center">${e.sales}</span>
+          <span style="font-size:12px;color:#aaa;text-align:center">${e.target}</span>
+          <div>
+            <div style="height:5px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden;margin-bottom:3px">
+              <div style="height:100%;width:${barW(e.pct)}%;background:${pc(e.pct)};border-radius:3px"></div>
+            </div>
+            <div style="font-size:11px;color:${pc(e.pct)};text-align:right;font-weight:600">${e.pct}%</div>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+
+    <div style="margin-top:16px;text-align:center;font-size:10px;color:#2A5A3A">
+      salam Mobile · Browse Date · April 2026 · Generated ${new Date().toLocaleString('en-US')}
+    </div>
+  </div>`;
+
+  report.style.top='0';
+  report.style.left='0';
+  report.style.position='absolute';
+  report.style.zIndex='-1';
+
+  await new Promise(r=>setTimeout(r,300));
+  const canvas=await html2canvas(report,{backgroundColor:'#0A2E1C',scale:2,useCORS:true});
+  const a=document.createElement('a');
+  a.download=`salam_${supShort}_${br.replace(/\s+/g,'_')}_report.png`;
+  a.href=canvas.toDataURL('image/png');
+  a.click();
+
+  report.style.top='-9999px';
+  report.style.left='-9999px';
 }
 
 // ── Charts ───────────────────────────────────────────────────
-function renderCharts(emps, branches) {
-  // Branch bar chart
-  const brData = branches.map(b => {
-    const be = emps.filter(e => e.branch === b);
-    return { b, s: be.reduce((a,e)=>a+e.sales,0), t: be.reduce((a,e)=>a+e.target,0) };
-  }).sort((a,b_) => b_.s - a.s).slice(0, 12);
+function renderCharts(emps,branches){
+  const brData=branches.map(b=>{
+    const be=emps.filter(e=>e.branch===b);
+    return{b,s:be.reduce((a,e)=>a+e.sales,0),t:be.reduce((a,e)=>a+e.target,0)};
+  }).sort((a,b)=>b.s-a.s).slice(0,12);
 
-  const bCtx = document.getElementById('barChart');
-  if (barChart) barChart.destroy();
-  barChart = new Chart(bCtx, {
-    type: 'bar',
-    data: {
-      labels: brData.map(d => d.b.replace(' FBO','').replace('Kiosk ','K. ')),
-      datasets: [
-        { label: 'Sales', data: brData.map(d=>d.s), backgroundColor: '#3DD68C', borderRadius: 4 },
-        { label: 'Target', data: brData.map(d=>d.t), backgroundColor: 'rgba(255,255,255,0.22)', borderRadius: 4 }
+  if(barChart)barChart.destroy();
+  barChart=new Chart(document.getElementById('barChart'),{
+    type:'bar',
+    data:{
+      labels:brData.map(d=>d.b.replace(' FBO','').replace('Kiosk ','K.').replace(' RYD','').replace(' ALMASIF','')),
+      datasets:[
+        {label:'Sales',data:brData.map(d=>d.s),backgroundColor:'#3DD68C',borderRadius:5},
+        {label:'Target',data:brData.map(d=>d.t),backgroundColor:'rgba(255,255,255,0.18)',borderRadius:5}
       ]
     },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { labels: { color: '#9ACDB0', font: { size: 11 } } } },
-      scales: {
-        x: { ticks: { color: '#4A8A62', font: { size: 10 } }, grid: { color: 'rgba(61,214,140,0.06)' } },
-        y: { ticks: { color: '#4A8A62', font: { size: 10 } }, grid: { color: 'rgba(61,214,140,0.06)' } }
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#9ACDB0',font:{size:11}}}},
+      scales:{
+        x:{ticks:{color:'#4A8A62',font:{size:10}},grid:{color:'rgba(61,214,140,0.05)'}},
+        y:{ticks:{color:'#4A8A62',font:{size:10}},grid:{color:'rgba(61,214,140,0.05)'}}
       }
     }
   });
 
-  // Supervisor donut
-  const sups = [
-    { label: 'Abdulwahab', color: '#F6C94E', key: 'Abdulwahab' },
-    { label: 'Ahmed',      color: '#85B7EB', key: 'Ahmed' },
-    { label: 'Mohammed',   color: '#5DCAA5', key: 'Mohammed' },
-    { label: 'Najwah',     color: '#ED93B1', key: 'Najwah' },
+  const sups=[
+    {l:'Abdulwahab',c:'#F6C94E'},{l:'Ahmed',c:'#85B7EB'},
+    {l:'Mohammed',c:'#5DCAA5'},{l:'Najwah',c:'#ED93B1'}
   ];
-  const dCtx = document.getElementById('donutChart');
-  if (donutChart) donutChart.destroy();
-  donutChart = new Chart(dCtx, {
-    type: 'doughnut',
-    data: {
-      labels: sups.map(s=>s.label),
-      datasets: [{
-        data: sups.map(s => emps.filter(e=>e.mgr.includes(s.key)).reduce((a,e)=>a+e.sales,0)),
-        backgroundColor: sups.map(s=>s.color),
-        borderWidth: 2,
-        borderColor: '#061A10'
+  if(donutChart)donutChart.destroy();
+  donutChart=new Chart(document.getElementById('donutChart'),{
+    type:'doughnut',
+    data:{
+      labels:sups.map(s=>s.l),
+      datasets:[{
+        data:sups.map(s=>emps.filter(e=>e.mgr.toLowerCase().includes(s.l.toLowerCase())).reduce((a,e)=>a+e.sales,0)),
+        backgroundColor:sups.map(s=>s.c),
+        borderWidth:2,borderColor:'#061A10'
       }]
     },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      cutout: '65%',
-      plugins: {
-        legend: { position: 'bottom', labels: { color: '#9ACDB0', font: { size: 11 }, padding: 12 } }
-      }
+    options:{
+      responsive:true,maintainAspectRatio:false,cutout:'65%',
+      plugins:{legend:{position:'bottom',labels:{color:'#9ACDB0',font:{size:11},padding:10}}}
     }
   });
 }
 
-// ── Utils ────────────────────────────────────────────────────
-function pc(p) {
-  return p >= 75 ? '#1A9E52' : p >= 50 ? '#3DBB72' : p >= 25 ? '#EF9F27' : '#E24B4A';
-}
-
-async function exportPNG() {
-  const el = document.getElementById('content');
-  const c = await html2canvas(el, { backgroundColor: '#061A10', scale: 2 });
-  const a = document.createElement('a');
-  a.download = 'salam_dashboard_' + new Date().toISOString().slice(0,10) + '.png';
-  a.href = c.toDataURL('image/png');
-  a.click();
-}
-
-
 // ── Employee Modal ───────────────────────────────────────────
-function openEmployeeModal(emp) {
-  const existing = document.getElementById('emp-modal');
-  if (existing) existing.remove();
+function openModal(eStr){
+  const e=JSON.parse(eStr);
+  const existing=document.getElementById('emp-modal');
+  if(existing)existing.remove();
+  const rank=[...DATA].sort((a,b)=>b.sales-a.sales).findIndex(d=>d.user===e.user)+1;
+  const brEmps=DATA.filter(d=>d.branch===e.branch).sort((a,b)=>b.sales-a.sales);
+  const brRank=brEmps.findIndex(d=>d.user===e.user)+1;
+  const brTotal=brEmps.reduce((a,d)=>a+d.sales,0);
+  const ini=e.name.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
 
-  const pct = emp.pct;
-  const pctColor = pc(pct);
-  const rank = [...DATA].sort((a,b)=>b.sales-a.sales).findIndex(e=>e.user===emp.user)+1;
-  const branchEmps = DATA.filter(e=>e.branch===emp.branch).sort((a,b)=>b.sales-a.sales);
-  const branchRank = branchEmps.findIndex(e=>e.user===emp.user)+1;
-  const branchTotal = branchEmps.reduce((a,e)=>a+e.sales,0);
-
-  const modal = document.createElement('div');
-  modal.id = 'emp-modal';
-  modal.style.cssText = `
-    position:fixed;top:0;left:0;right:0;bottom:0;
-    background:rgba(0,0,0,0.75);z-index:999;
-    display:flex;align-items:center;justify-content:center;
-    padding:20px;
-  `;
-  modal.onclick = (e) => { if(e.target===modal) modal.remove(); };
-
-  modal.innerHTML = `
-    <div style="
-      background:#0D3D26;border:1px solid rgba(61,214,140,0.3);
-      border-radius:16px;padding:28px;width:100%;max-width:480px;
-      position:relative;
-    ">
-      <button onclick="document.getElementById('emp-modal').remove()"
-        style="position:absolute;top:14px;right:16px;background:rgba(255,255,255,0.08);
-        border:none;color:#fff;width:28px;height:28px;border-radius:50%;
-        cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center">✕</button>
-
+  const modal=document.createElement('div');
+  modal.id='emp-modal';
+  modal.className='modal-bg';
+  modal.onclick=ev=>{if(ev.target===modal)modal.remove()};
+  modal.innerHTML=`
+    <div class="modal-box">
+      <button class="modal-close" onclick="document.getElementById('emp-modal').remove()">✕</button>
       <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px">
-        <div style="width:52px;height:52px;border-radius:50%;
-          background:linear-gradient(135deg,#1A9E52,#3DD68C);
-          display:flex;align-items:center;justify-content:center;
-          font-size:18px;font-weight:800;color:#fff;flex-shrink:0">
-          ${emp.name.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase()}
-        </div>
+        <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#1A9E52,#3DD68C);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#fff;flex-shrink:0">${ini}</div>
         <div>
-          <div style="font-size:16px;font-weight:700;color:#fff">${emp.name}</div>
-          <div style="font-size:12px;color:#6FD49A;margin-top:3px">${emp.user}</div>
+          <div style="font-size:16px;font-weight:700;color:#fff">${e.name}</div>
+          <div style="font-size:12px;color:#6FD49A;margin-top:2px">${e.user}</div>
         </div>
       </div>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px">
-        <div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:14px">
-          <div style="font-size:9px;color:#4A8A62;text-transform:uppercase;letter-spacing:.07em;font-weight:700">Branch</div>
-          <div style="font-size:14px;font-weight:600;color:#fff;margin-top:4px">${emp.branch}</div>
-        </div>
-        <div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:14px">
-          <div style="font-size:9px;color:#4A8A62;text-transform:uppercase;letter-spacing:.07em;font-weight:700">Supervisor</div>
-          <div style="font-size:14px;font-weight:600;color:#7DD99A;margin-top:4px">${emp.mgr.split(' ')[0]}</div>
-        </div>
-        <div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:14px">
-          <div style="font-size:9px;color:#4A8A62;text-transform:uppercase;letter-spacing:.07em;font-weight:700">Operating Co.</div>
-          <div style="font-size:14px;font-weight:600;color:#fff;margin-top:4px">${emp.opco||'—'}</div>
-        </div>
-        <div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:14px">
-          <div style="font-size:9px;color:#4A8A62;text-transform:uppercase;letter-spacing:.07em;font-weight:700">Overall Rank</div>
-          <div style="font-size:22px;font-weight:800;color:${rank<=3?'#D4A017':'#fff'};margin-top:2px">#${rank}</div>
-        </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+        ${infoBox('Branch',e.branch,'#fff')}
+        ${infoBox('Supervisor',e.mgr.split(' ')[0],'#7DD99A')}
+        ${infoBox('Company',e.opco||'—','#fff')}
+        ${infoBox('Overall Rank','#'+rank,rank<=3?'#D4A017':'#fff',rank<=3?'26px':'')}
       </div>
-
-      <div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:16px;margin-bottom:14px">
+      <div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:16px;margin-bottom:12px">
         <div style="display:flex;justify-content:space-between;margin-bottom:10px">
-          <div>
-            <div style="font-size:9px;color:#4A8A62;text-transform:uppercase;letter-spacing:.07em;font-weight:700">Sales</div>
-            <div style="font-size:32px;font-weight:800;color:#fff;line-height:1">${emp.sales}</div>
-          </div>
-          <div style="text-align:right">
-            <div style="font-size:9px;color:#4A8A62;text-transform:uppercase;letter-spacing:.07em;font-weight:700">Target</div>
-            <div style="font-size:32px;font-weight:800;color:#fff;line-height:1">${emp.target}</div>
-          </div>
+          <div><div style="font-size:9px;color:#4A8A62;text-transform:uppercase;letter-spacing:.07em;font-weight:700">Sales</div>
+            <div style="font-size:34px;font-weight:800;color:#fff">${e.sales}</div></div>
+          <div style="text-align:right"><div style="font-size:9px;color:#4A8A62;text-transform:uppercase;letter-spacing:.07em;font-weight:700">Target</div>
+            <div style="font-size:34px;font-weight:800;color:#fff">${e.target}</div></div>
         </div>
         <div style="height:8px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden">
-          <div style="height:100%;width:${Math.min(100,pct)}%;background:${pctColor};border-radius:4px;transition:width .8s"></div>
+          <div style="height:100%;width:${Math.min(100,e.pct)}%;background:${pc(e.pct)};border-radius:4px"></div>
         </div>
         <div style="display:flex;justify-content:space-between;margin-top:6px">
-          <div style="font-size:11px;color:#7DD99A">${emp.sales} of ${emp.target}</div>
-          <div style="font-size:13px;font-weight:700;color:${pctColor}">${pct}%</div>
+          <div style="font-size:11px;color:#7DD99A">${e.sales} of ${e.target}</div>
+          <div style="font-size:14px;font-weight:700;color:${pc(e.pct)}">${e.pct}%</div>
         </div>
       </div>
-
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-        <div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:12px;text-align:center">
-          <div style="font-size:9px;color:#4A8A62;text-transform:uppercase;letter-spacing:.07em;font-weight:700">Branch rank</div>
-          <div style="font-size:22px;font-weight:800;color:#fff;margin-top:4px">#${branchRank} <span style="font-size:12px;color:#4A8A62">of ${branchEmps.length}</span></div>
-        </div>
-        <div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:12px;text-align:center">
-          <div style="font-size:9px;color:#4A8A62;text-transform:uppercase;letter-spacing:.07em;font-weight:700">Branch contribution</div>
-          <div style="font-size:22px;font-weight:800;color:#3DD68C;margin-top:4px">${branchTotal>0?Math.round(emp.sales/branchTotal*100):0}%</div>
-        </div>
+        ${infoBox('Branch rank','#'+brRank+' of '+brEmps.length,'#fff')}
+        ${infoBox('Branch contribution',brTotal>0?Math.round(e.sales/brTotal*100)+'%':'0%','#3DD68C')}
       </div>
-    </div>
-  `;
+    </div>`;
   document.body.appendChild(modal);
 }
 
-// ── Init ─────────────────────────────────────────────────────
-setInterval(loadData, 5 * 60 * 1000);
+function infoBox(label,value,color,fsize){
+  return`<div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:12px">
+    <div style="font-size:9px;color:#4A8A62;text-transform:uppercase;letter-spacing:.07em;font-weight:700;margin-bottom:5px">${label}</div>
+    <div style="font-size:${fsize||'14px'};font-weight:600;color:${color}">${value}</div>
+  </div>`;
+}
+
+// ── Utils ────────────────────────────────────────────────────
+function pc(p){return p>=75?'#1A9E52':p>=50?'#3DBB72':p>=25?'#EF9F27':'#E24B4A'}
+async function exportPNG(){
+  const c=await html2canvas(document.getElementById('content'),{backgroundColor:'#061A10',scale:2});
+  const a=document.createElement('a');
+  a.download='salam_dashboard_'+new Date().toISOString().slice(0,10)+'.png';
+  a.href=c.toDataURL();a.click();
+}
+
+setInterval(loadData,5*60*1000);
 loadData();
 </script>
 </body>
