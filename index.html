@@ -59,48 +59,61 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 
 .kpi-card{border-radius:var(--r);padding:18px 20px;position:relative;overflow:hidden;border:1px solid transparent}
 
-.kpi-card.kpi-sales{
-  background:linear-gradient(135deg,#0D3D26 0%,#1A5C35 100%);
-  border-color:rgba(61,214,140,0.3);
-}
-.kpi-card.kpi-ach{
-  background:linear-gradient(135deg,#0A2415 0%,#1A4A25 100%);
-  border-color:rgba(61,214,140,0.2);
-}
-.kpi-card.kpi-top{
-  background:linear-gradient(135deg,#2A1E00 0%,#3D2E00 100%);
-  border-color:rgba(212,160,23,0.35);
-}
-.kpi-card.kpi-agents{
-  background:linear-gradient(135deg,#0A1E2E 0%,#122E45 100%);
-  border-color:rgba(55,138,221,0.3);
-}
+/* KPI INFOGRAPHIC */
+.kpi-card{position:relative;overflow:hidden;border-radius:var(--r);padding:20px;border:1px solid transparent;transition:transform .2s}
+.kpi-card:hover{transform:translateY(-2px)}
 
-.kpi-icon{font-size:22px;margin-bottom:10px;display:block;line-height:1}
-.kpi-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
-.kpi-card.kpi-sales .kpi-label{color:#5DC48A}
-.kpi-card.kpi-ach   .kpi-label{color:#4AB870}
-.kpi-card.kpi-top   .kpi-label{color:#B89020}
+.kpi-card.kpi-sales{background:#0D3D26;border-color:rgba(61,214,140,0.35)}
+.kpi-card.kpi-ach  {background:#0A2415;border-color:rgba(61,214,140,0.2)}
+.kpi-card.kpi-top  {background:#2A1E00;border-color:rgba(212,160,23,0.4)}
+.kpi-card.kpi-agents{background:#0A1E2E;border-color:rgba(55,138,221,0.3)}
+
+/* accent stripe top */
+.kpi-card.kpi-sales::before {content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#1A9E52,#3DD68C)}
+.kpi-card.kpi-ach::before   {content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#0F6E56,#1D9E75)}
+.kpi-card.kpi-top::before   {content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#B8860B,#F6C94E)}
+.kpi-card.kpi-agents::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#185FA5,#85B7EB)}
+
+/* big decorative bg number */
+.kpi-card::after{content:attr(data-bg);position:absolute;right:-10px;bottom:-14px;font-size:72px;font-weight:900;opacity:.06;line-height:1;pointer-events:none;color:#fff}
+
+.kpi-top-row{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
+.kpi-icon-wrap{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.kpi-card.kpi-sales  .kpi-icon-wrap{background:rgba(61,214,140,0.15)}
+.kpi-card.kpi-ach    .kpi-icon-wrap{background:rgba(29,158,117,0.15)}
+.kpi-card.kpi-top    .kpi-icon-wrap{background:rgba(212,160,23,0.15)}
+.kpi-card.kpi-agents .kpi-icon-wrap{background:rgba(55,138,221,0.15)}
+
+.kpi-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;margin-bottom:5px}
+.kpi-card.kpi-sales  .kpi-label{color:#5DC48A}
+.kpi-card.kpi-ach    .kpi-label{color:#3DA87A}
+.kpi-card.kpi-top    .kpi-label{color:#C8961A}
 .kpi-card.kpi-agents .kpi-label{color:#4A88BB}
 
-.kpi-value{font-size:32px;font-weight:800;line-height:1;margin-bottom:4px}
+.kpi-value{font-size:36px;font-weight:900;line-height:1;letter-spacing:-1px;margin-bottom:4px}
 .kpi-card.kpi-sales  .kpi-value{color:#fff}
 .kpi-card.kpi-ach    .kpi-value{color:#3DD68C}
-.kpi-card.kpi-top    .kpi-value{color:#F6C94E;font-size:17px;padding-top:5px;line-height:1.3}
+.kpi-card.kpi-top    .kpi-value{color:#F6C94E;font-size:17px;font-weight:700;letter-spacing:0;line-height:1.4;margin-top:4px}
 .kpi-card.kpi-agents .kpi-value{color:#85B7EB}
 
-.kpi-sub{font-size:11px}
+.kpi-sub{font-size:11px;margin-bottom:12px}
 .kpi-card.kpi-sales  .kpi-sub{color:#4A8A62}
 .kpi-card.kpi-ach    .kpi-sub{color:#3A7A56}
 .kpi-card.kpi-top    .kpi-sub{color:#8A7020}
 .kpi-card.kpi-agents .kpi-sub{color:#3A6080}
 
-.kpi-bar{height:3px;border-radius:2px;margin-top:12px;overflow:hidden;background:rgba(255,255,255,0.08)}
-.kpi-bar-fill{height:100%;border-radius:2px}
-.kpi-card.kpi-sales  .kpi-bar-fill{background:linear-gradient(90deg,#1A9E52,#3DD68C)}
-.kpi-card.kpi-ach    .kpi-bar-fill{background:linear-gradient(90deg,#1A9E52,#3DD68C)}
-.kpi-card.kpi-top    .kpi-bar-fill{background:linear-gradient(90deg,#D4A017,#F6C94E)}
-.kpi-card.kpi-agents .kpi-bar-fill{background:linear-gradient(90deg,#185FA5,#378ADD)}
+/* segmented progress */
+.kpi-progress{display:flex;gap:2px;height:4px;border-radius:2px;overflow:hidden}
+.kpi-seg{flex:1;border-radius:1px;background:rgba(255,255,255,0.08)}
+.kpi-seg.filled-sales{background:#3DD68C}
+.kpi-seg.filled-ach{background:#1D9E75}
+.kpi-seg.filled-gold{background:#D4A017}
+.kpi-seg.filled-blue{background:#378ADD}
+
+.kpi-delta{font-size:10px;font-weight:600;padding:2px 7px;border-radius:8px;margin-left:auto}
+.kpi-delta.up{background:rgba(61,214,140,0.15);color:#3DD68C}
+.kpi-delta.warn{background:rgba(239,159,39,0.15);color:#EF9F27}
+.kpi-delta.down{background:rgba(226,75,74,0.15);color:#E24B4A}
 
 /* CHARTS */
 .charts-row{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:18px}
@@ -373,35 +386,54 @@ function renderView(view){
       <div class="s-res" id="sres"></div>
     </div>
 
-    <!-- PREMIUM KPI -->
+    <!-- INFOGRAPHIC KPI -->
     <div class="kpi-grid">
-      <div class="kpi-card kpi-sales">
-        <span class="kpi-icon">📊</span>
-        <div class="kpi-label">Total sales</div>
-        <div class="kpi-value">${tS}</div>
-        <div class="kpi-sub">of ${tT} target</div>
-        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:${Math.min(100,tP)}%"></div></div>
+      <div class="kpi-card kpi-sales" data-bg="${tS}">
+        <div class="kpi-top-row">
+          <div>
+            <div class="kpi-label">Total sales</div>
+            <div class="kpi-value">${tS}</div>
+            <div class="kpi-sub">of <b style="color:#7DD99A">${tT}</b> target</div>
+          </div>
+          <div class="kpi-icon-wrap">📊</div>
+        </div>
+        <div class="kpi-progress">${Array.from({length:20},(_,i)=>`<div class="kpi-seg ${i<Math.round(Math.min(100,tP)/5)?'filled-sales':''}"></div>`).join('')}</div>
       </div>
-      <div class="kpi-card kpi-ach">
-        <span class="kpi-icon">🎯</span>
-        <div class="kpi-label">Achievement</div>
-        <div class="kpi-value" style="color:${pc(tP)}">${tP}%</div>
-        <div class="kpi-sub">${tT-tS} remaining to target</div>
-        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:${Math.min(100,tP)}%;background:${pc(tP)}"></div></div>
+
+      <div class="kpi-card kpi-ach" data-bg="${tP}">
+        <div class="kpi-top-row">
+          <div>
+            <div class="kpi-label">Achievement</div>
+            <div class="kpi-value" style="color:${pc(tP)}">${tP}%</div>
+            <div class="kpi-sub"><b style="color:#E24B4A">${tT-tS}</b> remaining</div>
+          </div>
+          <div class="kpi-icon-wrap">🎯</div>
+        </div>
+        <div class="kpi-progress">${Array.from({length:20},(_,i)=>`<div class="kpi-seg ${i<Math.round(Math.min(100,tP)/5)?'filled-ach':''}"></div>`).join('')}</div>
       </div>
-      <div class="kpi-card kpi-top">
-        <span class="kpi-icon">🏆</span>
-        <div class="kpi-label">Top performer</div>
-        <div class="kpi-value">${top?top.name:'—'}</div>
-        <div class="kpi-sub">${top?top.sales+' sales · '+top.pct+'% target':''}</div>
-        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:${top?Math.min(100,top.pct):0}%"></div></div>
+
+      <div class="kpi-card kpi-top" data-bg="★">
+        <div class="kpi-top-row">
+          <div style="flex:1;min-width:0">
+            <div class="kpi-label">🏆 Top performer</div>
+            <div class="kpi-value" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${top?top.name:'—'}</div>
+            <div class="kpi-sub">${top?'<b style=color:#F6C94E>'+top.sales+'</b> sales · '+top.pct+'% target':''}</div>
+          </div>
+          <div class="kpi-icon-wrap">👑</div>
+        </div>
+        <div class="kpi-progress">${Array.from({length:20},(_,i)=>`<div class="kpi-seg ${top&&i<Math.round(Math.min(100,top.pct)/5)?'filled-gold':''}"></div>`).join('')}</div>
       </div>
-      <div class="kpi-card kpi-agents">
-        <span class="kpi-icon">👥</span>
-        <div class="kpi-label">Active agents</div>
-        <div class="kpi-value">${active}<span style="font-size:15px;opacity:.6"> / ${emps.length}</span></div>
-        <div class="kpi-sub">${emps.length-active} agents with zero sales</div>
-        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:${Math.round(active/emps.length*100)}%"></div></div>
+
+      <div class="kpi-card kpi-agents" data-bg="${emps.length}">
+        <div class="kpi-top-row">
+          <div>
+            <div class="kpi-label">Active agents</div>
+            <div class="kpi-value">${active}<span style="font-size:16px;opacity:.5;font-weight:400"> / ${emps.length}</span></div>
+            <div class="kpi-sub"><b style="color:#E24B4A">${emps.length-active}</b> with zero sales</div>
+          </div>
+          <div class="kpi-icon-wrap">👥</div>
+        </div>
+        <div class="kpi-progress">${Array.from({length:20},(_,i)=>`<div class="kpi-seg ${i<Math.round(active/emps.length*20)?'filled-blue':''}"></div>`).join('')}</div>
       </div>
     </div>
 
@@ -509,8 +541,8 @@ function renderTable(emps, brFilter){
   document.getElementById('tbl-rows').innerHTML=sorted.length?sorted.map((e,i)=>{
     const rk=i===0?'r1':i===1?'r2':i===2?'r3':'';
     const rc=i===0?'g':i===1?'s':i===2?'b':'';
-    const eStr=encodeURIComponent(JSON.stringify(e));
-    return`<div class="tbl-row ${rk}" onclick="openModal(decodeURIComponent('${eStr}'))">
+    const gIdx=DATA.findIndex(d=>d.user===e.user&&d.name===e.name);
+    return`<div class="tbl-row ${rk}" onclick="openModal(${gIdx})" style="cursor:pointer">
       <span class="rk ${rc}">${i+1}</span>
       <div><div class="en">${e.name}</div><div class="eb">${e.branch}</div></div>
       <div class="esup">${e.mgr.split(' ')[0]}</div>
@@ -713,8 +745,9 @@ function renderCharts(emps,branches){
 }
 
 // ── Employee Modal ───────────────────────────────────────────
-function openModal(eStr){
-  const e=JSON.parse(eStr);
+function openModal(idx){
+  const e=typeof idx==='number'?DATA[idx]:null;
+  if(!e) return;
   const existing=document.getElementById('emp-modal');
   if(existing)existing.remove();
   const rank=[...DATA].sort((a,b)=>b.sales-a.sales).findIndex(d=>d.user===e.user)+1;
