@@ -236,8 +236,8 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 .rk{font-size:11px;font-weight:700;color:var(--t3);text-align:center}
 .rk.g{color:var(--gold)}.rk.s{color:var(--silver)}.rk.b{color:var(--bronze)}
 .en{font-size:12px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.eb{font-size:10px;color:var(--t3);margin-top:1px}
-.esup{font-size:11px;color:#7DD99A;font-weight:500}
+.eb{font-size:10px;color:#7ABAAA;margin-top:1px}
+.esup{font-size:11px;color:#9ACDB0;font-weight:500}
 .nw{font-size:14px;font-weight:700;color:#fff;text-align:center}
 .nt{font-size:12px;color:#aaa;text-align:center}
 .pv{font-size:12px;font-weight:600;text-align:center}
@@ -317,16 +317,16 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
         <span class="sb-d"></span>All Supervisors<span class="sb-cnt" id="cnt-all">—</span>
       </button>
       <button class="sb-item" onclick="setView('Abdulwahab',this)">
-        <span class="sb-d" style="background:#F6C94E"></span>Abdulwahab<span class="sb-cnt" id="cnt-aw">—</span>
+        <span class="sb-d" style="background:#F6C94E"></span>Abdulwahab AlShammari<span class="sb-cnt" id="cnt-aw">—</span>
       </button>
       <button class="sb-item" onclick="setView('Ahmed',this)">
-        <span class="sb-d" style="background:#85B7EB"></span>Ahmed<span class="sb-cnt" id="cnt-am">—</span>
+        <span class="sb-d" style="background:#85B7EB"></span>Ahmed AlMutairi<span class="sb-cnt" id="cnt-am">—</span>
       </button>
       <button class="sb-item" onclick="setView('Mohammed',this)">
-        <span class="sb-d" style="background:#5DCAA5"></span>Mohammed<span class="sb-cnt" id="cnt-ms">—</span>
+        <span class="sb-d" style="background:#5DCAA5"></span>Mohammed AlShehri<span class="sb-cnt" id="cnt-ms">—</span>
       </button>
       <button class="sb-item" onclick="setView('Najwah',this)">
-        <span class="sb-d" style="background:#ED93B1"></span>Najwah<span class="sb-cnt" id="cnt-na">—</span>
+        <span class="sb-d" style="background:#ED93B1"></span>Najwah AlOmari<span class="sb-cnt" id="cnt-na">—</span>
       </button>
     </div>
     <div class="sb-div"></div>
@@ -571,15 +571,21 @@ function renderView(view){
           <div class="mk-bg-num">${tPOST}</div>
           <div class="mk-header"><div><div class="mk-lbl">Postpaid Sales</div></div><div class="mk-icon">📱</div></div>
           <div class="mk-val">${tPOST}</div>
-          <div class="mk-sub">of <b style="color:#6AAAD8">${tS}</b> total · <b style="color:#85B7EB">${tS>0?Math.round(tPOST/tS*100):0}%</b> of sales</div>
-          <div class="mk-segs">${makeSegs(tS>0?Math.round(tPOST/tS*100):0,'on-b')}</div>
+          <div class="mk-sub">
+            Target: <b style="color:#6AAAD8">${Math.round(tT*0.45)}</b> (45% of ${tT}) ·
+            <b style="color:${pc(tT>0?Math.round(tPOST/(tT*0.45)*100):0)}">${tT>0?Math.round(tPOST/(tT*0.45)*100):0}%</b> achieved
+          </div>
+          <div class="mk-segs">${makeSegs(tT>0?Math.round(tPOST/(tT*0.45)*100):0,'on-b')}</div>
         </div>
         <div class="mk mk-prep">
           <div class="mk-bg-num">${tPREP}</div>
           <div class="mk-header"><div><div class="mk-lbl">Prepaid Sales</div></div><div class="mk-icon">💳</div></div>
           <div class="mk-val">${tPREP}</div>
-          <div class="mk-sub">of <b style="color:#C39BD3">${tS}</b> total · <b style="color:#C39BD3">${tS>0?Math.round(tPREP/tS*100):0}%</b> of sales</div>
-          <div class="mk-segs">${makeSegs(tS>0?Math.round(tPREP/tS*100):0,'on-p')}</div>
+          <div class="mk-sub">
+            Target: <b style="color:#C39BD3">${Math.round(tT*0.55)}</b> (55% of ${tT}) ·
+            <b style="color:${pc(tT>0?Math.round(tPREP/(tT*0.55)*100):0)}">${tT>0?Math.round(tPREP/(tT*0.55)*100):0}%</b> achieved
+          </div>
+          <div class="mk-segs">${makeSegs(tT>0?Math.round(tPREP/(tT*0.55)*100):0,'on-p')}</div>
         </div>
       </div>
     </div>
@@ -588,6 +594,13 @@ function renderView(view){
     <div class="top5-section">
       <div class="sec-t">Top 5 performers · all branches</div>
       ${renderTop5(sorted)}
+    </div>
+
+
+    <!-- TOP 5 POSTPAID -->
+    <div class="top5-section">
+      <div class="sec-t" style="color:#4A7090">Top 5 · Postpaid Sales</div>
+      ${renderTop5Post(sorted)}
     </div>
 
     ${view==='all'?renderSupCards():''}
@@ -664,10 +677,10 @@ function renderView(view){
           <div class="sec-t" style="color:#4A7090">By Supervisor · FTTH & 5G</div>
           <div style="background:var(--card);border:1px solid rgba(55,138,221,0.15);border-radius:var(--r);overflow:hidden">
             ${[
-              {key:'aw',label:'Abdulwahab',color:'#F6C94E'},
-              {key:'am',label:'Ahmed',     color:'#85B7EB'},
-              {key:'ms',label:'Mohammed',  color:'#5DCAA5'},
-              {key:'na',label:'Najwah',    color:'#ED93B1'},
+              {key:'aw',label:'Abdulwahab AlShammari',color:'#F6C94E'},
+              {key:'am',label:'Ahmed AlMutairi',color:'#85B7EB'},
+              {key:'ms',label:'Mohammed AlShehri',color:'#5DCAA5'},
+              {key:'na',label:'Najwah AlOmari',color:'#ED93B1'},
             ].map(s=>{
               const sv=ftthEmps.filter(e=>mk(e.mgr)===s.key);
               const t=sv.reduce((a,e)=>a+e.total,0);
@@ -783,12 +796,41 @@ function renderTop5(sorted){
   </div>`;
 }
 
+function renderTop5Post(allSorted){
+  const postSorted=[...allSorted].sort((a,b)=>(b.post||0)-(a.post||0)).filter(e=>(e.post||0)>0).slice(0,5);
+  if(!postSorted.length)return'<div class="empty" style="padding:12px">No postpaid data yet</div>';
+  const maxP=postSorted[0].post||1;
+  return`<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px">
+    ${postSorted.map((e,i)=>{
+      const gIdx=DATA.findIndex(d=>d.user===e.user&&d.name===e.name);
+      const medals=['🥇','🥈','🥉','4️⃣','5️⃣'];
+      const postTgt=e.target>0?Math.round(e.target*0.45):0;
+      const postPct=postTgt>0?Math.round((e.post||0)/postTgt*100):0;
+      return`<div style="background:linear-gradient(135deg,#080F20,#0D1830);border:1px solid rgba(55,138,221,0.25);border-radius:12px;padding:14px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden"
+        onclick="openModal(${gIdx})"
+        onmouseover="this.style.borderColor='rgba(55,138,221,0.6)';this.style.transform='translateY(-2px)'"
+        onmouseout="this.style.borderColor='rgba(55,138,221,0.25)';this.style.transform=''">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#185FA5,#378ADD)"></div>
+        <div style="font-size:14px;margin-bottom:5px">${medals[i]}</div>
+        <div style="font-size:11px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px">${e.name.split(' ').slice(0,2).join(' ')}</div>
+        <div style="font-size:9px;color:#3A5A7A;margin-bottom:8px">${e.branch.replace(' FBO','').replace('Kiosk ','')}</div>
+        <div style="font-size:22px;font-weight:900;color:#85B7EB;letter-spacing:-1px">${e.post||0}</div>
+        <div style="font-size:9px;color:#2A4060;margin-top:1px">post · tgt ${postTgt}</div>
+        <div style="height:3px;background:rgba(55,138,221,0.15);border-radius:2px;margin-top:7px;overflow:hidden">
+          <div style="height:100%;width:${Math.min(100,Math.round((e.post||0)/maxP*100))}%;background:linear-gradient(90deg,#185FA5,#378ADD);border-radius:2px"></div>
+        </div>
+        <div style="font-size:10px;font-weight:600;color:${pc(postPct)};margin-top:4px">${postPct}% of target</div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
 function renderSupCards(){
   const sups=[
-    {key:'Abdulwahab',color:'#F6C94E'},
-    {key:'Ahmed',     color:'#85B7EB'},
-    {key:'Mohammed',  color:'#5DCAA5'},
-    {key:'Najwah',    color:'#ED93B1'},
+    {key:'Abdulwahab',full:'Abdulwahab AlShammari',color:'#F6C94E'},
+    {key:'Ahmed',     full:'Ahmed AlMutairi',       color:'#85B7EB'},
+    {key:'Mohammed',  full:'Mohammed AlShehri',     color:'#5DCAA5'},
+    {key:'Najwah',    full:'Najwah AlOmari',         color:'#ED93B1'},
   ];
   return`<div class="sec-t">Supervisor overview</div>
   <div class="sup-grid">
@@ -798,15 +840,33 @@ function renderSupCards(){
       const tT=e.reduce((a,d)=>a+d.target,0);
       const tP=tT>0?Math.round(tS/tT*100):0;
       const br=[...new Set(e.map(d=>d.branch))].filter(Boolean).length;
+      const tPOST=e.reduce((a,d)=>a+(d.post||0),0);
+      const tPREP=e.reduce((a,d)=>a+(d.prep||0),0);
+      const postTgt=Math.round(tT*0.45);
+      const prepTgt=Math.round(tT*0.55);
+      const postPct=postTgt>0?Math.round(tPOST/postTgt*100):0;
+      const prepPct=prepTgt>0?Math.round(tPREP/prepTgt*100):0;
       return`<div class="sup-card" onclick="setView('${s.key}',null)">
-        <div class="sup-name">${s.key}</div>
+        <div class="sup-name">${s.full}</div>
         <div class="sup-meta">${e.length} agents · ${br} branches</div>
         <div class="sup-nums">
           <div><div class="sup-nv">${tS}</div><div class="sup-nl">Sales</div></div>
           <div><div class="sup-nv">${tT}</div><div class="sup-nl">Target</div></div>
           <div><div class="sup-nv" style="color:${pc(tP)}">${tP}%</div><div class="sup-nl">Ach%</div></div>
         </div>
-        <div class="sup-pbar"><div class="sup-pbar-fill" style="width:${Math.min(100,tP)}%;background:${s.color}"></div></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px">
+          <div style="background:rgba(55,138,221,0.08);border-radius:8px;padding:7px;text-align:center">
+            <div style="font-size:15px;font-weight:700;color:#85B7EB">${tPOST}</div>
+            <div style="font-size:9px;color:#3A6080;margin-top:1px">Post · tgt ${postTgt}</div>
+            <div style="font-size:10px;font-weight:600;color:${pc(postPct)}">${postPct}%</div>
+          </div>
+          <div style="background:rgba(155,89,182,0.08);border-radius:8px;padding:7px;text-align:center">
+            <div style="font-size:15px;font-weight:700;color:#C39BD3">${tPREP}</div>
+            <div style="font-size:9px;color:#6A4080;margin-top:1px">Pre · tgt ${prepTgt}</div>
+            <div style="font-size:10px;font-weight:600;color:${pc(prepPct)}">${prepPct}%</div>
+          </div>
+        </div>
+        <div class="sup-pbar" style="margin-top:8px"><div class="sup-pbar-fill" style="width:${Math.min(100,tP)}%;background:${s.color}"></div></div>
       </div>`;
     }).join('')}
   </div>`;
@@ -814,10 +874,10 @@ function renderSupCards(){
 
 function renderSupBars(emps){
   const sups=[
-    {key:'Abdulwahab',color:'#F6C94E'},
-    {key:'Ahmed',     color:'#85B7EB'},
-    {key:'Mohammed',  color:'#5DCAA5'},
-    {key:'Najwah',    color:'#ED93B1'},
+    {key:'Abdulwahab',full:'Abdulwahab AlShammari',color:'#F6C94E'},
+    {key:'Ahmed',     full:'Ahmed AlMutairi',       color:'#85B7EB'},
+    {key:'Mohammed',  full:'Mohammed AlShehri',     color:'#5DCAA5'},
+    {key:'Najwah',    full:'Najwah AlOmari',         color:'#ED93B1'},
   ];
   const maxS=Math.max(...sups.map(s=>emps.filter(e=>e.mgr.toLowerCase().includes(s.key.toLowerCase())).reduce((a,e)=>a+e.sales,0)));
   document.getElementById('sup-bars').innerHTML=sups.map(s=>{
@@ -828,12 +888,19 @@ function renderSupBars(emps){
     const w=maxS>0?Math.round(tS/maxS*100):0;
     return`<div class="sup-bar-row">
       <div class="sup-bar-hdr">
-        <span class="sup-bar-name">${s.key}</span>
+        <span class="sup-bar-name">${s.full}</span>
         <span class="sup-bar-nums"><b style="color:${s.color}">${tS}</b> · ${tP}%</span>
       </div>
       <div class="sup-bar-track"><div class="sup-bar-fill" style="width:${w}%;background:${s.color}"></div></div>
     </div>`;
   }).join('');
+}
+
+function mgrShort(m){
+  if(!m)return'';
+  const p=m.trim().split(' ');
+  if(p.length>=3)return p[0]+' '+p[p.length-1];
+  return p.join(' ');
 }
 
 function renderTable(emps,brF){
@@ -848,7 +915,7 @@ function renderTable(emps,brF){
     return`<div class="tbl-row ${rk}" onclick="openModal(${gIdx})">
       <span class="rk ${rc}">${i+1}</span>
       <div><div class="en">${e.name}</div><div class="eb">${e.branch}</div></div>
-      <div class="esup">${e.mgr.split(' ')[0]}</div>
+      <div class="esup">${mgrShort(e.mgr)}</div>
       <span class="nw">${e.sales}</span>
       <span class="nt">${e.target}</span>
       <span class="pv" style="color:${pc(e.pct)}">${e.pct}%</span>
@@ -927,7 +994,7 @@ function openModal(idx){
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
         ${ib('Branch',e.branch,'#fff')}
-        ${ib('Supervisor',e.mgr.split(' ')[0],'#7DD99A')}
+        ${ib('Supervisor',mgrShort(e.mgr),'#7DD99A')}
         ${ib('Company',e.opco||'—','#fff')}
         ${ib('Branch rank','#'+brRank+' of '+brE.length,brRank===1?'#F6C94E':'#fff')}
       </div>
@@ -1021,7 +1088,7 @@ async function exportBranchReport(){
   const tT=emps.reduce((a,e)=>a+e.target,0);
   const tP=tT>0?Math.round(tS/tT*100):0;
   const top=emps[0];
-  const supShort=sup.split(' ')[0];
+  const supShort=mgrShort(sup);
   const bw=p=>Math.min(100,p);
 
   const report=document.getElementById('branch-report');
