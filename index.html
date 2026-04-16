@@ -11,7 +11,7 @@
   --g1:#061A10;--g2:#0A2E1C;--g3:#0D3D26;--g4:#1A5C35;
   --g5:#1A9E52;--g6:#3DD68C;--g7:#6FD49A;
   --gold:#D4A017;--silver:#8FA0AE;--bronze:#B07030;
-  --red:#E24B4A;--amber:#EF9F27;--blue:#378ADD;
+  --red:#E24B4A;--amber:#EF9F27;--blue:#378ADD;--purple:#9B59B6;
   --t1:#fff;--t2:#9ACDB0;--t3:#4A8A62;--t4:#2A5A3A;
   --card:rgba(255,255,255,0.04);--card2:rgba(255,255,255,0.08);
   --border:rgba(61,214,140,0.12);--border2:rgba(61,214,140,0.28);
@@ -54,128 +54,141 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 .qs-v{font-size:20px;font-weight:700;color:#fff}
 .qs-l{font-size:10px;color:var(--t3);margin-bottom:8px}
 
-/* ══════════════════════════════════════
-   PREMIUM INFOGRAPHIC KPI SECTION
-══════════════════════════════════════ */
+/* KPI CARDS */
 .kpi-section{margin-bottom:22px}
-
-/* Row 1: 2 big metric cards side by side */
 .kpi-row1{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
-/* Row 2: top performer wide + agents narrow */
 .kpi-row2{display:grid;grid-template-columns:2fr 1fr;gap:12px}
+/* POST/PREP row */
+.kpi-row3{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
 
 .mk{border-radius:14px;padding:20px 22px;position:relative;overflow:hidden;border:1px solid transparent;transition:transform .2s}
 .mk:hover{transform:translateY(-2px)}
+.mk-sales{background:linear-gradient(135deg,#0D3D26 0%,#163D24 60%,#1A5C35 100%);border-color:rgba(61,214,140,0.3)}
+.mk-ach  {background:linear-gradient(135deg,#0A1E0E 0%,#102A18 60%,#1A4A2A 100%);border-color:rgba(29,158,117,0.3)}
+.mk-top  {background:linear-gradient(135deg,#1E1500 0%,#2E2000 60%,#3A2A00 100%);border-color:rgba(212,160,23,0.4)}
+.mk-team {background:linear-gradient(135deg,#0A1525 0%,#0F1E35 60%,#162844 100%);border-color:rgba(55,138,221,0.3)}
+.mk-post {background:linear-gradient(135deg,#0A1535 0%,#102040 60%,#182A50 100%);border-color:rgba(55,138,221,0.4)}
+.mk-prep {background:linear-gradient(135deg,#1A0A1A 0%,#250D25 60%,#301530 100%);border-color:rgba(155,89,182,0.4)}
 
-/* Card variants */
-.mk-sales {background:linear-gradient(135deg,#0D3D26 0%,#163D24 60%,#1A5C35 100%);border-color:rgba(61,214,140,0.3)}
-.mk-ach   {background:linear-gradient(135deg,#0A1E0E 0%,#102A18 60%,#1A4A2A 100%);border-color:rgba(29,158,117,0.3)}
-.mk-top   {background:linear-gradient(135deg,#1E1500 0%,#2E2000 60%,#3A2A00 100%);border-color:rgba(212,160,23,0.4)}
-.mk-team  {background:linear-gradient(135deg,#0A1525 0%,#0F1E35 60%,#162844 100%);border-color:rgba(55,138,221,0.3)}
-
-/* Accent line */
 .mk::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
 .mk-sales::before{background:linear-gradient(90deg,#1A9E52,#3DD68C,#1A9E52)}
 .mk-ach::before  {background:linear-gradient(90deg,#0F6E56,#1D9E75,#3DD68C)}
 .mk-top::before  {background:linear-gradient(90deg,#B8860B,#D4A017,#F6C94E)}
 .mk-team::before {background:linear-gradient(90deg,#185FA5,#378ADD,#85B7EB)}
+.mk-post::before {background:linear-gradient(90deg,#185FA5,#378ADD,#85B7EB)}
+.mk-prep::before {background:linear-gradient(90deg,#7D3C98,#9B59B6,#C39BD3)}
 
-/* Big decorative number */
 .mk-bg-num{position:absolute;right:-8px;bottom:-18px;font-size:80px;font-weight:900;opacity:.06;line-height:1;color:#fff;pointer-events:none;user-select:none}
-
 .mk-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px}
 .mk-icon{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
 .mk-sales .mk-icon{background:rgba(61,214,140,0.14)}
 .mk-ach   .mk-icon{background:rgba(29,158,117,0.14)}
 .mk-top   .mk-icon{background:rgba(212,160,23,0.14)}
 .mk-team  .mk-icon{background:rgba(55,138,221,0.14)}
+.mk-post  .mk-icon{background:rgba(55,138,221,0.18)}
+.mk-prep  .mk-icon{background:rgba(155,89,182,0.18)}
 
 .mk-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:2px}
 .mk-sales .mk-lbl{color:#5DC48A}
 .mk-ach   .mk-lbl{color:#3DA87A}
 .mk-top   .mk-lbl{color:#C8961A}
 .mk-team  .mk-lbl{color:#4A88BB}
+.mk-post  .mk-lbl{color:#6AAAD8}
+.mk-prep  .mk-lbl{color:#C39BD3}
 
 .mk-val{font-size:44px;font-weight:900;line-height:1;letter-spacing:-2px}
 .mk-sales .mk-val{color:#fff}
 .mk-ach   .mk-val{color:#3DD68C}
 .mk-team  .mk-val{color:#85B7EB}
+.mk-post  .mk-val{color:#85B7EB}
+.mk-prep  .mk-val{color:#C39BD3}
 
 .mk-sub{font-size:11px;margin-top:4px;margin-bottom:14px;line-height:1.5}
 .mk-sales .mk-sub{color:#4A8A62}
 .mk-ach   .mk-sub{color:#3A7A56}
 .mk-top   .mk-sub{color:#8A7020}
 .mk-team  .mk-sub{color:#3A6080}
+.mk-post  .mk-sub{color:#3A6080}
+.mk-prep  .mk-sub{color:#6A4080}
 
-/* Segmented bar */
 .mk-segs{display:flex;gap:3px;height:5px}
 .mk-seg{flex:1;border-radius:2px;background:rgba(255,255,255,0.07)}
 .mk-seg.on-g{background:#3DD68C}
 .mk-seg.on-t{background:#1D9E75}
 .mk-seg.on-gold{background:#D4A017}
 .mk-seg.on-b{background:#378ADD}
+.mk-seg.on-p{background:#9B59B6}
 
-/* Top performer special */
 .mk-top-name{font-size:20px;font-weight:800;color:#F6C94E;line-height:1.2;margin:8px 0 4px}
 .mk-top-branch{font-size:11px;color:#9A7820;margin-bottom:14px}
 .mk-top-score{display:flex;align-items:baseline;gap:6px}
 .mk-top-score-n{font-size:36px;font-weight:900;color:#F6C94E;letter-spacing:-1px}
 .mk-top-score-l{font-size:12px;color:#9A7820}
-
-/* Team card compact */
 .mk-team-row{display:flex;justify-content:space-between;align-items:flex-end}
 .mk-team-nums{display:flex;flex-direction:column;gap:2px}
 
-/* ══════════════════════════════════════
-   TOP 5 PODIUM
-══════════════════════════════════════ */
+/* TOP 5 PODIUM */
 .top5-section{margin-bottom:22px}
 .podium-wrap{display:flex;align-items:flex-end;justify-content:center;gap:8px;margin-bottom:10px}
 .pod-col{display:flex;flex-direction:column;align-items:center;cursor:pointer;transition:transform .2s}
 .pod-col:hover{transform:translateY(-3px)}
-
 .pod-card{border-radius:12px 12px 0 0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:14px 10px 12px;transition:all .2s}
 .pod-1 .pod-card{background:linear-gradient(180deg,#2A1E00,#1E1500);border:1px solid rgba(212,160,23,0.5);border-bottom:none;width:160px;height:140px}
 .pod-2 .pod-card{background:linear-gradient(180deg,#1A2530,#121C28);border:1px solid rgba(55,138,221,0.35);border-bottom:none;width:135px;height:110px}
 .pod-3 .pod-card{background:linear-gradient(180deg,#231510,#18100B);border:1px solid rgba(176,112,48,0.35);border-bottom:none;width:120px;height:88px}
 .pod-4 .pod-card,.pod-5 .pod-card{background:linear-gradient(180deg,#0F2A18,#0A2014);border:1px solid rgba(61,214,140,0.2);border-bottom:none;width:110px;height:72px}
-
 .pod-base{height:6px;border-radius:0 0 8px 8px}
 .pod-1 .pod-base{background:#D4A017;width:160px}
 .pod-2 .pod-base{background:#8FA0AE;width:135px}
 .pod-3 .pod-base{background:#B07030;width:120px}
 .pod-4 .pod-base,.pod-5 .pod-base{background:#1A9E52;width:110px}
-
 .pod-crown{font-size:18px;margin-bottom:3px;line-height:1}
 .pod-rank-lbl{font-size:10px;font-weight:700;margin-bottom:5px}
-.pod-1 .pod-rank-lbl{color:#D4A017}
-.pod-2 .pod-rank-lbl{color:#8FA0AE}
-.pod-3 .pod-rank-lbl{color:#B07030}
-.pod-4 .pod-rank-lbl,.pod-5 .pod-rank-lbl{color:#3DD68C}
-
+.pod-1 .pod-rank-lbl{color:#D4A017}.pod-2 .pod-rank-lbl{color:#8FA0AE}
+.pod-3 .pod-rank-lbl{color:#B07030}.pod-4 .pod-rank-lbl,.pod-5 .pod-rank-lbl{color:#3DD68C}
 .pod-name{font-size:11px;font-weight:700;color:#fff;text-align:center;line-height:1.3;margin-bottom:3px}
 .pod-branch{font-size:9px;text-align:center;margin-bottom:6px}
-.pod-1 .pod-branch{color:#9A7820}
-.pod-2 .pod-branch{color:#4A7090}
-.pod-3 .pod-branch{color:#7A4820}
-.pod-4 .pod-branch,.pod-5 .pod-branch{color:#3A7A56}
-
+.pod-1 .pod-branch{color:#9A7820}.pod-2 .pod-branch{color:#4A7090}
+.pod-3 .pod-branch{color:#7A4820}.pod-4 .pod-branch,.pod-5 .pod-branch{color:#3A7A56}
 .pod-score{font-size:26px;font-weight:900;line-height:1}
-.pod-1 .pod-score{color:#F6C94E}
-.pod-2 .pod-score{color:#A8C0D0}
-.pod-3 .pod-score{color:#D09060}
-.pod-4 .pod-score,.pod-5 .pod-score{color:#3DD68C}
-
+.pod-1 .pod-score{color:#F6C94E}.pod-2 .pod-score{color:#A8C0D0}
+.pod-3 .pod-score{color:#D09060}.pod-4 .pod-score,.pod-5 .pod-score{color:#3DD68C}
 .pod-score-lbl{font-size:9px;margin-top:1px;color:rgba(255,255,255,0.4)}
 
-/* ══════════════════════════════════════
-   CHARTS + REST
-══════════════════════════════════════ */
+/* ══ FTTH & 5G SECTION ══ */
+.ftth-section{margin-bottom:22px}
+.ftth-divider{display:flex;align-items:center;gap:12px;margin-bottom:18px;margin-top:8px}
+.ftth-divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(55,138,221,0.4),transparent)}
+.ftth-divider-badge{background:linear-gradient(135deg,#0A1535,#162848);border:1px solid rgba(55,138,221,0.5);border-radius:20px;padding:6px 16px;font-size:11px;font-weight:700;color:#85B7EB;white-space:nowrap;display:flex;align-items:center;gap:6px}
+
+.ftth-kpi-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.mk-ftth{background:linear-gradient(135deg,#050F2A 0%,#0A1840 60%,#102050 100%);border-color:rgba(55,138,221,0.35)}
+.mk-ftth::before{background:linear-gradient(90deg,#185FA5,#378ADD,#85B7EB)}
+.mk-ftth .mk-icon{background:rgba(55,138,221,0.15)}
+.mk-ftth .mk-lbl{color:#6AAAD8}
+.mk-ftth .mk-val{color:#85B7EB}
+.mk-ftth .mk-sub{color:#2A4A6A}
+
+.ftth-top5-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px}
+.ftth-top5-card{background:linear-gradient(135deg,#080F20,#0D1830);border:1px solid rgba(55,138,221,0.2);border-radius:12px;padding:14px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.ftth-top5-card:hover{border-color:rgba(55,138,221,0.5);transform:translateY(-2px)}
+.ftth-top5-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#185FA5,#378ADD)}
+.ftth-card-rank{font-size:9px;font-weight:700;color:#4A7090;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.ftth-card-rank-n{font-size:16px;font-weight:800;color:#378ADD}
+.ftth-card-name{font-size:13px;font-weight:700;color:#fff;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ftth-card-branch{font-size:10px;color:#3A5A7A;margin-bottom:8px}
+.ftth-card-stats{display:flex;gap:10px}
+.ftth-stat{text-align:center}
+.ftth-stat-v{font-size:18px;font-weight:800;color:#85B7EB}
+.ftth-stat-l{font-size:9px;color:#2A4060;text-transform:uppercase;font-weight:700;margin-top:1px}
+.ftth-pbar{height:3px;background:rgba(55,138,221,0.15);border-radius:2px;margin-top:8px;overflow:hidden}
+.ftth-pbar-fill{height:100%;background:linear-gradient(90deg,#185FA5,#378ADD);border-radius:2px}
+
+/* CHARTS */
 .charts-row{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:18px}
 .chart-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px}
 .chart-title{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.09em;margin-bottom:12px}
 
-/* Horizontal bar supervisor chart */
 .sup-bars{display:flex;flex-direction:column;gap:12px}
 .sup-bar-row{display:flex;flex-direction:column;gap:5px}
 .sup-bar-hdr{display:flex;justify-content:space-between;align-items:center}
@@ -206,15 +219,15 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 .pill:hover{border-color:var(--border2);color:var(--t1)}
 .pill.on{background:var(--g5);color:#fff;border-color:var(--g5);font-weight:600}
 
-/* TABLE */
+/* TABLE — updated with POST/PREP columns */
 .table-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
 .tbl-hdr{padding:11px 18px;background:rgba(255,255,255,0.03);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
 .tbl-title{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em}
 .tbl-cnt{font-size:11px;color:var(--t3)}
-.tbl-head{display:grid;grid-template-columns:28px 2fr 1fr 70px 70px 70px 120px;gap:8px;padding:8px 18px;background:rgba(255,255,255,0.03);border-bottom:1px solid var(--border)}
+.tbl-head{display:grid;grid-template-columns:28px 2fr 1fr 60px 60px 60px 55px 55px 100px;gap:6px;padding:8px 18px;background:rgba(255,255,255,0.03);border-bottom:1px solid var(--border)}
 .th{font-size:9px;font-weight:700;color:var(--t4);text-transform:uppercase;letter-spacing:.06em}
 .thc{text-align:center}.thr{text-align:right}
-.tbl-row{display:grid;grid-template-columns:28px 2fr 1fr 70px 70px 70px 120px;gap:8px;padding:11px 18px;border-bottom:1px solid rgba(61,214,140,0.05);align-items:center;transition:background .12s;cursor:pointer}
+.tbl-row{display:grid;grid-template-columns:28px 2fr 1fr 60px 60px 60px 55px 55px 100px;gap:6px;padding:11px 18px;border-bottom:1px solid rgba(61,214,140,0.05);align-items:center;transition:background .12s;cursor:pointer}
 .tbl-row:last-child{border-bottom:none}
 .tbl-row:hover{background:var(--card2)}
 .tbl-row.r1{background:rgba(212,160,23,.06)}
@@ -228,6 +241,8 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 .nw{font-size:14px;font-weight:700;color:#fff;text-align:center}
 .nt{font-size:12px;color:#aaa;text-align:center}
 .pv{font-size:12px;font-weight:600;text-align:center}
+.npost{font-size:12px;font-weight:600;color:#85B7EB;text-align:center}
+.nprep{font-size:12px;font-weight:600;color:#C39BD3;text-align:center}
 .prog{display:flex;flex-direction:column;gap:3px}
 .prog-bar{height:5px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden}
 .prog-fill{height:100%;border-radius:3px;transition:width .8s}
@@ -247,7 +262,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 .si-left .si-m{font-size:10px;color:var(--t3);margin-top:2px}
 .si-score{font-size:18px;font-weight:700;color:#3DD68C}
 
-/* EXPORT PANEL */
+/* EXPORT */
 .export-panel{background:linear-gradient(135deg,#1A3D10,#0D2E1C);border:1px solid rgba(212,160,23,0.3);border-radius:var(--r);padding:16px 20px;margin-bottom:18px}
 .ep-title{font-size:11px;font-weight:700;color:#B89020;text-transform:uppercase;letter-spacing:.09em;margin-bottom:10px}
 .ep-row{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}
@@ -259,27 +274,23 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 /* MODAL */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:999;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .15s}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.modal-box{background:#0D3D26;border:1px solid rgba(61,214,140,0.3);border-radius:16px;padding:26px;width:100%;max-width:500px;position:relative;animation:slideUp .2s}
+.modal-box{background:#0D3D26;border:1px solid rgba(61,214,140,0.3);border-radius:16px;padding:26px;width:100%;max-width:520px;position:relative;animation:slideUp .2s}
 @keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
 .modal-close{position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.08);border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:background .15s}
 .modal-close:hover{background:rgba(255,255,255,0.18)}
 
-/* HIDDEN REPORT */
 #branch-report{position:fixed;top:-9999px;left:-9999px;width:820px;background:#0A2E1C;font-family:Segoe UI,system-ui,sans-serif;color:#fff}
-
-/* LOADING */
 .loading{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:400px;gap:14px}
 .spin{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--g6);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .empty{text-align:center;padding:36px;color:var(--t3);font-size:13px}
 
 @media(max-width:1100px){
-  .sidebar{display:none}.kpi-row1,.kpi-row2{grid-template-columns:1fr}
-  .charts-row{grid-template-columns:1fr}
-  .tbl-head,.tbl-row{grid-template-columns:28px 1fr 70px 100px}
-  .tbl-head>:nth-child(n+3):not(:nth-child(4)):not(:nth-child(7)),
-  .tbl-row>:nth-child(n+3):not(:nth-child(4)):not(:nth-child(7)){display:none}
-  .podium-wrap{gap:5px}
+  .sidebar{display:none}.kpi-row1,.kpi-row2,.kpi-row3,.ftth-kpi-row{grid-template-columns:1fr}
+  .charts-row{grid-template-columns:1fr}.ftth-top5-grid{grid-template-columns:1fr 1fr}
+  .tbl-head,.tbl-row{grid-template-columns:28px 1fr 60px 100px}
+  .tbl-head>:nth-child(n+3):not(:nth-child(4)):not(:nth-child(9)),
+  .tbl-row>:nth-child(n+3):not(:nth-child(4)):not(:nth-child(9)){display:none}
 }
 </style>
 </head>
@@ -328,6 +339,9 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
         <div class="qs-v" style="color:var(--g6)" id="sb-sales">—</div>
         <div class="qs-l" style="margin-top:10px">Achievement</div>
         <div class="qs-v" id="sb-pct">—</div>
+        <div class="sb-div" style="margin:12px 0"></div>
+        <div class="qs-l">FTTH + 5G</div>
+        <div class="qs-v" style="color:#85B7EB" id="sb-ftth">—</div>
       </div>
     </div>
   </div>
@@ -340,17 +354,23 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 <div id="branch-report"></div>
 
 <script>
-const CSV='https://docs.google.com/spreadsheets/d/e/2PACX-1vQzH2quWsRx-NsAhxFeqOsz9n_KElh80hZq64gnjviHC0OGVSXTGgQIC7HbhazVChH7Cde__gKhnQut/pub?gid=59746245&single=true&output=csv';
-let DATA=[],CUR='all',SEARCH='',FILT='all';
+const CSV_UMM  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQzH2quWsRx-NsAhxFeqOsz9n_KElh80hZq64gnjviHC0OGVSXTGgQIC7HbhazVChH7Cde__gKhnQut/pub?gid=59746245&single=true&output=csv';
+const CSV_FTTH = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQzH2quWsRx-NsAhxFeqOsz9n_KElh80hZq64gnjviHC0OGVSXTGgQIC7HbhazVChH7Cde__gKhnQut/pub?gid=57457654&single=true&output=csv';
+
+let DATA=[], FTTH_DATA=[], CUR='all', SEARCH='', FILT='all';
 let barChart=null;
 
 async function loadData(){
   document.getElementById('live-lbl').textContent='Updating...';
   try{
-    const r=await fetch(CSV+'&t='+Date.now());
-    const txt=await r.text();
-    DATA=parseCSV(txt);
-    if(!DATA.length)throw new Error('empty');
+    const [r1,r2] = await Promise.all([
+      fetch(CSV_UMM +'&t='+Date.now()),
+      fetch(CSV_FTTH+'&t='+Date.now())
+    ]);
+    const [t1,t2] = await Promise.all([r1.text(), r2.text()]);
+    DATA      = parseCSV_UMM(t1);
+    FTTH_DATA = parseCSV_FTTH(t2);
+    if(!DATA.length) throw new Error('empty');
     updateSidebar();
     renderView(CUR);
     document.getElementById('live-lbl').textContent='Live';
@@ -363,7 +383,17 @@ async function loadData(){
   }
 }
 
-function parseCSV(txt){
+function splitLine(l){
+  const r=[];let c='';let q=false;
+  for(let i=0;i<l.length;i++){
+    if(l[i]==='"')q=!q;
+    else if(l[i]===','&&!q){r.push(c);c='';}
+    else c+=l[i];
+  }
+  r.push(c);return r;
+}
+
+function parseCSV_UMM(txt){
   const lines=txt.trim().split('\n');
   if(lines.length<2)return[];
   const hdrs=lines[0].split(',').map(h=>h.replace(/"/g,'').trim().toLowerCase());
@@ -376,21 +406,39 @@ function parseCSV(txt){
     if(!name||!mgr||name.length<2||name.toLowerCase().includes('auto'))return null;
     const target=parseFloat(o['target']||0)||0;
     const sales=parseFloat(o['user sales']||o['achieved']||0)||0;
+    const post=parseFloat(o['post']||0)||0;
+    const prep=parseFloat(o['prep']||0)||0;
     return{name,user:o['user']||'',mgr,
       branch:o['branch name']||o['branch']||'',
       opco:o['operating company']||'',
-      target,sales,pct:target>0?Math.round(sales/target*100):0};
+      target,sales,post,prep,
+      pct:target>0?Math.round(sales/target*100):0};
   }).filter(Boolean);
 }
 
-function splitLine(l){
-  const r=[];let c='';let q=false;
-  for(let i=0;i<l.length;i++){
-    if(l[i]==='"')q=!q;
-    else if(l[i]===','&&!q){r.push(c);c='';}
-    else c+=l[i];
-  }
-  r.push(c);return r;
+function parseCSV_FTTH(txt){
+  const lines=txt.trim().split('\n');
+  if(lines.length<2)return[];
+  const hdrs=lines[0].split(',').map(h=>h.replace(/"/g,'').trim().toLowerCase());
+  return lines.slice(1).map(l=>{
+    const c=splitLine(l);
+    const o={};
+    hdrs.forEach((h,j)=>o[h]=(c[j]||'').replace(/"/g,'').trim());
+    const name=o['employee name']||'';
+    const mgr=o['manager']||'';
+    if(!name||!mgr||name.length<2)return null;
+    const target=parseFloat(o['target ftth & 5g']||o['target']||0)||0;
+    const ftth=parseFloat(o['ftth']||0)||0;
+    const g5=parseFloat(o['5g']||0)||0;
+    const total=ftth+g5;
+    // parse achievement
+    let achRaw=o['achievement %']||o['achievement']||'0';
+    achRaw=achRaw.replace('%','').trim();
+    const pct=target>0?Math.round(total/target*100):(parseFloat(achRaw)||0);
+    return{name,user:o['user']||'',mgr,
+      branch:o['branch name']||o['branch']||'',
+      target,ftth,g5,total,pct};
+  }).filter(Boolean).filter(e=>e.total>0);
 }
 
 function updateSidebar(){
@@ -408,6 +456,8 @@ function updateSidebar(){
   document.getElementById('sb-sales').textContent=tS;
   const pe=document.getElementById('sb-pct');
   pe.textContent=tP+'%';pe.style.color=pc(tP);
+  const totFtth=FTTH_DATA.reduce((a,e)=>a+e.total,0);
+  document.getElementById('sb-ftth').textContent=totFtth;
 }
 
 function mk(m){
@@ -428,10 +478,6 @@ function setView(v,el){
 
 function pc(p){return p>=75?'#1A9E52':p>=50?'#3DBB72':p>=25?'#EF9F27':'#E24B4A'}
 
-function segs(n,cls){
-  return Array.from({length:n},(_,i)=>`<div class="mk-seg ${i<Math.round(Math.min(100,0)/5)?cls:''}"></div>`).join('');
-}
-
 function makeSegs(pct,cls,total=20){
   const filled=Math.round(Math.min(100,pct)/100*total);
   return Array.from({length:total},(_,i)=>
@@ -441,13 +487,30 @@ function makeSegs(pct,cls,total=20){
 
 function renderView(view){
   const emps=view==='all'?DATA:DATA.filter(e=>e.mgr.toLowerCase().includes(view.toLowerCase()));
+  const ftthEmps=view==='all'?FTTH_DATA:FTTH_DATA.filter(e=>e.mgr.toLowerCase().includes(view.toLowerCase()));
   const tS=emps.reduce((a,e)=>a+e.sales,0);
   const tT=emps.reduce((a,e)=>a+e.target,0);
   const tP=tT>0?Math.round(tS/tT*100):0;
+  const tPOST=emps.reduce((a,e)=>a+e.post,0);
+  const tPREP=emps.reduce((a,e)=>a+e.prep,0);
   const sorted=[...emps].sort((a,b)=>b.sales-a.sales);
   const top=sorted[0];
   const active=emps.filter(e=>e.sales>0).length;
   const branches=[...new Set(emps.map(e=>e.branch))].filter(Boolean).sort();
+
+  // FTTH top5
+  const ftthSorted=[...ftthEmps].sort((a,b)=>b.total-a.total);
+  const ftthTop5=ftthSorted.slice(0,5);
+  const ftthTotalAll=ftthEmps.reduce((a,e)=>a+e.total,0);
+  const ftthTotalTarget=ftthEmps.reduce((a,e)=>a+e.target,0);
+  const ftthPct=ftthTotalTarget>0?Math.round(ftthTotalAll/ftthTotalTarget*100):0;
+  // FTTH top branches
+  const brFtth={};
+  ftthEmps.forEach(e=>{if(!brFtth[e.branch])brFtth[e.branch]={t:0,f:0,g:0};brFtth[e.branch].t+=e.total;brFtth[e.branch].f+=e.ftth;brFtth[e.branch].g+=e.g5;});
+  const ftthBranchSorted=Object.entries(brFtth).sort((a,b)=>b[1].t-a[1].t).slice(0,5);
+  // FTTH by supervisor
+  const supFtth={};
+  ftthEmps.forEach(e=>{const m=mk(e.mgr);if(!supFtth[m])supFtth[m]={t:0,name:e.mgr.split(' ')[0]};supFtth[m].t+=e.total;});
 
   document.getElementById('content').innerHTML=`
     <!-- SEARCH -->
@@ -457,27 +520,19 @@ function renderView(view){
       <div class="sres" id="sres"></div>
     </div>
 
-    <!-- PREMIUM KPI -->
+    <!-- MAIN KPIs -->
     <div class="kpi-section">
       <div class="kpi-row1">
         <div class="mk mk-sales">
           <div class="mk-bg-num">${tS}</div>
-          <div class="mk-header">
-            <div>
-              <div class="mk-lbl">Total sales</div>
-            </div>
-            <div class="mk-icon">📊</div>
-          </div>
+          <div class="mk-header"><div><div class="mk-lbl">Total sales</div></div><div class="mk-icon">📊</div></div>
           <div class="mk-val">${tS}</div>
           <div class="mk-sub">of <b style="color:#7DD99A">${tT}</b> target · <b style="color:${pc(tP)}">${tP}%</b> achieved</div>
           <div class="mk-segs">${makeSegs(tP,'on-g')}</div>
         </div>
         <div class="mk mk-ach">
           <div class="mk-bg-num">${tP}</div>
-          <div class="mk-header">
-            <div><div class="mk-lbl">Achievement</div></div>
-            <div class="mk-icon">🎯</div>
-          </div>
+          <div class="mk-header"><div><div class="mk-lbl">Achievement</div></div><div class="mk-icon">🎯</div></div>
           <div class="mk-val" style="color:${pc(tP)}">${tP}%</div>
           <div class="mk-sub"><b style="color:#E24B4A">${tT-tS}</b> remaining · <b style="color:#3DD68C">${active}</b> active agents</div>
           <div class="mk-segs">${makeSegs(tP,'on-t')}</div>
@@ -486,10 +541,7 @@ function renderView(view){
       <div class="kpi-row2">
         <div class="mk mk-top">
           <div class="mk-bg-num">★</div>
-          <div class="mk-header" style="margin-bottom:6px">
-            <div><div class="mk-lbl">🏆 Top performer</div></div>
-            <div class="mk-icon">👑</div>
-          </div>
+          <div class="mk-header" style="margin-bottom:6px"><div><div class="mk-lbl">🏆 Top performer</div></div><div class="mk-icon">👑</div></div>
           <div class="mk-top-name">${top?top.name:'—'}</div>
           <div class="mk-top-branch">${top?top.branch+' · '+top.mgr.split(' ')[0]:''}</div>
           <div class="mk-top-score">
@@ -500,10 +552,7 @@ function renderView(view){
         </div>
         <div class="mk mk-team">
           <div class="mk-bg-num">${emps.length}</div>
-          <div class="mk-header" style="margin-bottom:8px">
-            <div><div class="mk-lbl">Team</div></div>
-            <div class="mk-icon">👥</div>
-          </div>
+          <div class="mk-header" style="margin-bottom:8px"><div><div class="mk-lbl">Team</div></div><div class="mk-icon">👥</div></div>
           <div class="mk-team-row">
             <div class="mk-team-nums">
               <div style="font-size:36px;font-weight:900;color:#85B7EB;letter-spacing:-1px;line-height:1">${active}</div>
@@ -516,15 +565,134 @@ function renderView(view){
           <div class="mk-segs">${makeSegs(Math.round(active/emps.length*100),'on-b')}</div>
         </div>
       </div>
+      <!-- POST & PREP KPIs -->
+      <div class="kpi-row3">
+        <div class="mk mk-post">
+          <div class="mk-bg-num">${tPOST}</div>
+          <div class="mk-header"><div><div class="mk-lbl">Postpaid Sales</div></div><div class="mk-icon">📱</div></div>
+          <div class="mk-val">${tPOST}</div>
+          <div class="mk-sub">of <b style="color:#6AAAD8">${tS}</b> total · <b style="color:#85B7EB">${tS>0?Math.round(tPOST/tS*100):0}%</b> of sales</div>
+          <div class="mk-segs">${makeSegs(tS>0?Math.round(tPOST/tS*100):0,'on-b')}</div>
+        </div>
+        <div class="mk mk-prep">
+          <div class="mk-bg-num">${tPREP}</div>
+          <div class="mk-header"><div><div class="mk-lbl">Prepaid Sales</div></div><div class="mk-icon">💳</div></div>
+          <div class="mk-val">${tPREP}</div>
+          <div class="mk-sub">of <b style="color:#C39BD3">${tS}</b> total · <b style="color:#C39BD3">${tS>0?Math.round(tPREP/tS*100):0}%</b> of sales</div>
+          <div class="mk-segs">${makeSegs(tS>0?Math.round(tPREP/tS*100):0,'on-p')}</div>
+        </div>
+      </div>
     </div>
 
-    <!-- TOP 5 PODIUM -->
+    <!-- TOP 5 PODIUM — Main Sales -->
     <div class="top5-section">
       <div class="sec-t">Top 5 performers · all branches</div>
       ${renderTop5(sorted)}
     </div>
 
     ${view==='all'?renderSupCards():''}
+
+    <!-- ══ FTTH & 5G SECTION ══ -->
+    <div class="ftth-section">
+      <div class="ftth-divider">
+        <div class="ftth-divider-line"></div>
+        <div class="ftth-divider-badge">📡 FTTH & 5G Performance</div>
+        <div class="ftth-divider-line"></div>
+      </div>
+
+      <!-- FTTH KPIs -->
+      <div class="ftth-kpi-row">
+        <div class="mk mk-ftth">
+          <div class="mk-bg-num">${ftthTotalAll}</div>
+          <div class="mk-header"><div><div class="mk-lbl">FTTH + 5G Total</div></div><div class="mk-icon">📡</div></div>
+          <div class="mk-val">${ftthTotalAll}</div>
+          <div class="mk-sub">
+            <b style="color:#5DC0F0">FTTH: ${ftthEmps.reduce((a,e)=>a+e.ftth,0)}</b> · 
+            <b style="color:#378ADD">5G: ${ftthEmps.reduce((a,e)=>a+e.g5,0)}</b>
+          </div>
+          <div class="mk-segs">${makeSegs(ftthPct,'on-b')}</div>
+        </div>
+        <div class="mk mk-ftth">
+          <div class="mk-bg-num">${ftthPct}</div>
+          <div class="mk-header"><div><div class="mk-lbl">FTTH & 5G Achievement</div></div><div class="mk-icon">🎯</div></div>
+          <div class="mk-val" style="color:${pc(ftthPct)}">${ftthPct}%</div>
+          <div class="mk-sub">of <b style="color:#6AAAD8">${ftthTotalTarget}</b> target · <b style="color:#85B7EB">${ftthEmps.filter(e=>e.total>0).length}</b> active agents</div>
+          <div class="mk-segs">${makeSegs(ftthPct,'on-b')}</div>
+        </div>
+      </div>
+
+      <!-- FTTH Top 5 Employees -->
+      <div class="sec-t" style="color:#4A7090">Top 5 Employees · FTTH & 5G</div>
+      <div class="ftth-top5-grid">
+        ${ftthTop5.map((e,i)=>{
+          const medals=['🥇','🥈','🥉','4️⃣','5️⃣'];
+          const maxT=ftthTop5[0]?ftthTop5[0].total:1;
+          const idx=DATA.findIndex(d=>d.user===e.user&&d.name===e.name);
+          return`<div class="ftth-top5-card" onclick="openModal(${idx})">
+            <div class="ftth-card-rank">${medals[i]}<span class="ftth-card-rank-n">#${i+1}</span></div>
+            <div class="ftth-card-name">${e.name}</div>
+            <div class="ftth-card-branch">${e.branch.replace(' FBO','').replace('Kiosk ','')}</div>
+            <div class="ftth-card-stats">
+              <div class="ftth-stat"><div class="ftth-stat-v">${e.total}</div><div class="ftth-stat-l">Total</div></div>
+              <div class="ftth-stat"><div class="ftth-stat-v" style="color:#5DC0F0">${e.ftth}</div><div class="ftth-stat-l">FTTH</div></div>
+              <div class="ftth-stat"><div class="ftth-stat-v" style="color:#378ADD">${e.g5}</div><div class="ftth-stat-l">5G</div></div>
+              <div class="ftth-stat"><div class="ftth-stat-v" style="color:${pc(e.pct)}">${e.pct}%</div><div class="ftth-stat-l">Ach%</div></div>
+            </div>
+            <div class="ftth-pbar"><div class="ftth-pbar-fill" style="width:${Math.min(100,Math.round(e.total/maxT*100))}%"></div></div>
+          </div>`;
+        }).join('')}
+      </div>
+
+      <!-- FTTH Top Branches + Supervisors -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px">
+        <div>
+          <div class="sec-t" style="color:#4A7090">Top 5 Branches · FTTH & 5G</div>
+          <div style="background:var(--card);border:1px solid rgba(55,138,221,0.15);border-radius:var(--r);overflow:hidden">
+            ${ftthBranchSorted.map(([br,d],i)=>`
+              <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid rgba(55,138,221,0.08)">
+                <div style="font-size:13px;font-weight:700;color:#378ADD;width:20px;text-align:center">${i+1}</div>
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:12px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${br.replace(' FBO','').replace('Kiosk ','K.')}</div>
+                  <div style="font-size:10px;color:#2A4A6A;margin-top:2px">FTTH: ${d.f} · 5G: ${d.g}</div>
+                </div>
+                <div style="font-size:18px;font-weight:800;color:#85B7EB">${d.t}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        <div>
+          <div class="sec-t" style="color:#4A7090">By Supervisor · FTTH & 5G</div>
+          <div style="background:var(--card);border:1px solid rgba(55,138,221,0.15);border-radius:var(--r);overflow:hidden">
+            ${[
+              {key:'aw',label:'Abdulwahab',color:'#F6C94E'},
+              {key:'am',label:'Ahmed',     color:'#85B7EB'},
+              {key:'ms',label:'Mohammed',  color:'#5DCAA5'},
+              {key:'na',label:'Najwah',    color:'#ED93B1'},
+            ].map(s=>{
+              const sv=ftthEmps.filter(e=>mk(e.mgr)===s.key);
+              const t=sv.reduce((a,e)=>a+e.total,0);
+              const f=sv.reduce((a,e)=>a+e.ftth,0);
+              const g=sv.reduce((a,e)=>a+e.g5,0);
+              const maxT2=Math.max(...[
+                ftthEmps.filter(e=>mk(e.mgr)==='aw').reduce((a,e)=>a+e.total,0),
+                ftthEmps.filter(e=>mk(e.mgr)==='am').reduce((a,e)=>a+e.total,0),
+                ftthEmps.filter(e=>mk(e.mgr)==='ms').reduce((a,e)=>a+e.total,0),
+                ftthEmps.filter(e=>mk(e.mgr)==='na').reduce((a,e)=>a+e.total,0),
+              ])||1;
+              return`<div style="padding:10px 14px;border-bottom:1px solid rgba(55,138,221,0.08)">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                  <span style="font-size:12px;font-weight:600;color:#fff">${s.label}</span>
+                  <span style="font-size:11px;color:#3A5A7A">FTTH: ${f} · 5G: ${g} · <b style="color:${s.color}">${t}</b></span>
+                </div>
+                <div style="height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden">
+                  <div style="height:100%;width:${maxT2>0?Math.round(t/maxT2*100):0}%;background:${s.color};border-radius:3px"></div>
+                </div>
+              </div>`;
+            }).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- CHARTS -->
     <div class="charts-row">
@@ -557,7 +725,7 @@ function renderView(view){
       </div>
     </div>
 
-    <!-- TABLE -->
+    <!-- TABLE with POST/PREP -->
     <div class="sec-t">Employee leaderboard</div>
     <div class="filter-row" id="fpills">
       <button class="pill on" onclick="doFilter('all',this)">All branches</button>
@@ -569,10 +737,15 @@ function renderView(view){
         <span class="tbl-cnt" id="tbl-cnt">${emps.length} agents</span>
       </div>
       <div class="tbl-head">
-        <span class="th thc">#</span><span class="th">Name</span>
+        <span class="th thc">#</span>
+        <span class="th">Name</span>
         <span class="th">Supervisor</span>
-        <span class="th thc">Sales</span><span class="th thc">Target</span>
-        <span class="th thc">Ach%</span><span class="th thr">Progress</span>
+        <span class="th thc">Sales</span>
+        <span class="th thc">Target</span>
+        <span class="th thc">Ach%</span>
+        <span class="th thc" style="color:#6AAAD8">Post</span>
+        <span class="th thc" style="color:#C39BD3">Pre</span>
+        <span class="th thr">Progress</span>
       </div>
       <div id="tbl-rows"></div>
     </div>
@@ -588,16 +761,10 @@ function renderView(view){
 
 function renderTop5(sorted){
   const top5=sorted.slice(0,5);
-  const maxS=top5[0]?top5[0].sales:1;
-  const order=[1,0,2,3,4];
-  const labels=['1st','2nd','3rd','4th','5th'];
-  const cols=['pod-1','pod-2','pod-3','pod-4','pod-5'];
-  const crowns=['👑','','','',''];
   const display=[top5[1],top5[0],top5[2],top5[3],top5[4]].filter(Boolean);
   const dispCols=['pod-2','pod-1','pod-3','pod-4','pod-5'];
   const dispLabels=['2nd','1st','3rd','4th','5th'];
   const dispCrowns=['','👑','','',''];
-
   return`<div class="podium-wrap">
     ${display.map((e,i)=>{
       const gIdx=DATA.findIndex(d=>d.user===e.user&&d.name===e.name);
@@ -682,8 +849,11 @@ function renderTable(emps,brF){
       <span class="rk ${rc}">${i+1}</span>
       <div><div class="en">${e.name}</div><div class="eb">${e.branch}</div></div>
       <div class="esup">${e.mgr.split(' ')[0]}</div>
-      <span class="nw">${e.sales}</span><span class="nt">${e.target}</span>
+      <span class="nw">${e.sales}</span>
+      <span class="nt">${e.target}</span>
       <span class="pv" style="color:${pc(e.pct)}">${e.pct}%</span>
+      <span class="npost">${e.post||0}</span>
+      <span class="nprep">${e.prep||0}</span>
       <div class="prog">
         <div class="prog-bar"><div class="prog-fill" style="width:${Math.min(100,e.pct)}%;background:${pc(e.pct)}"></div></div>
         <div class="prog-t">${e.pct}%</div>
@@ -735,6 +905,8 @@ function openModal(idx){
   const brRank=brE.findIndex(d=>d.user===e.user&&d.name===e.name)+1;
   const brTotal=brE.reduce((a,d)=>a+d.sales,0);
   const ini=e.name.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
+  // FTTH data for this employee
+  const ftthEmp=FTTH_DATA.find(f=>f.user===e.user||f.name===e.name);
 
   const modal=document.createElement('div');
   modal.id='emp-modal';modal.className='modal-bg';
@@ -774,6 +946,21 @@ function openModal(idx){
           <div style="font-size:16px;font-weight:800;color:${pc(e.pct)}">${e.pct}%</div>
         </div>
       </div>
+      <!-- POST / PREP / FTTH row in modal -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
+        <div style="background:rgba(55,138,221,0.1);border:1px solid rgba(55,138,221,0.25);border-radius:10px;padding:12px;text-align:center">
+          <div style="font-size:9px;color:#4A7090;text-transform:uppercase;font-weight:700;margin-bottom:5px">Postpaid</div>
+          <div style="font-size:24px;font-weight:800;color:#85B7EB">${e.post||0}</div>
+        </div>
+        <div style="background:rgba(155,89,182,0.1);border:1px solid rgba(155,89,182,0.25);border-radius:10px;padding:12px;text-align:center">
+          <div style="font-size:9px;color:#7A4A8A;text-transform:uppercase;font-weight:700;margin-bottom:5px">Prepaid</div>
+          <div style="font-size:24px;font-weight:800;color:#C39BD3">${e.prep||0}</div>
+        </div>
+        <div style="background:rgba(55,138,221,0.08);border:1px solid rgba(55,138,221,0.2);border-radius:10px;padding:12px;text-align:center">
+          <div style="font-size:9px;color:#3A5A7A;text-transform:uppercase;font-weight:700;margin-bottom:5px">FTTH+5G</div>
+          <div style="font-size:24px;font-weight:800;color:#5DC0F0">${ftthEmp?ftthEmp.total:0}</div>
+        </div>
+      </div>
       <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:14px;text-align:center">
         <div style="font-size:9px;color:#4A8A62;text-transform:uppercase;font-weight:700;letter-spacing:.07em;margin-bottom:6px">Branch contribution</div>
         <div style="font-size:28px;font-weight:800;color:#3DD68C">${brTotal>0?Math.round(e.sales/brTotal*100):0}%</div>
@@ -801,7 +988,7 @@ function renderBarChart(emps,branches){
     data:{
       labels:brData.map(d=>d.b.replace(' FBO','').replace(' RYD','').replace('Kiosk ','K.').replace(' ALMASIF','')),
       datasets:[
-        {label:'Sales',data:brData.map(d=>d.s),backgroundColor:'#3DD68C',borderRadius:5},
+        {label:'Sales', data:brData.map(d=>d.s),backgroundColor:'#3DD68C',borderRadius:5},
         {label:'Target',data:brData.map(d=>d.t),backgroundColor:'rgba(255,255,255,0.15)',borderRadius:5}
       ]
     },
@@ -871,21 +1058,25 @@ async function exportBranchReport(){
       </div>
     </div>
     <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(61,214,140,0.1);border-radius:12px;overflow:hidden">
-      <div style="display:grid;grid-template-columns:28px 1fr 70px 70px 160px;gap:8px;padding:10px 16px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(61,214,140,0.1)">
+      <div style="display:grid;grid-template-columns:28px 1fr 60px 60px 55px 55px 120px;gap:6px;padding:10px 16px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(61,214,140,0.1)">
         <span style="font-size:9px;font-weight:700;color:#3A6A50;text-transform:uppercase;text-align:center">#</span>
         <span style="font-size:9px;font-weight:700;color:#3A6A50;text-transform:uppercase">Name</span>
         <span style="font-size:9px;font-weight:700;color:#3A6A50;text-transform:uppercase;text-align:center">Sales</span>
         <span style="font-size:9px;font-weight:700;color:#3A6A50;text-transform:uppercase;text-align:center">Target</span>
+        <span style="font-size:9px;font-weight:700;color:#6AAAD8;text-transform:uppercase;text-align:center">Post</span>
+        <span style="font-size:9px;font-weight:700;color:#C39BD3;text-transform:uppercase;text-align:center">Pre</span>
         <span style="font-size:9px;font-weight:700;color:#3A6A50;text-transform:uppercase;text-align:right">Progress</span>
       </div>
       ${emps.map((e,i)=>{
         const rc=i===0?'rgba(212,160,23,.08)':i===1?'rgba(143,160,174,.06)':i===2?'rgba(176,112,48,.06)':'transparent';
         const nc=i===0?'#D4A017':i===1?'#8FA0AE':i===2?'#B07030':'#4A8A62';
-        return`<div style="display:grid;grid-template-columns:28px 1fr 70px 70px 160px;gap:8px;padding:12px 16px;background:${rc};border-bottom:1px solid rgba(61,214,140,0.06);align-items:center">
+        return`<div style="display:grid;grid-template-columns:28px 1fr 60px 60px 55px 55px 120px;gap:6px;padding:12px 16px;background:${rc};border-bottom:1px solid rgba(61,214,140,0.06);align-items:center">
           <span style="font-size:13px;font-weight:700;color:${nc};text-align:center">${i+1}</span>
           <span style="font-size:13px;font-weight:600;color:#fff">${e.name}</span>
           <span style="font-size:16px;font-weight:700;color:#fff;text-align:center">${e.sales}</span>
           <span style="font-size:12px;color:#aaa;text-align:center">${e.target}</span>
+          <span style="font-size:13px;font-weight:600;color:#85B7EB;text-align:center">${e.post||0}</span>
+          <span style="font-size:13px;font-weight:600;color:#C39BD3;text-align:center">${e.prep||0}</span>
           <div><div style="height:5px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden;margin-bottom:3px">
             <div style="height:100%;width:${bw(e.pct)}%;background:${pc(e.pct)};border-radius:3px"></div>
           </div><div style="font-size:11px;color:${pc(e.pct)};text-align:right;font-weight:600">${e.pct}%</div></div>
