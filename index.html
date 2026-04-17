@@ -6783,7 +6783,7 @@ function manualGetBranches(){
 }
 
 function manualGetScopeName(){
-  if(MANUAL_STATE.scope==='all')return 'All (SR Manager — Oqla)';
+  if(MANUAL_STATE.scope==='all')return 'All';
   const map={aw:'Abdulwahab',am:'Ahmed',ms:'Mohammed',na:'Najwah'};
   return map[MANUAL_STATE.scope]||MANUAL_STATE.scope;
 }
@@ -6898,7 +6898,7 @@ function renderManualPanel(){
         <div class="manual-field">
           <div class="manual-label">👤 Responsible</div>
           <select class="manual-select" onchange="manualSetScope(this.value)">
-            <option value="all" ${MANUAL_STATE.scope==='all'?'selected':''}>🌐 All (SR Manager — Oqla)</option>
+            <option value="all" ${MANUAL_STATE.scope==='all'?'selected':''}>🌐 All</option>
             <option value="aw" ${MANUAL_STATE.scope==='aw'?'selected':''}>👤 Abdulwahab</option>
             <option value="am" ${MANUAL_STATE.scope==='am'?'selected':''}>👤 Ahmed</option>
             <option value="ms" ${MANUAL_STATE.scope==='ms'?'selected':''}>👤 Mohammed</option>
