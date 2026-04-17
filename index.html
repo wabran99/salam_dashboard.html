@@ -365,6 +365,132 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 }
 .manual-toast-icon{font-size:16px}
 
+/* v16.6 Step 4: Smart Lock States */
+.manual-update-btn.locked{
+  background:linear-gradient(135deg,rgba(143,160,174,0.12),rgba(143,160,174,0.04));
+  border-color:rgba(143,160,174,0.5);
+  color:#B8CCD6;
+  cursor:default;
+}
+.manual-update-btn.locked:hover{
+  transform:none;background:linear-gradient(135deg,rgba(143,160,174,0.18),rgba(143,160,174,0.06));
+  border-color:rgba(143,160,174,0.7);box-shadow:none;
+}
+.manual-update-btn.locked .manual-update-btn-check{
+  color:#8FA0AE;opacity:0.9;
+}
+.manual-update-btn.active{
+  background:linear-gradient(135deg,rgba(55,138,221,0.18),rgba(55,138,221,0.06));
+  border-color:rgba(55,138,221,0.7);
+  color:#A8D6F4;
+  animation:activeGlow 2.4s ease-in-out infinite;
+}
+.manual-update-btn.active .manual-update-btn-status{color:#A8D6F4}
+.manual-update-btn.active:hover{
+  background:linear-gradient(135deg,rgba(55,138,221,0.28),rgba(55,138,221,0.1));
+  border-color:#A8D6F4;
+  box-shadow:0 4px 14px rgba(55,138,221,0.3);
+}
+@keyframes activeGlow{
+  0%,100%{box-shadow:0 0 0 0 rgba(55,138,221,0.35)}
+  50%{box-shadow:0 0 0 5px rgba(55,138,221,0)}
+}
+.manual-unlock-btn{
+  position:absolute;top:-7px;left:-7px;
+  width:22px;height:22px;border-radius:50%;
+  background:linear-gradient(135deg,#D4A017,#B8860B);
+  border:2px solid #0A2E1C;color:#fff;font-size:11px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all .15s;z-index:2;
+  box-shadow:0 2px 6px rgba(0,0,0,0.4);
+}
+.manual-unlock-btn:hover{
+  transform:scale(1.15) rotate(-12deg);
+  box-shadow:0 3px 10px rgba(212,160,23,0.6);
+}
+
+/* Locked inputs — read-only visual */
+.manual-input.input-locked{
+  background:rgba(143,160,174,0.08);
+  border-color:rgba(143,160,174,0.3);
+  color:#A0B5BF;
+  cursor:not-allowed;
+  pointer-events:none;
+}
+.manual-input.input-locked.has-value{
+  background:rgba(143,160,174,0.15);
+  border-color:rgba(143,160,174,0.4);
+  color:#C8D5DB;
+}
+.manual-lock-banner{
+  margin:8px 12px 0;padding:10px 14px;
+  background:linear-gradient(90deg,rgba(143,160,174,0.1),rgba(143,160,174,0.2),rgba(143,160,174,0.1));
+  border:1px solid rgba(143,160,174,0.3);border-radius:8px;
+  display:flex;align-items:center;gap:10px;
+  font-size:11px;color:#C8D5DB;
+}
+.manual-lock-banner-icon{font-size:18px;flex-shrink:0}
+.manual-lock-banner-text{flex:1;line-height:1.5}
+.manual-lock-banner-text b{color:#F4D88A}
+
+/* Confirm Modal */
+.manual-confirm-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.75);
+  z-index:9998;display:none;align-items:center;justify-content:center;
+  padding:20px;backdrop-filter:blur(4px);
+}
+.manual-confirm-overlay.open{display:flex;animation:fadeIn .2s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.manual-confirm-box{
+  background:linear-gradient(180deg,#0D3D26,#0A2E1C);
+  border:2px solid rgba(212,160,23,0.5);border-radius:14px;
+  padding:24px;max-width:380px;width:100%;
+  box-shadow:0 16px 48px rgba(0,0,0,0.6),0 0 0 1px rgba(212,160,23,0.2);
+  animation:confirmPop .25s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes confirmPop{
+  from{opacity:0;transform:scale(0.88)}
+  to{opacity:1;transform:scale(1)}
+}
+.manual-confirm-icon{
+  font-size:42px;text-align:center;margin-bottom:10px;
+  filter:drop-shadow(0 4px 10px rgba(212,160,23,0.5));
+}
+.manual-confirm-title{
+  text-align:center;font-size:16px;font-weight:800;
+  background:linear-gradient(135deg,#F4D88A,#D4A017);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;margin-bottom:8px;
+}
+.manual-confirm-msg{
+  text-align:center;font-size:12px;color:#C8EED8;
+  line-height:1.6;margin-bottom:18px;
+}
+.manual-confirm-msg b{color:#F4D88A}
+.manual-confirm-actions{
+  display:flex;gap:10px;
+}
+.manual-confirm-btn{
+  flex:1;padding:10px 16px;border-radius:8px;
+  font-size:12px;font-weight:800;cursor:pointer;
+  transition:all .15s;border:1px solid;
+}
+.manual-confirm-btn.cancel{
+  background:var(--g3);border-color:var(--border2);color:#C8EED8;
+}
+.manual-confirm-btn.cancel:hover{
+  background:var(--g4);border-color:#5A9870;
+}
+.manual-confirm-btn.danger{
+  background:linear-gradient(135deg,#D4A017,#B8860B);
+  border-color:#F4D88A;color:#fff;
+  box-shadow:0 2px 8px rgba(212,160,23,0.3);
+}
+.manual-confirm-btn.danger:hover{
+  transform:translateY(-1px);
+  box-shadow:0 4px 14px rgba(212,160,23,0.5);
+}
+
 /* ── v14: Slide-in Panels (v16.2: Fixed overflow issue) ── */
 .panel-overlay{
   position:fixed;top:0;bottom:0;width:480px;max-width:100vw;
@@ -1782,6 +1908,19 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
         أداة إدخال يدوي يومي للمشرفين — تُبنى حالياً. الواجهة الكاملة تصل في الخطوة القادمة من تطوير v16.6.
       </div>
       <div class="manual-coming-soon">✨ الخطوة 1 من 6 — البنية جاهزة</div>
+    </div>
+  </div>
+</div>
+
+<!-- v16.6 Step 4: Unlock Confirm Modal -->
+<div class="manual-confirm-overlay" id="manual-confirm-overlay">
+  <div class="manual-confirm-box">
+    <div class="manual-confirm-icon">⚠️</div>
+    <div class="manual-confirm-title" id="manual-confirm-title">Unlock Update?</div>
+    <div class="manual-confirm-msg" id="manual-confirm-msg">This will erase later snapshots.</div>
+    <div class="manual-confirm-actions">
+      <button class="manual-confirm-btn cancel" onclick="manualConfirmClose()">Cancel</button>
+      <button class="manual-confirm-btn danger" id="manual-confirm-ok">Yes, unlock</button>
     </div>
   </div>
 </div>
@@ -6924,6 +7063,17 @@ function manualToggleFtth(){
 }
 
 function manualUpdateEntry(branch,field,value){
+  // If all 3 slots are saved → editing is locked
+  if(manualIsEditingLocked()){
+    // Revert the input
+    const inp=document.getElementById(`manual-input-${field}-${manualSlug(branch)}`);
+    if(inp){
+      const e=MANUAL_STATE.entries[branch]||{pre:0,post:0,ftth:0};
+      inp.value=e[field]||'';
+    }
+    manualShowToast('🔒 All updates saved — unlock one to edit');
+    return;
+  }
   const n=parseInt(value,10);
   if(!MANUAL_STATE.entries[branch])MANUAL_STATE.entries[branch]={pre:0,post:0,ftth:0};
   MANUAL_STATE.entries[branch][field]=(isNaN(n)||n<0)?0:n;
@@ -6981,6 +7131,10 @@ function manualUpdateLiveTotals(){
 }
 
 function manualClearBranch(branch){
+  if(manualIsEditingLocked()){
+    manualShowToast('🔒 All updates saved — unlock one to edit');
+    return;
+  }
   if(MANUAL_STATE.entries[branch]){
     delete MANUAL_STATE.entries[branch];
   }
@@ -7000,6 +7154,24 @@ function manualSlug(s){
 // ── Snapshot capture (Update buttons) ──
 function manualCaptureSnapshot(slot){
   // slot = 'u1' | 'u2' | 'u3'
+  // Validation: enforce order — can't skip slots
+  const order=['u1','u2','u3'];
+  const idx=order.indexOf(slot);
+  // The next valid slot = first empty in order
+  let nextValidIdx=0;
+  while(nextValidIdx<order.length&&MANUAL_STATE.snapshots[order[nextValidIdx]]){
+    nextValidIdx++;
+  }
+  // If clicked slot is already saved → it's locked, must unlock instead
+  if(MANUAL_STATE.snapshots[slot]){
+    manualAskUnlock(slot);
+    return;
+  }
+  // If clicked slot is ahead of next valid → must fill in order
+  if(idx>nextValidIdx){
+    manualShowToast(`⚠ Please save Update ${nextValidIdx+1} first`);
+    return;
+  }
   const now=new Date();
   const h=now.getHours();
   const m=String(now.getMinutes()).padStart(2,'0');
@@ -7024,6 +7196,73 @@ function manualCaptureSnapshot(slot){
   manualSave();
   manualShowToast(`✓ Update ${slot.replace('u','')} saved at ${timeLabel}`);
   renderManualPanel();
+}
+
+// ── Smart Lock logic ──
+function manualGetActiveSlot(){
+  // The slot currently open for editing = first empty slot in order
+  const order=['u1','u2','u3'];
+  for(const s of order){
+    if(!MANUAL_STATE.snapshots[s])return s;
+  }
+  return null; // all 3 saved → fully locked
+}
+
+function manualIsEditingLocked(){
+  // Editing is locked if ALL three snapshots are saved
+  return manualGetActiveSlot()===null;
+}
+
+function manualAskUnlock(slot){
+  // slot = 'u1' | 'u2' | 'u3' — the one user wants to re-open
+  const order=['u1','u2','u3'];
+  const idx=order.indexOf(slot);
+  // Find which later slots would be erased
+  const toErase=[];
+  for(let i=idx+1;i<order.length;i++){
+    if(MANUAL_STATE.snapshots[order[i]])toErase.push(i+1);
+  }
+  const num=idx+1;
+  const titleEl=document.getElementById('manual-confirm-title');
+  const msgEl=document.getElementById('manual-confirm-msg');
+  const okBtn=document.getElementById('manual-confirm-ok');
+  if(toErase.length===0){
+    // No later snapshots — just unlock this one (no data loss)
+    titleEl.textContent=`🔓 Re-open Update ${num}?`;
+    msgEl.innerHTML=`This will <b>unlock Update ${num}</b> for editing. Its numbers will stay and you can update them.`;
+    okBtn.textContent=`Yes, unlock Update ${num}`;
+  }else{
+    // Warn about erasing later snapshots
+    const eraseList=toErase.map(n=>`Update ${n}`).join(' and ');
+    titleEl.textContent=`⚠️ Re-open Update ${num}?`;
+    msgEl.innerHTML=`This will <b>unlock Update ${num}</b> and <b>erase ${eraseList}</b>. You'll need to save them again later.`;
+    okBtn.textContent=`Yes, erase and unlock`;
+  }
+  okBtn.onclick=()=>manualDoUnlock(slot);
+  manualConfirmOpen();
+}
+
+function manualDoUnlock(slot){
+  const order=['u1','u2','u3'];
+  const idx=order.indexOf(slot);
+  // Clear this slot and all later slots
+  for(let i=idx;i<order.length;i++){
+    MANUAL_STATE.snapshots[order[i]]=null;
+  }
+  manualSave();
+  manualConfirmClose();
+  manualShowToast(`🔓 Update ${idx+1} unlocked`);
+  renderManualPanel();
+}
+
+function manualConfirmOpen(){
+  const o=document.getElementById('manual-confirm-overlay');
+  if(o)o.classList.add('open');
+}
+
+function manualConfirmClose(){
+  const o=document.getElementById('manual-confirm-overlay');
+  if(o)o.classList.remove('open');
 }
 
 // ── Toast message ──
@@ -7057,6 +7296,8 @@ function renderManualPanel(){
   const branches=manualGetBranches();
   const showFtth=MANUAL_STATE.withFtth;
   const snaps=MANUAL_STATE.snapshots;
+  const activeSlot=manualGetActiveSlot();
+  const fullyLocked=manualIsEditingLocked();
   // ── Controls
   let html=`
     <div class="manual-controls">
@@ -7082,6 +7323,17 @@ function renderManualPanel(){
       </div>
     </div>
   `;
+  // ── Lock banner (when all 3 saved)
+  if(fullyLocked){
+    html+=`
+      <div class="manual-lock-banner">
+        <div class="manual-lock-banner-icon">🔒</div>
+        <div class="manual-lock-banner-text">
+          <b>All 3 updates saved.</b> Editing is locked. Click 🔓 above any update to unlock it for changes.
+        </div>
+      </div>
+    `;
+  }
   // ── Live counter
   html+=`
     <div class="manual-counter">
@@ -7116,6 +7368,8 @@ function renderManualPanel(){
   if(branches.length===0){
     html+=`<div class="manual-no-data">No branches found for this selection.</div>`;
   }else{
+    const inpLockClass=fullyLocked?' input-locked':'';
+    const inpReadonly=fullyLocked?' readonly':'';
     html+=`<div class="manual-table-wrap"><table class="manual-table">
       <thead>
         <tr>
@@ -7135,19 +7389,20 @@ function renderManualPanel(){
       const hasAny=(e.pre>0||e.post>0||e.ftth>0);
       const brShort=b.name.replace(' FBO','').replace('Kiosk ','');
       const mgrChip=MANUAL_STATE.scope==='all'?`<span class="manual-mgr-chip">${mgrShort(b.mgr)}</span>`:'';
+      const clearBtn=fullyLocked?'':`<button class="manual-clear-btn" onclick="manualClearBranch('${b.name.replace(/'/g,"\\'")}')" title="Clear this branch">✕</button>`;
       html+=`
         <tr id="manual-row-${slug}" class="${hasAny?'filled':''}">
           <td><div class="manual-branch-cell" title="${b.name}">${brShort}${mgrChip}</div></td>
-          <td><input type="number" min="0" inputmode="numeric" class="manual-input ${e.pre>0?'has-value':''}" id="manual-input-pre-${slug}" value="${e.pre||''}" oninput="manualUpdateEntry('${b.name.replace(/'/g,"\\'")}','pre',this.value)" placeholder="0"></td>
-          <td><input type="number" min="0" inputmode="numeric" class="manual-input ${e.post>0?'has-value':''}" id="manual-input-post-${slug}" value="${e.post||''}" oninput="manualUpdateEntry('${b.name.replace(/'/g,"\\'")}','post',this.value)" placeholder="0"></td>
+          <td><input type="number" min="0" inputmode="numeric" class="manual-input${inpLockClass} ${e.pre>0?'has-value':''}" id="manual-input-pre-${slug}" value="${e.pre||''}" oninput="manualUpdateEntry('${b.name.replace(/'/g,"\\'")}','pre',this.value)" placeholder="0"${inpReadonly}></td>
+          <td><input type="number" min="0" inputmode="numeric" class="manual-input${inpLockClass} ${e.post>0?'has-value':''}" id="manual-input-post-${slug}" value="${e.post||''}" oninput="manualUpdateEntry('${b.name.replace(/'/g,"\\'")}','post',this.value)" placeholder="0"${inpReadonly}></td>
           <td><span class="manual-total${rowTotal===0?' zero':''}" id="manual-row-total-${slug}">${rowTotal}</span></td>
-          ${showFtth?`<td><input type="number" min="0" inputmode="numeric" class="manual-input ${e.ftth>0?'has-value':''}" id="manual-input-ftth-${slug}" value="${e.ftth||''}" oninput="manualUpdateEntry('${b.name.replace(/'/g,"\\'")}','ftth',this.value)" placeholder="0"></td>`:''}
-          <td><button class="manual-clear-btn" onclick="manualClearBranch('${b.name.replace(/'/g,"\\'")}')" title="Clear this branch">✕</button></td>
+          ${showFtth?`<td><input type="number" min="0" inputmode="numeric" class="manual-input${inpLockClass} ${e.ftth>0?'has-value':''}" id="manual-input-ftth-${slug}" value="${e.ftth||''}" oninput="manualUpdateEntry('${b.name.replace(/'/g,"\\'")}','ftth',this.value)" placeholder="0"${inpReadonly}></td>`:''}
+          <td>${clearBtn}</td>
         </tr>
       `;
     });
     html+=`</tbody></table></div>`;
-    // ── Update Buttons (3 snapshots)
+    // ── Update Buttons (3 snapshots) with smart states
     html+=`
       <div class="manual-updates-section">
         <div class="manual-updates-title">📌 Daily Snapshots</div>
@@ -7156,11 +7411,42 @@ function renderManualPanel(){
             const n=i+1;
             const snap=snaps[slot];
             const saved=!!snap;
-            const status=saved?`Saved at ${snap.time}`:'Not yet';
+            const isActive=slot===activeSlot;
+            // Determine state: locked | active | saved (terminal) | empty-future
+            let stateClass='';
+            let icon='📌';
+            let status='Not yet';
+            let unlockBtn='';
+            if(saved){
+              // Is this snapshot locked (i.e., has a later saved snapshot)?
+              const hasLater=['u1','u2','u3'].slice(i+1).some(s=>snaps[s]);
+              if(hasLater){
+                stateClass='locked';
+                icon='🔒';
+                status=`Locked · ${snap.time}`;
+                unlockBtn=`<button class="manual-unlock-btn" onclick="event.stopPropagation();manualAskUnlock('${slot}')" title="Unlock for editing">🔓</button>`;
+              }else{
+                // Latest saved — still counts as "saved" (can be re-opened too)
+                stateClass='saved';
+                icon='✅';
+                status=`Saved · ${snap.time}`;
+                unlockBtn=`<button class="manual-unlock-btn" onclick="event.stopPropagation();manualAskUnlock('${slot}')" title="Re-open this update">🔓</button>`;
+              }
+            }else if(isActive){
+              stateClass='active';
+              icon='✏️';
+              status='Active — click to save';
+            }else{
+              // Future slot (waiting for earlier ones)
+              stateClass='';
+              icon='📌';
+              status=`Save Update ${n>1?n-1:n} first`;
+            }
             return `
-              <button class="manual-update-btn ${saved?'saved':''}" onclick="manualCaptureSnapshot('${slot}')" title="${saved?'Overwrite this snapshot':'Capture current numbers'}">
+              <button class="manual-update-btn ${stateClass}" onclick="manualCaptureSnapshot('${slot}')" title="${stateClass==='locked'?'Locked snapshot':'Capture current numbers'}">
+                ${unlockBtn}
                 <span class="manual-update-btn-check">✓</span>
-                <span class="manual-update-btn-icon">${saved?'✅':'📌'}</span>
+                <span class="manual-update-btn-icon">${icon}</span>
                 <span class="manual-update-btn-label">Update ${n}</span>
                 <span class="manual-update-btn-status">${status}</span>
               </button>
@@ -7169,7 +7455,7 @@ function renderManualPanel(){
         </div>
         <div style="text-align:center;color:#5A9870;font-size:10px;margin-top:10px;opacity:0.75;line-height:1.5">
           ✨ Export (PNG + WhatsApp text) arrives in the next step.<br>
-          Data auto-saves as you type — and loads back per date & supervisor.
+          🔒 Locks are enforced in order — later updates erase earlier re-opens.
         </div>
       </div>
     `;
