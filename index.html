@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Salam — Sales Performance Dashboard</title>
-<!-- v16: Baloo 2 for logo (rounded, modern) -->
+<!-- v16: Baloo 2 for logo (rounded, modern) + v16.3: IBM Plex Arabic for Arabic content -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
@@ -206,6 +206,188 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   display:flex;align-items:center;justify-content:center;
 }
 .mobile-sidebar-close:hover{background:rgba(255,255,255,0.18)}
+
+/* ═══════════════════════════════════════════════════════ */
+/* v16.3: Help Center / User Guide                          */
+/* ═══════════════════════════════════════════════════════ */
+
+/* Make Help Panel wider than other panels */
+#panel-help{width:600px;max-width:100vw}
+
+/* Language Toggle */
+.help-lang-toggle{
+  display:flex;background:rgba(0,0,0,0.25);border-radius:10px;padding:3px;
+  gap:2px;margin-bottom:14px;
+}
+.help-lang-btn{
+  flex:1;background:transparent;border:none;color:#8AC8A8;
+  padding:8px 12px;border-radius:7px;cursor:pointer;
+  font-size:12px;font-weight:700;transition:all .15s;
+}
+.help-lang-btn:hover{background:rgba(61,214,140,0.08);color:#fff}
+.help-lang-btn.active{
+  background:linear-gradient(135deg,#1A9E52,#0D7A38);
+  color:#fff;box-shadow:0 2px 8px rgba(61,214,140,0.3);
+}
+
+/* Welcome / Intro card */
+.help-intro{
+  background:linear-gradient(135deg,rgba(61,214,140,0.1),rgba(61,214,140,0.02));
+  border:1px solid rgba(61,214,140,0.25);
+  border-radius:12px;padding:16px;margin-bottom:16px;
+  text-align:center;
+}
+.help-intro-icon{font-size:36px;margin-bottom:8px}
+.help-intro-title{
+  font-size:16px;font-weight:700;color:#fff;margin-bottom:6px;
+}
+.help-intro-desc{
+  font-size:12px;color:#9ACDB0;line-height:1.6;
+}
+
+/* TOC (Table of Contents) */
+.help-toc{
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(61,214,140,0.08);
+  border-radius:10px;padding:14px;margin-bottom:16px;
+}
+.help-toc-title{
+  font-size:10px;color:#5AB87A;text-transform:uppercase;font-weight:700;
+  letter-spacing:.1em;margin-bottom:10px;
+}
+.help-toc-list{display:flex;flex-direction:column;gap:4px}
+.help-toc-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 12px;border-radius:8px;
+  cursor:pointer;color:#B8E8C8;font-size:12.5px;
+  transition:all .15s;background:transparent;border:none;
+  width:100%;text-align:left;
+}
+.help-toc-item:hover{
+  background:rgba(61,214,140,0.1);color:#fff;
+  transform:translateX(-3px);
+}
+.help-toc-icon{font-size:16px;flex-shrink:0;width:24px;text-align:center}
+.help-toc-label{flex:1;font-weight:500}
+.help-toc-arrow{color:#4A8A62;font-size:14px}
+
+/* Section View */
+.help-section{display:none}
+.help-section.active{display:block;animation:fadeIn .2s}
+.help-back-btn{
+  background:rgba(255,255,255,0.04);border:1px solid rgba(61,214,140,0.15);
+  color:#8AC8A8;padding:8px 14px;border-radius:8px;cursor:pointer;
+  font-size:11px;font-weight:700;margin-bottom:14px;
+  display:inline-flex;align-items:center;gap:6px;transition:all .15s;
+}
+.help-back-btn:hover{background:rgba(61,214,140,0.1);color:#fff}
+
+.help-section-hdr{
+  margin-bottom:16px;padding-bottom:12px;
+  border-bottom:1px solid rgba(61,214,140,0.1);
+}
+.help-section-icon{font-size:32px;margin-bottom:6px;line-height:1}
+.help-section-title{
+  font-size:20px;font-weight:800;color:#fff;margin-bottom:4px;
+  letter-spacing:-0.3px;
+}
+.help-section-sub{font-size:12px;color:#7AB88A;line-height:1.5}
+
+/* Help Card Block */
+.help-block{
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(61,214,140,0.1);
+  border-radius:10px;padding:14px 16px;margin-bottom:12px;
+}
+.help-block-title{
+  font-size:11px;color:#5DD88C;text-transform:uppercase;font-weight:700;
+  letter-spacing:.08em;margin-bottom:8px;
+  display:flex;align-items:center;gap:6px;
+}
+.help-block-content{
+  font-size:12.5px;color:#D8F0E0;line-height:1.7;
+}
+.help-block-content ul{list-style:none;padding:0;margin:0}
+.help-block-content li{
+  padding:4px 0;padding-left:20px;position:relative;
+}
+.help-block-content li::before{
+  content:'▸';position:absolute;left:4px;color:#5DD88C;font-weight:700;
+}
+.help-block-content b{color:#F6C94E;font-weight:700}
+.help-block-content code{
+  background:rgba(0,0,0,0.3);padding:1px 6px;border-radius:4px;
+  font-family:'Courier New',monospace;font-size:11px;color:#7DE8A8;
+}
+
+/* Color coded blocks */
+.help-block.what{border-color:rgba(55,138,221,0.2);background:rgba(55,138,221,0.04)}
+.help-block.what .help-block-title{color:#85B7EB}
+.help-block.how{border-color:rgba(61,214,140,0.2);background:rgba(61,214,140,0.04)}
+.help-block.how .help-block-title{color:#5DD88C}
+.help-block.tip{border-color:rgba(246,201,78,0.2);background:rgba(246,201,78,0.04)}
+.help-block.tip .help-block-title{color:#F6C94E}
+.help-block.warn{border-color:rgba(239,159,39,0.2);background:rgba(239,159,39,0.04)}
+.help-block.warn .help-block-title{color:#F0B848}
+
+/* Illustration box */
+.help-illustration{
+  background:linear-gradient(135deg,rgba(0,0,0,0.3),rgba(0,0,0,0.1));
+  border:1px dashed rgba(61,214,140,0.2);
+  border-radius:10px;padding:16px;margin:12px 0;
+  text-align:center;
+}
+
+/* Mini demo card (live-looking) */
+.help-demo{
+  background:linear-gradient(135deg,#0D3D26,#1A5C35);
+  border:1px solid rgba(61,214,140,0.3);
+  border-radius:10px;padding:12px;margin:10px 0;
+  position:relative;
+}
+.help-demo::before{
+  content:'LIVE EXAMPLE';position:absolute;top:-8px;left:12px;
+  background:#1A9E52;color:#fff;font-size:8px;font-weight:800;
+  padding:3px 8px;border-radius:4px;letter-spacing:.1em;
+}
+
+/* Annotation pointer */
+.help-annotate{
+  display:flex;align-items:flex-start;gap:10px;
+  background:rgba(246,201,78,0.06);
+  border-left:3px solid #F6C94E;
+  padding:10px 12px;margin:8px 0;
+  border-radius:0 8px 8px 0;
+}
+.help-annotate-num{
+  background:#F6C94E;color:#3A2800;font-weight:800;
+  width:22px;height:22px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;flex-shrink:0;
+}
+.help-annotate-text{font-size:11.5px;color:#E8FFF0;line-height:1.5}
+.help-annotate-text b{color:#F6C94E}
+
+/* Arabic RTL styling */
+.help-ar{
+  direction:rtl;text-align:right;
+  font-family:'IBM Plex Sans Arabic','Segoe UI',system-ui,sans-serif;
+}
+.help-ar .help-block-content li{padding-left:0;padding-right:20px}
+.help-ar .help-block-content li::before{left:auto;right:4px;content:'◂'}
+.help-ar .help-annotate{border-left:none;border-right:3px solid #F6C94E;border-radius:8px 0 0 8px}
+.help-ar .help-toc-item:hover{transform:translateX(3px)}
+.help-ar .help-back-btn{direction:ltr}
+
+/* Example mini components inside help */
+.help-mini-kpi{
+  background:linear-gradient(135deg,#0D3D26,#1A5C35);
+  border:1px solid rgba(61,214,140,0.3);
+  border-radius:10px;padding:12px;display:inline-block;margin:4px;
+}
+.help-mini-kpi-lbl{font-size:9px;color:#7DE8A8;text-transform:uppercase;font-weight:700}
+.help-mini-kpi-val{font-size:24px;font-weight:900;color:#fff;margin-top:4px}
+.help-mini-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;margin:2px}
 
 /* ═══════════════════════════════════════════════════════ */
 /* v16: Compare Mode / Watch List / Badges / Team Goals    */
@@ -1204,8 +1386,13 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     🎖️
     <span class="tool-icon-tooltip">Badges</span>
   </button>
+  <!-- v16.3: Help Center -->
+  <button class="tool-icon" onclick="openPanel('help')" style="background:linear-gradient(135deg,rgba(55,138,221,0.15),rgba(55,138,221,0.05));border-color:rgba(55,138,221,0.4)">
+    ❓
+    <span class="tool-icon-tooltip">User Guide</span>
+  </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v16.2 · Phase 3+</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v16.3 · Phase 3+</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -1273,6 +1460,15 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <button class="panel-close" onclick="closePanel()">✕</button>
   </div>
   <div class="panel-body" id="panel-badges-body"></div>
+</div>
+
+<!-- v16.3: Help Center Panel -->
+<div class="panel-overlay" id="panel-help">
+  <div class="panel-hdr">
+    <div class="panel-hdr-title">❓ User Guide</div>
+    <button class="panel-close" onclick="closePanel()">✕</button>
+  </div>
+  <div class="panel-body" id="panel-help-body"></div>
 </div>
 
 <div class="wrap">
@@ -3887,6 +4083,844 @@ document.addEventListener('keydown',e=>{
     closeMobileSidebar();
   }
 });
+
+// ═══════════════════════════════════════════════════════
+// v16.3: Help Center (Bilingual EN/AR)
+// ═══════════════════════════════════════════════════════
+
+let HELP_LANG='en';
+let HELP_SECTION='home';
+
+// Load language preference
+try{
+  const savedLang=sessionStorage.getItem('salam_help_lang');
+  if(savedLang)HELP_LANG=savedLang;
+}catch{}
+
+function setHelpLang(lang){
+  HELP_LANG=lang;
+  try{sessionStorage.setItem('salam_help_lang',lang);}catch{}
+  renderHelpPanel();
+}
+
+function showHelpSection(section){
+  HELP_SECTION=section;
+  renderHelpPanel();
+}
+
+// ── Help Content — English ──
+const HELP_CONTENT_EN={
+  home:{title:'Welcome',icon:'👋'},
+  overview:{icon:'🏠',title:'Dashboard Overview',sub:'Understanding the main layout'},
+  kpis:{icon:'📊',title:'KPI Cards',sub:'Your key performance indicators'},
+  goal:{icon:'🎯',title:'Goal Gap & Team Goal',sub:'Monthly target tracker'},
+  podium:{icon:'🏆',title:'Top 10 Performers',sub:'Leaderboard & podium'},
+  alerts:{icon:'🔔',title:'Smart Alerts',sub:'Automatic notifications'},
+  risk:{icon:'🎯',title:'At-Risk Radar',sub:'Employees needing attention'},
+  fame:{icon:'🏆',title:'Hall of Fame',sub:'Award winners'},
+  ftth:{icon:'📡',title:'FTTH & 5G Section',sub:'Connectivity sales tracking'}
+};
+
+// ── Help Content — Arabic ──
+const HELP_CONTENT_AR={
+  home:{title:'أهلاً بك',icon:'👋'},
+  overview:{icon:'🏠',title:'نظرة عامة على الداشبورد',sub:'فهم التخطيط الرئيسي'},
+  kpis:{icon:'📊',title:'بطاقات الأداء (KPIs)',sub:'مؤشرات الأداء الرئيسية'},
+  goal:{icon:'🎯',title:'فجوة الهدف و هدف الفريق',sub:'متتبع الهدف الشهري'},
+  podium:{icon:'🏆',title:'أفضل 10 موظفين',sub:'المتصدرون ومنصة التتويج'},
+  alerts:{icon:'🔔',title:'التنبيهات الذكية',sub:'إشعارات تلقائية'},
+  risk:{icon:'🎯',title:'رادار الموظفين في خطر',sub:'الموظفون الذين يحتاجون متابعة'},
+  fame:{icon:'🏆',title:'قاعة المشاهير',sub:'الفائزون بالجوائز'},
+  ftth:{icon:'📡',title:'قسم FTTH و 5G',sub:'متابعة مبيعات خدمات الاتصال'}
+};
+
+function renderHelpPanel(){
+  const body=document.getElementById('panel-help-body');
+  if(!body)return;
+  const isAR=HELP_LANG==='ar';
+  const content=isAR?HELP_CONTENT_AR:HELP_CONTENT_EN;
+  const arClass=isAR?'help-ar':'';
+  // Language toggle
+  let html=`
+    <div class="help-lang-toggle">
+      <button class="help-lang-btn ${HELP_LANG==='en'?'active':''}" onclick="setHelpLang('en')">🇬🇧 English</button>
+      <button class="help-lang-btn ${HELP_LANG==='ar'?'active':''}" onclick="setHelpLang('ar')">🇸🇦 العربية</button>
+    </div>
+  `;
+  if(HELP_SECTION==='home'){
+    html+=renderHelpHome(isAR,content,arClass);
+  }else{
+    html+=renderHelpSection(HELP_SECTION,isAR,content,arClass);
+  }
+  body.innerHTML=html;
+}
+
+function renderHelpHome(isAR,content,arClass){
+  const sections=['overview','kpis','goal','podium','alerts','risk','fame','ftth'];
+  const introTitle=isAR?'دليل استخدام الداشبورد':'Dashboard User Guide';
+  const introDesc=isAR
+    ?'شرح مفصّل لكل قسم وأداة في الداشبورد. اختر أي موضوع أدناه لفتح الشرح الكامل.'
+    :'A complete guide to every section and tool in the dashboard. Click any topic below to open its detailed explanation.';
+  const tocTitle=isAR?'المحتويات':'Table of Contents';
+  return`
+    <div class="${arClass}">
+      <div class="help-intro">
+        <div class="help-intro-icon">📖</div>
+        <div class="help-intro-title">${introTitle}</div>
+        <div class="help-intro-desc">${introDesc}</div>
+      </div>
+      <div class="help-toc">
+        <div class="help-toc-title">${tocTitle}</div>
+        <div class="help-toc-list">
+          ${sections.map(s=>{
+            const item=content[s];
+            return`<button class="help-toc-item" onclick="showHelpSection('${s}')">
+              <div class="help-toc-icon">${item.icon}</div>
+              <div class="help-toc-label">${item.title}</div>
+              <div class="help-toc-arrow">${isAR?'◂':'▸'}</div>
+            </button>`;
+          }).join('')}
+        </div>
+      </div>
+      <div style="text-align:center;font-size:10px;color:#5A9870;opacity:0.7;padding:12px">
+        ${isAR?'💡 المزيد من الأقسام قادمة في v16.4':'💡 More sections coming in v16.4'}
+      </div>
+    </div>
+  `;
+}
+
+function renderHelpSection(section,isAR,content,arClass){
+  const item=content[section];
+  const backLabel=isAR?'العودة للقائمة':'Back to menu';
+  let sectionHTML='';
+  if(section==='overview')sectionHTML=isAR?helpContent_overview_ar():helpContent_overview_en();
+  else if(section==='kpis')sectionHTML=isAR?helpContent_kpis_ar():helpContent_kpis_en();
+  else if(section==='goal')sectionHTML=isAR?helpContent_goal_ar():helpContent_goal_en();
+  else if(section==='podium')sectionHTML=isAR?helpContent_podium_ar():helpContent_podium_en();
+  else if(section==='alerts')sectionHTML=isAR?helpContent_alerts_ar():helpContent_alerts_en();
+  else if(section==='risk')sectionHTML=isAR?helpContent_risk_ar():helpContent_risk_en();
+  else if(section==='fame')sectionHTML=isAR?helpContent_fame_ar():helpContent_fame_en();
+  else if(section==='ftth')sectionHTML=isAR?helpContent_ftth_ar():helpContent_ftth_en();
+  return`
+    <div class="${arClass}">
+      <button class="help-back-btn" onclick="showHelpSection('home')">
+        ${isAR?'▸ '+backLabel:'◂ '+backLabel}
+      </button>
+      <div class="help-section-hdr">
+        <div class="help-section-icon">${item.icon}</div>
+        <div class="help-section-title">${item.title}</div>
+        <div class="help-section-sub">${item.sub}</div>
+      </div>
+      ${sectionHTML}
+    </div>
+  `;
+}
+
+// ═══════════════════════════════════════════════════════
+// Help Content — Section Definitions (EN & AR)
+// ═══════════════════════════════════════════════════════
+
+// ── 1. OVERVIEW ──
+function helpContent_overview_en(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 What is it?</div>
+      <div class="help-block-content">
+        The dashboard provides a <b>real-time view</b> of your retail sales team's performance, pulling data directly from Google Sheets and updating automatically every 5 minutes.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🗺️ Main Layout</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>Header:</b> Logo, title, and quick action buttons</li>
+          <li><b>Toolbar:</b> 7 tool icons for Alerts, Radar, Fame, Compare, Watch, Badges, and this Guide</li>
+          <li><b>Ticker:</b> Live stream of key achievements</li>
+          <li><b>Sidebar:</b> Filter by supervisor (All / Abdulwahab / Ahmed / Mohammed / Najwah)</li>
+          <li><b>Main Content:</b> KPIs, podium, charts, and employee table</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 Quick Tips</div>
+      <div class="help-block-content">
+        <ul>
+          <li>Click <b>↻ Refresh</b> in the header to reload data instantly</li>
+          <li>Data updates <b>automatically every 5 minutes</b></li>
+          <li>Press <code>ESC</code> to close any open panel or modal</li>
+          <li>On mobile, tap <b>☰</b> to open the supervisor menu</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block warn">
+      <div class="help-block-title">⚠️ Note</div>
+      <div class="help-block-content">
+        Data date is pulled from the Google Sheets filename. Update the filename (e.g., "Retail_MT_Achievement 15 April 2026") to reflect the correct date.
+      </div>
+    </div>
+  `;
+}
+
+function helpContent_overview_ar(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 ما هذا؟</div>
+      <div class="help-block-content">
+        الداشبورد يقدّم <b>نظرة لحظية</b> على أداء فريق مبيعات الريتيل، حيث يسحب البيانات مباشرة من Google Sheets ويتحدّث تلقائياً كل 5 دقائق.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🗺️ التخطيط الرئيسي</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>الرأس:</b> الشعار، العنوان، وأزرار الإجراءات السريعة</li>
+          <li><b>شريط الأدوات:</b> 7 أيقونات — التنبيهات، الرادار، المشاهير، المقارنة، المراقبة، الشارات، وهذا الدليل</li>
+          <li><b>الشريط المتحرك:</b> بث مباشر للإنجازات الرئيسية</li>
+          <li><b>الشريط الجانبي:</b> التصفية حسب المشرف (الكل / عبدالوهاب / أحمد / محمد / نجوى)</li>
+          <li><b>المحتوى الرئيسي:</b> مؤشرات الأداء، منصة التتويج، الرسوم البيانية، وجدول الموظفين</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 نصائح سريعة</div>
+      <div class="help-block-content">
+        <ul>
+          <li>اضغط <b>↻ Refresh</b> في الأعلى لإعادة تحميل البيانات فوراً</li>
+          <li>البيانات تتحدّث <b>تلقائياً كل 5 دقائق</b></li>
+          <li>اضغط <code>ESC</code> لإغلاق أي لوحة أو نافذة مفتوحة</li>
+          <li>على الجوال، اضغط <b>☰</b> لفتح قائمة المشرفين</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block warn">
+      <div class="help-block-title">⚠️ ملاحظة</div>
+      <div class="help-block-content">
+        يتم سحب تاريخ البيانات من اسم ملف Google Sheets. عدّل اسم الملف (مثل: "Retail_MT_Achievement 15 April 2026") ليعكس التاريخ الصحيح.
+      </div>
+    </div>
+  `;
+}
+
+// ── 2. KPIs ──
+function helpContent_kpis_en(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 What are KPI Cards?</div>
+      <div class="help-block-content">
+        KPI (Key Performance Indicator) cards show your team's most important metrics at a glance. They're organized in 3 rows.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🎯 Row 1 — Team Performance</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>Total Sales:</b> Cumulative team sales for the month</li>
+          <li><b>Achievement:</b> Overall % toward target + remaining count</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">👑 Row 2 — Top Highlights (4 cards)</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>Top Performer:</b> Employee with highest achievement %</li>
+          <li><b>Team:</b> Active vs inactive agents</li>
+          <li><b>Best Branch %:</b> Branch with highest achievement % (min 10 sales)</li>
+          <li><b>Top Branch Sales:</b> Branch with most absolute sales</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📱 Row 3 — Product Mix</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>Postpaid:</b> Target = 45% of total · Blue theme</li>
+          <li><b>Prepaid:</b> Target = 55% of total · Purple theme</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 Color Coding</div>
+      <div class="help-block-content">
+        <div class="help-mini-badge" style="background:rgba(61,214,140,0.15);color:#3DD68C">🟢 ≥75% Excellent</div>
+        <div class="help-mini-badge" style="background:rgba(93,200,144,0.15);color:#5DC890">🟢 50-74% Good</div>
+        <div class="help-mini-badge" style="background:rgba(239,159,39,0.15);color:#EF9F27">🟡 25-49% Warning</div>
+        <div class="help-mini-badge" style="background:rgba(226,75,74,0.15);color:#E24B4A">🔴 &lt;25% Critical</div>
+      </div>
+    </div>
+  `;
+}
+
+function helpContent_kpis_ar(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 ما هي بطاقات الـ KPI؟</div>
+      <div class="help-block-content">
+        بطاقات مؤشرات الأداء الرئيسية تعرض أهم المقاييس لفريقك بنظرة واحدة. منظّمة في 3 صفوف.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🎯 الصف الأول — أداء الفريق</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>إجمالي المبيعات:</b> مجموع مبيعات الفريق للشهر</li>
+          <li><b>نسبة الإنجاز:</b> النسبة الإجمالية للهدف + العدد المتبقي</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">👑 الصف الثاني — أبرز النتائج (4 بطاقات)</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>أفضل موظف:</b> الموظف الأعلى في نسبة الإنجاز</li>
+          <li><b>الفريق:</b> الموظفون النشطون مقابل غير النشطين</li>
+          <li><b>أفضل فرع %:</b> الفرع الأعلى نسبة إنجاز (بحد أدنى 10 مبيعات)</li>
+          <li><b>أعلى مبيعات فرع:</b> الفرع صاحب أعلى عدد مبيعات مطلق</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📱 الصف الثالث — المنتجات</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>Postpaid:</b> الهدف = 45% من الإجمالي · اللون الأزرق</li>
+          <li><b>Prepaid:</b> الهدف = 55% من الإجمالي · اللون البنفسجي</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 نظام الألوان</div>
+      <div class="help-block-content">
+        <div class="help-mini-badge" style="background:rgba(61,214,140,0.15);color:#3DD68C">🟢 ممتاز 75%+</div>
+        <div class="help-mini-badge" style="background:rgba(93,200,144,0.15);color:#5DC890">🟢 جيد 50-74%</div>
+        <div class="help-mini-badge" style="background:rgba(239,159,39,0.15);color:#EF9F27">🟡 تحذير 25-49%</div>
+        <div class="help-mini-badge" style="background:rgba(226,75,74,0.15);color:#E24B4A">🔴 حرج أقل من 25%</div>
+      </div>
+    </div>
+  `;
+}
+
+// ── 3. GOAL GAP ──
+function helpContent_goal_en(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 What is Goal Gap?</div>
+      <div class="help-block-content">
+        Goal Gap is a <b>monthly target tracker</b> showing how much work remains and the pace needed to hit the team's target.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📊 Three Key Metrics</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>Days Left:</b> Remaining days in the month (retail branches = 7 days/week)</li>
+          <li><b>Sales Remaining:</b> Target minus current achievement</li>
+          <li><b>Sales/Day Needed:</b> Daily pace required to hit target</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🚦 Status Indicators</div>
+      <div class="help-block-content">
+        <ul>
+          <li>🟢 <b>On Track</b> — ≥75% achieved</li>
+          <li>🟡 <b>Needs Push</b> — 40-74%</li>
+          <li>🔴 <b>Behind</b> — &lt;40%</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block what">
+      <div class="help-block-title">🎪 What is Team Goal Card?</div>
+      <div class="help-block-content">
+        Added in v16, this is a <b>motivational progress bar</b> showing the overall team journey toward the monthly target. Features a live shimmer animation.
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 Pro Tip</div>
+      <div class="help-block-content">
+        Use the Sales/Day Needed number in daily team huddles. If it's getting unrealistically high, focus on the At-Risk Radar to identify bottlenecks.
+      </div>
+    </div>
+  `;
+}
+
+function helpContent_goal_ar(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 ما هي فجوة الهدف؟</div>
+      <div class="help-block-content">
+        فجوة الهدف هي <b>متتبع للهدف الشهري</b> يوضّح كم تبقّى من العمل والوتيرة اللازمة لتحقيق هدف الفريق.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📊 ثلاثة مقاييس رئيسية</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>الأيام المتبقية:</b> الأيام الباقية في الشهر (الفروع تعمل 7 أيام في الأسبوع)</li>
+          <li><b>المبيعات المتبقية:</b> الهدف ناقص الإنجاز الحالي</li>
+          <li><b>مبيعات/يوم مطلوبة:</b> الوتيرة اليومية اللازمة لتحقيق الهدف</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🚦 مؤشرات الحالة</div>
+      <div class="help-block-content">
+        <ul>
+          <li>🟢 <b>على المسار</b> — 75% فأكثر محقّق</li>
+          <li>🟡 <b>يحتاج دفعة</b> — 40-74%</li>
+          <li>🔴 <b>متأخر</b> — أقل من 40%</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block what">
+      <div class="help-block-title">🎪 ما هي بطاقة هدف الفريق؟</div>
+      <div class="help-block-content">
+        أُضيفت في v16، وهي <b>شريط تقدّم تحفيزي</b> يُظهر رحلة الفريق الإجمالية نحو الهدف الشهري. تحتوي على تأثير لمعان متحرّك.
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 نصيحة احترافية</div>
+      <div class="help-block-content">
+        استخدم رقم "مبيعات/يوم" في الاجتماعات اليومية للفريق. إذا كان الرقم يرتفع بشكل غير واقعي، ركّز على رادار المخاطر لتحديد العوائق.
+      </div>
+    </div>
+  `;
+}
+
+// ── 4. PODIUM ──
+function helpContent_podium_en(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 What is the Podium?</div>
+      <div class="help-block-content">
+        The Top 10 Performers section celebrates your best employees with a <b>luxury podium</b> for the top 3, followed by a slim list for ranks 4-10.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🏆 Podium Layout</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>Center (Gold):</b> 1st place with animated crown 👑</li>
+          <li><b>Left (Silver):</b> 2nd place</li>
+          <li><b>Right (Bronze):</b> 3rd place</li>
+        </ul>
+        Each card shows: Rank · Name · Branch · Sales count · Achievement %
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📋 Ranks 4-10</div>
+      <div class="help-block-content">
+        Shown as slim cards below the podium. Each displays: rank, name, branch, supervisor, sales, and achievement %.
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 Ranking Logic</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>Primary sort:</b> Achievement % (descending)</li>
+          <li><b>Tie-breaker:</b> Total sales count</li>
+          <li><b>Click any card:</b> Opens full employee details modal</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block warn">
+      <div class="help-block-title">⚠️ Who's excluded?</div>
+      <div class="help-block-content">
+        Employees with no target or marked as "User_Mapping_Master" (unstaffed branches) are excluded from the ranking.
+      </div>
+    </div>
+  `;
+}
+
+function helpContent_podium_ar(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 ما هي منصة التتويج؟</div>
+      <div class="help-block-content">
+        قسم "أفضل 10 موظفين" يحتفي بأفضل موظفيك عبر <b>منصة تتويج فاخرة</b> للأوائل الثلاثة، متبوعة بقائمة مرتبة للمراتب 4-10.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🏆 تخطيط المنصة</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>المنتصف (ذهبي):</b> المركز الأول مع تاج متحرّك 👑</li>
+          <li><b>اليسار (فضي):</b> المركز الثاني</li>
+          <li><b>اليمين (برونزي):</b> المركز الثالث</li>
+        </ul>
+        كل بطاقة تعرض: المرتبة · الاسم · الفرع · عدد المبيعات · نسبة الإنجاز
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📋 المراتب 4-10</div>
+      <div class="help-block-content">
+        تُعرض كبطاقات مختصرة تحت المنصة. كل بطاقة تحتوي على: المرتبة، الاسم، الفرع، المشرف، المبيعات، ونسبة الإنجاز.
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 منطق الترتيب</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>الترتيب الأساسي:</b> نسبة الإنجاز (تنازلياً)</li>
+          <li><b>كسر التعادل:</b> إجمالي المبيعات</li>
+          <li><b>اضغط أي بطاقة:</b> تفتح تفاصيل الموظف الكاملة</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block warn">
+      <div class="help-block-title">⚠️ من يتم استبعاده؟</div>
+      <div class="help-block-content">
+        الموظفون بدون تارقت أو المعلّمون بـ "User_Mapping_Master" (فروع بدون موظفين) يتم استبعادهم من الترتيب.
+      </div>
+    </div>
+  `;
+}
+
+// ── 5. ALERTS ──
+function helpContent_alerts_en(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 What are Smart Alerts?</div>
+      <div class="help-block-content">
+        Smart Alerts are <b>automatic notifications</b> that surface the most important insights from your data — both problems and wins — without you having to search.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🚨 Alert Types</div>
+      <div class="help-block-content">
+        <ul>
+          <li><span style="color:#F08888">🔴 <b>Critical:</b></span> Inactive agents (zero sales)</li>
+          <li><span style="color:#F6C94E">🟡 <b>Warning:</b></span> At-risk agents (&lt;30% achievement)</li>
+          <li><span style="color:#5DD88C">🟢 <b>Success:</b></span> Targets exceeded, on-fire performers</li>
+          <li><span style="color:#85B7EB">🔵 <b>Info:</b></span> Team status, unstaffed branches</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🎯 How to access</div>
+      <div class="help-block-content">
+        Click the <b>🔔 bell icon</b> in the toolbar. A red badge indicates how many critical + warning alerts are active.
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 Pro Tips</div>
+      <div class="help-block-content">
+        <ul>
+          <li>Alerts are <b>sorted by priority</b> (Critical → Warning → Success → Info)</li>
+          <li>Click an alert to <b>jump to the related panel</b> (e.g., At-Risk Radar)</li>
+          <li>Alerts refresh automatically when data updates</li>
+        </ul>
+      </div>
+    </div>
+  `;
+}
+
+function helpContent_alerts_ar(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 ما هي التنبيهات الذكية؟</div>
+      <div class="help-block-content">
+        التنبيهات الذكية هي <b>إشعارات تلقائية</b> تُظهر أهم المعلومات من بياناتك — مشاكل وإنجازات — دون الحاجة للبحث.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🚨 أنواع التنبيهات</div>
+      <div class="help-block-content">
+        <ul>
+          <li><span style="color:#F08888">🔴 <b>حرج:</b></span> موظفون غير نشطين (صفر مبيعات)</li>
+          <li><span style="color:#F6C94E">🟡 <b>تحذير:</b></span> موظفون في خطر (أقل من 30% إنجاز)</li>
+          <li><span style="color:#5DD88C">🟢 <b>نجاح:</b></span> أهداف متجاوَزة، أداء مميّز</li>
+          <li><span style="color:#85B7EB">🔵 <b>معلومات:</b></span> حالة الفريق، فروع بدون موظفين</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🎯 كيفية الوصول</div>
+      <div class="help-block-content">
+        اضغط أيقونة <b>🔔 الجرس</b> في شريط الأدوات. الشارة الحمراء تُشير إلى عدد التنبيهات الحرجة + التحذيرية النشطة.
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 نصائح احترافية</div>
+      <div class="help-block-content">
+        <ul>
+          <li>التنبيهات مُرتّبة <b>حسب الأولوية</b> (حرج ← تحذير ← نجاح ← معلومات)</li>
+          <li>اضغط تنبيهاً للانتقال <b>إلى اللوحة المرتبطة به</b> (مثل الرادار)</li>
+          <li>التنبيهات تتحدّث تلقائياً مع تحديث البيانات</li>
+        </ul>
+      </div>
+    </div>
+  `;
+}
+
+// ── 6. RISK RADAR ──
+function helpContent_risk_en(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 What is At-Risk Radar?</div>
+      <div class="help-block-content">
+        The At-Risk Radar identifies employees who <b>need immediate intervention</b>. Early detection helps you coach, support, or redirect before month-end.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🎯 Detection Criteria</div>
+      <div class="help-block-content">
+        An employee appears here if <b>any</b> of these are true:
+        <ul>
+          <li>❄️ Zero sales this month (Inactive)</li>
+          <li>⚠️ Less than 30% achievement (Low performance)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📊 What you'll see</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>Summary banner:</b> Count of zero-sales + below-30% employees</li>
+          <li><b>Sorted list:</b> Worst performers first</li>
+          <li><b>Per-agent stats:</b> Sales/Target, achievement %, and Daily Need pace</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 How to use it</div>
+      <div class="help-block-content">
+        <ul>
+          <li>Open in the morning to plan your day's coaching priorities</li>
+          <li>Click any agent card to see full details and open a <b>1-on-1 Meeting Prep</b> (in their modal)</li>
+          <li>Use the <b>Daily Need</b> number to set realistic expectations</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block warn">
+      <div class="help-block-title">⚠️ Context matters</div>
+      <div class="help-block-content">
+        An "at-risk" flag isn't always the employee's fault. Check for: new hires, branch staffing issues, product availability, or external factors first.
+      </div>
+    </div>
+  `;
+}
+
+function helpContent_risk_ar(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 ما هو رادار الموظفين في خطر؟</div>
+      <div class="help-block-content">
+        الرادار يُحدّد الموظفين الذين <b>يحتاجون تدخّلاً فورياً</b>. الكشف المبكر يُساعدك على التوجيه والدعم قبل نهاية الشهر.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🎯 معايير الكشف</div>
+      <div class="help-block-content">
+        يظهر الموظف هنا إذا كان <b>أيّ</b> مما يلي صحيحاً:
+        <ul>
+          <li>❄️ صفر مبيعات هذا الشهر (غير نشط)</li>
+          <li>⚠️ أقل من 30% إنجاز (أداء ضعيف)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📊 ما ستراه</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>ملخص أعلى:</b> عدد موظفي صفر المبيعات + أقل من 30%</li>
+          <li><b>قائمة مرتبة:</b> الأسوأ أداءً أولاً</li>
+          <li><b>إحصائيات الموظف:</b> المبيعات/الهدف، نسبة الإنجاز، ومعدّل الاحتياج اليومي</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 كيفية الاستخدام</div>
+      <div class="help-block-content">
+        <ul>
+          <li>افتحه صباحاً لتخطيط أولويات التوجيه لليوم</li>
+          <li>اضغط أي بطاقة لرؤية التفاصيل الكاملة وفتح <b>تقرير اجتماع 1-on-1</b> (في نافذة الموظف)</li>
+          <li>استخدم رقم <b>الاحتياج اليومي</b> لتحديد توقعات واقعية</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block warn">
+      <div class="help-block-title">⚠️ السياق مهم</div>
+      <div class="help-block-content">
+        علامة "في خطر" ليست دائماً خطأ الموظف. تحقّق أولاً من: الموظفين الجدد، مشاكل توظيف الفرع، توفّر المنتجات، أو عوامل خارجية.
+      </div>
+    </div>
+  `;
+}
+
+// ── 7. HALL OF FAME ──
+function helpContent_fame_en(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 What is Hall of Fame?</div>
+      <div class="help-block-content">
+        Hall of Fame <b>celebrates excellence</b> by automatically naming winners across 6 different categories, ensuring recognition beyond just the top seller.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🏆 Six Award Categories</div>
+      <div class="help-block-content">
+        <ul>
+          <li>👑 <b>Employee of the Month</b> — Highest achievement %</li>
+          <li>💰 <b>Top Seller</b> — Most absolute sales</li>
+          <li>🚀 <b>Overachiever</b> — Exceeded 100% target</li>
+          <li>📱 <b>Postpaid King</b> — Top postpaid sales</li>
+          <li>⭐ <b>Rising Star</b> — High % with smaller target (≤50)</li>
+          <li>🎯 <b>Consistency Champion</b> — Steady performer (50-85%)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 Recognition matters</div>
+      <div class="help-block-content">
+        Hall of Fame goes beyond rewarding only top sellers. It recognizes <b>different types of excellence</b> — consistency, growth potential, and product specialization.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🎯 How to use it</div>
+      <div class="help-block-content">
+        <ul>
+          <li>Click any award card to see the winner's full profile</li>
+          <li>Share screenshots in team channels to celebrate wins</li>
+          <li>Use during end-of-month reviews to acknowledge multiple contributors</li>
+        </ul>
+      </div>
+    </div>
+  `;
+}
+
+function helpContent_fame_ar(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 ما هي قاعة المشاهير؟</div>
+      <div class="help-block-content">
+        قاعة المشاهير <b>تحتفي بالتميّز</b> عبر اختيار الفائزين تلقائياً في 6 فئات مختلفة، لضمان التقدير لأكثر من مجرد أفضل بائع.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🏆 الفئات الست</div>
+      <div class="help-block-content">
+        <ul>
+          <li>👑 <b>موظف الشهر</b> — أعلى نسبة إنجاز</li>
+          <li>💰 <b>البائع الأول</b> — أعلى مبيعات مطلقة</li>
+          <li>🚀 <b>المتجاوِز</b> — تجاوَز 100% من الهدف</li>
+          <li>📱 <b>ملك Postpaid</b> — أعلى مبيعات postpaid</li>
+          <li>⭐ <b>النجم الصاعد</b> — نسبة عالية مع هدف أصغر (≤50)</li>
+          <li>🎯 <b>بطل الثبات</b> — أداء مستقر (50-85%)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 التقدير مهم</div>
+      <div class="help-block-content">
+        قاعة المشاهير تتجاوَز مكافأة الأعلى مبيعاً فقط. تعترف بـ<b>أنواع مختلفة من التميّز</b> — الثبات، إمكانية النمو، والتخصّص في المنتجات.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🎯 كيفية الاستخدام</div>
+      <div class="help-block-content">
+        <ul>
+          <li>اضغط أي بطاقة جائزة لرؤية الملف الكامل للفائز</li>
+          <li>شارك لقطات الشاشة في قنوات الفريق للاحتفاء بالإنجازات</li>
+          <li>استخدمها في مراجعات نهاية الشهر لتكريم عدّة مساهمين</li>
+        </ul>
+      </div>
+    </div>
+  `;
+}
+
+// ── 8. FTTH ──
+function helpContent_ftth_en(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 What is FTTH & 5G Section?</div>
+      <div class="help-block-content">
+        A dedicated section for tracking <b>home connectivity sales</b> — FTTH (Fiber-to-the-Home) and 5G services — which are high-value products with separate targets.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📊 Two KPIs at the top</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>FTTH + 5G Total:</b> Combined count of both services</li>
+          <li><b>FTTH & 5G Achievement:</b> % vs dedicated FTTH target (5 per agent)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🏅 Top 5 Employees (FTTH)</div>
+      <div class="help-block-content">
+        Card-style display showing the top 5 FTTH sellers with breakdowns for FTTH vs 5G sales separately.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🏪 Branch & Supervisor Views</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>Top 5 Branches:</b> Ranked by total FTTH+5G sales</li>
+          <li><b>By Supervisor:</b> Comparison across all 4 supervisors</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block warn">
+      <div class="help-block-title">⚠️ Data Source</div>
+      <div class="help-block-content">
+        FTTH data comes from a <b>separate sheet tab</b> (gid=57457654). Only employees listed there appear in FTTH rankings. Employees with <code>A_00</code> codes are external and excluded.
+      </div>
+    </div>
+  `;
+}
+
+function helpContent_ftth_ar(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 ما هو قسم FTTH و 5G؟</div>
+      <div class="help-block-content">
+        قسم مخصّص لمتابعة <b>مبيعات خدمات الاتصال المنزلي</b> — FTTH (الألياف البصرية) و 5G — وهي منتجات عالية القيمة بأهداف منفصلة.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📊 بطاقتان في الأعلى</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>إجمالي FTTH + 5G:</b> مجموع الخدمتين معاً</li>
+          <li><b>نسبة إنجاز FTTH و 5G:</b> النسبة مقابل الهدف المخصّص (5 لكل موظف)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🏅 أفضل 5 موظفين (FTTH)</div>
+      <div class="help-block-content">
+        عرض على شكل بطاقات يُظهر أفضل 5 بائعي FTTH مع تفصيل مبيعات FTTH مقابل 5G بشكل منفصل.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🏪 عروض الفرع والمشرف</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>أفضل 5 فروع:</b> مرتّبة حسب إجمالي FTTH+5G</li>
+          <li><b>حسب المشرف:</b> مقارنة بين المشرفين الأربعة</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block warn">
+      <div class="help-block-title">⚠️ مصدر البيانات</div>
+      <div class="help-block-content">
+        بيانات FTTH تأتي من <b>شيت منفصل</b> (gid=57457654). فقط الموظفون المدرَجون هناك يظهرون في ترتيب FTTH. الموظفون برموز <code>A_00</code> خارجيون ومستبعَدون.
+      </div>
+    </div>
+  `;
+}
+
+// ── Extend openPanel to include help ──
+const _origOpenPanel2=openPanel;
+openPanel=function(name){
+  _origOpenPanel2(name);
+  if(name==='help'){
+    HELP_SECTION='home';
+    renderHelpPanel();
+  }
+};
 
 setInterval(loadData,5*60*1000);
 loadData();
