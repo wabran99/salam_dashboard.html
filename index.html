@@ -5498,6 +5498,334 @@ function helpContent_tab_trends_ar(){
   `;
 }
 
+// ── 15. ACTIVITY TAB ──
+function helpContent_tab_activity_en(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 What is Activity?</div>
+      <div class="help-block-content">
+        A <b>heatmap calendar</b> that shows the employee's daily activity across the current month. Darker squares mean higher sales days, lighter squares mean quieter days.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🎨 Color Scale</div>
+      <div class="help-block-content">
+        Each day gets a color based on its sales volume:
+        <div class="help-mini-badge" style="background:rgba(61,214,140,0.25);color:#3DD68C">🟩 Very active — strong sales day</div>
+        <div class="help-mini-badge" style="background:rgba(61,214,140,0.12);color:#5DC890">🟢 Active — normal sales day</div>
+        <div class="help-mini-badge" style="background:rgba(239,159,39,0.12);color:#EF9F27">🟡 Quiet — low sales day</div>
+        <div class="help-mini-badge" style="background:rgba(100,100,100,0.12);color:#8FA0AE">⬜ No sales — zero activity</div>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📅 Reading the Calendar</div>
+      <div class="help-block-content">
+        <ul>
+          <li>The calendar spans the <b>current month</b> day-by-day</li>
+          <li>Weekends are highlighted lightly (shops stay open but traffic differs)</li>
+          <li>Future dates are <b>grayed out</b> — not yet happened</li>
+          <li>Hover or tap any day to see exact sales count</li>
+          <li>Clusters of dark squares = strong streaks</li>
+          <li>Clusters of empty squares = possible attendance or motivation issues</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block warn">
+      <div class="help-block-title">⚠️ About the data</div>
+      <div class="help-block-content">
+        Daily values are currently estimated from the monthly total (evenly distributed with small variance). Starting in <b>v20</b>, the heatmap will reflect <b>actual daily sales</b> — exposing real patterns like "slow Mondays" or "end-of-month rush".
+      </div>
+    </div>
+  `;
+}
+
+function helpContent_tab_activity_ar(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 ما هو النشاط؟</div>
+      <div class="help-block-content">
+        <b>تقويم حرارة</b> يعرض النشاط اليومي للموظف عبر الشهر الحالي. المربّعات الأغمق تعني أيام مبيعات أعلى، والأفتح تعني أيام أهدأ.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🎨 مقياس الألوان</div>
+      <div class="help-block-content">
+        كل يوم يأخذ لوناً حسب حجم المبيعات:
+        <div class="help-mini-badge" style="background:rgba(61,214,140,0.25);color:#3DD68C">🟩 نشاط قوي جداً</div>
+        <div class="help-mini-badge" style="background:rgba(61,214,140,0.12);color:#5DC890">🟢 نشاط عادي</div>
+        <div class="help-mini-badge" style="background:rgba(239,159,39,0.12);color:#EF9F27">🟡 نشاط ضعيف</div>
+        <div class="help-mini-badge" style="background:rgba(100,100,100,0.12);color:#8FA0AE">⬜ بدون مبيعات</div>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📅 قراءة التقويم</div>
+      <div class="help-block-content">
+        <ul>
+          <li>التقويم يمتد على <b>الشهر الحالي</b> يوماً بيوم</li>
+          <li>عطلة نهاية الأسبوع مميّزة بلون خفيف (الفروع تعمل لكن حركة العملاء تختلف)</li>
+          <li>الأيام المستقبليّة <b>رماديّة</b> — لم تحدث بعد</li>
+          <li>مرّر أو اضغط أي يوم لرؤية عدد المبيعات الدقيق</li>
+          <li>تجمّع المربّعات الغامقة = سلاسل قويّة</li>
+          <li>تجمّع المربّعات الفارغة = قد يشير إلى مشكلة حضور أو دافعيّة</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block warn">
+      <div class="help-block-title">⚠️ ملاحظة عن البيانات</div>
+      <div class="help-block-content">
+        القيم اليوميّة حاليّاً مقدّرة من الإجمالي الشهري (موزّعة بتباين طفيف). ابتداءً من <b>v20</b>، ستعكس خريطة الحرارة <b>المبيعات اليوميّة الفعليّة</b> — ممّا يكشف أنماطاً حقيقيّة مثل "إثنين بطيء" أو "اندفاعة نهاية الشهر".
+      </div>
+    </div>
+  `;
+}
+
+// ── 16. PRODUCTS TAB ──
+function helpContent_tab_products_en(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 What is the Products Tab?</div>
+      <div class="help-block-content">
+        A breakdown of the employee's sales across <b>4 product categories</b>: Postpaid, Prepaid, FTTH, and 5G. It reveals their strengths, weaknesses, and product mix.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📦 The 4 Categories</div>
+      <div class="help-block-content">
+        <ul>
+          <li>📱 <b>Postpaid:</b> Monthly contract lines (target = 45% of total)</li>
+          <li>📞 <b>Prepaid:</b> Pay-as-you-go lines (target = 55% of total)</li>
+          <li>🌐 <b>FTTH:</b> Home fiber internet (separate target)</li>
+          <li>📡 <b>5G:</b> 5G home internet (separate target)</li>
+        </ul>
+        Each category shows: sales count, percentage of total, and mini visual indicator.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">⚖️ Mix Analysis</div>
+      <div class="help-block-content">
+        Visual cues help you spot imbalances:
+        <ul>
+          <li>📊 <b>Postpaid vs Prepaid ratio</b> — is it close to the 45/55 target split?</li>
+          <li>📡 <b>FTTH + 5G attachment</b> — are home services being sold alongside mobile?</li>
+          <li>⭐ <b>Top category</b> — which product does this employee sell best?</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 How to use it</div>
+      <div class="help-block-content">
+        <ul>
+          <li>A low Postpaid ratio → employee needs coaching on high-value contract sales</li>
+          <li>Zero FTTH/5G → might be missing cross-sell opportunities</li>
+          <li>Use the top category to assign a <b>specialist role</b> (e.g., "FTTH champion")</li>
+          <li>Compare mix across team members to identify best practices to share</li>
+        </ul>
+      </div>
+    </div>
+  `;
+}
+
+function helpContent_tab_products_ar(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 ما هو تبويب المنتجات؟</div>
+      <div class="help-block-content">
+        تحليل لمبيعات الموظف عبر <b>4 فئات منتجات</b>: Postpaid، Prepaid، FTTH، و 5G. يكشف نقاط قوّته وضعفه وتوزيع منتجاته.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📦 الفئات الأربعة</div>
+      <div class="help-block-content">
+        <ul>
+          <li>📱 <b>Postpaid:</b> خطوط العقود الشهريّة (الهدف = 45% من الإجمالي)</li>
+          <li>📞 <b>Prepaid:</b> خطوط الدفع المسبق (الهدف = 55% من الإجمالي)</li>
+          <li>🌐 <b>FTTH:</b> إنترنت منزلي بالألياف البصريّة (هدف منفصل)</li>
+          <li>📡 <b>5G:</b> إنترنت منزلي 5G (هدف منفصل)</li>
+        </ul>
+        كل فئة تعرض: عدد المبيعات، النسبة من الإجمالي، ومؤشّر بصري مصغّر.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">⚖️ تحليل التوزيع</div>
+      <div class="help-block-content">
+        مؤشّرات بصريّة تساعدك على اكتشاف عدم التوازن:
+        <ul>
+          <li>📊 <b>نسبة Postpaid مقابل Prepaid</b> — هل قريبة من تقسيم 45/55 المستهدف؟</li>
+          <li>📡 <b>إرفاق FTTH + 5G</b> — هل تُباع خدمات المنزل مع الجوّال؟</li>
+          <li>⭐ <b>الفئة الأعلى</b> — أي منتج يبيعه هذا الموظف بأفضل شكل؟</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 كيفية الاستخدام</div>
+      <div class="help-block-content">
+        <ul>
+          <li>نسبة Postpaid منخفضة → الموظف يحتاج تدريباً على بيع العقود عالية القيمة</li>
+          <li>صفر FTTH/5G → قد يفوّت فرص البيع المتقاطع (cross-sell)</li>
+          <li>استخدم الفئة الأعلى لتعيين <b>دور متخصّص</b> (مثلاً "بطل FTTH")</li>
+          <li>قارن التوزيع بين أفراد الفريق لتحديد أفضل الممارسات القابلة للمشاركة</li>
+        </ul>
+      </div>
+    </div>
+  `;
+}
+
+// ── 17. NOTES TAB ──
+function helpContent_tab_notes_en(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 What is the Notes Tab?</div>
+      <div class="help-block-content">
+        A dedicated space for supervisors to record <b>personal observations, coaching notes, and action items</b> for each employee. It will become your private coaching journal.
+      </div>
+    </div>
+    <div class="help-block warn">
+      <div class="help-block-title">🚧 Coming Soon</div>
+      <div class="help-block-content">
+        This tab is currently a <b>placeholder</b>. Full functionality arrives in <b>v20</b>, where you'll be able to:
+        <ul>
+          <li>Write timestamped notes per employee</li>
+          <li>Flag important items (follow-up, coaching, performance)</li>
+          <li>Search through historical notes</li>
+          <li>Export notes as part of supervisor reports</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 In the meantime</div>
+      <div class="help-block-content">
+        Until v20 ships, keep tracking notes in your preferred tool (notebook, WhatsApp to self, or a note app). When the feature launches, you'll be able to import or re-enter them.
+      </div>
+    </div>
+  `;
+}
+
+function helpContent_tab_notes_ar(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 ما هو تبويب الملاحظات؟</div>
+      <div class="help-block-content">
+        مساحة مخصّصة للمشرفين لتدوين <b>الملاحظات الشخصيّة، ملاحظات التدريب، والإجراءات المطلوبة</b> لكل موظف. ستصبح دفتر تدريبك الخاص.
+      </div>
+    </div>
+    <div class="help-block warn">
+      <div class="help-block-title">🚧 قريباً</div>
+      <div class="help-block-content">
+        هذا التبويب حاليّاً <b>تجريبي (Placeholder)</b>. الوظيفة الكاملة تصل في <b>v20</b>، حيث ستتمكّن من:
+        <ul>
+          <li>كتابة ملاحظات مؤرّخة لكل موظف</li>
+          <li>تمييز العناصر المهمّة (متابعة، تدريب، أداء)</li>
+          <li>البحث في الملاحظات التاريخيّة</li>
+          <li>تصدير الملاحظات ضمن تقارير المشرفين</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 حتى ذلك الحين</div>
+      <div class="help-block-content">
+        إلى أن يصل v20، استمرّ في تدوين ملاحظاتك في أداتك المفضّلة (دفتر، رسائل واتساب لنفسك، أو تطبيق ملاحظات). عند إطلاق الميزة، ستتمكّن من استيرادها أو إعادة إدخالها.
+      </div>
+    </div>
+  `;
+}
+
+// ── 18. MEETING PREP TAB ──
+function helpContent_tab_meeting_en(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 What is Meeting Prep?</div>
+      <div class="help-block-content">
+        A <b>smart 1-on-1 meeting brief</b> that auto-generates talking points for the employee. It synthesizes performance data into three actionable sections — saving you prep time before every meeting.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📋 The 3 Sections</div>
+      <div class="help-block-content">
+        The brief auto-generates three lists:
+        <ul>
+          <li>💪 <b>Strengths:</b> What the employee is doing well (celebrate these first)</li>
+          <li>⚠️ <b>Concerns:</b> Specific issues that need attention</li>
+          <li>💬 <b>Discussion Points:</b> Open questions and coaching topics to explore together</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🤖 How it's generated</div>
+      <div class="help-block-content">
+        The system analyzes multiple signals automatically:
+        <ul>
+          <li>Current achievement % and daily target</li>
+          <li>Recent streaks (hot or cold)</li>
+          <li>Projection vs target gap</li>
+          <li>Product mix imbalances</li>
+          <li>Branch and team comparisons</li>
+        </ul>
+        It then writes specific, contextual bullet points — not generic advice.
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 How to use it</div>
+      <div class="help-block-content">
+        <ul>
+          <li>Open this tab <b>5 minutes before</b> a 1-on-1 — get up to speed fast</li>
+          <li>Lead with <b>Strengths</b> to build rapport before addressing concerns</li>
+          <li>Turn "Discussion Points" into actual open-ended questions</li>
+          <li>End the meeting by agreeing on <b>1-2 action items</b> for next week</li>
+          <li>For deeper context, jump back to Overview, Streaks, or Peers before closing</li>
+        </ul>
+      </div>
+    </div>
+  `;
+}
+
+function helpContent_tab_meeting_ar(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 ما هو تحضير الاجتماع؟</div>
+      <div class="help-block-content">
+        <b>ملخّص ذكي للقاء 1-on-1</b> يُولّد نقاطاً للنقاش تلقائيّاً مع الموظف. يحلّل بيانات الأداء إلى ثلاثة أقسام قابلة للتنفيذ — ممّا يوفّر عليك وقت التحضير قبل كل اجتماع.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📋 الأقسام الثلاثة</div>
+      <div class="help-block-content">
+        الملخّص يُولّد ثلاث قوائم تلقائيّاً:
+        <ul>
+          <li>💪 <b>نقاط القوّة:</b> ما الذي يفعله الموظف بشكل جيّد (ابدأ بتكريمها)</li>
+          <li>⚠️ <b>مخاوف:</b> قضايا محدّدة تحتاج اهتماماً</li>
+          <li>💬 <b>نقاط للنقاش:</b> أسئلة مفتوحة ومواضيع تدريب تستكشفها معاً</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🤖 كيف يُولَّد</div>
+      <div class="help-block-content">
+        يحلّل النظام عدّة مؤشّرات تلقائيّاً:
+        <ul>
+          <li>نسبة الإنجاز الحاليّة والاحتياج اليومي</li>
+          <li>السلاسل الحديثة (حارّة أو باردة)</li>
+          <li>فجوة التوقّع مقابل الهدف</li>
+          <li>اختلال توزيع المنتجات</li>
+          <li>مقارنات الفرع والفريق</li>
+        </ul>
+        ثم يكتب نقاطاً محدّدة وسياقيّة — وليس نصائح عامّة.
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 كيفية الاستخدام</div>
+      <div class="help-block-content">
+        <ul>
+          <li>افتح هذا التبويب <b>قبل 5 دقائق</b> من اللقاء الفردي — كن جاهزاً بسرعة</li>
+          <li>ابدأ بـ <b>نقاط القوّة</b> لبناء الثقة قبل مناقشة المخاوف</li>
+          <li>حوّل "نقاط النقاش" إلى أسئلة مفتوحة فعليّة</li>
+          <li>أنهِ اللقاء بالاتّفاق على <b>1-2 إجراء تنفيذي</b> للأسبوع القادم</li>
+          <li>لسياق أعمق، ارجع إلى نظرة عامة أو السلاسل أو الأقران قبل الإغلاق</li>
+        </ul>
+      </div>
+    </div>
+  `;
+}
+
 // ── Extend openPanel to include help ──
 const _origOpenPanel2=openPanel;
 openPanel=function(name){
