@@ -1392,7 +1392,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">User Guide</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v16.4 · Phase 3+</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v16.5 · Phase 3+</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -4111,6 +4111,7 @@ function showHelpSection(section){
 // ── Help Content — English ──
 const HELP_CONTENT_EN={
   home:{title:'Welcome',icon:'👋'},
+  // Part 1 — Dashboard (v16.3)
   overview:{icon:'🏠',title:'Dashboard Overview',sub:'Understanding the main layout'},
   kpis:{icon:'📊',title:'KPI Cards',sub:'Your key performance indicators'},
   goal:{icon:'🎯',title:'Goal Gap & Team Goal',sub:'Monthly target tracker'},
@@ -4118,12 +4119,32 @@ const HELP_CONTENT_EN={
   alerts:{icon:'🔔',title:'Smart Alerts',sub:'Automatic notifications'},
   risk:{icon:'🎯',title:'At-Risk Radar',sub:'Employees needing attention'},
   fame:{icon:'🏆',title:'Hall of Fame',sub:'Award winners'},
-  ftth:{icon:'📡',title:'FTTH & 5G Section',sub:'Connectivity sales tracking'}
+  ftth:{icon:'📡',title:'FTTH & 5G Section',sub:'Connectivity sales tracking'},
+  // Part 2 — Employee Modal (v16.5)
+  employee:{icon:'👥',title:'Employee Profile',sub:'The 9-tab employee window'},
+  tab_overview:{icon:'📊',title:'Overview Tab',sub:'Employee essentials at a glance'},
+  tab_streaks:{icon:'🔥',title:'Streaks Tab',sub:'Hot and cold streaks'},
+  tab_projection:{icon:'🔮',title:'Projection Tab',sub:'End-of-month forecast'},
+  tab_peers:{icon:'👥',title:'Peers Tab',sub:'Branch / Team / Company comparison'},
+  tab_trends:{icon:'📈',title:'Trends Tab',sub:'8-week performance sparkline'},
+  tab_activity:{icon:'🗓️',title:'Activity Tab',sub:'Heatmap calendar'},
+  tab_products:{icon:'📦',title:'Products Tab',sub:'Product mix breakdown'},
+  tab_notes:{icon:'📝',title:'Notes Tab',sub:'Supervisor notes (coming soon)'},
+  tab_meeting:{icon:'📅',title:'Meeting Prep Tab',sub:'1-on-1 meeting brief'},
+  // Part 2 — Tools (v16.5)
+  compare:{icon:'⚖️',title:'Compare Mode',sub:'Compare 2-4 employees side-by-side'},
+  watch:{icon:'📌',title:'Watch List',sub:'Your personal tracking list'},
+  badges:{icon:'🎖️',title:'Achievement Badges',sub:'8 automatic badges'},
+  charts:{icon:'📊',title:'Charts',sub:'Bar chart & supervisor distribution'},
+  supervisors:{icon:'👥',title:'Supervisor Cards',sub:'Team snapshot per supervisor'},
+  search:{icon:'🔍',title:'Search & Filters',sub:'Find employees fast'},
+  exports:{icon:'📤',title:'Export Options',sub:'PNG, WhatsApp, Print'}
 };
 
 // ── Help Content — Arabic ──
 const HELP_CONTENT_AR={
   home:{title:'أهلاً بك',icon:'👋'},
+  // Part 1 — Dashboard (v16.3)
   overview:{icon:'🏠',title:'نظرة عامة على الداشبورد',sub:'فهم التخطيط الرئيسي'},
   kpis:{icon:'📊',title:'بطاقات الأداء (KPIs)',sub:'مؤشرات الأداء الرئيسية'},
   goal:{icon:'🎯',title:'فجوة الهدف و هدف الفريق',sub:'متتبع الهدف الشهري'},
@@ -4131,7 +4152,26 @@ const HELP_CONTENT_AR={
   alerts:{icon:'🔔',title:'التنبيهات الذكية',sub:'إشعارات تلقائية'},
   risk:{icon:'🎯',title:'رادار الموظفين في خطر',sub:'الموظفون الذين يحتاجون متابعة'},
   fame:{icon:'🏆',title:'قاعة المشاهير',sub:'الفائزون بالجوائز'},
-  ftth:{icon:'📡',title:'قسم FTTH و 5G',sub:'متابعة مبيعات خدمات الاتصال'}
+  ftth:{icon:'📡',title:'قسم FTTH و 5G',sub:'متابعة مبيعات خدمات الاتصال'},
+  // Part 2 — Employee Modal (v16.5)
+  employee:{icon:'👥',title:'ملف الموظف',sub:'نافذة الموظف بـ 9 تبويبات'},
+  tab_overview:{icon:'📊',title:'تبويب نظرة عامة',sub:'أساسيات الموظف بلمحة'},
+  tab_streaks:{icon:'🔥',title:'تبويب السلاسل',sub:'سلاسل الأداء الحار والبارد'},
+  tab_projection:{icon:'🔮',title:'تبويب التوقع',sub:'توقع نهاية الشهر'},
+  tab_peers:{icon:'👥',title:'تبويب الأقران',sub:'مقارنة مع الفرع/الفريق/الشركة'},
+  tab_trends:{icon:'📈',title:'تبويب الاتجاهات',sub:'منحنى أداء 8 أسابيع'},
+  tab_activity:{icon:'🗓️',title:'تبويب النشاط',sub:'تقويم الحرارة'},
+  tab_products:{icon:'📦',title:'تبويب المنتجات',sub:'توزيع المبيعات على المنتجات'},
+  tab_notes:{icon:'📝',title:'تبويب الملاحظات',sub:'ملاحظات المشرف (قريباً)'},
+  tab_meeting:{icon:'📅',title:'تبويب تحضير الاجتماع',sub:'ملخص اجتماع 1-on-1'},
+  // Part 2 — Tools (v16.5)
+  compare:{icon:'⚖️',title:'وضع المقارنة',sub:'قارن 2-4 موظفين جنباً إلى جنب'},
+  watch:{icon:'📌',title:'قائمة المراقبة',sub:'قائمة المتابعة الشخصية'},
+  badges:{icon:'🎖️',title:'شارات الإنجاز',sub:'8 شارات تلقائية'},
+  charts:{icon:'📊',title:'الرسوم البيانية',sub:'رسم الفروع وتوزيع المشرفين'},
+  supervisors:{icon:'👥',title:'بطاقات المشرفين',sub:'لمحة فريق كل مشرف'},
+  search:{icon:'🔍',title:'البحث والتصفية',sub:'ابحث عن الموظفين بسرعة'},
+  exports:{icon:'📤',title:'خيارات التصدير',sub:'PNG، واتساب، طباعة'}
 };
 
 function renderHelpPanel(){
@@ -4156,7 +4196,15 @@ function renderHelpPanel(){
 }
 
 function renderHelpHome(isAR,content,arClass){
-  const sections=['overview','kpis','goal','podium','alerts','risk','fame','ftth'];
+  const sections=[
+    // Part 1 — Dashboard
+    'overview','kpis','goal','podium','alerts','risk','fame','ftth',
+    // Part 2 — Employee Modal
+    'employee','tab_overview','tab_streaks','tab_projection','tab_peers',
+    'tab_trends','tab_activity','tab_products','tab_notes','tab_meeting',
+    // Part 2 — Tools
+    'compare','watch','badges','charts','supervisors','search','exports'
+  ];
   const introTitle=isAR?'دليل استخدام الداشبورد':'Dashboard User Guide';
   const introDesc=isAR
     ?'شرح مفصّل لكل قسم وأداة في الداشبورد. اختر أي موضوع أدناه لفتح الشرح الكامل.'
@@ -4183,7 +4231,7 @@ function renderHelpHome(isAR,content,arClass){
         </div>
       </div>
       <div style="text-align:center;font-size:10px;color:#5A9870;opacity:0.7;padding:12px">
-        ${isAR?'💡 المزيد من الأقسام قادمة في v16.4':'💡 More sections coming in v16.4'}
+        ${isAR?'✓ دليل شامل — جميع الميزات موثّقة':'✓ Complete guide — all features documented'}
       </div>
     </div>
   `;
@@ -4193,6 +4241,7 @@ function renderHelpSection(section,isAR,content,arClass){
   const item=content[section];
   const backLabel=isAR?'العودة للقائمة':'Back to menu';
   let sectionHTML='';
+  // Part 1 — Dashboard (v16.3)
   if(section==='overview')sectionHTML=isAR?helpContent_overview_ar():helpContent_overview_en();
   else if(section==='kpis')sectionHTML=isAR?helpContent_kpis_ar():helpContent_kpis_en();
   else if(section==='goal')sectionHTML=isAR?helpContent_goal_ar():helpContent_goal_en();
@@ -4201,6 +4250,25 @@ function renderHelpSection(section,isAR,content,arClass){
   else if(section==='risk')sectionHTML=isAR?helpContent_risk_ar():helpContent_risk_en();
   else if(section==='fame')sectionHTML=isAR?helpContent_fame_ar():helpContent_fame_en();
   else if(section==='ftth')sectionHTML=isAR?helpContent_ftth_ar():helpContent_ftth_en();
+  // Part 2 — Employee Modal (v16.5)
+  else if(section==='employee')sectionHTML=isAR?helpContent_employee_ar():helpContent_employee_en();
+  else if(section==='tab_overview')sectionHTML=isAR?helpContent_tab_overview_ar():helpContent_tab_overview_en();
+  else if(section==='tab_streaks')sectionHTML=isAR?helpContent_tab_streaks_ar():helpContent_tab_streaks_en();
+  else if(section==='tab_projection')sectionHTML=isAR?helpContent_tab_projection_ar():helpContent_tab_projection_en();
+  else if(section==='tab_peers')sectionHTML=isAR?helpContent_tab_peers_ar():helpContent_tab_peers_en();
+  else if(section==='tab_trends')sectionHTML=isAR?helpContent_tab_trends_ar():helpContent_tab_trends_en();
+  else if(section==='tab_activity')sectionHTML=isAR?helpContent_tab_activity_ar():helpContent_tab_activity_en();
+  else if(section==='tab_products')sectionHTML=isAR?helpContent_tab_products_ar():helpContent_tab_products_en();
+  else if(section==='tab_notes')sectionHTML=isAR?helpContent_tab_notes_ar():helpContent_tab_notes_en();
+  else if(section==='tab_meeting')sectionHTML=isAR?helpContent_tab_meeting_ar():helpContent_tab_meeting_en();
+  // Part 2 — Tools (v16.5)
+  else if(section==='compare')sectionHTML=isAR?helpContent_compare_ar():helpContent_compare_en();
+  else if(section==='watch')sectionHTML=isAR?helpContent_watch_ar():helpContent_watch_en();
+  else if(section==='badges')sectionHTML=isAR?helpContent_badges_ar():helpContent_badges_en();
+  else if(section==='charts')sectionHTML=isAR?helpContent_charts_ar():helpContent_charts_en();
+  else if(section==='supervisors')sectionHTML=isAR?helpContent_supervisors_ar():helpContent_supervisors_en();
+  else if(section==='search')sectionHTML=isAR?helpContent_search_ar():helpContent_search_en();
+  else if(section==='exports')sectionHTML=isAR?helpContent_exports_ar():helpContent_exports_en();
   return`
     <div class="${arClass}">
       <button class="help-back-btn" onclick="showHelpSection('home')">
