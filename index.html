@@ -417,14 +417,56 @@ function workdaysLeft(dateStr){
   }catch{return 10;}
 }
 
+// ── v12: Fetch latest date from Google Sheets filename ──
+const PUBHTML_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vQzH2quWsRx-NsAhxFeqOsz9n_KElh80hZq64gnjviHC0OGVSXTGgQIC7HbhazVChH7Cde__gKhnQut/pubhtml';
+
+async function fetchSheetDate(){
+  try{
+    const res=await fetch(PUBHTML_URL+'?t='+Date.now());
+    const html=await res.text();
+    const titleMatch=html.match(/<title[^>]*>([^<]+)<\/title>/i);
+    if(!titleMatch)return null;
+    const title=titleMatch[1];
+    // Pattern 1: "15 April 2026" (DD Month YYYY)
+    const dmy=title.match(/(\d{1,2})\s+(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{4})/i);
+    if(dmy){
+      const month=dmy[2].charAt(0).toUpperCase()+dmy[2].slice(1).toLowerCase();
+      return `${month} ${dmy[1]}, ${dmy[3]}`;
+    }
+    // Pattern 2: "April 15, 2026" (Month DD YYYY)
+    const mdy=title.match(/(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2}),?\s+(\d{4})/i);
+    if(mdy){
+      const month=mdy[1].charAt(0).toUpperCase()+mdy[1].slice(1).toLowerCase();
+      return `${month} ${mdy[2]}, ${mdy[3]}`;
+    }
+    return null;
+  }catch(e){
+    console.warn('Could not fetch sheet date:',e);
+    return null;
+  }
+}
+
+function getFallbackDate(){
+  const d=new Date();
+  const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  return `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
+}
+
 async function loadData(){
   document.getElementById('live-lbl').textContent='Updating...';
   try{
-    const [r1,r2]=await Promise.all([fetch(CSV_UMM+'&t='+Date.now()),fetch(CSV_FTTH+'&t='+Date.now())]);
+    // v12: Fetch date from filename in parallel with data
+    const [r1,r2,sheetDate]=await Promise.all([
+      fetch(CSV_UMM+'&t='+Date.now()),
+      fetch(CSV_FTTH+'&t='+Date.now()),
+      fetchSheetDate()
+    ]);
     const [t1,t2]=await Promise.all([r1.text(),r2.text()]);
     DATA=parseCSV_UMM(t1);
     FTTH_DATA=parseCSV_FTTH(t2);
     if(!DATA.length)throw new Error('empty');
+    // v12: Set DATA_DATE dynamically from sheet filename, fallback to today's date
+    DATA_DATE=sheetDate||getFallbackDate();
     updateSidebar();renderView(CUR);
     document.getElementById('live-lbl').textContent='Live';
     document.getElementById('hdr-sub').textContent=
@@ -464,8 +506,7 @@ function parseCSV_UMM(txt){
       opco:o['operating company']||'',target,sales,post,prep,
       pct:target>0?Math.round(sales/target*100):0};
   }).filter(Boolean);
-  // Try to get date from filename pattern in title or compute from data
-  DATA_DATE='April 14, 2026';// Will be updated if we get it from sheet name
+  // v12: DATA_DATE is now set dynamically in loadData() from sheet filename
   return parsed;
 }
 
@@ -1314,4 +1355,3 @@ loadData();
 </script>
 </body>
 </html>
-
