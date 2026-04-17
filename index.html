@@ -1392,7 +1392,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">User Guide</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v16.3 · Phase 3+</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v16.4 · Phase 3+</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -1510,7 +1510,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   </div>
 
   <div class="content" id="content">
-    <div class="loading"><div class="spin"></div><p style="color:#7AB88A">Connecting to Google Sheets...</p></div>
+    <div class="loading"><div class="spin"></div><p style="color:#7AB88A">Loading dashboard...</p></div>
   </div>
 </div>
 
@@ -4226,7 +4226,7 @@ function helpContent_overview_en(){
     <div class="help-block what">
       <div class="help-block-title">💡 What is it?</div>
       <div class="help-block-content">
-        The dashboard provides a <b>real-time view</b> of your retail sales team's performance, pulling data directly from Google Sheets and updating automatically every 5 minutes.
+        The dashboard provides a <b>real-time view</b> of your retail sales team's performance, automatically updated every 5 minutes.
       </div>
     </div>
     <div class="help-block how">
@@ -4252,12 +4252,6 @@ function helpContent_overview_en(){
         </ul>
       </div>
     </div>
-    <div class="help-block warn">
-      <div class="help-block-title">⚠️ Note</div>
-      <div class="help-block-content">
-        Data date is pulled from the Google Sheets filename. Update the filename (e.g., "Retail_MT_Achievement 15 April 2026") to reflect the correct date.
-      </div>
-    </div>
   `;
 }
 
@@ -4266,7 +4260,7 @@ function helpContent_overview_ar(){
     <div class="help-block what">
       <div class="help-block-title">💡 ما هذا؟</div>
       <div class="help-block-content">
-        الداشبورد يقدّم <b>نظرة لحظية</b> على أداء فريق مبيعات الريتيل، حيث يسحب البيانات مباشرة من Google Sheets ويتحدّث تلقائياً كل 5 دقائق.
+        الداشبورد يقدّم <b>نظرة لحظية</b> على أداء فريق مبيعات الريتيل، ويتحدّث تلقائياً كل 5 دقائق.
       </div>
     </div>
     <div class="help-block how">
@@ -4290,12 +4284,6 @@ function helpContent_overview_ar(){
           <li>اضغط <code>ESC</code> لإغلاق أي لوحة أو نافذة مفتوحة</li>
           <li>على الجوال، اضغط <b>☰</b> لفتح قائمة المشرفين</li>
         </ul>
-      </div>
-    </div>
-    <div class="help-block warn">
-      <div class="help-block-title">⚠️ ملاحظة</div>
-      <div class="help-block-content">
-        يتم سحب تاريخ البيانات من اسم ملف Google Sheets. عدّل اسم الملف (مثل: "Retail_MT_Achievement 15 April 2026") ليعكس التاريخ الصحيح.
       </div>
     </div>
   `;
@@ -4862,12 +4850,6 @@ function helpContent_ftth_en(){
         </ul>
       </div>
     </div>
-    <div class="help-block warn">
-      <div class="help-block-title">⚠️ Data Source</div>
-      <div class="help-block-content">
-        FTTH data comes from a <b>separate sheet tab</b> (gid=57457654). Only employees listed there appear in FTTH rankings. Employees with <code>A_00</code> codes are external and excluded.
-      </div>
-    </div>
   `;
 }
 
@@ -4901,12 +4883,6 @@ function helpContent_ftth_ar(){
           <li><b>أفضل 5 فروع:</b> مرتّبة حسب إجمالي FTTH+5G</li>
           <li><b>حسب المشرف:</b> مقارنة بين المشرفين الأربعة</li>
         </ul>
-      </div>
-    </div>
-    <div class="help-block warn">
-      <div class="help-block-title">⚠️ مصدر البيانات</div>
-      <div class="help-block-content">
-        بيانات FTTH تأتي من <b>شيت منفصل</b> (gid=57457654). فقط الموظفون المدرَجون هناك يظهرون في ترتيب FTTH. الموظفون برموز <code>A_00</code> خارجيون ومستبعَدون.
       </div>
     </div>
   `;
