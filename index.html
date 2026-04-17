@@ -5237,6 +5237,267 @@ function helpContent_tab_streaks_ar(){
   `;
 }
 
+// ── 12. PROJECTION TAB ──
+function helpContent_tab_projection_en(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 What is Projection?</div>
+      <div class="help-block-content">
+        A smart <b>end-of-month forecast</b> for each employee. It predicts where their final numbers will land if they continue at their current pace — plus how likely they are to hit target.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🧮 How it's calculated</div>
+      <div class="help-block-content">
+        The projection uses a simple formula:
+        <ul>
+          <li><b>Current daily average:</b> Sales so far ÷ days elapsed</li>
+          <li><b>Projected end sales:</b> Current sales + (daily average × remaining work days)</li>
+          <li><b>Projected achievement %:</b> Projected sales ÷ target</li>
+          <li><b>Gap to target:</b> How many sales short (or over) they're expected to be</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🎯 Confidence Tiers</div>
+      <div class="help-block-content">
+        Each projection comes with a confidence signal:
+        <div class="help-mini-badge" style="background:rgba(61,214,140,0.15);color:#3DD68C">🟢 High — pace is consistent</div>
+        <div class="help-mini-badge" style="background:rgba(239,159,39,0.15);color:#EF9F27">🟡 Medium — moderate variance</div>
+        <div class="help-mini-badge" style="background:rgba(226,75,74,0.15);color:#E24B4A">🔴 Low — very irregular pattern</div>
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 How to use it</div>
+      <div class="help-block-content">
+        <ul>
+          <li>Use projection <b>mid-month</b> for the sharpest signal — early projections are less reliable</li>
+          <li>If projection shows a shortfall → intervene early, don't wait for month-end</li>
+          <li>If projection exceeds target → consider raising the bar or assigning stretch goals</li>
+          <li>Compare projection vs actual over time to calibrate your coaching</li>
+        </ul>
+      </div>
+    </div>
+  `;
+}
+
+function helpContent_tab_projection_ar(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 ما هو التوقّع؟</div>
+      <div class="help-block-content">
+        <b>توقّع ذكي لنهاية الشهر</b> لكل موظف. يتنبّأ بالأرقام النهائية إذا استمرّ الموظف على إيقاعه الحالي — إضافة إلى احتمال وصوله للهدف.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🧮 كيفية الحساب</div>
+      <div class="help-block-content">
+        يستخدم التوقّع معادلة بسيطة:
+        <ul>
+          <li><b>المعدّل اليومي الحالي:</b> المبيعات حتى الآن ÷ الأيام المنقضية</li>
+          <li><b>المبيعات المتوقّعة في نهاية الشهر:</b> المبيعات الحالية + (المعدّل اليومي × أيام العمل المتبقية)</li>
+          <li><b>نسبة الإنجاز المتوقّعة:</b> المبيعات المتوقّعة ÷ الهدف</li>
+          <li><b>الفجوة عن الهدف:</b> كم مبيعة متوقّع أن تنقص (أو تزيد)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🎯 مستويات الثقة</div>
+      <div class="help-block-content">
+        كل توقّع يصاحبه مؤشّر ثقة:
+        <div class="help-mini-badge" style="background:rgba(61,214,140,0.15);color:#3DD68C">🟢 عالية — الإيقاع ثابت</div>
+        <div class="help-mini-badge" style="background:rgba(239,159,39,0.15);color:#EF9F27">🟡 متوسطة — تباين معتدل</div>
+        <div class="help-mini-badge" style="background:rgba(226,75,74,0.15);color:#E24B4A">🔴 منخفضة — نمط غير منتظم</div>
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 كيفية الاستخدام</div>
+      <div class="help-block-content">
+        <ul>
+          <li>استخدم التوقّع <b>في منتصف الشهر</b> للحصول على أدقّ إشارة — التوقّعات المبكّرة أقل موثوقيّة</li>
+          <li>إذا أظهر التوقّع نقصاً → تدخّل مبكّراً، ولا تنتظر نهاية الشهر</li>
+          <li>إذا تجاوز التوقّع الهدف → فكّر في رفع السقف أو تعيين أهداف إضافيّة</li>
+          <li>قارن التوقّع بالنتيجة الفعليّة عبر الأشهر لمعايرة أسلوبك في التدريب</li>
+        </ul>
+      </div>
+    </div>
+  `;
+}
+
+// ── 13. PEERS TAB ──
+function helpContent_tab_peers_en(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 What is the Peers Tab?</div>
+      <div class="help-block-content">
+        Shows how the employee compares against <b>three reference groups</b>: their own branch, their supervisor's team, and the entire company. It puts their numbers in context.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📊 Three Comparison Levels</div>
+      <div class="help-block-content">
+        <ul>
+          <li>🏪 <b>vs Branch:</b> How they rank among colleagues at the same branch</li>
+          <li>👥 <b>vs Team:</b> How they rank within their supervisor's team</li>
+          <li>🏢 <b>vs Company:</b> How they rank across all ~70 employees</li>
+        </ul>
+        Each level shows achievement %, sales, and the difference from the group average.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🏅 Ranking</div>
+      <div class="help-block-content">
+        For each comparison level, you'll see:
+        <ul>
+          <li><b>Position:</b> e.g. "3rd of 12" within the group</li>
+          <li><b>Percentile:</b> e.g. "Top 20%"</li>
+          <li><b>Gap from leader:</b> Distance to the #1 in that group</li>
+          <li><b>Gap from average:</b> How much above/below the group mean</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 How to use it</div>
+      <div class="help-block-content">
+        <ul>
+          <li>A strong employee <b>company-wide</b> but weak <b>in-branch</b> → the branch has exceptional talent</li>
+          <li>A weak employee <b>company-wide</b> but average <b>in-branch</b> → the whole branch may need support</li>
+          <li>Use the "gap from leader" to set realistic stretch goals</li>
+          <li>Share branch rankings in 1-on-1s to motivate healthy internal competition</li>
+        </ul>
+      </div>
+    </div>
+  `;
+}
+
+function helpContent_tab_peers_ar(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 ما هو تبويب الأقران؟</div>
+      <div class="help-block-content">
+        يُظهر مقارنة الموظف مع <b>ثلاث مجموعات مرجعيّة</b>: فرعه نفسه، فريق مشرفه، والشركة كاملة. يضع أرقامه في سياقها الصحيح.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📊 ثلاثة مستويات للمقارنة</div>
+      <div class="help-block-content">
+        <ul>
+          <li>🏪 <b>مقابل الفرع:</b> ترتيبه بين زملائه في نفس الفرع</li>
+          <li>👥 <b>مقابل الفريق:</b> ترتيبه داخل فريق مشرفه</li>
+          <li>🏢 <b>مقابل الشركة:</b> ترتيبه بين جميع الموظفين (~70)</li>
+        </ul>
+        كل مستوى يعرض نسبة الإنجاز، المبيعات، والفارق عن متوسّط المجموعة.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🏅 الترتيب</div>
+      <div class="help-block-content">
+        لكل مستوى مقارنة، سترى:
+        <ul>
+          <li><b>المركز:</b> مثلاً "الـ 3 من 12" داخل المجموعة</li>
+          <li><b>الشريحة المئويّة:</b> مثلاً "أعلى 20%"</li>
+          <li><b>الفارق عن المتصدّر:</b> المسافة للمركز الأوّل في المجموعة</li>
+          <li><b>الفارق عن المتوسّط:</b> مقدار التفوّق/التأخّر عن متوسّط المجموعة</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 كيفية الاستخدام</div>
+      <div class="help-block-content">
+        <ul>
+          <li>موظف قوي <b>على مستوى الشركة</b> لكن ضعيف <b>داخل فرعه</b> → الفرع فيه مواهب استثنائيّة</li>
+          <li>موظف ضعيف <b>على مستوى الشركة</b> لكن متوسّط <b>داخل فرعه</b> → الفرع كاملاً قد يحتاج دعماً</li>
+          <li>استخدم "الفارق عن المتصدّر" لتحديد أهداف واقعيّة للنمو</li>
+          <li>شارك ترتيب الفرع في اللقاءات الفرديّة لتحفيز تنافس صحّي</li>
+        </ul>
+      </div>
+    </div>
+  `;
+}
+
+// ── 14. TRENDS TAB ──
+function helpContent_tab_trends_en(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 What are Trends?</div>
+      <div class="help-block-content">
+        A <b>sparkline chart</b> showing the employee's performance over the <b>last 8 weeks</b>. It reveals whether they're climbing, declining, or staying steady — at a glance.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📉 Reading the Sparkline</div>
+      <div class="help-block-content">
+        <ul>
+          <li>Each point = one week of sales</li>
+          <li>Line goes <b>up</b> → performance is improving</li>
+          <li>Line goes <b>down</b> → performance is declining</li>
+          <li>Line is <b>flat</b> → consistent (good or bad, depending on the level)</li>
+          <li>Hover/tap any point to see the exact value</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📊 Trend Indicators</div>
+      <div class="help-block-content">
+        Above the chart you'll see a summary:
+        <ul>
+          <li>📈 <b>Trend direction:</b> Rising / Falling / Stable</li>
+          <li>📊 <b>Weekly average:</b> Mean sales across the 8 weeks</li>
+          <li>🏆 <b>Best week:</b> Highest single-week sales</li>
+          <li>🔻 <b>Worst week:</b> Lowest single-week sales</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block warn">
+      <div class="help-block-title">⚠️ About the data</div>
+      <div class="help-block-content">
+        Weekly figures currently come from current-month data split into weeks. Starting in <b>v20</b>, Trends will draw from true week-by-week history spanning multiple months — making the 8-week view fully accurate.
+      </div>
+    </div>
+  `;
+}
+
+function helpContent_tab_trends_ar(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 ما هي الاتجاهات؟</div>
+      <div class="help-block-content">
+        <b>رسم بياني مصغّر (Sparkline)</b> يعرض أداء الموظف خلال <b>آخر 8 أسابيع</b>. يكشف ما إذا كان صاعداً، هابطاً، أو ثابتاً — بلمحة واحدة.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📉 قراءة المنحنى</div>
+      <div class="help-block-content">
+        <ul>
+          <li>كل نقطة = أسبوع واحد من المبيعات</li>
+          <li>الخط <b>يصعد</b> → الأداء يتحسّن</li>
+          <li>الخط <b>ينزل</b> → الأداء يتراجع</li>
+          <li>الخط <b>ثابت</b> → أداء متّسق (جيد أو سيّئ حسب المستوى)</li>
+          <li>مرّر/اضغط أي نقطة لرؤية القيمة الدقيقة</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📊 مؤشّرات الاتجاه</div>
+      <div class="help-block-content">
+        فوق الرسم البياني سترى ملخّصاً:
+        <ul>
+          <li>📈 <b>اتجاه الأداء:</b> صاعد / هابط / ثابت</li>
+          <li>📊 <b>المتوسّط الأسبوعي:</b> متوسّط المبيعات عبر الأسابيع الثمانية</li>
+          <li>🏆 <b>أفضل أسبوع:</b> أعلى مبيعات في أسبوع واحد</li>
+          <li>🔻 <b>أضعف أسبوع:</b> أدنى مبيعات في أسبوع واحد</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block warn">
+      <div class="help-block-title">⚠️ ملاحظة عن البيانات</div>
+      <div class="help-block-content">
+        الأرقام الأسبوعيّة حاليّاً مأخوذة من بيانات الشهر الحالي مقسومة على أسابيع. ابتداءً من <b>v20</b>، ستعتمد الاتجاهات على سجلّ أسبوعي حقيقي يمتد على عدّة أشهر — ممّا يجعل عرض الأسابيع الثمانية دقيقاً تماماً.
+      </div>
+    </div>
+  `;
+}
+
 // ── Extend openPanel to include help ──
 const _origOpenPanel2=openPanel;
 openPanel=function(name){
