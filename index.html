@@ -247,10 +247,10 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 .tbl-hdr{padding:11px 18px;background:rgba(255,255,255,0.03);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
 .tbl-title{font-size:10px;font-weight:700;color:#6AB88A;text-transform:uppercase;letter-spacing:.08em}
 .tbl-cnt{font-size:11px;color:#6AB88A}
-.tbl-head{display:grid;grid-template-columns:28px 2fr 1fr 60px 60px 60px 55px 55px 100px;gap:6px;padding:8px 18px;background:rgba(255,255,255,0.03);border-bottom:1px solid var(--border)}
+.tbl-head{display:grid;grid-template-columns:28px 2fr 1fr 55px 55px 55px 50px 50px 80px 95px;gap:6px;padding:8px 18px;background:rgba(255,255,255,0.03);border-bottom:1px solid var(--border)}
 .th{font-size:9px;font-weight:700;color:#4A8862;text-transform:uppercase;letter-spacing:.06em}
 .thc{text-align:center}.thr{text-align:right}
-.tbl-row{display:grid;grid-template-columns:28px 2fr 1fr 60px 60px 60px 55px 55px 100px;gap:6px;padding:10px 18px;border-bottom:1px solid rgba(61,214,140,0.05);align-items:center;transition:background .12s;cursor:pointer}
+.tbl-row{display:grid;grid-template-columns:28px 2fr 1fr 55px 55px 55px 50px 50px 80px 95px;gap:6px;padding:10px 18px;border-bottom:1px solid rgba(61,214,140,0.05);align-items:center;transition:background .12s;cursor:pointer}
 .tbl-row:last-child{border-bottom:none}
 .tbl-row:hover{background:var(--card2)}
 .tbl-row.r1{background:rgba(212,160,23,.06)}
@@ -266,6 +266,14 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 .pv{font-size:12px;font-weight:600;text-align:center}
 .npost{font-size:12px;font-weight:600;color:#A8CCEE;text-align:center}
 .nprep{font-size:12px;font-weight:600;color:#D8A8F0;text-align:center}
+
+/* ── v13: Daily Target Badge ── */
+.daily-badge{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:700;white-space:nowrap}
+.daily-easy{background:rgba(61,214,140,0.15);color:#7DE8A8;border:1px solid rgba(61,214,140,0.3)}
+.daily-focus{background:rgba(239,159,39,0.15);color:#F6C94E;border:1px solid rgba(239,159,39,0.3)}
+.daily-challenge{background:rgba(226,75,74,0.15);color:#F08888;border:1px solid rgba(226,75,74,0.3)}
+.daily-done{background:rgba(61,214,140,0.2);color:#5DD88C;border:1px solid rgba(61,214,140,0.4)}
+.daily-na{background:rgba(255,255,255,0.05);color:#6A8878;border:1px solid rgba(255,255,255,0.08)}
 .prog{display:flex;flex-direction:column;gap:3px}
 .prog-bar{height:5px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden}
 .prog-fill{height:100%;border-radius:3px;transition:width .8s}
@@ -325,9 +333,9 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   .kpi-row1,.kpi-row2,.kpi-row3,.ftth-kpi-row{grid-template-columns:1fr}
   .charts-row,.sup-grid{grid-template-columns:1fr}
   .ftth-top5-grid{grid-template-columns:repeat(3,1fr)}
-  .tbl-head,.tbl-row{grid-template-columns:28px 1fr 60px 100px}
-  .tbl-head>:nth-child(n+3):not(:nth-child(4)):not(:nth-child(9)),
-  .tbl-row>:nth-child(n+3):not(:nth-child(4)):not(:nth-child(9)){display:none}
+  .tbl-head,.tbl-row{grid-template-columns:28px 1fr 60px 80px 95px}
+  .tbl-head>:nth-child(n+3):not(:nth-child(4)):not(:nth-child(9)):not(:nth-child(10)),
+  .tbl-row>:nth-child(n+3):not(:nth-child(4)):not(:nth-child(9)):not(:nth-child(10)){display:none}
   .podium-wrap{gap:5px}
 }
 </style>
@@ -418,6 +426,34 @@ function workdaysLeft(dateStr){
     while(cur<=endOfMonth){days++;cur.setDate(cur.getDate()+1);}
     return Math.max(1,days);
   }catch{return 10;}
+}
+
+// v13: Calculate employee work days remaining (with 8 days off per month)
+// Formula: (Days remaining in month × 22/30) = Employee work days remaining
+function empWorkDaysLeft(dateStr){
+  const totalDaysLeft=workdaysLeft(dateStr);
+  const monthWorkDays=22;// 30 - 8 off days
+  const monthTotalDays=30;
+  return Math.max(1,Math.round(totalDaysLeft*(monthWorkDays/monthTotalDays)));
+}
+
+// v13: Calculate daily target for an employee (catch-up pace)
+// Returns object: {value, status, label, class}
+function dailyTarget(emp,dateStr){
+  if(!emp.target||emp.target===0){
+    return{value:0,status:'na',label:'No Target',display:'—',cls:'daily-na'};
+  }
+  const remaining=emp.target-emp.sales;
+  if(remaining<=0){
+    return{value:0,status:'done',label:'Achieved',display:'✅ Done',cls:'daily-done'};
+  }
+  const workDaysLeft=empWorkDaysLeft(dateStr);
+  const dailyNeeded=Math.ceil(remaining/workDaysLeft);
+  let cls,display;
+  if(dailyNeeded<=3){cls='daily-easy';display=`${dailyNeeded}/day 🟢`;}
+  else if(dailyNeeded<=6){cls='daily-focus';display=`${dailyNeeded}/day 🟡`;}
+  else{cls='daily-challenge';display=`${dailyNeeded}/day 🔴`;}
+  return{value:dailyNeeded,status:'active',label:`${dailyNeeded} sales/day`,display,cls,remaining,workDaysLeft};
 }
 
 // ── v12: Fetch latest date from Google Sheets filename ──
@@ -877,6 +913,7 @@ function renderView(view){
         <span class="th thc">Ach%</span>
         <span class="th thc" style="color:#8ABCE0">Post</span>
         <span class="th thc" style="color:#D8A8F0">Pre</span>
+        <span class="th thc" style="color:#F6C94E">🎯 Daily</span>
         <span class="th thr">Progress</span>
       </div>
       <div id="tbl-rows"></div>
@@ -1031,6 +1068,7 @@ function renderTable(emps,brF){
     const rk=i===0?'r1':i===1?'r2':i===2?'r3':'';
     const rc=i===0?'g':i===1?'s':i===2?'b':'';
     const gIdx=DATA.findIndex(d=>d.user===e.user&&d.name===e.name);
+    const dt=dailyTarget(e,DATA_DATE);
     return`<div class="tbl-row ${rk}" onclick="openModal(${gIdx})">
       <span class="rk ${rc}">${i+1}</span>
       <div>
@@ -1043,6 +1081,7 @@ function renderTable(emps,brF){
       <span class="pv" style="color:${pc(e.pct)}">${e.pct}%</span>
       <span class="npost">${e.post||0}</span>
       <span class="nprep">${e.prep||0}</span>
+      <span class="thc"><span class="daily-badge ${dt.cls}">${dt.display}</span></span>
       <div class="prog">
         <div class="prog-bar"><div class="prog-fill" style="width:${Math.min(100,e.pct)}%;background:${pc(e.pct)}"></div></div>
         <div class="prog-t">${e.pct}%</div>
@@ -1139,13 +1178,62 @@ function openModal(idx){
           <div style="font-size:24px;font-weight:800;color:#88D0F8">${ftthEmp?ftthEmp.total:0}</div>
         </div>
       </div>
-      <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:14px;text-align:center">
+      <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:14px;text-align:center;margin-bottom:12px">
         <div style="font-size:9px;color:#5AB87A;text-transform:uppercase;font-weight:700;letter-spacing:.07em;margin-bottom:5px">Branch Contribution</div>
         <div style="font-size:28px;font-weight:800;color:#3DD68C">${brTotal>0?Math.round(e.sales/brTotal*100):0}%</div>
         <div style="font-size:11px;color:#4A9870;margin-top:2px">of ${brTotal} branch sales</div>
       </div>
+      ${renderDailyTargetCard(e)}
     </div>`;
   document.body.appendChild(modal);
+}
+
+// v13: Render Daily Target Card for Modal
+function renderDailyTargetCard(e){
+  const dt=dailyTarget(e,DATA_DATE);
+  // Color scheme per status
+  let bgGrad,borderCol,accentCol,statusLabel,statusIcon;
+  if(dt.status==='na'){
+    bgGrad='linear-gradient(135deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02))';
+    borderCol='rgba(255,255,255,0.08)';accentCol='#6A8878';
+    statusLabel='No target assigned';statusIcon='➖';
+  }else if(dt.status==='done'){
+    bgGrad='linear-gradient(135deg,#0D3D26,#1A5C35)';
+    borderCol='rgba(61,214,140,0.4)';accentCol='#5DD88C';
+    statusLabel='Target achieved — keep going!';statusIcon='✅';
+  }else if(dt.value<=3){
+    bgGrad='linear-gradient(135deg,#0A2818,#0F3822)';
+    borderCol='rgba(61,214,140,0.3)';accentCol='#7DE8A8';
+    statusLabel='Easy pace — you got this';statusIcon='🟢';
+  }else if(dt.value<=6){
+    bgGrad='linear-gradient(135deg,#1E1500,#2E2000)';
+    borderCol='rgba(239,159,39,0.35)';accentCol='#F6C94E';
+    statusLabel='Needs focus — stay consistent';statusIcon='🟡';
+  }else{
+    bgGrad='linear-gradient(135deg,#2A0A0A,#3A1010)';
+    borderCol='rgba(226,75,74,0.4)';accentCol='#F08888';
+    statusLabel='Challenging — push hard!';statusIcon='🔴';
+  }
+  return`<div style="background:${bgGrad};border:1px solid ${borderCol};border-radius:12px;padding:16px;text-align:center">
+    <div style="font-size:9px;color:${accentCol};text-transform:uppercase;font-weight:700;letter-spacing:.09em;margin-bottom:8px">🎯 Daily Target · Auto-updating</div>
+    <div style="font-size:44px;font-weight:900;color:${accentCol};letter-spacing:-2px;line-height:1">${dt.status==='done'?'✅':dt.status==='na'?'—':dt.value}</div>
+    <div style="font-size:11px;color:${accentCol};opacity:0.75;margin-top:3px;margin-bottom:14px">${dt.status==='active'?'sales per day needed':dt.status==='done'?'target reached':'no target set'}</div>
+    ${dt.status==='active'?`
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px">
+        <div style="font-size:9px;color:${accentCol};opacity:0.7;text-transform:uppercase;font-weight:700;margin-bottom:3px">Remaining</div>
+        <div style="font-size:20px;font-weight:800;color:#fff">${dt.remaining}</div>
+        <div style="font-size:10px;color:${accentCol};opacity:0.6">of ${e.target}</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px">
+        <div style="font-size:9px;color:${accentCol};opacity:0.7;text-transform:uppercase;font-weight:700;margin-bottom:3px">Work Days Left</div>
+        <div style="font-size:20px;font-weight:800;color:#fff">${dt.workDaysLeft}</div>
+        <div style="font-size:10px;color:${accentCol};opacity:0.6">days (2 off/week)</div>
+      </div>
+    </div>`:''}
+    <div style="font-size:11px;font-weight:600;color:${accentCol};padding-top:8px;border-top:1px solid ${borderCol}">${statusIcon} ${statusLabel}</div>
+    <div style="font-size:9px;color:${accentCol};opacity:0.5;margin-top:6px">🔄 Updates daily with your sales</div>
+  </div>`;
 }
 
 function ib(label,value,color){
