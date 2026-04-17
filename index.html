@@ -5065,6 +5065,178 @@ function helpContent_employee_ar(){
   `;
 }
 
+// ── 10. OVERVIEW TAB ──
+function helpContent_tab_overview_en(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 What is the Overview Tab?</div>
+      <div class="help-block-content">
+        The <b>first tab</b> you see when opening an employee. It summarizes their current performance in a single glance — perfect for quick check-ins and daily reviews.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📊 What you'll see</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>Sales:</b> Total sales this month</li>
+          <li><b>Target:</b> Monthly sales goal</li>
+          <li><b>Achievement %:</b> Progress toward target</li>
+          <li><b>Daily Target:</b> Sales needed per remaining work day to hit 100%</li>
+          <li><b>Remaining Work Days:</b> Days left for this employee this month</li>
+          <li><b>Status Badge:</b> Current performance tier (see below)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🎨 Status Badges</div>
+      <div class="help-block-content">
+        An automatic label reflects each employee's current state:
+        <div class="help-mini-badge" style="background:rgba(226,75,74,0.15);color:#E24B4A">🔥 On Fire — 100%+</div>
+        <div class="help-mini-badge" style="background:rgba(61,214,140,0.15);color:#3DD68C">✅ On Track — 75-99%</div>
+        <div class="help-mini-badge" style="background:rgba(239,159,39,0.15);color:#EF9F27">⚠️ At Risk — 1-74%</div>
+        <div class="help-mini-badge" style="background:rgba(143,160,174,0.15);color:#8FA0AE">❄️ Inactive — 0 sales</div>
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 How to use it</div>
+      <div class="help-block-content">
+        <ul>
+          <li>The <b>Daily Target</b> is the most actionable number — it tells you what's needed <i>from today onward</i></li>
+          <li>If Daily Target is very high → the employee needs immediate support</li>
+          <li>If Daily Target is close to their historical daily average → they're on a realistic pace</li>
+          <li>Use the status badge to prioritize 1-on-1 meetings (🔥 and ❄️ first)</li>
+        </ul>
+      </div>
+    </div>
+  `;
+}
+
+function helpContent_tab_overview_ar(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 ما هو تبويب نظرة عامة؟</div>
+      <div class="help-block-content">
+        <b>التبويب الأول</b> الذي تراه عند فتح أي موظف. يلخّص أداءه الحالي في لمحة واحدة — مثالي للمتابعة السريعة والمراجعات اليومية.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📊 ما ستراه</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>المبيعات:</b> إجمالي المبيعات هذا الشهر</li>
+          <li><b>الهدف:</b> الهدف الشهري</li>
+          <li><b>نسبة الإنجاز:</b> التقدّم نحو الهدف</li>
+          <li><b>الاحتياج اليومي:</b> عدد المبيعات المطلوبة يومياً للوصول إلى 100%</li>
+          <li><b>أيام العمل المتبقية:</b> الأيام المتبقية لهذا الموظف هذا الشهر</li>
+          <li><b>شارة الحالة:</b> مستوى الأداء الحالي (انظر أدناه)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🎨 شارات الحالة</div>
+      <div class="help-block-content">
+        شارة تلقائية تعكس حالة الموظف الحالية:
+        <div class="help-mini-badge" style="background:rgba(226,75,74,0.15);color:#E24B4A">🔥 On Fire — 100%+</div>
+        <div class="help-mini-badge" style="background:rgba(61,214,140,0.15);color:#3DD68C">✅ On Track — 75-99%</div>
+        <div class="help-mini-badge" style="background:rgba(239,159,39,0.15);color:#EF9F27">⚠️ At Risk — 1-74%</div>
+        <div class="help-mini-badge" style="background:rgba(143,160,174,0.15);color:#8FA0AE">❄️ Inactive — صفر مبيعات</div>
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 كيفية الاستخدام</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>الاحتياج اليومي</b> هو الرقم الأكثر قابلية للتطبيق — يخبرك بما هو مطلوب <i>من اليوم وما بعده</i></li>
+          <li>إذا كان الاحتياج اليومي مرتفعاً جداً → الموظف يحتاج دعماً فورياً</li>
+          <li>إذا كان قريباً من متوسّط أدائه التاريخي → الإيقاع واقعي</li>
+          <li>استخدم شارة الحالة لترتيب أولويات اللقاءات الفردية (🔥 و ❄️ أولاً)</li>
+        </ul>
+      </div>
+    </div>
+  `;
+}
+
+// ── 11. STREAKS TAB ──
+function helpContent_tab_streaks_en(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 What are Streaks?</div>
+      <div class="help-block-content">
+        A <b>week-by-week breakdown</b> of the employee's performance this month. It identifies <b>🔥 hot streaks</b> (strong weeks) and <b>❄️ cold streaks</b> (weak weeks), helping you spot momentum and consistency patterns.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📅 Weekly Breakdown</div>
+      <div class="help-block-content">
+        <ul>
+          <li>Each week of the current month appears as a separate card</li>
+          <li>Only <b>elapsed weeks</b> are shown — future weeks are hidden</li>
+          <li>The current (in-progress) week is marked clearly</li>
+          <li>Each card shows: week number, sales, and status (hot/cold)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🔥 Hot vs ❄️ Cold</div>
+      <div class="help-block-content">
+        Weeks are classified based on how they compare to the employee's monthly pace:
+        <ul>
+          <li>🔥 <b>Hot Week:</b> Sales above the expected weekly pace</li>
+          <li>➖ <b>Normal Week:</b> Sales around the expected pace</li>
+          <li>❄️ <b>Cold Week:</b> Sales clearly below the expected pace</li>
+        </ul>
+        A summary at the top shows the <b>total hot</b> vs <b>total cold</b> weeks.
+      </div>
+    </div>
+    <div class="help-block warn">
+      <div class="help-block-title">⚠️ About the data</div>
+      <div class="help-block-content">
+        Current weekly figures are calculated from the monthly total, not from actual daily history. Starting in <b>v20</b>, streaks will be based on real day-by-day data for perfect accuracy.
+      </div>
+    </div>
+  `;
+}
+
+function helpContent_tab_streaks_ar(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 ما هي السلاسل (Streaks)؟</div>
+      <div class="help-block-content">
+        <b>تقسيم أسبوعي</b> لأداء الموظف هذا الشهر. يُحدّد <b>🔥 السلاسل الحارّة</b> (الأسابيع القوية) و <b>❄️ السلاسل الباردة</b> (الأسابيع الضعيفة)، ممّا يساعدك على اكتشاف الزخم وأنماط الاستقرار.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📅 التقسيم الأسبوعي</div>
+      <div class="help-block-content">
+        <ul>
+          <li>يظهر كل أسبوع من الشهر الحالي كبطاقة منفصلة</li>
+          <li>تُعرض <b>الأسابيع المنقضية فقط</b> — الأسابيع المستقبلية مخفيّة</li>
+          <li>الأسبوع الحالي (قيد التنفيذ) يُميَّز بوضوح</li>
+          <li>كل بطاقة تعرض: رقم الأسبوع، المبيعات، والحالة (حار/بارد)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🔥 حار مقابل ❄️ بارد</div>
+      <div class="help-block-content">
+        يُصنَّف الأسبوع بناءً على مقارنته بالإيقاع الشهري للموظف:
+        <ul>
+          <li>🔥 <b>أسبوع حار:</b> المبيعات فوق الإيقاع الأسبوعي المتوقّع</li>
+          <li>➖ <b>أسبوع عادي:</b> المبيعات قريبة من الإيقاع المتوقّع</li>
+          <li>❄️ <b>أسبوع بارد:</b> المبيعات أقل بوضوح من الإيقاع المتوقّع</li>
+        </ul>
+        يعرض ملخّص في الأعلى <b>إجمالي الحار</b> مقابل <b>إجمالي البارد</b>.
+      </div>
+    </div>
+    <div class="help-block warn">
+      <div class="help-block-title">⚠️ ملاحظة عن البيانات</div>
+      <div class="help-block-content">
+        الأرقام الأسبوعية الحالية محسوبة من الإجمالي الشهري، وليست من سجل يومي فعلي. ابتداءً من <b>v20</b>، ستُبنى السلاسل على بيانات يومية حقيقية لدقّة كاملة.
+      </div>
+    </div>
+  `;
+}
+
 // ── Extend openPanel to include help ──
 const _origOpenPanel2=openPanel;
 openPanel=function(name){
