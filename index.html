@@ -158,6 +158,145 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   border-radius:20px;font-size:11px;color:#F4D88A;font-weight:700;
 }
 
+/* v16.6: Manual Update — Controls & Table */
+.manual-controls{
+  padding:16px 16px 12px;
+  background:linear-gradient(180deg,rgba(212,160,23,0.05),transparent);
+  border-bottom:1px solid rgba(212,160,23,0.15);
+}
+.manual-row{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.manual-field{flex:1;min-width:140px}
+.manual-label{
+  font-size:10px;font-weight:700;color:#F4D88A;
+  text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;
+  display:flex;align-items:center;gap:4px;
+}
+.manual-select,.manual-date-input{
+  width:100%;padding:8px 10px;background:var(--g3);
+  border:1px solid rgba(212,160,23,0.3);border-radius:8px;
+  color:#fff;font-size:13px;font-weight:600;cursor:pointer;
+  transition:all .15s;
+}
+.manual-select:hover,.manual-date-input:hover{border-color:rgba(212,160,23,0.6)}
+.manual-select:focus,.manual-date-input:focus{
+  outline:none;border-color:#F4D88A;
+  box-shadow:0 0 0 2px rgba(212,160,23,0.2);
+}
+.manual-checkbox-row{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 10px;background:rgba(212,160,23,0.06);
+  border:1px dashed rgba(212,160,23,0.35);border-radius:8px;
+  cursor:pointer;transition:all .15s;user-select:none;
+}
+.manual-checkbox-row:hover{background:rgba(212,160,23,0.12);border-color:rgba(212,160,23,0.6)}
+.manual-checkbox{
+  width:18px;height:18px;border:2px solid rgba(212,160,23,0.6);
+  border-radius:4px;background:var(--g2);display:flex;
+  align-items:center;justify-content:center;flex-shrink:0;
+  transition:all .15s;
+}
+.manual-checkbox.checked{
+  background:linear-gradient(135deg,#D4A017,#B8860B);
+  border-color:#F4D88A;
+}
+.manual-checkbox.checked::after{
+  content:'✓';color:#fff;font-size:13px;font-weight:900;
+}
+.manual-checkbox-label{font-size:12px;color:#E0EFE5;font-weight:600}
+
+/* Counter Bar */
+.manual-counter{
+  padding:12px 16px;
+  background:linear-gradient(90deg,rgba(212,160,23,0.12),rgba(212,160,23,0.04),rgba(212,160,23,0.12));
+  border-bottom:1px solid rgba(212,160,23,0.2);
+  display:flex;justify-content:space-around;align-items:center;
+  flex-wrap:wrap;gap:8px;
+}
+.manual-counter-item{text-align:center}
+.manual-counter-num{
+  font-size:20px;font-weight:900;
+  background:linear-gradient(135deg,#F4D88A,#D4A017);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;line-height:1;
+}
+.manual-counter-lbl{
+  font-size:9px;color:#A8D4BA;text-transform:uppercase;
+  letter-spacing:0.5px;margin-top:3px;font-weight:700;
+}
+.manual-counter-divider{width:1px;height:32px;background:rgba(212,160,23,0.3)}
+
+/* Table */
+.manual-table-wrap{padding:12px}
+.manual-table{
+  width:100%;border-collapse:separate;border-spacing:0;
+  background:var(--g3);border-radius:8px;overflow:hidden;
+  border:1px solid var(--border);
+}
+.manual-table thead th{
+  background:linear-gradient(180deg,rgba(212,160,23,0.2),rgba(212,160,23,0.08));
+  color:#F4D88A;font-size:10px;font-weight:800;
+  text-transform:uppercase;letter-spacing:0.5px;
+  padding:10px 6px;text-align:center;position:sticky;top:0;z-index:5;
+  border-bottom:1px solid rgba(212,160,23,0.3);
+  white-space:nowrap;
+}
+.manual-table thead th:first-child{text-align:left;padding-left:12px}
+.manual-table tbody tr{transition:background .15s}
+.manual-table tbody tr:hover{background:rgba(212,160,23,0.04)}
+.manual-table tbody tr.filled{background:rgba(61,214,140,0.06)}
+.manual-table tbody tr.filled:hover{background:rgba(61,214,140,0.1)}
+.manual-table tbody td{
+  padding:8px 6px;font-size:12px;color:#E0EFE5;
+  border-bottom:1px solid rgba(255,255,255,0.04);
+  text-align:center;
+}
+.manual-table tbody td:first-child{
+  text-align:left;padding-left:12px;font-weight:600;
+  color:#C8EED8;
+}
+.manual-table tbody tr:last-child td{border-bottom:none}
+.manual-input{
+  width:56px;padding:5px 4px;background:var(--g2);
+  border:1px solid var(--border2);border-radius:6px;
+  color:#fff;font-size:13px;font-weight:700;text-align:center;
+  transition:all .15s;
+}
+.manual-input:hover{border-color:rgba(212,160,23,0.4)}
+.manual-input:focus{
+  outline:none;border-color:#D4A017;
+  box-shadow:0 0 0 2px rgba(212,160,23,0.2);
+  background:var(--g3);
+}
+.manual-input.has-value{
+  border-color:rgba(61,214,140,0.5);
+  background:rgba(61,214,140,0.08);
+}
+.manual-total{
+  font-weight:900;font-size:14px;color:#F4D88A;
+  min-width:32px;display:inline-block;
+}
+.manual-total.zero{color:#5A9870;opacity:0.5}
+.manual-clear-btn{
+  background:transparent;border:1px solid rgba(226,75,74,0.3);
+  color:#E24B4A;border-radius:6px;padding:3px 8px;
+  font-size:10px;font-weight:700;cursor:pointer;
+  transition:all .15s;opacity:0.5;
+}
+.manual-clear-btn:hover{
+  background:rgba(226,75,74,0.12);
+  border-color:#E24B4A;opacity:1;transform:scale(1.05);
+}
+.manual-branch-cell{max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.manual-no-data{
+  padding:30px 20px;text-align:center;color:#5A9870;font-size:13px;
+}
+.manual-mgr-chip{
+  display:inline-block;padding:2px 6px;border-radius:10px;
+  font-size:9px;font-weight:700;margin-left:6px;
+  background:rgba(212,160,23,0.15);color:#F4D88A;
+  border:1px solid rgba(212,160,23,0.3);
+}
+
 /* ── v14: Slide-in Panels (v16.2: Fixed overflow issue) ── */
 .panel-overlay{
   position:fixed;top:0;bottom:0;width:480px;max-width:100vw;
@@ -6607,6 +6746,255 @@ function helpContent_exports_ar(){
   `;
 }
 
+// ═══════════════════════════════════════════════════════
+// v16.6: Manual Daily Update Tool (Premium)
+// ═══════════════════════════════════════════════════════
+
+// State
+const MANUAL_STATE={
+  scope:'all',       // 'all' | 'aw' | 'am' | 'ms' | 'na'
+  date:'',           // YYYY-MM-DD
+  withFtth:false,    // include FTTH+5G column
+  entries:{}         // { branchName: {pre:n, post:n, ftth:n} }
+};
+
+function manualInit(){
+  // Default date = today
+  const d=new Date();
+  const y=d.getFullYear();
+  const m=String(d.getMonth()+1).padStart(2,'0');
+  const dd=String(d.getDate()).padStart(2,'0');
+  MANUAL_STATE.date=`${y}-${m}-${dd}`;
+  MANUAL_STATE.entries={};
+}
+
+function manualGetBranches(){
+  if(!DATA||!DATA.length)return[];
+  let emps=DATA;
+  if(MANUAL_STATE.scope!=='all'){
+    emps=DATA.filter(e=>mk(e.mgr)===MANUAL_STATE.scope);
+  }
+  // Unique branch → manager map
+  const map={};
+  emps.forEach(e=>{
+    if(e.branch&&!map[e.branch])map[e.branch]=e.mgr;
+  });
+  return Object.keys(map).sort().map(b=>({name:b,mgr:map[b]}));
+}
+
+function manualGetScopeName(){
+  if(MANUAL_STATE.scope==='all')return 'All (SR Manager — Oqla)';
+  const map={aw:'Abdulwahab',am:'Ahmed',ms:'Mohammed',na:'Najwah'};
+  return map[MANUAL_STATE.scope]||MANUAL_STATE.scope;
+}
+
+function manualSetScope(scope){
+  MANUAL_STATE.scope=scope;
+  renderManualPanel();
+}
+
+function manualSetDate(date){
+  MANUAL_STATE.date=date;
+  // No reset of entries here — Step 3 will handle per-date persistence
+  renderManualPanel();
+}
+
+function manualToggleFtth(){
+  MANUAL_STATE.withFtth=!MANUAL_STATE.withFtth;
+  renderManualPanel();
+}
+
+function manualUpdateEntry(branch,field,value){
+  const n=parseInt(value,10);
+  if(!MANUAL_STATE.entries[branch])MANUAL_STATE.entries[branch]={pre:0,post:0,ftth:0};
+  MANUAL_STATE.entries[branch][field]=(isNaN(n)||n<0)?0:n;
+  manualUpdateLiveTotals();
+}
+
+function manualUpdateLiveTotals(){
+  const entries=MANUAL_STATE.entries;
+  let totPre=0,totPost=0,totFtth=0,filledCount=0;
+  const branches=manualGetBranches();
+  branches.forEach(b=>{
+    const e=entries[b.name];
+    if(!e)return;
+    const hasAny=(e.pre>0||e.post>0||e.ftth>0);
+    if(hasAny)filledCount++;
+    totPre+=e.pre||0;
+    totPost+=e.post||0;
+    totFtth+=e.ftth||0;
+  });
+  const totSales=totPre+totPost;
+  // Update counter bar
+  const cPre=document.getElementById('manual-c-pre');
+  const cPost=document.getElementById('manual-c-post');
+  const cTot=document.getElementById('manual-c-tot');
+  const cFtth=document.getElementById('manual-c-ftth');
+  const cFilled=document.getElementById('manual-c-filled');
+  if(cPre)cPre.textContent=totPre;
+  if(cPost)cPost.textContent=totPost;
+  if(cTot)cTot.textContent=totSales;
+  if(cFtth)cFtth.textContent=totFtth;
+  if(cFilled)cFilled.textContent=`${filledCount}/${branches.length}`;
+  // Update per-row totals + filled class
+  branches.forEach(b=>{
+    const e=entries[b.name]||{pre:0,post:0,ftth:0};
+    const rowTotal=(e.pre||0)+(e.post||0);
+    const totCell=document.getElementById(`manual-row-total-${manualSlug(b.name)}`);
+    if(totCell){
+      totCell.textContent=rowTotal;
+      totCell.className='manual-total'+(rowTotal===0?' zero':'');
+    }
+    const row=document.getElementById(`manual-row-${manualSlug(b.name)}`);
+    if(row){
+      const hasAny=(e.pre>0||e.post>0||e.ftth>0);
+      row.classList.toggle('filled',hasAny);
+    }
+    // Highlight inputs with values
+    ['pre','post','ftth'].forEach(f=>{
+      const inp=document.getElementById(`manual-input-${f}-${manualSlug(b.name)}`);
+      if(inp){
+        inp.classList.toggle('has-value',(e[f]||0)>0);
+      }
+    });
+  });
+}
+
+function manualClearBranch(branch){
+  if(MANUAL_STATE.entries[branch]){
+    delete MANUAL_STATE.entries[branch];
+  }
+  // Clear inputs without full re-render (keeps focus flow)
+  ['pre','post','ftth'].forEach(f=>{
+    const inp=document.getElementById(`manual-input-${f}-${manualSlug(branch)}`);
+    if(inp)inp.value='';
+  });
+  manualUpdateLiveTotals();
+}
+
+function manualSlug(s){
+  return s.replace(/[^a-zA-Z0-9]/g,'_');
+}
+
+function renderManualPanel(){
+  const body=document.getElementById('panel-manual-body');
+  if(!body)return;
+  if(!DATA||!DATA.length){
+    body.innerHTML=`
+      <div class="manual-empty">
+        <div class="manual-empty-icon">⏳</div>
+        <div class="manual-empty-title">Loading data...</div>
+        <div class="manual-empty-desc">Waiting for dashboard data. Please wait a moment and try again.</div>
+      </div>
+    `;
+    return;
+  }
+  const branches=manualGetBranches();
+  const showFtth=MANUAL_STATE.withFtth;
+  // ── Controls
+  let html=`
+    <div class="manual-controls">
+      <div class="manual-row">
+        <div class="manual-field">
+          <div class="manual-label">👤 Responsible</div>
+          <select class="manual-select" onchange="manualSetScope(this.value)">
+            <option value="all" ${MANUAL_STATE.scope==='all'?'selected':''}>🌐 All (SR Manager — Oqla)</option>
+            <option value="aw" ${MANUAL_STATE.scope==='aw'?'selected':''}>👤 Abdulwahab</option>
+            <option value="am" ${MANUAL_STATE.scope==='am'?'selected':''}>👤 Ahmed</option>
+            <option value="ms" ${MANUAL_STATE.scope==='ms'?'selected':''}>👤 Mohammed</option>
+            <option value="na" ${MANUAL_STATE.scope==='na'?'selected':''}>👤 Najwah</option>
+          </select>
+        </div>
+        <div class="manual-field">
+          <div class="manual-label">📅 Date</div>
+          <input type="date" class="manual-date-input" value="${MANUAL_STATE.date}" onchange="manualSetDate(this.value)">
+        </div>
+      </div>
+      <div class="manual-checkbox-row" onclick="manualToggleFtth()">
+        <div class="manual-checkbox ${showFtth?'checked':''}"></div>
+        <div class="manual-checkbox-label">📡 Include FTTH + 5G column</div>
+      </div>
+    </div>
+  `;
+  // ── Live counter
+  html+=`
+    <div class="manual-counter">
+      <div class="manual-counter-item">
+        <div class="manual-counter-num" id="manual-c-pre">0</div>
+        <div class="manual-counter-lbl">Prepaid</div>
+      </div>
+      <div class="manual-counter-divider"></div>
+      <div class="manual-counter-item">
+        <div class="manual-counter-num" id="manual-c-post">0</div>
+        <div class="manual-counter-lbl">Postpaid</div>
+      </div>
+      <div class="manual-counter-divider"></div>
+      <div class="manual-counter-item">
+        <div class="manual-counter-num" id="manual-c-tot">0</div>
+        <div class="manual-counter-lbl">Total</div>
+      </div>
+      ${showFtth?`
+      <div class="manual-counter-divider"></div>
+      <div class="manual-counter-item">
+        <div class="manual-counter-num" id="manual-c-ftth">0</div>
+        <div class="manual-counter-lbl">FTTH+5G</div>
+      </div>`:''}
+      <div class="manual-counter-divider"></div>
+      <div class="manual-counter-item">
+        <div class="manual-counter-num" id="manual-c-filled">0/${branches.length}</div>
+        <div class="manual-counter-lbl">Filled</div>
+      </div>
+    </div>
+  `;
+  // ── Table
+  if(branches.length===0){
+    html+=`<div class="manual-no-data">No branches found for this selection.</div>`;
+  }else{
+    html+=`<div class="manual-table-wrap"><table class="manual-table">
+      <thead>
+        <tr>
+          <th>Branch</th>
+          <th>Prepaid</th>
+          <th>Postpaid</th>
+          <th>Total</th>
+          ${showFtth?'<th>FTTH+5G</th>':''}
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>`;
+    branches.forEach(b=>{
+      const slug=manualSlug(b.name);
+      const e=MANUAL_STATE.entries[b.name]||{pre:0,post:0,ftth:0};
+      const rowTotal=(e.pre||0)+(e.post||0);
+      const hasAny=(e.pre>0||e.post>0||e.ftth>0);
+      const brShort=b.name.replace(' FBO','').replace('Kiosk ','');
+      const mgrChip=MANUAL_STATE.scope==='all'?`<span class="manual-mgr-chip">${mgrShort(b.mgr)}</span>`:'';
+      html+=`
+        <tr id="manual-row-${slug}" class="${hasAny?'filled':''}">
+          <td><div class="manual-branch-cell" title="${b.name}">${brShort}${mgrChip}</div></td>
+          <td><input type="number" min="0" inputmode="numeric" class="manual-input ${e.pre>0?'has-value':''}" id="manual-input-pre-${slug}" value="${e.pre||''}" oninput="manualUpdateEntry('${b.name.replace(/'/g,"\\'")}','pre',this.value)" placeholder="0"></td>
+          <td><input type="number" min="0" inputmode="numeric" class="manual-input ${e.post>0?'has-value':''}" id="manual-input-post-${slug}" value="${e.post||''}" oninput="manualUpdateEntry('${b.name.replace(/'/g,"\\'")}','post',this.value)" placeholder="0"></td>
+          <td><span class="manual-total${rowTotal===0?' zero':''}" id="manual-row-total-${slug}">${rowTotal}</span></td>
+          ${showFtth?`<td><input type="number" min="0" inputmode="numeric" class="manual-input ${e.ftth>0?'has-value':''}" id="manual-input-ftth-${slug}" value="${e.ftth||''}" oninput="manualUpdateEntry('${b.name.replace(/'/g,"\\'")}','ftth',this.value)" placeholder="0"></td>`:''}
+          <td><button class="manual-clear-btn" onclick="manualClearBranch('${b.name.replace(/'/g,"\\'")}')" title="Clear this branch">✕</button></td>
+        </tr>
+      `;
+    });
+    html+=`</tbody></table></div>`;
+    // Placeholder note for steps ahead
+    html+=`
+      <div style="padding:16px 12px;text-align:center;color:#5A9870;font-size:11px;opacity:0.7;border-top:1px dashed rgba(212,160,23,0.2);margin-top:8px">
+        ✨ Update buttons (Update 1 / 2 / 3) + Export will arrive in the next step of v16.6.
+      </div>
+    `;
+  }
+  body.innerHTML=html;
+  manualUpdateLiveTotals();
+}
+
+// Initialize on first load
+manualInit();
+
 // ── Extend openPanel to include help ──
 const _origOpenPanel2=openPanel;
 openPanel=function(name){
@@ -6614,6 +7002,9 @@ openPanel=function(name){
   if(name==='help'){
     HELP_SECTION='home';
     renderHelpPanel();
+  }
+  if(name==='manual'){
+    renderManualPanel();
   }
 };
 
