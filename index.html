@@ -6115,6 +6115,390 @@ function helpContent_badges_ar(){
   `;
 }
 
+// ── 22. CHARTS ──
+function helpContent_charts_en(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 What are the Charts?</div>
+      <div class="help-block-content">
+        Two interactive visualizations in the main dashboard that turn raw numbers into instant insights:
+        <ul>
+          <li>📊 <b>Branch Performance Bar Chart</b></li>
+          <li>🍩 <b>Sales by Supervisor donut</b></li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📊 Branch Performance Bar Chart</div>
+      <div class="help-block-content">
+        Shows <b>every branch</b> ranked by performance:
+        <ul>
+          <li>Each bar represents one branch</li>
+          <li>Bar height = branch sales volume</li>
+          <li>Bar color reflects achievement % (green = strong, red = weak)</li>
+          <li>Hover any bar to see: branch name, sales, target, achievement %</li>
+          <li>Gradients and shadows add visual depth</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🍩 Sales by Supervisor</div>
+      <div class="help-block-content">
+        A donut chart showing how total sales split across the 4 supervisors:
+        <ul>
+          <li>Each slice = one supervisor's team contribution</li>
+          <li>Supervisors keep consistent colors across the dashboard</li>
+          <li>Hover any slice to see exact sales + percentage of total</li>
+          <li>The center shows the overall team total</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 How to use them</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>Bar chart:</b> Spot branch disparities at a glance — which branches need help?</li>
+          <li><b>Donut:</b> Check workload balance — is one supervisor carrying too much?</li>
+          <li>Compare the donut slice size vs the supervisor's team size in the sidebar — a small team with a big slice = star supervisor</li>
+          <li>Use charts in team meetings instead of raw tables — visuals land faster</li>
+        </ul>
+      </div>
+    </div>
+  `;
+}
+
+function helpContent_charts_ar(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 ما هي الرسوم البيانيّة؟</div>
+      <div class="help-block-content">
+        عرضان تفاعليّان في الداشبورد الرئيسي يحوّلان الأرقام الخام إلى رؤى فوريّة:
+        <ul>
+          <li>📊 <b>رسم أداء الفروع (Bar Chart)</b></li>
+          <li>🍩 <b>توزيع المبيعات على المشرفين (Donut)</b></li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📊 رسم أداء الفروع</div>
+      <div class="help-block-content">
+        يعرض <b>كل الفروع</b> مرتّبة حسب الأداء:
+        <ul>
+          <li>كل عمود يمثّل فرعاً واحداً</li>
+          <li>ارتفاع العمود = حجم مبيعات الفرع</li>
+          <li>لون العمود يعكس نسبة الإنجاز (أخضر = قوي، أحمر = ضعيف)</li>
+          <li>مرّر على أي عمود لرؤية: اسم الفرع، المبيعات، الهدف، نسبة الإنجاز</li>
+          <li>التدرّجات والظلال تضيف عمقاً بصريّاً</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🍩 توزيع المبيعات على المشرفين</div>
+      <div class="help-block-content">
+        رسم دونات يعرض كيفيّة توزيع إجمالي المبيعات بين المشرفين الأربعة:
+        <ul>
+          <li>كل شريحة = مساهمة فريق مشرف واحد</li>
+          <li>المشرفون يحتفظون بألوان ثابتة عبر الداشبورد</li>
+          <li>مرّر على أي شريحة لرؤية المبيعات الدقيقة + النسبة من الإجمالي</li>
+          <li>المركز يعرض إجمالي الفريق الكلّي</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 كيفية الاستخدام</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>رسم الفروع:</b> اكتشف تفاوت الفروع بلمحة — أي الفروع يحتاج دعماً؟</li>
+          <li><b>الدونات:</b> افحص توازن العبء — هل مشرف واحد يحمل أكثر ممّا يجب؟</li>
+          <li>قارن حجم شريحة المشرف في الدونات بحجم فريقه في الشريط الجانبي — فريق صغير بشريحة كبيرة = مشرف نجم</li>
+          <li>استخدم الرسوم في اجتماعات الفريق بدل الجداول الخام — البصريّات أسرع في الفهم</li>
+        </ul>
+      </div>
+    </div>
+  `;
+}
+
+// ── 23. SUPERVISOR CARDS ──
+function helpContent_supervisors_en(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 What are Supervisor Cards?</div>
+      <div class="help-block-content">
+        <b>4 detailed cards</b> — one per supervisor — giving you a complete team snapshot. Each card summarizes the supervisor's entire team in a single view.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📋 What's on each card</div>
+      <div class="help-block-content">
+        <ul>
+          <li>👤 <b>Supervisor name</b> with signature color</li>
+          <li>📊 <b>Total team sales</b> vs target</li>
+          <li>📈 <b>Team achievement %</b> with status indicator</li>
+          <li>👥 <b>Active employee count</b> (excluding placeholders)</li>
+          <li>🏆 <b>Team top performer</b> — the star of that team</li>
+          <li>📡 <b>FTTH contribution</b> — the team's connectivity sales</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🎨 The 4 Supervisors</div>
+      <div class="help-block-content">
+        Each supervisor has a <b>unique color</b> used consistently across charts, cards, and tables:
+        <ul>
+          <li>🟡 <b>Abdulwahab</b></li>
+          <li>🔵 <b>Ahmed</b></li>
+          <li>🟢 <b>Mohammed</b></li>
+          <li>💗 <b>Najwah</b></li>
+        </ul>
+        These colors help you spot each team at a glance without reading names.
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 How to use them</div>
+      <div class="help-block-content">
+        <ul>
+          <li>Use them for <b>quick supervisor benchmarking</b> at the start of your day</li>
+          <li>Compare achievement % across the 4 cards — who's leading, who's lagging?</li>
+          <li>Click the supervisor in the sidebar to filter the whole dashboard to their team</li>
+          <li>Share supervisor cards in management meetings — one card per supervisor is a natural talking point</li>
+        </ul>
+      </div>
+    </div>
+  `;
+}
+
+function helpContent_supervisors_ar(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 ما هي بطاقات المشرفين؟</div>
+      <div class="help-block-content">
+        <b>4 بطاقات تفصيليّة</b> — واحدة لكل مشرف — تعطيك لمحة كاملة عن فريقه. كل بطاقة تلخّص فريق المشرف بأكمله في عرض واحد.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📋 ماذا تحوي كل بطاقة</div>
+      <div class="help-block-content">
+        <ul>
+          <li>👤 <b>اسم المشرف</b> مع لونه المميّز</li>
+          <li>📊 <b>إجمالي مبيعات الفريق</b> مقابل الهدف</li>
+          <li>📈 <b>نسبة إنجاز الفريق</b> مع مؤشّر الحالة</li>
+          <li>👥 <b>عدد الموظفين النشطين</b> (باستثناء الفروع الفارغة)</li>
+          <li>🏆 <b>أفضل موظف في الفريق</b> — نجم ذلك الفريق</li>
+          <li>📡 <b>مساهمة FTTH</b> — مبيعات خدمات الاتصال للفريق</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🎨 المشرفون الأربعة</div>
+      <div class="help-block-content">
+        كل مشرف له <b>لون فريد</b> مستخدم باستمرار عبر الرسوم والبطاقات والجداول:
+        <ul>
+          <li>🟡 <b>عبدالوهاب</b></li>
+          <li>🔵 <b>أحمد</b></li>
+          <li>🟢 <b>محمد</b></li>
+          <li>💗 <b>نجوى</b></li>
+        </ul>
+        هذه الألوان تساعدك على تمييز كل فريق بلمحة دون قراءة الأسماء.
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 كيفية الاستخدام</div>
+      <div class="help-block-content">
+        <ul>
+          <li>استخدمها لـ <b>مقارنة سريعة بين المشرفين</b> في بداية يومك</li>
+          <li>قارن نسبة الإنجاز عبر البطاقات الأربعة — من يتصدّر ومن يتأخّر؟</li>
+          <li>اضغط اسم المشرف في الشريط الجانبي لتصفية الداشبورد كاملاً على فريقه</li>
+          <li>شارك بطاقات المشرفين في اجتماعات الإدارة — بطاقة لكل مشرف نقطة نقاش طبيعيّة</li>
+        </ul>
+      </div>
+    </div>
+  `;
+}
+
+// ── 24. SEARCH & FILTERS ──
+function helpContent_search_en(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 What are Search & Filters?</div>
+      <div class="help-block-content">
+        Two tools that help you <b>find the right employee fast</b> and <b>focus the dashboard</b> on a specific team — without clutter.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🔍 Employee Search Box</div>
+      <div class="help-block-content">
+        The search box sits above the employee leaderboard table:
+        <ul>
+          <li>Type any part of a name — results filter instantly as you type</li>
+          <li>Works on <b>first names, last names, or partial matches</b></li>
+          <li>Only the table is filtered — KPIs and charts stay untouched</li>
+          <li>Clear the box to see the full team again</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">👥 Supervisor Filter (Sidebar)</div>
+      <div class="help-block-content">
+        The sidebar lets you filter the <b>entire dashboard</b> by supervisor:
+        <ul>
+          <li>🌐 <b>All:</b> See the full company (default)</li>
+          <li>👤 <b>Single supervisor:</b> Click one supervisor's card to show only their team</li>
+          <li>When filtered: KPIs, podium, charts, badges, and alerts all adapt</li>
+          <li>The active filter is highlighted in the sidebar</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 How to combine them</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>Filter first, search second:</b> Pick a supervisor in the sidebar, then search within their team</li>
+          <li>Use search to quickly spot an employee you want to coach today</li>
+          <li>Use the supervisor filter before exporting — the export reflects the current filter</li>
+          <li>On mobile, open the ☰ menu to access the supervisor filter</li>
+        </ul>
+      </div>
+    </div>
+  `;
+}
+
+function helpContent_search_ar(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 ما هو البحث والتصفية؟</div>
+      <div class="help-block-content">
+        أداتان تساعدانك على <b>إيجاد الموظّف المناسب بسرعة</b> و <b>تركيز الداشبورد</b> على فريق محدّد — بدون ازدحام.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🔍 مربّع البحث عن الموظفين</div>
+      <div class="help-block-content">
+        مربّع البحث يقع فوق جدول المتصدّرين:
+        <ul>
+          <li>اكتب أي جزء من الاسم — النتائج تُصفّى فوراً مع كل حرف</li>
+          <li>يعمل على <b>الاسم الأوّل، العائلة، أو المطابقات الجزئيّة</b></li>
+          <li>يُصفّى الجدول فقط — بطاقات KPI والرسوم لا تتأثّر</li>
+          <li>امسح المربّع لرؤية الفريق كاملاً مرّة أخرى</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">👥 تصفية المشرفين (الشريط الجانبي)</div>
+      <div class="help-block-content">
+        الشريط الجانبي يتيح لك تصفية <b>الداشبورد كاملاً</b> حسب المشرف:
+        <ul>
+          <li>🌐 <b>الكل:</b> عرض الشركة كاملة (الافتراضي)</li>
+          <li>👤 <b>مشرف واحد:</b> اضغط بطاقة مشرف لعرض فريقه فقط</li>
+          <li>عند التصفية: الـ KPIs، منصّة التتويج، الرسوم، الشارات، والتنبيهات كلها تتكيّف</li>
+          <li>التصفية النشطة تُميَّز في الشريط الجانبي</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 كيف تجمع بينهما</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>صفِّ أوّلاً، ابحث ثانياً:</b> اختر المشرف في الشريط الجانبي، ثم ابحث داخل فريقه</li>
+          <li>استخدم البحث لتحديد الموظف الذي تريد تدريبه اليوم بسرعة</li>
+          <li>استخدم تصفية المشرف قبل التصدير — التصدير يعكس التصفية الحاليّة</li>
+          <li>على الجوّال، افتح قائمة ☰ للوصول إلى تصفية المشرفين</li>
+        </ul>
+      </div>
+    </div>
+  `;
+}
+
+// ── 25. EXPORTS ──
+function helpContent_exports_en(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 What are Exports?</div>
+      <div class="help-block-content">
+        Four ways to <b>take dashboard data outside</b> — for sharing in meetings, sending over WhatsApp, or saving as records. All four live in the header row at the top.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📤 The 4 Export Options</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>↻ Refresh</b> — Reload the latest data instantly (not technically an export, but grouped here)</li>
+          <li><b>🖨️ Print</b> — Opens the browser print dialog for a clean printable copy</li>
+          <li><b>💬 WhatsApp</b> — Copies a formatted summary ready to paste into any chat</li>
+          <li><b>📷 PNG</b> — Downloads the full dashboard as a high-quality image</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🎯 Best Use Cases</div>
+      <div class="help-block-content">
+        <ul>
+          <li>📷 <b>PNG:</b> Send a daily morning snapshot to the leadership chat</li>
+          <li>💬 <b>WhatsApp:</b> Share quick text wins with a single supervisor</li>
+          <li>🖨️ <b>Print:</b> Need a hard copy for a stakeholder meeting</li>
+          <li>↻ <b>Refresh:</b> Use before any export to ensure the freshest data</li>
+        </ul>
+        Remember: exports reflect the <b>current supervisor filter</b>, so filter first if you want a team-specific view.
+      </div>
+    </div>
+    <div class="help-block warn">
+      <div class="help-block-title">⚠️ Things to know</div>
+      <div class="help-block-content">
+        <ul>
+          <li>PNG export captures <b>the whole visible dashboard</b> — scroll to the top first for cleanest results</li>
+          <li>On some mobile browsers, PNG may save to the Downloads folder silently</li>
+          <li>Print output may look different from the screen — check the preview</li>
+          <li>Exports do not include open panels (Alerts, Radar, etc.) — close those first</li>
+        </ul>
+      </div>
+    </div>
+  `;
+}
+
+function helpContent_exports_ar(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 ما هي خيارات التصدير؟</div>
+      <div class="help-block-content">
+        أربع طرق <b>لأخذ بيانات الداشبورد للخارج</b> — للمشاركة في الاجتماعات، أو الإرسال عبر واتساب، أو الحفظ كسجلّ. جميعها في شريط الهيدر في الأعلى.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📤 خيارات التصدير الأربعة</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>↻ Refresh</b> — إعادة تحميل أحدث البيانات فوراً (ليس تصديراً تقنيّاً لكنّه هنا)</li>
+          <li><b>🖨️ Print</b> — يفتح نافذة طباعة المتصفّح لنسخة نظيفة قابلة للطباعة</li>
+          <li><b>💬 WhatsApp</b> — ينسخ ملخّصاً منسّقاً جاهزاً للّصق في أي محادثة</li>
+          <li><b>📷 PNG</b> — يحمّل الداشبورد كاملاً كصورة عالية الجودة</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🎯 أفضل حالات الاستخدام</div>
+      <div class="help-block-content">
+        <ul>
+          <li>📷 <b>PNG:</b> أرسل لقطة صباحيّة يوميّة لمجموعة القيادة</li>
+          <li>💬 <b>WhatsApp:</b> شارك إنجازات سريعة نصيّاً مع مشرف واحد</li>
+          <li>🖨️ <b>Print:</b> لو تحتاج نسخة ورقيّة لاجتماع مع الإدارة</li>
+          <li>↻ <b>Refresh:</b> استخدمه قبل أي تصدير لضمان أحدث البيانات</li>
+        </ul>
+        تذكّر: التصدير يعكس <b>تصفية المشرف الحاليّة</b>، فصفِّ أوّلاً إذا أردت عرضاً خاصّاً بفريق معيّن.
+      </div>
+    </div>
+    <div class="help-block warn">
+      <div class="help-block-title">⚠️ أشياء يجب معرفتها</div>
+      <div class="help-block-content">
+        <ul>
+          <li>تصدير PNG يلتقط <b>الداشبورد المرئي كاملاً</b> — مرّر للأعلى أوّلاً لنتيجة أنظف</li>
+          <li>في بعض متصفّحات الجوّال، قد يُحفَظ PNG في مجلّد التنزيلات بصمت</li>
+          <li>مخرج الطباعة قد يبدو مختلفاً عن الشاشة — تحقّق من المعاينة</li>
+          <li>التصدير لا يشمل اللوحات المفتوحة (التنبيهات، الرادار، إلخ) — أغلقها أوّلاً</li>
+        </ul>
+      </div>
+    </div>
+  `;
+}
+
 // ── Extend openPanel to include help ──
 const _origOpenPanel2=openPanel;
 openPanel=function(name){
