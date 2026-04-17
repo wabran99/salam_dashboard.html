@@ -73,6 +73,91 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 .tool-icon-tooltip{position:absolute;top:48px;left:50%;transform:translateX(-50%);background:var(--g3);color:#fff;padding:5px 10px;border-radius:6px;font-size:11px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;z-index:200;border:1px solid var(--border2)}
 .tool-icon:hover .tool-icon-tooltip{opacity:1}
 
+/* ── v16.6: Premium Gold Icon (Manual Update Tool) ── */
+.tool-icon-gold{
+  background:linear-gradient(135deg,rgba(212,160,23,0.25),rgba(212,160,23,0.08));
+  border:1px solid rgba(212,160,23,0.55);
+  box-shadow:0 0 0 0 rgba(212,160,23,0.5);
+  animation:goldPulse 2.4s ease-in-out infinite;
+  color:#F4D88A;
+  position:relative;
+}
+.tool-icon-gold::before{
+  content:'';position:absolute;inset:-1px;border-radius:10px;
+  background:linear-gradient(135deg,rgba(212,160,23,0.0),rgba(244,216,138,0.35),rgba(212,160,23,0.0));
+  opacity:0;transition:opacity .25s;z-index:-1;
+}
+.tool-icon-gold:hover{
+  background:linear-gradient(135deg,rgba(212,160,23,0.4),rgba(212,160,23,0.15));
+  border-color:rgba(244,216,138,0.9);
+  transform:translateY(-2px) scale(1.05);
+  box-shadow:0 4px 14px rgba(212,160,23,0.4);
+  animation:none;
+}
+.tool-icon-gold:hover::before{opacity:1}
+.tool-icon-gold.active{
+  background:linear-gradient(135deg,#D4A017,#B8860B);
+  border-color:#F4D88A;
+  color:#fff;
+  animation:none;
+  box-shadow:0 0 18px rgba(212,160,23,0.6);
+}
+@keyframes goldPulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(212,160,23,0.45)}
+  50%{box-shadow:0 0 0 6px rgba(212,160,23,0)}
+}
+.tool-icon-gold .tool-icon-tooltip{
+  background:linear-gradient(135deg,#D4A017,#B8860B);
+  color:#fff;font-weight:700;border-color:#F4D88A;
+}
+
+/* Premium Panel — gold accents */
+#panel-manual .panel-hdr{
+  background:linear-gradient(135deg,rgba(212,160,23,0.18),rgba(212,160,23,0.04));
+  border-bottom:2px solid rgba(212,160,23,0.5);
+  position:relative;
+}
+#panel-manual .panel-hdr::after{
+  content:'';position:absolute;bottom:-2px;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,#D4A017,#F4D88A,#D4A017,transparent);
+  opacity:0.8;
+}
+#panel-manual .panel-hdr-title{
+  background:linear-gradient(135deg,#F4D88A,#D4A017);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;font-weight:800;letter-spacing:0.3px;
+}
+#panel-manual .panel-close{
+  background:rgba(212,160,23,0.15);
+  border:1px solid rgba(212,160,23,0.4);
+  color:#F4D88A;
+}
+#panel-manual .panel-close:hover{
+  background:rgba(212,160,23,0.3);
+  border-color:#F4D88A;color:#fff;
+}
+.manual-empty{
+  padding:40px 20px;text-align:center;color:#A8D4BA;
+}
+.manual-empty-icon{
+  font-size:48px;margin-bottom:16px;
+  filter:drop-shadow(0 4px 12px rgba(212,160,23,0.4));
+}
+.manual-empty-title{
+  font-size:18px;font-weight:800;margin-bottom:8px;
+  background:linear-gradient(135deg,#F4D88A,#D4A017);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.manual-empty-desc{
+  font-size:13px;opacity:0.8;line-height:1.6;max-width:320px;margin:0 auto;
+}
+.manual-coming-soon{
+  display:inline-block;margin-top:16px;padding:6px 14px;
+  background:rgba(212,160,23,0.15);border:1px solid rgba(212,160,23,0.4);
+  border-radius:20px;font-size:11px;color:#F4D88A;font-weight:700;
+}
+
 /* ── v14: Slide-in Panels (v16.2: Fixed overflow issue) ── */
 .panel-overlay{
   position:fixed;top:0;bottom:0;width:480px;max-width:100vw;
@@ -1391,8 +1476,13 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     ❓
     <span class="tool-icon-tooltip">User Guide</span>
   </button>
+  <!-- v16.6: Manual Daily Update (Premium Gold) -->
+  <button class="tool-icon tool-icon-gold" onclick="openPanel('manual')">
+    🧮
+    <span class="tool-icon-tooltip">Manual Daily Update ✨</span>
+  </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v16.5 · Phase 3+</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v16.6 · Phase 3+</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -1469,6 +1559,24 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <button class="panel-close" onclick="closePanel()">✕</button>
   </div>
   <div class="panel-body" id="panel-help-body"></div>
+</div>
+
+<!-- v16.6: Manual Daily Update Panel (Premium Gold) -->
+<div class="panel-overlay" id="panel-manual">
+  <div class="panel-hdr">
+    <div class="panel-hdr-title">🧮 Manual Daily Update</div>
+    <button class="panel-close" onclick="closePanel()">✕</button>
+  </div>
+  <div class="panel-body" id="panel-manual-body">
+    <div class="manual-empty">
+      <div class="manual-empty-icon">🧮</div>
+      <div class="manual-empty-title">Premium Tool Loading...</div>
+      <div class="manual-empty-desc">
+        أداة إدخال يدوي يومي للمشرفين — تُبنى حالياً. الواجهة الكاملة تصل في الخطوة القادمة من تطوير v16.6.
+      </div>
+      <div class="manual-coming-soon">✨ الخطوة 1 من 6 — البنية جاهزة</div>
+    </div>
+  </div>
 </div>
 
 <div class="wrap">
