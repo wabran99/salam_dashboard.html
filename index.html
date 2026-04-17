@@ -403,17 +403,20 @@ let DATA=[], FTTH_DATA=[], CUR='all', SEARCH='', FILT='all', DATA_DATE='';
 let barChart=null;
 
 // Working days remaining in April 2026
+// v12.1: Retail branches operate 7 days/week — count all days, not workdays only
+// Also made end-of-month dynamic (was hardcoded to April 30, 2026)
 function workdaysLeft(dateStr){
   if(!dateStr)return 10;
   try{
-    // parse "14 April, 2026" or "April 14, 2026"
+    // parse "15 April, 2026" or "April 15, 2026"
     const d=new Date(dateStr);
     if(isNaN(d))return 10;
-    const endOfMonth=new Date(2026,3,30);// April 30
-    let wd=0;
+    // Dynamic end-of-month: last day of the month in dateStr
+    const endOfMonth=new Date(d.getFullYear(),d.getMonth()+1,0);
+    let days=0;
     const cur=new Date(d);cur.setDate(cur.getDate()+1);
-    while(cur<=endOfMonth){const day=cur.getDay();if(day>=0&&day<=4)wd++;cur.setDate(cur.getDate()+1);}
-    return Math.max(1,wd);
+    while(cur<=endOfMonth){days++;cur.setDate(cur.getDate()+1);}
+    return Math.max(1,days);
   }catch{return 10;}
 }
 
@@ -688,7 +691,7 @@ function renderView(view){
         <div class="gap-grid">
           <div class="gap-item">
             <div class="gap-val">${daysLeft}</div>
-            <div class="gap-lbl">Working Days Left</div>
+            <div class="gap-lbl">Days Left</div>
           </div>
           <div class="gap-item">
             <div class="gap-val" style="color:${pc(100-Math.min(100,Math.round(remaining/Math.max(1,tT)*100)))}">${remaining}</div>
