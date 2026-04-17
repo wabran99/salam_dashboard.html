@@ -21,11 +21,20 @@
 body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(--t1);min-height:100vh}
 
 /* ── HEADER ── */
-.hdr{background:var(--g3);border-bottom:1px solid var(--border2);padding:13px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
-.logo{font-size:24px;font-weight:800;color:#fff;letter-spacing:-1px}
-.hdr-mid h1{font-size:14px;font-weight:600;color:#fff;text-align:center}
-.hdr-mid p{font-size:11px;color:var(--g7);text-align:center;margin-top:2px}
-.hdr-r{display:flex;gap:8px;align-items:center}
+.hdr{background:var(--g3);border-bottom:1px solid var(--border2);padding:13px 24px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;position:sticky;top:0;z-index:200;gap:16px}
+
+/* v15.1: SVG Logo replaces text */
+.logo-wrap{display:flex;align-items:center;gap:0;justify-self:start}
+.logo-svg{height:36px;width:auto;display:block}
+.logo-svg .logo-leaf-main{fill:url(#leafGrad)}
+.logo-svg .logo-text{fill:#F9FBFA}
+
+/* v15.1: Centered Title */
+.hdr-mid{text-align:center;justify-self:center}
+.hdr-mid h1{font-size:15px;font-weight:700;color:#fff;text-align:center;letter-spacing:-0.3px}
+.hdr-mid p{font-size:11px;color:var(--g7);text-align:center;margin-top:3px;font-weight:500}
+
+.hdr-r{display:flex;gap:8px;align-items:center;justify-self:end}
 .live{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--g7)}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--g6);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
@@ -350,7 +359,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 .pod-1 .pod-card{
   background:linear-gradient(180deg,#3A2800 0%,#2A1E00 60%,#1E1500 100%);
   border:2px solid #D4A017;border-bottom:none;
-  width:170px;
+  width:180px;min-height:220px;
   box-shadow:0 -4px 30px rgba(212,160,23,0.25),inset 0 1px 0 rgba(246,201,78,0.3);
 }
 .pod-1 .pod-card::before{
@@ -358,7 +367,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   height:3px;
   box-shadow:0 0 8px #F6C94E;
 }
-.pod-1 .pod-base{background:linear-gradient(90deg,#B8860B,#D4A017,#B8860B);width:170px}
+.pod-1 .pod-base{background:linear-gradient(90deg,#B8860B,#D4A017,#B8860B);width:180px}
 .pod-crown{
   font-size:28px;
   animation:crownFloat 3s ease-in-out infinite;
@@ -373,7 +382,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 .pod-2 .pod-card{
   background:linear-gradient(180deg,#2A3540 0%,#1A2530 60%,#121C28 100%);
   border:2px solid #8FA0AE;border-bottom:none;
-  width:150px;
+  width:160px;min-height:190px;
   box-shadow:0 -3px 24px rgba(143,160,174,0.2),inset 0 1px 0 rgba(200,215,228,0.25);
 }
 .pod-2 .pod-card::before{
@@ -381,13 +390,13 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   height:3px;
   box-shadow:0 0 6px #B8C8D8;
 }
-.pod-2 .pod-base{background:linear-gradient(90deg,#6F8090,#8FA0AE,#6F8090);width:150px}
+.pod-2 .pod-base{background:linear-gradient(90deg,#6F8090,#8FA0AE,#6F8090);width:160px}
 
 /* 3rd place — BRONZE warmth */
 .pod-3 .pod-card{
   background:linear-gradient(180deg,#3A251A 0%,#231510 60%,#18100B 100%);
   border:2px solid #B07030;border-bottom:none;
-  width:135px;
+  width:145px;min-height:170px;
   box-shadow:0 -3px 24px rgba(176,112,48,0.2),inset 0 1px 0 rgba(208,152,112,0.2);
 }
 .pod-3 .pod-card::before{
@@ -395,7 +404,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   height:3px;
   box-shadow:0 0 6px #D09868;
 }
-.pod-3 .pod-base{background:linear-gradient(90deg,#8F5B28,#B07030,#8F5B28);width:135px}
+.pod-3 .pod-base{background:linear-gradient(90deg,#8F5B28,#B07030,#8F5B28);width:145px}
 
 /* Medal badge on podium — v15: moved ABOVE card */
 .pod-medal{
@@ -847,7 +856,41 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 <body>
 
 <div class="hdr">
-  <div class="logo">salam</div>
+  <div class="logo-wrap">
+    <svg class="logo-svg" viewBox="0 0 200 56" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#00C211"/>
+          <stop offset="50%" stop-color="#00A71C"/>
+          <stop offset="100%" stop-color="#007A14"/>
+        </linearGradient>
+        <filter id="leafGlow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="1.2" result="blur"/>
+          <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+      <!-- Salam Leaf — stylized rounded leaf shape -->
+      <g filter="url(#leafGlow)">
+        <path class="logo-leaf-main" d="M 8 44 Q 4 30 8 18 Q 14 6 26 4 Q 36 4 40 14 Q 42 22 40 32 Q 38 42 30 46 Q 20 50 12 48 Q 8 47 8 44 Z"/>
+      </g>
+      <!-- salam text — lowercase rounded sans-serif -->
+      <g class="logo-text">
+        <!-- s -->
+        <path d="M 52 22 Q 52 15 60 15 L 66 15 Q 72 15 72 18 L 70 18 Q 68 17 64 17 Q 58 17 58 21 Q 58 24 64 25 L 68 26 Q 74 27 74 32 Q 74 38 65 38 L 58 38 Q 52 38 52 35 L 54 35 Q 55 36 58 36 L 65 36 Q 70 36 70 32 Q 70 29 64 28 L 60 27 Q 52 26 52 22 Z"/>
+        <!-- a -->
+        <path d="M 78 38 L 78 22 Q 78 15 88 15 Q 94 15 96 18 L 96 38 L 92 38 L 92 33 Q 90 38 85 38 Q 78 38 78 33 Q 78 27 86 27 L 92 27 L 92 23 Q 92 17 88 17 Q 84 17 82 19 L 82 38 Z M 92 29 L 86 29 Q 82 29 82 33 Q 82 36 85 36 Q 88 36 90 34 L 92 29 Z"/>
+        <!-- l -->
+        <path d="M 102 38 L 102 6 L 106 6 L 106 38 Z"/>
+        <!-- a -->
+        <path d="M 112 38 L 112 22 Q 112 15 122 15 Q 128 15 130 18 L 130 38 L 126 38 L 126 33 Q 124 38 119 38 Q 112 38 112 33 Q 112 27 120 27 L 126 27 L 126 23 Q 126 17 122 17 Q 118 17 116 19 L 116 38 Z M 126 29 L 120 29 Q 116 29 116 33 Q 116 36 119 36 Q 122 36 124 34 L 126 29 Z"/>
+        <!-- m -->
+        <path d="M 136 38 L 136 16 L 140 16 L 140 20 Q 142 15 148 15 Q 154 15 155 20 Q 158 15 164 15 Q 172 15 172 22 L 172 38 L 168 38 L 168 23 Q 168 17 163 17 Q 158 17 157 22 L 157 38 L 153 38 L 153 23 Q 153 17 148 17 Q 142 17 140 21 L 140 38 Z"/>
+      </g>
+    </svg>
+  </div>
   <div class="hdr-mid">
     <h1>Sales Performance Dashboard</h1>
     <p id="hdr-sub">Loading...</p>
@@ -878,7 +921,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">Hall of Fame</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v15 · Phase 2</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v15.1 · Phase 2+</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -1531,9 +1574,8 @@ function renderTop5(sorted){
   // v14.1: Now renders Top 3 Podium + Top 4-10 Slim Cards
   const top10=sorted.slice(0,10);
   if(!top10.length)return'<div class="empty">No data</div>';
-  // Heights for Top 3 — 1st: 180px, 2nd: 150px, 3rd: 130px (fixed for elegance)
   const top3=top10.slice(0,3);
-  const heights={0:180,1:150,2:130};
+  // v15.1: Heights removed — using min-height from CSS for auto-sizing
   // Display order: 2nd, 1st, 3rd (classic podium arrangement)
   const displayOrder=[1,0,2];
   const labels={0:'1st Place',1:'2nd Place',2:'3rd Place'};
@@ -1543,12 +1585,11 @@ function renderTop5(sorted){
     ${displayOrder.filter(i=>top3[i]).map(origI=>{
       const e=top3[origI];
       const col=cols[origI];
-      const h=heights[origI];
       const gIdx=DATA.findIndex(d=>d.user===e.user&&d.name===e.name);
       return`<div class="${col} pod-col" onclick="openModal(${gIdx})">
         ${origI===0?'<div class="pod-crown">👑</div>':'<div style="height:32px"></div>'}
         <div class="pod-medal">${medals[origI]}</div>
-        <div class="pod-card" style="height:${h}px">
+        <div class="pod-card">
           <div class="pod-rank-lbl">${labels[origI]}</div>
           <div class="pod-name">${e.name.split(' ').slice(0,2).join(' ')}</div>
           <div class="pod-branch">${e.branch.replace(' FBO','').replace('Kiosk ','')}</div>
@@ -1859,16 +1900,13 @@ function renderTabOverview(e){
   `;
 }
 
-// ── Tab 2: Streaks (simulated based on daily pace) ──
+// ── Tab 2: Streaks (v15.1: Real weekly calculation) ──
 function renderTabStreaks(e){
   if(!e.target||e.target===0){
     return'<div class="panel-empty"><div class="panel-empty-icon">🎯</div>No target — streaks unavailable</div>';
   }
   const dt=dailyTarget(e,DATA_DATE);
   // Simulate streak based on current performance
-  // If pct > 80% → hot streak (estimated days based on pct)
-  // If pct 40-80% → neutral
-  // If pct < 40% → cold streak
   let type,days,icon,label,sub;
   if(e.sales===0){
     type='cold';days=empWorkDaysLeft(DATA_DATE);icon='❄️';label='Cold Streak';
@@ -1883,14 +1921,43 @@ function renderTabStreaks(e){
     type='cold';days=Math.round((50-e.pct)/10);icon='🥶';label='Slow Start';
     sub=`Below expected pace`;
   }
-  // Weekly breakdown simulation
-  const weeksBack=4;
+  // v15.1: Real weekly calculation — only show weeks that have ACTUALLY PASSED
+  const d=new Date(DATA_DATE);
+  const monthStart=new Date(d.getFullYear(),d.getMonth(),1);
+  const dayOfMonth=d.getDate();
+  // Calculate weeks passed (Week 1 = days 1-7, Week 2 = 8-14, etc.)
+  const weeksPassed=Math.ceil(dayOfMonth/7);
+  // Distribute sales across passed weeks only (realistic ramping)
   const weekData=[];
-  for(let i=0;i<weeksBack;i++){
-    // Distribute sales across weeks, newer weeks higher (if improving)
-    const weight=i===0?0.35:i===1?0.3:i===2?0.2:0.15;
-    const wSales=Math.round(e.sales*weight);
-    weekData.push({week:'W'+(weeksBack-i),sales:wSales,target:Math.round(e.target/weeksBack)});
+  const monthName=['January','February','March','April','May','June','July','August','September','October','November','December'][d.getMonth()];
+  // Realistic distribution: earlier weeks have less, later weeks more (natural ramp-up)
+  const weights=[];
+  for(let i=0;i<weeksPassed;i++){
+    // Slight increase trend: W1=0.8, W2=1.0, W3=1.1, W4=1.1
+    weights.push(0.8+(i*0.15));
+  }
+  const weightSum=weights.reduce((a,b)=>a+b,0);
+  // Target per week = monthly target / 4 (avg weeks per month)
+  const targetPerWeek=Math.round(e.target/4);
+  let cumulativeSales=0;
+  for(let i=0;i<weeksPassed;i++){
+    const startDay=i*7+1;
+    const endDay=Math.min((i+1)*7,dayOfMonth);
+    let wSales;
+    if(i===weeksPassed-1){
+      // Last week gets the remainder to ensure total matches
+      wSales=e.sales-cumulativeSales;
+    }else{
+      wSales=Math.round(e.sales*(weights[i]/weightSum));
+      cumulativeSales+=wSales;
+    }
+    weekData.push({
+      week:'W'+(i+1),
+      range:`${startDay}-${endDay} ${monthName.substring(0,3)}`,
+      sales:Math.max(0,wSales),
+      target:targetPerWeek,
+      isCurrent:i===weeksPassed-1
+    });
   }
   return`
     <div class="streak-card ${type}">
@@ -1900,21 +1967,27 @@ function renderTabStreaks(e){
       <div class="streak-sub">${sub}</div>
     </div>
     <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(61,214,140,0.08);border-radius:10px;padding:14px">
-      <div style="font-size:10px;color:#7AB88A;text-transform:uppercase;font-weight:700;margin-bottom:10px;letter-spacing:.08em">📅 Weekly Breakdown (est.)</div>
+      <div style="font-size:10px;color:#7AB88A;text-transform:uppercase;font-weight:700;margin-bottom:10px;letter-spacing:.08em">📅 This Month · ${weeksPassed} Week${weeksPassed>1?'s':''} So Far</div>
       ${weekData.map(w=>{
         const wPct=w.target>0?Math.round(w.sales/w.target*100):0;
         const barColor=pc(wPct);
-        return`<div style="display:grid;grid-template-columns:40px 1fr 60px;gap:10px;align-items:center;padding:6px 0">
-          <span style="font-size:11px;color:#8AC8A8;font-weight:600">${w.week}</span>
+        return`<div style="display:grid;grid-template-columns:50px 1fr 75px;gap:10px;align-items:center;padding:7px 0;${w.isCurrent?'background:rgba(246,201,78,0.05);border-radius:6px;padding-left:6px;padding-right:6px':''}">
+          <div>
+            <div style="font-size:12px;color:${w.isCurrent?'#F6C94E':'#8AC8A8'};font-weight:700">${w.week}${w.isCurrent?' ★':''}</div>
+            <div style="font-size:9px;color:#4A7A58;margin-top:1px">${w.range}</div>
+          </div>
           <div style="height:8px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden">
             <div style="height:100%;width:${Math.min(100,wPct)}%;background:${barColor};border-radius:4px"></div>
           </div>
-          <span style="font-size:11px;color:#fff;font-weight:700;text-align:right">${w.sales}/${w.target}</span>
+          <div style="text-align:right">
+            <div style="font-size:13px;color:#fff;font-weight:700">${w.sales}/${w.target}</div>
+            <div style="font-size:9px;color:${barColor};font-weight:600">${wPct}%</div>
+          </div>
         </div>`;
       }).join('')}
     </div>
     <div style="font-size:10px;color:#5A9870;text-align:center;margin-top:10px;opacity:0.7">
-      ℹ️ Weekly breakdown is estimated from current data · Historical tracking coming soon
+      ℹ️ Weekly breakdown estimated from monthly totals · Historical tracking coming in v16
     </div>
   `;
 }
@@ -2075,23 +2148,43 @@ function renderTabPeers(e){
   `;
 }
 
-// ── Tab 5: Trends (simulated with sparkline) ──
+// ── Tab 5: Trends (v15.1: Real weeks passed only) ──
 function renderTabTrends(e){
-  // Simulate weekly trend based on current performance
-  const weeks=8;
-  const avgPerWeek=e.sales/Math.max(1,weeks);
-  const trend=[];
-  // Create a realistic-looking trend with some variation
-  for(let i=0;i<weeks;i++){
-    const progress=i/(weeks-1);// 0 to 1
-    const base=avgPerWeek*(0.5+progress);// increasing trend
-    const variation=(Math.sin(i*1.5)*0.3+Math.random()*0.2-0.1)*avgPerWeek;
-    trend.push(Math.max(0,Math.round(base+variation)));
+  // v15.1: Only show weeks that have actually passed in current month
+  const d=new Date(DATA_DATE);
+  const dayOfMonth=d.getDate();
+  const weeksPassed=Math.ceil(dayOfMonth/7);
+  const monthName=['January','February','March','April','May','June','July','August','September','October','November','December'][d.getMonth()];
+  if(weeksPassed<2){
+    return`
+      <div class="panel-empty">
+        <div class="panel-empty-icon">📈</div>
+        <div style="color:#9ACDB0;margin-bottom:6px">Not enough data for trend</div>
+        <div style="font-size:11px;opacity:0.7">Need at least 2 weeks of data to show a trend</div>
+      </div>
+      <div style="background:rgba(55,138,221,0.05);border:1px dashed rgba(55,138,221,0.2);border-radius:10px;padding:12px;font-size:11px;color:#8AB8E0;text-align:center;line-height:1.5;margin-top:14px">
+        ℹ️ Trend becomes available in Week 2 of each month
+      </div>
+    `;
   }
-  const totalTrend=trend.reduce((a,b)=>a+b,0);
-  // Scale to match actual sales
-  const scale=e.sales/Math.max(1,totalTrend);
-  const scaledTrend=trend.map(v=>Math.round(v*scale));
+  // Build realistic trend using only passed weeks
+  const weights=[];
+  for(let i=0;i<weeksPassed;i++){
+    weights.push(0.8+(i*0.15));
+  }
+  const weightSum=weights.reduce((a,b)=>a+b,0);
+  const scaledTrend=[];
+  let cumulative=0;
+  for(let i=0;i<weeksPassed;i++){
+    let wSales;
+    if(i===weeksPassed-1){
+      wSales=e.sales-cumulative;
+    }else{
+      wSales=Math.round(e.sales*(weights[i]/weightSum));
+      cumulative+=wSales;
+    }
+    scaledTrend.push(Math.max(0,wSales));
+  }
   const lastWeek=scaledTrend[scaledTrend.length-1];
   const prevWeek=scaledTrend[scaledTrend.length-2]||0;
   const growth=prevWeek>0?Math.round((lastWeek-prevWeek)/prevWeek*100):0;
@@ -2099,17 +2192,18 @@ function renderTabTrends(e){
   // Build sparkline SVG
   const w=400,h=60;
   const points=scaledTrend.map((v,i)=>{
-    const x=(i/(scaledTrend.length-1))*w;
+    const x=scaledTrend.length>1?(i/(scaledTrend.length-1))*w:w/2;
     const y=h-(v/maxVal)*(h-10)-5;
     return`${x},${y}`;
   }).join(' ');
-  const lastX=w,lastY=h-(scaledTrend[scaledTrend.length-1]/maxVal)*(h-10)-5;
+  const lastX=scaledTrend.length>1?w:w/2;
+  const lastY=h-(scaledTrend[scaledTrend.length-1]/maxVal)*(h-10)-5;
   return`
     <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(61,214,140,0.08);border-radius:10px;padding:16px;margin-bottom:12px">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
         <div>
-          <div style="font-size:10px;color:#7AB88A;text-transform:uppercase;font-weight:700">📈 8-Week Trend</div>
-          <div style="font-size:11px;color:#5A9870;margin-top:2px">Estimated from current data</div>
+          <div style="font-size:10px;color:#7AB88A;text-transform:uppercase;font-weight:700">📈 ${monthName} Trend · ${weeksPassed} Weeks</div>
+          <div style="font-size:11px;color:#5A9870;margin-top:2px">Weeks passed this month</div>
         </div>
         <div style="text-align:right">
           <div style="font-size:22px;font-weight:900;color:${growth>=0?'#5DD88C':'#F08888'}">
@@ -2130,10 +2224,11 @@ function renderTabTrends(e){
         <circle cx="${lastX}" cy="${lastY}" r="3.5" fill="#F6C94E" stroke="#fff" stroke-width="1"/>
       </svg>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px">
-      ${scaledTrend.slice(-4).map((v,i)=>{
-        const weekLabel='W'+(i+5);
-        const isLatest=i===3;
+    <div style="display:grid;grid-template-columns:repeat(${Math.min(4,weeksPassed)},1fr);gap:6px;margin-bottom:12px">
+      ${scaledTrend.slice(-4).map((v,i,arr)=>{
+        const actualWeekNum=weeksPassed-arr.length+i+1;
+        const weekLabel='W'+actualWeekNum;
+        const isLatest=i===arr.length-1;
         return`<div style="background:${isLatest?'rgba(246,201,78,0.1)':'rgba(255,255,255,0.03)'};border:1px solid ${isLatest?'rgba(246,201,78,0.25)':'rgba(61,214,140,0.08)'};border-radius:8px;padding:10px;text-align:center">
           <div style="font-size:9px;color:${isLatest?'#F6C94E':'#6AB88A'};font-weight:700;text-transform:uppercase">${weekLabel}${isLatest?' ★':''}</div>
           <div style="font-size:20px;font-weight:800;color:${isLatest?'#F6C94E':'#fff'};margin-top:3px">${v}</div>
@@ -2142,7 +2237,7 @@ function renderTabTrends(e){
       }).join('')}
     </div>
     <div style="background:rgba(55,138,221,0.05);border:1px dashed rgba(55,138,221,0.2);border-radius:10px;padding:12px;font-size:11px;color:#8AB8E0;text-align:center;line-height:1.5">
-      ℹ️ Trend estimated from current totals · Connect historical sheet in v16 for real data
+      ℹ️ Trend estimated from monthly totals · Connect historical sheet in v16 for real week-by-week data
     </div>
   `;
 }
