@@ -610,95 +610,240 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   background:rgba(255,255,255,0.04);border-color:#5A9870;
 }
 
-/* ───── PNG Export Sheet (hidden, rendered for canvas) ───── */
+/* ───── PNG Export Sheet v16.6.1 — Premium Corporate ───── */
 .manual-png-sheet{
   position:fixed;left:-99999px;top:0;
-  width:720px;padding:32px;
-  background:linear-gradient(180deg,#0D3D26,#061A10);
+  width:900px;padding:0;
+  background:#061A10;
   color:#fff;font-family:'IBM Plex Sans Arabic','Inter',system-ui,sans-serif;
   box-sizing:border-box;
+  overflow:hidden;
 }
+.png-wrap{
+  position:relative;padding:36px 40px 28px;
+  background:
+    radial-gradient(ellipse at top right,rgba(212,160,23,0.08),transparent 60%),
+    radial-gradient(ellipse at bottom left,rgba(26,158,82,0.12),transparent 55%),
+    linear-gradient(180deg,#0A2E1C 0%,#061A10 100%);
+  overflow:hidden;
+}
+/* Watermark (large faded leaf in background) */
+.png-watermark{
+  position:absolute;right:-40px;bottom:-60px;
+  width:360px;height:432px;opacity:0.04;
+  pointer-events:none;
+  transform:rotate(-15deg);
+}
+.png-watermark path{fill:#3DD68C}
+/* Header */
 .png-sheet-hdr{
-  display:flex;align-items:center;gap:12px;
-  padding-bottom:18px;margin-bottom:20px;
-  border-bottom:2px solid #D4A017;
+  display:flex;align-items:center;gap:18px;
+  padding-bottom:22px;margin-bottom:24px;
+  border-bottom:1px solid rgba(212,160,23,0.25);
   position:relative;
 }
 .png-sheet-hdr::after{
-  content:'';position:absolute;bottom:-2px;left:0;right:0;height:2px;
+  content:'';position:absolute;bottom:-1px;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent 10%,#D4A017 30%,#F4D88A 50%,#D4A017 70%,transparent 90%);
+}
+.png-logo-block{
+  display:flex;align-items:center;gap:10px;flex-shrink:0;
+}
+.png-logo-svg{width:44px;height:52px}
+.png-logo-svg path{fill:url(#pngLeafGrad)}
+.png-logo-name{
+  font-family:'Baloo 2','Baloo',system-ui,sans-serif;
+  font-size:32px;font-weight:800;
+  background:linear-gradient(180deg,#3DD68C,#1A9E52);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  letter-spacing:-0.5px;line-height:1;
+}
+.png-title-block{
+  flex:1;padding-left:18px;
+  border-left:2px solid rgba(212,160,23,0.3);
+}
+.png-title-main{
+  font-size:24px;font-weight:900;color:#fff;
+  letter-spacing:0.2px;line-height:1.1;
+}
+.png-title-ar{
+  font-size:14px;color:#F4D88A;font-weight:700;
+  margin-top:4px;letter-spacing:0.3px;
+}
+.png-title-sub{
+  font-size:11px;color:#7DC89B;font-weight:600;
+  margin-top:3px;text-transform:uppercase;letter-spacing:1.5px;
+}
+.png-update-badge{
+  flex-shrink:0;
+  padding:14px 22px;border-radius:50px;
+  background:linear-gradient(135deg,#F4D88A 0%,#D4A017 50%,#B8860B 100%);
+  color:#fff;font-size:14px;font-weight:900;
+  letter-spacing:0.5px;
+  box-shadow:
+    0 6px 18px rgba(212,160,23,0.45),
+    inset 0 1px 0 rgba(255,255,255,0.3);
+  text-shadow:0 1px 2px rgba(0,0,0,0.3);
+  position:relative;
+}
+.png-update-badge::before{
+  content:'';position:absolute;inset:-2px;border-radius:50px;
+  background:linear-gradient(135deg,#F4D88A,transparent,#D4A017);
+  z-index:-1;opacity:0.5;
+}
+
+/* Hero Stat Card */
+.png-hero{
+  background:
+    radial-gradient(ellipse at center,rgba(212,160,23,0.15),transparent 70%),
+    linear-gradient(180deg,rgba(212,160,23,0.1),rgba(212,160,23,0.03));
+  border:1px solid rgba(212,160,23,0.35);border-radius:18px;
+  padding:26px 20px;margin-bottom:18px;text-align:center;
+  position:relative;overflow:hidden;
+}
+.png-hero::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
   background:linear-gradient(90deg,transparent,#F4D88A,#D4A017,#F4D88A,transparent);
 }
-.png-sheet-logo{
-  width:48px;height:48px;border-radius:12px;
-  background:linear-gradient(135deg,#1A9E52,#3DD68C);
-  display:flex;align-items:center;justify-content:center;
-  font-size:26px;box-shadow:0 4px 12px rgba(26,158,82,0.4);
-}
-.png-sheet-title-block{flex:1}
-.png-sheet-title{
-  font-size:22px;font-weight:900;
-  background:linear-gradient(135deg,#F4D88A,#D4A017);
+.png-hero-num{
+  font-family:'Baloo 2','Inter',sans-serif;
+  font-size:78px;font-weight:900;line-height:0.95;
+  background:linear-gradient(180deg,#F4D88A 0%,#D4A017 80%);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  background-clip:text;letter-spacing:0.5px;
+  background-clip:text;
+  text-shadow:0 2px 8px rgba(212,160,23,0.2);
+  letter-spacing:-2px;
 }
-.png-sheet-sub{
-  font-size:12px;color:#A8D4BA;font-weight:600;margin-top:3px;
+.png-hero-lbl{
+  font-size:11px;color:#A8D4BA;font-weight:800;
+  text-transform:uppercase;letter-spacing:3px;
+  margin-top:4px;
 }
-.png-sheet-badge{
-  padding:6px 14px;border-radius:20px;
-  background:linear-gradient(135deg,#D4A017,#B8860B);
-  color:#fff;font-size:12px;font-weight:800;
-  box-shadow:0 3px 10px rgba(212,160,23,0.4);
-  white-space:nowrap;
+.png-hero-breakdown{
+  display:flex;justify-content:center;gap:24px;
+  margin-top:14px;padding-top:14px;
+  border-top:1px dashed rgba(212,160,23,0.25);
 }
-.png-sheet-meta{
-  display:flex;gap:16px;margin-bottom:18px;flex-wrap:wrap;
+.png-hero-chip{
+  display:flex;align-items:center;gap:6px;
+  font-size:13px;color:#E0EFE5;font-weight:600;
 }
-.png-sheet-meta-item{
-  flex:1;min-width:130px;
-  padding:10px 14px;background:rgba(212,160,23,0.08);
-  border:1px solid rgba(212,160,23,0.25);border-radius:10px;
+.png-hero-chip-num{
+  color:#F4D88A;font-weight:900;font-size:15px;
 }
-.png-sheet-meta-lbl{
-  font-size:9px;color:#F4D88A;text-transform:uppercase;
-  letter-spacing:1px;font-weight:800;margin-bottom:3px;
+.png-hero-chip-icon{font-size:16px}
+
+/* Context Grid (Responsible / Date / Time) */
+.png-context{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;
 }
-.png-sheet-meta-val{font-size:14px;font-weight:700;color:#fff}
+.png-context-card{
+  background:linear-gradient(180deg,rgba(26,158,82,0.12),rgba(26,158,82,0.04));
+  border:1px solid rgba(26,158,82,0.3);border-radius:12px;
+  padding:12px 14px;position:relative;overflow:hidden;
+}
+.png-context-card::before{
+  content:'';position:absolute;top:0;left:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,#3DD68C,#1A9E52);
+}
+.png-context-icon{
+  font-size:18px;margin-bottom:4px;
+}
+.png-context-lbl{
+  font-size:9px;color:#7DC89B;font-weight:800;
+  text-transform:uppercase;letter-spacing:1.2px;
+  margin-bottom:3px;
+}
+.png-context-val{
+  font-size:16px;font-weight:800;color:#fff;
+  line-height:1.2;
+}
+
+/* Data Table */
+.png-table-wrap{
+  background:rgba(10,46,28,0.6);
+  border:1px solid rgba(212,160,23,0.2);border-radius:14px;
+  overflow:hidden;margin-bottom:18px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.3);
+}
 .png-sheet-table{
   width:100%;border-collapse:separate;border-spacing:0;
-  border-radius:10px;overflow:hidden;margin-bottom:18px;
-  box-shadow:0 4px 14px rgba(0,0,0,0.3);
 }
 .png-sheet-table thead th{
   background:linear-gradient(180deg,#D4A017,#B8860B);
-  color:#fff;font-size:11px;font-weight:800;
-  padding:10px 8px;text-align:center;
-  text-transform:uppercase;letter-spacing:0.5px;
+  color:#fff;font-size:10px;font-weight:900;
+  padding:12px 10px;text-align:center;
+  text-transform:uppercase;letter-spacing:1.2px;
+  text-shadow:0 1px 2px rgba(0,0,0,0.2);
+  position:relative;
 }
-.png-sheet-table thead th:first-child{text-align:left;padding-left:16px}
+.png-sheet-table thead th:first-child{text-align:left;padding-left:18px}
 .png-sheet-table tbody td{
-  padding:9px 8px;font-size:13px;color:#E0EFE5;
-  text-align:center;background:#0A2E1C;
-  border-bottom:1px solid rgba(255,255,255,0.05);
+  padding:12px 10px;font-size:13px;color:#E0EFE5;
+  text-align:center;
+  border-bottom:1px solid rgba(255,255,255,0.04);
 }
 .png-sheet-table tbody td:first-child{
-  text-align:left;padding-left:16px;font-weight:600;
+  text-align:left;padding-left:18px;font-weight:700;color:#fff;
 }
-.png-sheet-table tbody tr:nth-child(even) td{background:#0D3D26}
+.png-sheet-table tbody tr:nth-child(odd) td{background:rgba(13,61,38,0.4)}
+.png-sheet-table tbody tr:nth-child(even) td{background:rgba(10,46,28,0.4)}
 .png-sheet-table tbody tr:last-child td{border-bottom:none}
+.png-row-total{
+  font-weight:900;color:#F4D88A;font-size:15px;
+}
+.png-row-ftth{
+  font-weight:800;color:#3DD68C;
+}
+.png-row-indicator{
+  display:inline-block;width:6px;height:6px;border-radius:50%;
+  background:#3DD68C;margin-right:8px;vertical-align:middle;
+  box-shadow:0 0 8px #3DD68C;
+}
 .png-sheet-table tfoot td{
   background:linear-gradient(135deg,#1A9E52,#3DD68C)!important;
-  color:#fff;font-weight:900;font-size:14px;
-  padding:11px 8px;
+  color:#fff;font-weight:900;font-size:15px;
+  padding:14px 10px;
+  text-shadow:0 1px 2px rgba(0,0,0,0.3);
 }
-.png-sheet-table tfoot td:first-child{padding-left:16px}
+.png-sheet-table tfoot td:first-child{
+  padding-left:18px;letter-spacing:1px;
+}
+
+/* Footer */
 .png-sheet-footer{
   display:flex;justify-content:space-between;align-items:center;
-  padding-top:14px;border-top:1px solid rgba(212,160,23,0.25);
-  font-size:10px;color:#5A9870;font-weight:600;
+  padding-top:18px;margin-top:4px;
+  border-top:1px solid rgba(212,160,23,0.2);
+  position:relative;
 }
-.png-sheet-footer-brand{
-  color:#F4D88A;font-weight:800;letter-spacing:0.5px;
+.png-sheet-footer::before{
+  content:'';position:absolute;top:0;left:30%;right:30%;height:1px;
+  background:linear-gradient(90deg,transparent,#D4A017,transparent);
+}
+.png-footer-l{
+  display:flex;align-items:center;gap:8px;
+  font-size:11px;color:#5A9870;font-weight:600;
+}
+.png-footer-logo-mini{
+  width:18px;height:22px;opacity:0.7;
+}
+.png-footer-logo-mini path{fill:#1A9E52}
+.png-footer-brand{
+  font-family:'Baloo 2',sans-serif;font-size:14px;
+  color:#3DD68C;font-weight:800;letter-spacing:-0.3px;
+}
+.png-footer-r{
+  font-size:10px;color:#5A9870;font-weight:600;
+  display:flex;align-items:center;gap:10px;
+}
+.png-footer-tag{
+  padding:3px 10px;border-radius:10px;
+  background:rgba(212,160,23,0.1);
+  border:1px solid rgba(212,160,23,0.2);
+  color:#F4D88A;font-weight:700;font-size:9px;
+  text-transform:uppercase;letter-spacing:1px;
 }
 
 /* ── v14: Slide-in Panels (v16.2: Fixed overflow issue) ── */
@@ -2025,7 +2170,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">Manual Daily Update ✨</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v16.6 · Phase 3+</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v16.6.1 · Phase 3+</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -7882,10 +8027,11 @@ function manualBuildPngSheet(slot){
     return (e.pre>0||e.post>0||e.ftth>0);
   }).sort();
   const escapeHtml=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  // ── Build table rows
   let rows='';
   if(filled.length===0){
     const colspan=hasFtth?5:4;
-    rows=`<tr><td colspan="${colspan}" style="text-align:center;padding:24px;color:#5A9870">No branches filled</td></tr>`;
+    rows=`<tr><td colspan="${colspan}" style="text-align:center;padding:28px;color:#5A9870;font-style:italic">No branches filled for this snapshot</td></tr>`;
   }else{
     filled.forEach(b=>{
       const e=snap.entries[b];
@@ -7893,16 +8039,16 @@ function manualBuildPngSheet(slot){
       const rowTotal=(e.pre||0)+(e.post||0);
       rows+=`
         <tr>
-          <td>${escapeHtml(brShort)}</td>
+          <td><span class="png-row-indicator"></span>${escapeHtml(brShort)}</td>
           <td>${e.pre||0}</td>
           <td>${e.post||0}</td>
-          <td style="font-weight:800;color:#F4D88A">${rowTotal}</td>
-          ${hasFtth?`<td style="color:#3DD68C;font-weight:700">${e.ftth||0}</td>`:''}
+          <td><span class="png-row-total">${rowTotal}</span></td>
+          ${hasFtth?`<td><span class="png-row-ftth">${e.ftth||0}</span></td>`:''}
         </tr>
       `;
     });
   }
-  // Footer totals
+  // ── Grand Total footer
   const footer=`
     <tr>
       <td>GRAND TOTAL</td>
@@ -7912,45 +8058,98 @@ function manualBuildPngSheet(slot){
       ${hasFtth?`<td>${t.totFtth}</td>`:''}
     </tr>
   `;
+  // ── Hero breakdown chips
+  const hasFtthChip=hasFtth?`<div class="png-hero-chip"><span class="png-hero-chip-icon">📡</span> <span class="png-hero-chip-num">${t.totFtth}</span> FTTH+5G</div>`:'';
+  // ── Full sheet HTML
   return `
-    <div class="png-sheet-hdr">
-      <div class="png-sheet-logo">🧮</div>
-      <div class="png-sheet-title-block">
-        <div class="png-sheet-title">Daily Sales Update</div>
-        <div class="png-sheet-sub">Salam Mobile · Retail MT</div>
+    <div class="png-wrap">
+      <!-- Watermark (big faded leaf in background) -->
+      <svg class="png-watermark" viewBox="0 0 40 48" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 6 40 Q 2 26 6 14 Q 12 2 24 2 Q 34 2 36 12 Q 38 22 34 32 Q 30 42 20 44 Q 10 46 6 42 Q 4 41 6 40 Z"/>
+      </svg>
+      <!-- SVG gradient defs for logo -->
+      <svg width="0" height="0" style="position:absolute">
+        <defs>
+          <linearGradient id="pngLeafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#00D316"/>
+            <stop offset="50%" stop-color="#00A71C"/>
+            <stop offset="100%" stop-color="#007A14"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <!-- Header -->
+      <div class="png-sheet-hdr">
+        <div class="png-logo-block">
+          <svg class="png-logo-svg" viewBox="0 0 40 48" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 6 40 Q 2 26 6 14 Q 12 2 24 2 Q 34 2 36 12 Q 38 22 34 32 Q 30 42 20 44 Q 10 46 6 42 Q 4 41 6 40 Z"/>
+          </svg>
+          <span class="png-logo-name">salam</span>
+        </div>
+        <div class="png-title-block">
+          <div class="png-title-main">Daily Sales Update</div>
+          <div class="png-title-ar">تحديث المبيعات اليومي</div>
+          <div class="png-title-sub">Salam Mobile · Retail MT</div>
+        </div>
+        <div class="png-update-badge">🏆 UPDATE ${num}</div>
       </div>
-      <div class="png-sheet-badge">Update ${num}</div>
-    </div>
-    <div class="png-sheet-meta">
-      <div class="png-sheet-meta-item">
-        <div class="png-sheet-meta-lbl">Responsible</div>
-        <div class="png-sheet-meta-val">${escapeHtml(snap.scopeName)}</div>
+      <!-- Hero Stat -->
+      <div class="png-hero">
+        <div class="png-hero-num">${t.totSales}</div>
+        <div class="png-hero-lbl">Total Sales</div>
+        <div class="png-hero-breakdown">
+          <div class="png-hero-chip"><span class="png-hero-chip-icon">📊</span> <span class="png-hero-chip-num">${t.totPre}</span> Prepaid</div>
+          <div class="png-hero-chip"><span class="png-hero-chip-icon">📱</span> <span class="png-hero-chip-num">${t.totPost}</span> Postpaid</div>
+          ${hasFtthChip}
+        </div>
       </div>
-      <div class="png-sheet-meta-item">
-        <div class="png-sheet-meta-lbl">Date</div>
-        <div class="png-sheet-meta-val">${manualFormatDate(snap.date)}</div>
+      <!-- Context grid -->
+      <div class="png-context">
+        <div class="png-context-card">
+          <div class="png-context-icon">👤</div>
+          <div class="png-context-lbl">Responsible</div>
+          <div class="png-context-val">${escapeHtml(snap.scopeName)}</div>
+        </div>
+        <div class="png-context-card">
+          <div class="png-context-icon">📅</div>
+          <div class="png-context-lbl">Date</div>
+          <div class="png-context-val">${manualFormatDate(snap.date)}</div>
+        </div>
+        <div class="png-context-card">
+          <div class="png-context-icon">🕐</div>
+          <div class="png-context-lbl">Captured At</div>
+          <div class="png-context-val">${escapeHtml(snap.time)}</div>
+        </div>
       </div>
-      <div class="png-sheet-meta-item">
-        <div class="png-sheet-meta-lbl">Time</div>
-        <div class="png-sheet-meta-val">${escapeHtml(snap.time)}</div>
+      <!-- Table -->
+      <div class="png-table-wrap">
+        <table class="png-sheet-table">
+          <thead>
+            <tr>
+              <th>Branch</th>
+              <th>Prepaid</th>
+              <th>Postpaid</th>
+              <th>Total</th>
+              ${hasFtth?'<th>FTTH+5G</th>':''}
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+          <tfoot>${footer}</tfoot>
+        </table>
       </div>
-    </div>
-    <table class="png-sheet-table">
-      <thead>
-        <tr>
-          <th>Branch</th>
-          <th>Prepaid</th>
-          <th>Postpaid</th>
-          <th>Total</th>
-          ${hasFtth?'<th>FTTH+5G</th>':''}
-        </tr>
-      </thead>
-      <tbody>${rows}</tbody>
-      <tfoot>${footer}</tfoot>
-    </table>
-    <div class="png-sheet-footer">
-      <div><span class="png-sheet-footer-brand">salam</span> Dashboard · v16.6</div>
-      <div>${t.branchCount} branches · Generated ${snap.time}</div>
+      <!-- Footer -->
+      <div class="png-sheet-footer">
+        <div class="png-footer-l">
+          <svg class="png-footer-logo-mini" viewBox="0 0 40 48" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 6 40 Q 2 26 6 14 Q 12 2 24 2 Q 34 2 36 12 Q 38 22 34 32 Q 30 42 20 44 Q 10 46 6 42 Q 4 41 6 40 Z"/>
+          </svg>
+          <span class="png-footer-brand">salam</span>
+          <span>Dashboard · v16.6</span>
+        </div>
+        <div class="png-footer-r">
+          <span>${t.branchCount} ${t.branchCount===1?'branch':'branches'} · ${snap.time}</span>
+          <span class="png-footer-tag">Confidential</span>
+        </div>
+      </div>
     </div>
   `;
 }
