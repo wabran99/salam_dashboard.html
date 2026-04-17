@@ -297,6 +297,74 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   border:1px solid rgba(212,160,23,0.3);
 }
 
+/* v16.6 Step 3: Update Buttons */
+.manual-updates-section{
+  padding:14px 12px 12px;
+  background:linear-gradient(180deg,transparent,rgba(212,160,23,0.06));
+  border-top:1px solid rgba(212,160,23,0.2);
+  margin-top:4px;
+}
+.manual-updates-title{
+  font-size:10px;font-weight:800;color:#F4D88A;
+  text-transform:uppercase;letter-spacing:1px;
+  text-align:center;margin-bottom:10px;
+}
+.manual-updates-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
+}
+.manual-update-btn{
+  position:relative;padding:14px 8px;background:var(--g3);
+  border:1px solid rgba(212,160,23,0.3);border-radius:10px;
+  cursor:pointer;transition:all .2s;
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  color:#E0EFE5;font-weight:700;
+}
+.manual-update-btn:hover{
+  background:rgba(212,160,23,0.1);
+  border-color:rgba(212,160,23,0.7);
+  transform:translateY(-2px);
+  box-shadow:0 4px 12px rgba(212,160,23,0.2);
+}
+.manual-update-btn:active{transform:translateY(0)}
+.manual-update-btn.saved{
+  background:linear-gradient(135deg,rgba(61,214,140,0.15),rgba(61,214,140,0.04));
+  border-color:rgba(61,214,140,0.6);
+  color:#7DE8A8;
+}
+.manual-update-btn.saved:hover{
+  background:linear-gradient(135deg,rgba(61,214,140,0.25),rgba(61,214,140,0.08));
+  box-shadow:0 4px 12px rgba(61,214,140,0.25);
+}
+.manual-update-btn-icon{font-size:18px;line-height:1}
+.manual-update-btn-label{font-size:11px;font-weight:800;letter-spacing:0.3px}
+.manual-update-btn-status{
+  font-size:9px;opacity:0.85;font-weight:600;
+  min-height:11px;
+}
+.manual-update-btn.saved .manual-update-btn-status{color:#7DE8A8}
+.manual-update-btn-check{
+  position:absolute;top:4px;right:6px;
+  color:#3DD68C;font-size:12px;font-weight:900;
+  opacity:0;transition:opacity .2s;
+}
+.manual-update-btn.saved .manual-update-btn-check{opacity:1}
+
+/* Toast */
+.manual-toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);
+  background:linear-gradient(135deg,#D4A017,#B8860B);color:#fff;
+  padding:10px 20px;border-radius:24px;font-size:13px;font-weight:700;
+  box-shadow:0 6px 24px rgba(212,160,23,0.5);
+  z-index:9999;opacity:0;transition:all .3s cubic-bezier(0.4,0,0.2,1);
+  pointer-events:none;white-space:nowrap;
+  border:1px solid #F4D88A;
+  display:flex;align-items:center;gap:8px;
+}
+.manual-toast.show{
+  opacity:1;transform:translateX(-50%) translateY(0);
+}
+.manual-toast-icon{font-size:16px}
+
 /* ── v14: Slide-in Panels (v16.2: Fixed overflow issue) ── */
 .panel-overlay{
   position:fixed;top:0;bottom:0;width:480px;max-width:100vw;
@@ -6755,8 +6823,57 @@ const MANUAL_STATE={
   scope:'all',       // 'all' | 'aw' | 'am' | 'ms' | 'na'
   date:'',           // YYYY-MM-DD
   withFtth:false,    // include FTTH+5G column
-  entries:{}         // { branchName: {pre:n, post:n, ftth:n} }
+  entries:{},        // { branchName: {pre:n, post:n, ftth:n} }
+  snapshots:{        // captured at button press
+    u1:null,         // {time:'HH:MM', entries:{...}, withFtth:bool}
+    u2:null,
+    u3:null
+  }
 };
+
+// Storage helpers
+function manualStorageKey(){
+  return `salam_manual_${MANUAL_STATE.scope}_${MANUAL_STATE.date}`;
+}
+
+function manualSave(){
+  try{
+    const payload={
+      entries:MANUAL_STATE.entries,
+      snapshots:MANUAL_STATE.snapshots,
+      withFtth:MANUAL_STATE.withFtth
+    };
+    localStorage.setItem(manualStorageKey(),JSON.stringify(payload));
+  }catch(err){
+    // Silent — if localStorage is full/blocked
+  }
+}
+
+function manualLoad(){
+  try{
+    const raw=localStorage.getItem(manualStorageKey());
+    if(!raw){
+      MANUAL_STATE.entries={};
+      MANUAL_STATE.snapshots={u1:null,u2:null,u3:null};
+      // keep withFtth as-is (user preference persists)
+      return;
+    }
+    const payload=JSON.parse(raw);
+    MANUAL_STATE.entries=payload.entries||{};
+    MANUAL_STATE.snapshots=payload.snapshots||{u1:null,u2:null,u3:null};
+    if(typeof payload.withFtth==='boolean')MANUAL_STATE.withFtth=payload.withFtth;
+  }catch(err){
+    MANUAL_STATE.entries={};
+    MANUAL_STATE.snapshots={u1:null,u2:null,u3:null};
+  }
+}
+
+// Debounced autosave
+let _manualSaveTimer=null;
+function manualAutosave(){
+  clearTimeout(_manualSaveTimer);
+  _manualSaveTimer=setTimeout(manualSave,500);
+}
 
 function manualInit(){
   // Default date = today
@@ -6765,7 +6882,7 @@ function manualInit(){
   const m=String(d.getMonth()+1).padStart(2,'0');
   const dd=String(d.getDate()).padStart(2,'0');
   MANUAL_STATE.date=`${y}-${m}-${dd}`;
-  MANUAL_STATE.entries={};
+  manualLoad();
 }
 
 function manualGetBranches(){
@@ -6790,17 +6907,19 @@ function manualGetScopeName(){
 
 function manualSetScope(scope){
   MANUAL_STATE.scope=scope;
+  manualLoad();  // load stored data for new scope+date combo
   renderManualPanel();
 }
 
 function manualSetDate(date){
   MANUAL_STATE.date=date;
-  // No reset of entries here — Step 3 will handle per-date persistence
+  manualLoad();  // load stored data for new date
   renderManualPanel();
 }
 
 function manualToggleFtth(){
   MANUAL_STATE.withFtth=!MANUAL_STATE.withFtth;
+  manualAutosave();
   renderManualPanel();
 }
 
@@ -6809,6 +6928,7 @@ function manualUpdateEntry(branch,field,value){
   if(!MANUAL_STATE.entries[branch])MANUAL_STATE.entries[branch]={pre:0,post:0,ftth:0};
   MANUAL_STATE.entries[branch][field]=(isNaN(n)||n<0)?0:n;
   manualUpdateLiveTotals();
+  manualAutosave();
 }
 
 function manualUpdateLiveTotals(){
@@ -6870,10 +6990,55 @@ function manualClearBranch(branch){
     if(inp)inp.value='';
   });
   manualUpdateLiveTotals();
+  manualAutosave();
 }
 
 function manualSlug(s){
   return s.replace(/[^a-zA-Z0-9]/g,'_');
+}
+
+// ── Snapshot capture (Update buttons) ──
+function manualCaptureSnapshot(slot){
+  // slot = 'u1' | 'u2' | 'u3'
+  const now=new Date();
+  const h=now.getHours();
+  const m=String(now.getMinutes()).padStart(2,'0');
+  const ampm=h>=12?'PM':'AM';
+  const h12=h%12||12;
+  const timeLabel=`${h12}:${m} ${ampm}`;
+  // Deep copy entries
+  const snapshotEntries={};
+  Object.keys(MANUAL_STATE.entries).forEach(k=>{
+    const e=MANUAL_STATE.entries[k];
+    snapshotEntries[k]={pre:e.pre||0,post:e.post||0,ftth:e.ftth||0};
+  });
+  MANUAL_STATE.snapshots[slot]={
+    time:timeLabel,
+    timestamp:now.toISOString(),
+    entries:snapshotEntries,
+    withFtth:MANUAL_STATE.withFtth,
+    scope:MANUAL_STATE.scope,
+    scopeName:manualGetScopeName(),
+    date:MANUAL_STATE.date
+  };
+  manualSave();
+  manualShowToast(`✓ Update ${slot.replace('u','')} saved at ${timeLabel}`);
+  renderManualPanel();
+}
+
+// ── Toast message ──
+function manualShowToast(msg){
+  let toast=document.getElementById('manual-toast');
+  if(!toast){
+    toast=document.createElement('div');
+    toast.id='manual-toast';
+    toast.className='manual-toast';
+    document.body.appendChild(toast);
+  }
+  toast.innerHTML=`<span class="manual-toast-icon">✨</span><span>${msg}</span>`;
+  toast.classList.add('show');
+  clearTimeout(toast._hideTimer);
+  toast._hideTimer=setTimeout(()=>toast.classList.remove('show'),2400);
 }
 
 function renderManualPanel(){
@@ -6891,6 +7056,7 @@ function renderManualPanel(){
   }
   const branches=manualGetBranches();
   const showFtth=MANUAL_STATE.withFtth;
+  const snaps=MANUAL_STATE.snapshots;
   // ── Controls
   let html=`
     <div class="manual-controls">
@@ -6981,10 +7147,30 @@ function renderManualPanel(){
       `;
     });
     html+=`</tbody></table></div>`;
-    // Placeholder note for steps ahead
+    // ── Update Buttons (3 snapshots)
     html+=`
-      <div style="padding:16px 12px;text-align:center;color:#5A9870;font-size:11px;opacity:0.7;border-top:1px dashed rgba(212,160,23,0.2);margin-top:8px">
-        ✨ Update buttons (Update 1 / 2 / 3) + Export will arrive in the next step of v16.6.
+      <div class="manual-updates-section">
+        <div class="manual-updates-title">📌 Daily Snapshots</div>
+        <div class="manual-updates-grid">
+          ${['u1','u2','u3'].map((slot,i)=>{
+            const n=i+1;
+            const snap=snaps[slot];
+            const saved=!!snap;
+            const status=saved?`Saved at ${snap.time}`:'Not yet';
+            return `
+              <button class="manual-update-btn ${saved?'saved':''}" onclick="manualCaptureSnapshot('${slot}')" title="${saved?'Overwrite this snapshot':'Capture current numbers'}">
+                <span class="manual-update-btn-check">✓</span>
+                <span class="manual-update-btn-icon">${saved?'✅':'📌'}</span>
+                <span class="manual-update-btn-label">Update ${n}</span>
+                <span class="manual-update-btn-status">${status}</span>
+              </button>
+            `;
+          }).join('')}
+        </div>
+        <div style="text-align:center;color:#5A9870;font-size:10px;margin-top:10px;opacity:0.75;line-height:1.5">
+          ✨ Export (PNG + WhatsApp text) arrives in the next step.<br>
+          Data auto-saves as you type — and loads back per date & supervisor.
+        </div>
       </div>
     `;
   }
