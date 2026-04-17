@@ -41,6 +41,82 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 .btn-print{background:linear-gradient(135deg,#2C3E50,#3D5166);color:#C8EED8;border:1px solid rgba(200,238,216,0.2)}
 .btn-print:hover{background:linear-gradient(135deg,#3D5166,#4A6180)}
 
+/* ── v14: Toolbar Icons ── */
+.toolbar{background:var(--g2);border-bottom:1px solid var(--border);padding:8px 24px;display:flex;gap:8px;align-items:center;overflow-x:auto;position:sticky;top:54px;z-index:150}
+.tool-icon{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:10px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;transition:all .2s;position:relative;flex-shrink:0;color:#C8EED8}
+.tool-icon:hover{background:rgba(255,255,255,0.1);border-color:var(--border2);transform:translateY(-1px)}
+.tool-icon.active{background:var(--g5);border-color:var(--g6);color:#fff}
+.tool-icon-badge{position:absolute;top:-4px;right:-4px;background:#E24B4A;color:#fff;font-size:9px;font-weight:700;padding:2px 5px;border-radius:10px;min-width:16px;text-align:center;border:2px solid var(--g2)}
+.tool-icon-tooltip{position:absolute;top:48px;left:50%;transform:translateX(-50%);background:var(--g3);color:#fff;padding:5px 10px;border-radius:6px;font-size:11px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;z-index:200;border:1px solid var(--border2)}
+.tool-icon:hover .tool-icon-tooltip{opacity:1}
+
+/* ── v14: Slide-in Panels ── */
+.panel-overlay{position:fixed;top:0;right:0;bottom:0;width:100%;max-width:480px;background:#0A2E1C;border-left:1px solid var(--border2);box-shadow:-20px 0 40px rgba(0,0,0,0.5);z-index:800;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column}
+.panel-overlay.open{transform:translateX(0)}
+.panel-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:799;opacity:0;pointer-events:none;transition:opacity .2s}
+.panel-backdrop.open{opacity:1;pointer-events:auto}
+.panel-hdr{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--g3);flex-shrink:0}
+.panel-hdr-title{font-size:15px;font-weight:700;color:#fff;display:flex;align-items:center;gap:8px}
+.panel-close{background:rgba(255,255,255,0.08);border:none;color:#C8EED8;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
+.panel-close:hover{background:rgba(255,255,255,0.18)}
+.panel-body{flex:1;overflow-y:auto;padding:16px 20px}
+
+/* ── v14: Alert Items ── */
+.alert-item{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:10px;display:flex;align-items:flex-start;gap:10px;transition:all .15s}
+.alert-item:hover{background:rgba(255,255,255,0.07);border-color:var(--border2)}
+.alert-icon-wrap{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.alert-critical .alert-icon-wrap{background:rgba(226,75,74,0.15);border:1px solid rgba(226,75,74,0.3)}
+.alert-warning .alert-icon-wrap{background:rgba(239,159,39,0.15);border:1px solid rgba(239,159,39,0.3)}
+.alert-success .alert-icon-wrap{background:rgba(61,214,140,0.15);border:1px solid rgba(61,214,140,0.3)}
+.alert-info .alert-icon-wrap{background:rgba(55,138,221,0.15);border:1px solid rgba(55,138,221,0.3)}
+.alert-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:3px}
+.alert-desc{font-size:11px;color:#9ACDB0;line-height:1.4}
+.alert-count{font-size:18px;font-weight:900;color:#fff;margin-left:auto}
+.alert-critical .alert-count{color:#F08888}
+.alert-warning .alert-count{color:#F6C94E}
+.alert-success .alert-count{color:#5DD88C}
+.alert-info .alert-count{color:#A8CCEE}
+
+/* ── v14: Risk Card ── */
+.risk-card{background:linear-gradient(135deg,rgba(226,75,74,0.08),rgba(226,75,74,0.03));border:1px solid rgba(226,75,74,0.25);border-radius:10px;padding:12px;margin-bottom:10px;cursor:pointer;transition:all .15s}
+.risk-card:hover{background:linear-gradient(135deg,rgba(226,75,74,0.12),rgba(226,75,74,0.06));border-color:rgba(226,75,74,0.4);transform:translateX(-2px)}
+.risk-card-name{font-size:13px;font-weight:700;color:#F0FFF8;display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.risk-card-meta{font-size:10px;color:#9ACDB0;margin-bottom:8px}
+.risk-card-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.risk-stat{background:rgba(0,0,0,0.2);border-radius:6px;padding:6px;text-align:center}
+.risk-stat-v{font-size:14px;font-weight:800;color:#fff}
+.risk-stat-l{font-size:8px;color:#8A9898;text-transform:uppercase;margin-top:2px}
+
+/* ── v14: Hall of Fame ── */
+.fame-card{background:linear-gradient(135deg,rgba(212,160,23,0.08),rgba(212,160,23,0.03));border:1px solid rgba(212,160,23,0.25);border-radius:12px;padding:14px;margin-bottom:12px;cursor:pointer;transition:all .15s}
+.fame-card:hover{background:linear-gradient(135deg,rgba(212,160,23,0.15),rgba(212,160,23,0.06));transform:translateY(-2px)}
+.fame-card-hdr{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.fame-award{font-size:26px}
+.fame-award-info{flex:1}
+.fame-award-title{font-size:11px;color:#F6C94E;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+.fame-award-subtitle{font-size:9px;color:#9A7820;margin-top:2px}
+.fame-name{font-size:15px;font-weight:700;color:#fff;margin-bottom:4px}
+.fame-branch{font-size:11px;color:#9ACDB0;margin-bottom:8px}
+.fame-stats{display:flex;gap:12px;flex-wrap:wrap}
+.fame-stat{display:flex;flex-direction:column}
+.fame-stat-v{font-size:16px;font-weight:800;color:#F6C94E}
+.fame-stat-l{font-size:9px;color:#8A9898;text-transform:uppercase;margin-top:1px}
+
+/* ── v14: Live Ticker ── */
+.ticker-wrap{background:linear-gradient(90deg,rgba(61,214,140,0.08),rgba(61,214,140,0.03),rgba(61,214,140,0.08));border-bottom:1px solid var(--border);padding:8px 0;overflow:hidden;position:relative}
+.ticker-inner{display:flex;gap:40px;animation:tickerScroll 40s linear infinite;white-space:nowrap;will-change:transform}
+.ticker-inner:hover{animation-play-state:paused}
+@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ticker-item{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:#C8EED8;flex-shrink:0}
+.ticker-dot{width:6px;height:6px;border-radius:50%;background:var(--g6);animation:pulse 2s infinite}
+.ticker-item b{color:#5DD88C;font-weight:700}
+.ticker-item.fire b{color:#F6C94E}
+.ticker-item.milestone b{color:#85B7EB}
+
+/* ── Empty state for panels ── */
+.panel-empty{text-align:center;padding:40px 20px;color:#6AB88A;font-size:13px}
+.panel-empty-icon{font-size:36px;margin-bottom:10px}
+
 /* ── LAYOUT ── */
 .wrap{display:flex;min-height:calc(100vh - 54px)}
 .sidebar{width:220px;flex-shrink:0;background:var(--g2);border-right:1px solid var(--border);padding:14px 0;position:sticky;top:54px;height:calc(100vh - 54px);overflow-y:auto}
@@ -357,6 +433,58 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   </div>
 </div>
 
+<!-- v14: Toolbar Icons -->
+<div class="toolbar">
+  <button class="tool-icon" onclick="openPanel('alerts')">
+    🔔
+    <span class="tool-icon-badge" id="alerts-badge" style="display:none">0</span>
+    <span class="tool-icon-tooltip">Smart Alerts</span>
+  </button>
+  <button class="tool-icon" onclick="openPanel('risk')">
+    🎯
+    <span class="tool-icon-badge" id="risk-badge" style="display:none">0</span>
+    <span class="tool-icon-tooltip">At-Risk Radar</span>
+  </button>
+  <button class="tool-icon" onclick="openPanel('fame')">
+    🏆
+    <span class="tool-icon-tooltip">Hall of Fame</span>
+  </button>
+  <div style="flex:1"></div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v14 · Phase 1</div>
+</div>
+
+<!-- v14: Live Ticker -->
+<div class="ticker-wrap" id="ticker-wrap" style="display:none">
+  <div class="ticker-inner" id="ticker-inner"></div>
+</div>
+
+<!-- v14: Slide-in Panels -->
+<div class="panel-backdrop" id="panel-backdrop" onclick="closePanel()"></div>
+
+<div class="panel-overlay" id="panel-alerts">
+  <div class="panel-hdr">
+    <div class="panel-hdr-title">🔔 Smart Alerts</div>
+    <button class="panel-close" onclick="closePanel()">✕</button>
+  </div>
+  <div class="panel-body" id="panel-alerts-body"></div>
+</div>
+
+<div class="panel-overlay" id="panel-risk">
+  <div class="panel-hdr">
+    <div class="panel-hdr-title">🎯 At-Risk Radar</div>
+    <button class="panel-close" onclick="closePanel()">✕</button>
+  </div>
+  <div class="panel-body" id="panel-risk-body"></div>
+</div>
+
+<div class="panel-overlay" id="panel-fame">
+  <div class="panel-hdr">
+    <div class="panel-hdr-title">🏆 Hall of Fame</div>
+    <button class="panel-close" onclick="closePanel()">✕</button>
+  </div>
+  <div class="panel-body" id="panel-fame-body"></div>
+</div>
+
 <div class="wrap">
   <div class="sidebar">
     <div class="sb-section">
@@ -628,7 +756,7 @@ function renderView(view){
   const prepTgt=Math.round(tT*0.55);
   const postPct=postTgt>0?Math.round(tPOST/postTgt*100):0;
   const prepPct=prepTgt>0?Math.round(tPREP/prepTgt*100):0;
-  const sorted=[...emps].sort((a,b)=>b.sales-a.sales);
+  const sorted=[...emps].sort((a,b)=>b.pct-a.pct||b.sales-a.sales);
   const top=sorted[0];
   const active=emps.filter(e=>e.sales>0).length;
   const branches=[...new Set(emps.map(e=>e.branch))].filter(Boolean).sort();
@@ -1062,7 +1190,7 @@ function renderSupBars(emps){
 function renderTable(emps,brF){
   let f=brF==='all'?emps:emps.filter(e=>e.branch===brF);
   if(SEARCH){const q=SEARCH.toLowerCase();f=f.filter(e=>e.name.toLowerCase().includes(q)||e.user.toLowerCase().includes(q)||e.branch.toLowerCase().includes(q));}
-  const sorted=[...f].sort((a,b)=>b.sales-a.sales);
+  const sorted=[...f].sort((a,b)=>b.pct-a.pct||b.sales-a.sales);
   document.getElementById('tbl-cnt').textContent=sorted.length+' agents';
   document.getElementById('tbl-rows').innerHTML=sorted.length?sorted.map((e,i)=>{
     const rk=i===0?'r1':i===1?'r2':i===2?'r3':'';
@@ -1119,8 +1247,8 @@ function doSearch(val){
 function openModal(idx){
   const e=DATA[idx];if(!e)return;
   document.getElementById('emp-modal')?.remove();
-  const rank=[...DATA].sort((a,b)=>b.sales-a.sales).findIndex(d=>d.user===e.user&&d.name===e.name)+1;
-  const brE=DATA.filter(d=>d.branch===e.branch).sort((a,b)=>b.sales-a.sales);
+  const rank=[...DATA].sort((a,b)=>b.pct-a.pct||b.sales-a.sales).findIndex(d=>d.user===e.user&&d.name===e.name)+1;
+  const brE=DATA.filter(d=>d.branch===e.branch).sort((a,b)=>b.pct-a.pct||b.sales-a.sales);
   const brRank=brE.findIndex(d=>d.user===e.user&&d.name===e.name)+1;
   const brTotal=brE.reduce((a,d)=>a+d.sales,0);
   const ini=e.name.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
@@ -1281,7 +1409,7 @@ async function exportWA(){
   const tP=tT>0?Math.round(tS/tT*100):0;
   const tPOST=DATA.reduce((a,e)=>a+(e.post||0),0);
   const tPREP=DATA.reduce((a,e)=>a+(e.prep||0),0);
-  const sorted=[...DATA].sort((a,b)=>b.sales-a.sales);
+  const sorted=[...DATA].sort((a,b)=>b.pct-a.pct||b.sales-a.sales);
   const top3=sorted.slice(0,3);
   const remaining=tT-tS;
   const daysLeft=workdaysLeft(DATA_DATE);
@@ -1361,7 +1489,7 @@ async function exportBranchReport(){
   const sup=document.getElementById('ep-sup').value;
   const br=document.getElementById('ep-br').value;
   if(!sup||!br){alert('Please select supervisor and branch.');return;}
-  const emps=DATA.filter(e=>e.mgr===sup&&e.branch===br).sort((a,b)=>b.sales-a.sales);
+  const emps=DATA.filter(e=>e.mgr===sup&&e.branch===br).sort((a,b)=>b.pct-a.pct||b.sales-a.sales);
   if(!emps.length){alert('No data found.');return;}
   const tS=emps.reduce((a,e)=>a+e.sales,0);
   const tT=emps.reduce((a,e)=>a+e.target,0);
@@ -1440,6 +1568,323 @@ async function exportPNG(){
   a.download='salam_dashboard_'+DATA_DATE.replace(/[\s,]/g,'_')+'.png';
   a.href=c.toDataURL();a.click();
 }
+
+// ═══════════════════════════════════════════════════════
+// v14 Phase 1: Panels, Alerts, Risk Radar, Hall of Fame, Ticker
+// ═══════════════════════════════════════════════════════
+
+function openPanel(name){
+  closePanel();
+  const panel=document.getElementById('panel-'+name);
+  const backdrop=document.getElementById('panel-backdrop');
+  if(!panel)return;
+  // Refresh content when opened
+  if(name==='alerts')renderAlertsPanel();
+  if(name==='risk')renderRiskPanel();
+  if(name==='fame')renderFamePanel();
+  panel.classList.add('open');
+  backdrop.classList.add('open');
+  // Highlight active icon
+  document.querySelectorAll('.tool-icon').forEach(b=>b.classList.remove('active'));
+  const btn=document.querySelector(`.tool-icon[onclick*="${name}"]`);
+  if(btn)btn.classList.add('active');
+}
+
+function closePanel(){
+  document.querySelectorAll('.panel-overlay').forEach(p=>p.classList.remove('open'));
+  document.getElementById('panel-backdrop').classList.remove('open');
+  document.querySelectorAll('.tool-icon').forEach(b=>b.classList.remove('active'));
+}
+
+// ── Smart Alerts logic ──
+function computeAlerts(){
+  if(!DATA.length)return[];
+  const alerts=[];
+  const emps=DATA;
+  // Critical: inactive agents (zero sales)
+  const inactive=emps.filter(e=>e.sales===0&&e.target>0);
+  if(inactive.length>0){
+    alerts.push({
+      type:'critical',icon:'❄️',
+      title:`${inactive.length} Inactive Agent${inactive.length>1?'s':''}`,
+      desc:`Zero sales this month — needs immediate attention`,
+      count:inactive.length,
+      action:()=>openPanel('risk')
+    });
+  }
+  // Warning: at-risk agents (low % in mid-month)
+  const atRisk=emps.filter(e=>e.target>0&&e.sales>0&&e.pct<30);
+  if(atRisk.length>0){
+    alerts.push({
+      type:'warning',icon:'⚠️',
+      title:`${atRisk.length} At-Risk Agent${atRisk.length>1?'s':''}`,
+      desc:`Below 30% achievement — struggling to catch up`,
+      count:atRisk.length,
+      action:()=>openPanel('risk')
+    });
+  }
+  // Success: exceeded target
+  const exceeded=emps.filter(e=>e.target>0&&e.pct>=100);
+  if(exceeded.length>0){
+    alerts.push({
+      type:'success',icon:'🏆',
+      title:`${exceeded.length} Target${exceeded.length>1?'s':''} Exceeded`,
+      desc:`Crushing it — over 100% achievement`,
+      count:exceeded.length,
+      action:()=>openPanel('fame')
+    });
+  }
+  // Success: on fire (75%+)
+  const onFire=emps.filter(e=>e.target>0&&e.pct>=75&&e.pct<100);
+  if(onFire.length>0){
+    alerts.push({
+      type:'success',icon:'🔥',
+      title:`${onFire.length} Agent${onFire.length>1?'s':''} On Fire`,
+      desc:`75-100% achievement — almost there!`,
+      count:onFire.length
+    });
+  }
+  // Info: team overall status
+  const tS=emps.reduce((a,e)=>a+e.sales,0);
+  const tT=emps.reduce((a,e)=>a+e.target,0);
+  const tP=tT>0?Math.round(tS/tT*100):0;
+  const daysLeft=workdaysLeft(DATA_DATE);
+  if(tP<50&&daysLeft<=10){
+    alerts.push({
+      type:'warning',icon:'📉',
+      title:`Team Behind Target`,
+      desc:`Only ${tP}% achieved with ${daysLeft} days left — needs push`,
+      count:`${tP}%`
+    });
+  }else if(tP>=80){
+    alerts.push({
+      type:'success',icon:'🎯',
+      title:`Team On Track`,
+      desc:`${tP}% overall achievement — great momentum!`,
+      count:`${tP}%`
+    });
+  }
+  // Info: Branches without staff
+  const unstaffed=emps.filter(e=>e.name==='User_Mapping_Master');
+  if(unstaffed.length>0){
+    alerts.push({
+      type:'info',icon:'🏢',
+      title:`${unstaffed.length} Unstaffed Branch${unstaffed.length>1?'es':''}`,
+      desc:`Target assigned but no employees — hiring needed`,
+      count:unstaffed.length
+    });
+  }
+  return alerts;
+}
+
+function renderAlertsPanel(){
+  const alerts=computeAlerts();
+  const body=document.getElementById('panel-alerts-body');
+  if(!alerts.length){
+    body.innerHTML='<div class="panel-empty"><div class="panel-empty-icon">✅</div>No alerts right now<br><span style="font-size:11px;opacity:0.7">Everything looks good!</span></div>';
+    return;
+  }
+  // Group: critical > warning > success > info
+  const order=['critical','warning','success','info'];
+  alerts.sort((a,b)=>order.indexOf(a.type)-order.indexOf(b.type));
+  body.innerHTML=alerts.map((a,i)=>`
+    <div class="alert-item alert-${a.type}" ${a.action?`onclick="(${a.action.toString()})()"`:''} style="${a.action?'cursor:pointer':''}">
+      <div class="alert-icon-wrap">${a.icon}</div>
+      <div style="flex:1;min-width:0">
+        <div class="alert-title">${a.title}</div>
+        <div class="alert-desc">${a.desc}</div>
+      </div>
+      <div class="alert-count">${a.count}</div>
+    </div>
+  `).join('');
+}
+
+function updateAlertsBadge(){
+  const alerts=computeAlerts();
+  const critical=alerts.filter(a=>a.type==='critical'||a.type==='warning').length;
+  const badge=document.getElementById('alerts-badge');
+  if(critical>0){
+    badge.textContent=critical;
+    badge.style.display='block';
+  }else{
+    badge.style.display='none';
+  }
+}
+
+// ── At-Risk Radar logic ──
+function renderRiskPanel(){
+  const body=document.getElementById('panel-risk-body');
+  if(!DATA.length){body.innerHTML='<div class="panel-empty">Loading...</div>';return;}
+  // Criteria: target > 0 AND (sales === 0 OR pct < 30)
+  const atRisk=DATA
+    .filter(e=>e.target>0&&e.name!=='User_Mapping_Master')
+    .filter(e=>e.sales===0||e.pct<30)
+    .sort((a,b)=>a.pct-b.pct);
+  if(!atRisk.length){
+    body.innerHTML='<div class="panel-empty"><div class="panel-empty-icon">🎉</div>No at-risk agents!<br><span style="font-size:11px;opacity:0.7">The team is performing well</span></div>';
+    return;
+  }
+  const inactiveCount=atRisk.filter(e=>e.sales===0).length;
+  const lowCount=atRisk.filter(e=>e.sales>0&&e.pct<30).length;
+  let html=`<div style="background:rgba(226,75,74,0.08);border:1px solid rgba(226,75,74,0.2);border-radius:10px;padding:12px;margin-bottom:14px">
+    <div style="font-size:11px;font-weight:700;color:#F08888;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">⚠️ Summary</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div><div style="font-size:22px;font-weight:800;color:#F08888">${inactiveCount}</div><div style="font-size:10px;color:#9ACDB0">Zero sales</div></div>
+      <div><div style="font-size:22px;font-weight:800;color:#F6C94E">${lowCount}</div><div style="font-size:10px;color:#9ACDB0">Below 30%</div></div>
+    </div>
+  </div>`;
+  html+=`<div style="font-size:10px;color:#5AB87A;text-transform:uppercase;font-weight:700;margin-bottom:8px">Intervention needed (${atRisk.length})</div>`;
+  html+=atRisk.map(e=>{
+    const gIdx=DATA.findIndex(d=>d.user===e.user&&d.name===e.name);
+    const dt=dailyTarget(e,DATA_DATE);
+    const statusBadge=e.sales===0?'<span style="background:rgba(226,75,74,0.2);color:#F08888;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700">❄️ Inactive</span>':'<span style="background:rgba(239,159,39,0.2);color:#F6C94E;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700">⚠️ Low</span>';
+    return`<div class="risk-card" onclick="closePanel();setTimeout(()=>openModal(${gIdx}),300)">
+      <div class="risk-card-name">${e.name}${statusBadge}</div>
+      <div class="risk-card-meta">${e.branch} · ${mgrShort(e.mgr)}</div>
+      <div class="risk-card-stats">
+        <div class="risk-stat"><div class="risk-stat-v">${e.sales}/${e.target}</div><div class="risk-stat-l">Sales</div></div>
+        <div class="risk-stat"><div class="risk-stat-v" style="color:${pc(e.pct)}">${e.pct}%</div><div class="risk-stat-l">Achieved</div></div>
+        <div class="risk-stat"><div class="risk-stat-v" style="color:#F6C94E">${dt.value||'—'}</div><div class="risk-stat-l">Daily Need</div></div>
+      </div>
+    </div>`;
+  }).join('');
+  body.innerHTML=html;
+}
+
+function updateRiskBadge(){
+  if(!DATA.length)return;
+  const count=DATA.filter(e=>e.target>0&&e.name!=='User_Mapping_Master'&&(e.sales===0||e.pct<30)).length;
+  const badge=document.getElementById('risk-badge');
+  if(count>0){
+    badge.textContent=count;
+    badge.style.display='block';
+  }else{
+    badge.style.display='none';
+  }
+}
+
+// ── Hall of Fame logic ──
+function renderFamePanel(){
+  const body=document.getElementById('panel-fame-body');
+  if(!DATA.length){body.innerHTML='<div class="panel-empty">Loading...</div>';return;}
+  const valid=DATA.filter(e=>e.target>0&&e.name!=='User_Mapping_Master');
+  // 1. Employee of the Month (highest %)
+  const champ=[...valid].sort((a,b)=>b.pct-a.pct||b.sales-a.sales)[0];
+  // 2. Top Seller (highest absolute sales)
+  const topSeller=[...valid].sort((a,b)=>b.sales-a.sales)[0];
+  // 3. Overachiever (highest % above 100%)
+  const overachievers=valid.filter(e=>e.pct>=100).sort((a,b)=>b.pct-a.pct);
+  const overKing=overachievers[0];
+  // 4. Postpaid King
+  const postKing=[...valid].sort((a,b)=>(b.post||0)-(a.post||0))[0];
+  // 5. Rising Star (high % with lower target — proven potential)
+  const rising=[...valid].filter(e=>e.target<=50&&e.pct>=80).sort((a,b)=>b.pct-a.pct)[0];
+  // 6. Consistency (steady achievement 50-85% — reliable)
+  const consistent=[...valid].filter(e=>e.pct>=50&&e.pct<=85&&e.sales>=10).sort((a,b)=>b.sales-a.sales)[0];
+  const awards=[
+    {key:'champ',emp:champ,award:'👑',title:'Employee of the Month',subtitle:'Highest achievement %',color:'#F6C94E',statLabel:'Achievement'},
+    {key:'top',emp:topSeller,award:'💰',title:'Top Seller',subtitle:'Most sales overall',color:'#5DD88C',statLabel:'Total Sales'},
+    {key:'over',emp:overKing,award:'🚀',title:'Overachiever',subtitle:'Exceeded target',color:'#F6C94E',statLabel:'Achievement'},
+    {key:'post',emp:postKing,award:'📱',title:'Postpaid King',subtitle:'Top postpaid sales',color:'#A8CCEE',statLabel:'Postpaid Sales'},
+    {key:'rising',emp:rising,award:'⭐',title:'Rising Star',subtitle:'High % on smaller target',color:'#ED93B1',statLabel:'Achievement'},
+    {key:'consistent',emp:consistent,award:'🎯',title:'Consistency Champion',subtitle:'Reliable performer',color:'#85B7EB',statLabel:'Total Sales'}
+  ].filter(a=>a.emp);
+  if(!awards.length){
+    body.innerHTML='<div class="panel-empty"><div class="panel-empty-icon">🏆</div>Awards coming soon...<br><span style="font-size:11px;opacity:0.7">Need more data</span></div>';
+    return;
+  }
+  body.innerHTML=awards.map(a=>{
+    const e=a.emp;
+    const gIdx=DATA.findIndex(d=>d.user===e.user&&d.name===e.name);
+    let statValue;
+    if(a.statLabel==='Achievement')statValue=e.pct+'%';
+    else if(a.statLabel==='Total Sales')statValue=e.sales;
+    else if(a.statLabel==='Postpaid Sales')statValue=e.post||0;
+    return`<div class="fame-card" onclick="closePanel();setTimeout(()=>openModal(${gIdx}),300)">
+      <div class="fame-card-hdr">
+        <div class="fame-award">${a.award}</div>
+        <div class="fame-award-info">
+          <div class="fame-award-title" style="color:${a.color}">${a.title}</div>
+          <div class="fame-award-subtitle">${a.subtitle}</div>
+        </div>
+      </div>
+      <div class="fame-name">${e.name}</div>
+      <div class="fame-branch">${e.branch} · ${mgrShort(e.mgr)}</div>
+      <div class="fame-stats">
+        <div class="fame-stat"><div class="fame-stat-v" style="color:${a.color}">${statValue}</div><div class="fame-stat-l">${a.statLabel}</div></div>
+        <div class="fame-stat"><div class="fame-stat-v" style="color:#fff">${e.sales}</div><div class="fame-stat-l">Sales</div></div>
+        <div class="fame-stat"><div class="fame-stat-v" style="color:#fff">${e.target}</div><div class="fame-stat-l">Target</div></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Live Ticker logic ──
+function renderTicker(){
+  if(!DATA.length){
+    document.getElementById('ticker-wrap').style.display='none';
+    return;
+  }
+  const items=[];
+  const valid=DATA.filter(e=>e.target>0&&e.name!=='User_Mapping_Master');
+  // Top performer
+  const top=[...valid].sort((a,b)=>b.pct-a.pct||b.sales-a.sales)[0];
+  if(top){
+    items.push({cls:'fire',icon:'🔥',text:`<b>${top.name.split(' ').slice(0,2).join(' ')}</b> leads with ${top.pct}% achievement`});
+  }
+  // Team milestone
+  const tS=DATA.reduce((a,e)=>a+e.sales,0);
+  const tT=DATA.reduce((a,e)=>a+e.target,0);
+  const tP=tT>0?Math.round(tS/tT*100):0;
+  items.push({cls:'milestone',icon:'📊',text:`Team hit <b>${tS}</b> sales · <b>${tP}%</b> of target`});
+  // Exceeded target count
+  const exceeded=valid.filter(e=>e.pct>=100).length;
+  if(exceeded>0){
+    items.push({cls:'fire',icon:'🏆',text:`<b>${exceeded}</b> agent${exceeded>1?'s':''} exceeded target!`});
+  }
+  // FTTH highlight
+  const ftthTotal=FTTH_DATA.reduce((a,e)=>a+e.total,0);
+  if(ftthTotal>0){
+    items.push({cls:'',icon:'📡',text:`FTTH & 5G total: <b>${ftthTotal}</b> services`});
+  }
+  // Daily target insight
+  const daysLeft=workdaysLeft(DATA_DATE);
+  const dailyNeeded=daysLeft>0?Math.ceil((tT-tS)/daysLeft):0;
+  items.push({cls:'',icon:'🎯',text:`Need <b>${dailyNeeded}</b> sales/day to hit team target`});
+  // Top branch
+  const branches={};
+  valid.forEach(e=>{if(!branches[e.branch])branches[e.branch]={s:0,t:0};branches[e.branch].s+=e.sales;branches[e.branch].t+=e.target;});
+  const branchArr=Object.entries(branches).map(([b,d])=>({b,pct:d.t>0?Math.round(d.s/d.t*100):0,s:d.s}));
+  const topBr=branchArr.sort((a,b)=>b.pct-a.pct)[0];
+  if(topBr){
+    items.push({cls:'fire',icon:'🏪',text:`Top branch: <b>${topBr.b.replace(' FBO','')}</b> at ${topBr.pct}%`});
+  }
+  // Build ticker (duplicate for seamless scroll)
+  const html=items.map(i=>`<span class="ticker-item ${i.cls}"><span class="ticker-dot"></span>${i.icon} ${i.text}</span>`).join('');
+  document.getElementById('ticker-inner').innerHTML=html+html;// duplicate for loop
+  document.getElementById('ticker-wrap').style.display='block';
+}
+
+// ── Update badges after data load ──
+const _originalLoadData2=loadData;
+// Hook into existing render
+function v14PostRender(){
+  updateAlertsBadge();
+  updateRiskBadge();
+  renderTicker();
+}
+
+// ── Keyboard support for panels ──
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape')closePanel();
+});
+
+// Hook v14 into existing renderView
+const _originalRenderView=renderView;
+renderView=function(view){
+  _originalRenderView(view);
+  setTimeout(v14PostRender,50);
+};
 
 setInterval(loadData,5*60*1000);
 loadData();
