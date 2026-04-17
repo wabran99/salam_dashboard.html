@@ -73,9 +73,20 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 .tool-icon-tooltip{position:absolute;top:48px;left:50%;transform:translateX(-50%);background:var(--g3);color:#fff;padding:5px 10px;border-radius:6px;font-size:11px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;z-index:200;border:1px solid var(--border2)}
 .tool-icon:hover .tool-icon-tooltip{opacity:1}
 
-/* ── v14: Slide-in Panels ── */
-.panel-overlay{position:fixed;top:0;right:0;bottom:0;width:480px;max-width:100vw;background:#0A2E1C;border-left:1px solid var(--border2);box-shadow:-20px 0 40px rgba(0,0,0,0.5);z-index:800;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;will-change:transform}
-.panel-overlay.open{transform:translateX(0)}
+/* ── v14: Slide-in Panels (v16.2: Fixed overflow issue) ── */
+.panel-overlay{
+  position:fixed;top:0;bottom:0;width:480px;max-width:100vw;
+  background:#0A2E1C;border-left:1px solid var(--border2);
+  z-index:800;display:flex;flex-direction:column;
+  right:-500px; /* fully hidden + extra space for shadow */
+  transition:right .3s cubic-bezier(.4,0,.2,1);
+  visibility:hidden;
+}
+.panel-overlay.open{
+  right:0;
+  visibility:visible;
+  box-shadow:-20px 0 40px rgba(0,0,0,0.5);
+}
 .panel-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:799;opacity:0;pointer-events:none;transition:opacity .2s}
 .panel-backdrop.open{opacity:1;pointer-events:auto}
 .panel-hdr{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--g3);flex-shrink:0}
@@ -139,6 +150,62 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 /* ── Empty state for panels ── */
 .panel-empty{text-align:center;padding:40px 20px;color:#6AB88A;font-size:13px}
 .panel-empty-icon{font-size:36px;margin-bottom:10px}
+
+/* ═══════════════════════════════════════════════════════ */
+/* v16.2: Mobile Menu for Sidebar                           */
+/* ═══════════════════════════════════════════════════════ */
+.mobile-menu-btn{
+  display:none;
+  background:rgba(61,214,140,0.1);
+  border:1px solid rgba(61,214,140,0.3);
+  color:#C8EED8;
+  width:40px;height:40px;border-radius:10px;
+  cursor:pointer;font-size:18px;
+  align-items:center;justify-content:center;
+  margin-right:10px;
+  transition:all .15s;
+}
+.mobile-menu-btn:hover{background:rgba(61,214,140,0.2)}
+.mobile-menu-btn.active{background:var(--g5);color:#fff}
+
+/* Mobile Sidebar Drawer */
+.mobile-sidebar{
+  display:none;
+  position:fixed;top:0;left:0;bottom:0;width:280px;max-width:85vw;
+  background:var(--g2);
+  border-right:1px solid var(--border2);
+  z-index:850;
+  left:-300px;
+  transition:left .3s cubic-bezier(.4,0,.2,1);
+  overflow-y:auto;
+  padding:16px;
+  visibility:hidden;
+}
+.mobile-sidebar.open{
+  left:0;
+  visibility:visible;
+  box-shadow:20px 0 40px rgba(0,0,0,0.5);
+}
+.mobile-sidebar-backdrop{
+  display:none;
+  position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:849;
+  opacity:0;pointer-events:none;transition:opacity .2s;
+}
+.mobile-sidebar-backdrop.open{opacity:1;pointer-events:auto}
+
+.mobile-sidebar-hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-bottom:14px;border-bottom:1px solid var(--border);margin-bottom:14px;
+}
+.mobile-sidebar-title{
+  font-size:13px;font-weight:700;color:#fff;
+}
+.mobile-sidebar-close{
+  background:rgba(255,255,255,0.08);border:none;color:#C8EED8;
+  width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:13px;
+  display:flex;align-items:center;justify-content:center;
+}
+.mobile-sidebar-close:hover{background:rgba(255,255,255,0.18)}
 
 /* ═══════════════════════════════════════════════════════ */
 /* v16: Compare Mode / Watch List / Badges / Team Goals    */
@@ -1021,6 +1088,9 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 }
 @media(max-width:1100px){
   .sidebar{display:none}
+  .mobile-menu-btn{display:flex}
+  .mobile-sidebar{display:block}
+  .mobile-sidebar-backdrop{display:block}
   .kpi-row1,.kpi-row2,.kpi-row3,.ftth-kpi-row{grid-template-columns:1fr}
   .charts-row,.sup-grid{grid-template-columns:1fr}
   .ftth-top5-grid{grid-template-columns:repeat(3,1fr)}
@@ -1036,13 +1106,36 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   .pod-1 .pod-base{width:140px}
   .pod-2 .pod-base{width:120px}
   .pod-3 .pod-base{width:110px}
+  .hdr{padding:10px 14px;gap:8px;grid-template-columns:auto 1fr auto}
+  .logo-text-name{font-size:24px}
+  .hdr-mid h1{font-size:13px}
+  .hdr-mid p{font-size:10px}
+  .hdr-r .btn-print,.hdr-r .btn-wa{display:none}
+  .hdr-r .live{display:none}
+}
+
+/* Extra small screens */
+@media(max-width:640px){
+  .hdr-mid h1{font-size:11px}
+  .hdr-mid p{font-size:9px}
+  .logo-leaf-only{width:26px;height:30px}
+  .logo-text-name{font-size:20px}
+  .toolbar{padding:6px 12px}
+  .tool-icon{width:36px;height:36px;font-size:16px}
+  .content{padding:12px 12px}
+  .podium-wrap{flex-wrap:wrap}
+  .mk{padding:14px 16px}
+  .mk-val{font-size:32px}
 }
 </style>
 </head>
 <body>
 
 <div class="hdr">
-  <div class="logo-wrap">
+  <div style="display:flex;align-items:center;justify-self:start">
+    <!-- v16.2: Mobile Menu Button -->
+    <button class="mobile-menu-btn" onclick="toggleMobileSidebar()" id="mobile-menu-btn" aria-label="Menu">☰</button>
+    <div class="logo-wrap" style="justify-self:unset">
     <!-- v16: SVG leaf only (clean vector) -->
     <svg class="logo-leaf-only" viewBox="0 0 40 48" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -1065,6 +1158,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
       </g>
     </svg>
     <span class="logo-text-name">salam</span>
+    </div>
   </div>
   <div class="hdr-mid">
     <h1>Sales Performance Dashboard</h1>
@@ -1111,7 +1205,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">Badges</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v16.1 · Phase 3+</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v16.2 · Phase 3+</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -1121,6 +1215,16 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 
 <!-- v14: Slide-in Panels -->
 <div class="panel-backdrop" id="panel-backdrop" onclick="closePanel()"></div>
+
+<!-- v16.2: Mobile Sidebar -->
+<div class="mobile-sidebar-backdrop" id="mobile-sidebar-backdrop" onclick="closeMobileSidebar()"></div>
+<div class="mobile-sidebar" id="mobile-sidebar">
+  <div class="mobile-sidebar-hdr">
+    <div class="mobile-sidebar-title">Navigation</div>
+    <button class="mobile-sidebar-close" onclick="closeMobileSidebar()">✕</button>
+  </div>
+  <div id="mobile-sidebar-content"></div>
+</div>
 
 <div class="panel-overlay" id="panel-alerts">
   <div class="panel-hdr">
@@ -3696,6 +3800,93 @@ v14PostRender=function(){
   updateWatchBadge();
   updateCompareBadge();
 };
+
+// ═══════════════════════════════════════════════════════
+// v16.2: Mobile Sidebar Management
+// ═══════════════════════════════════════════════════════
+
+function toggleMobileSidebar(){
+  const sb=document.getElementById('mobile-sidebar');
+  const bd=document.getElementById('mobile-sidebar-backdrop');
+  const btn=document.getElementById('mobile-menu-btn');
+  if(sb.classList.contains('open')){
+    closeMobileSidebar();
+  }else{
+    renderMobileSidebar();
+    sb.classList.add('open');
+    bd.classList.add('open');
+    btn.classList.add('active');
+  }
+}
+
+function closeMobileSidebar(){
+  document.getElementById('mobile-sidebar')?.classList.remove('open');
+  document.getElementById('mobile-sidebar-backdrop')?.classList.remove('open');
+  document.getElementById('mobile-menu-btn')?.classList.remove('active');
+}
+
+function renderMobileSidebar(){
+  const content=document.getElementById('mobile-sidebar-content');
+  if(!content||!DATA.length)return;
+  const k={aw:0,am:0,ms:0,na:0};
+  DATA.forEach(e=>{const m=mk(e.mgr);if(k[m]!==undefined)k[m]++;});
+  const tS=DATA.reduce((a,e)=>a+e.sales,0);
+  const tT=DATA.reduce((a,e)=>a+e.target,0);
+  const tP=tT>0?Math.round(tS/tT*100):0;
+  const ftthTotal=FTTH_DATA.reduce((a,e)=>a+e.total,0);
+  content.innerHTML=`
+    <div class="sb-section">
+      <div class="sb-lbl">Views</div>
+      <button class="sb-item ${CUR==='all'?'active':''}" onclick="setView('all',this);closeMobileSidebar()">
+        <span class="sb-d"></span>All Supervisors<span class="sb-cnt">${DATA.length}</span>
+      </button>
+      <button class="sb-item ${CUR==='Abdulwahab'?'active':''}" onclick="setView('Abdulwahab',this);closeMobileSidebar()">
+        <span class="sb-d" style="background:#F6C94E"></span>Abdulwahab AlShammari<span class="sb-cnt">${k.aw}</span>
+      </button>
+      <button class="sb-item ${CUR==='Ahmed'?'active':''}" onclick="setView('Ahmed',this);closeMobileSidebar()">
+        <span class="sb-d" style="background:#85B7EB"></span>Ahmed AlMutairi<span class="sb-cnt">${k.am}</span>
+      </button>
+      <button class="sb-item ${CUR==='Mohammed'?'active':''}" onclick="setView('Mohammed',this);closeMobileSidebar()">
+        <span class="sb-d" style="background:#5DCAA5"></span>Mohammed AlShehri<span class="sb-cnt">${k.ms}</span>
+      </button>
+      <button class="sb-item ${CUR==='Najwah'?'active':''}" onclick="setView('Najwah',this);closeMobileSidebar()">
+        <span class="sb-d" style="background:#ED93B1"></span>Najwah AlOmari<span class="sb-cnt">${k.na}</span>
+      </button>
+    </div>
+    <div class="sb-div"></div>
+    <div class="sb-section">
+      <div class="sb-lbl">Quick stats</div>
+      <div style="padding:6px 8px">
+        <div class="qs-l">Total agents</div><div class="qs-v">${DATA.length}</div>
+        <div class="qs-l" style="margin-top:10px">Team sales</div>
+        <div class="qs-v" style="color:#5DD88C">${tS}</div>
+        <div class="qs-l" style="margin-top:10px">Achievement</div>
+        <div class="qs-v" style="color:${pc(tP)}">${tP}%</div>
+        <div class="sb-div" style="margin:12px 0"></div>
+        <div class="qs-l">FTTH + 5G</div>
+        <div class="qs-v" style="color:#A8CCEE">${ftthTotal}</div>
+        <div class="qs-l" style="margin-top:10px">Data as of</div>
+        <div style="font-size:13px;font-weight:600;color:#F6C94E">${DATA_DATE}</div>
+      </div>
+    </div>
+  `;
+}
+
+// Update mobile sidebar when data changes
+const _origPostRender=v14PostRender;
+v14PostRender=function(){
+  _origPostRender();
+  if(document.getElementById('mobile-sidebar')?.classList.contains('open')){
+    renderMobileSidebar();
+  }
+};
+
+// Escape closes mobile sidebar too
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    closeMobileSidebar();
+  }
+});
 
 setInterval(loadData,5*60*1000);
 loadData();
