@@ -456,10 +456,10 @@ function parseCSV_UMM(txt){
     const name=o['employee name']||o['name']||'';
     const mgr=o['manager']||'';
     if(!name||!mgr||name.length<2||name.toLowerCase().includes('auto'))return null;
-    const target=parseFloat(o['target']||0)||0;
-    const sales=parseFloat(o['user sales']||o['achieved']||0)||0;
-    const post=parseFloat(o['post']||0)||0;
-    const prep=parseFloat(o['prep']||0)||0;
+    const target=parseFloat(String(o['target']||'0').replace(/[^0-9.-]/g,''))||0;
+    const sales=parseFloat(String(o['user sales']||o['achieved']||'0').replace(/[^0-9.-]/g,''))||0;
+    const post=parseFloat(String(o['post']||'0').replace(/[^0-9.-]/g,''))||0;
+    const prep=parseFloat(String(o['prep']||'0').replace(/[^0-9.-]/g,''))||0;
     return{name,user:o['user']||'',mgr,branch:o['branch name']||o['branch']||'',
       opco:o['operating company']||'',target,sales,post,prep,
       pct:target>0?Math.round(sales/target*100):0};
@@ -1314,3 +1314,4 @@ loadData();
 </script>
 </body>
 </html>
+
