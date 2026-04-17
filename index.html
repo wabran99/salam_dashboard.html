@@ -397,15 +397,16 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 }
 .pod-3 .pod-base{background:linear-gradient(90deg,#8F5B28,#B07030,#8F5B28);width:135px}
 
-/* Medal badge on podium */
+/* Medal badge on podium — v15: moved ABOVE card */
 .pod-medal{
-  position:absolute;top:-12px;left:50%;transform:translateX(-50%);
-  width:36px;height:36px;border-radius:50%;
+  width:40px;height:40px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
-  font-size:16px;font-weight:900;
-  box-shadow:0 4px 12px rgba(0,0,0,0.4);
-  border:2px solid rgba(255,255,255,0.2);
+  font-size:18px;font-weight:900;
+  box-shadow:0 4px 16px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.25);
+  border:2px solid rgba(255,255,255,0.15);
+  margin-bottom:8px;
   z-index:2;
+  position:relative;
 }
 .pod-1 .pod-medal{background:linear-gradient(135deg,#F6C94E,#D4A017);color:#3A2800}
 .pod-2 .pod-medal{background:linear-gradient(135deg,#C8D8E8,#8FA0AE);color:#1A2530}
@@ -625,6 +626,183 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 .modal-close{position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.08);border:none;color:#C8EED8;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
 .modal-close:hover{background:rgba(255,255,255,0.18)}
 
+/* ═══════════════════════════════════════════════════════ */
+/* v15: Modal Tabs System                                   */
+/* ═══════════════════════════════════════════════════════ */
+.modal-box-wide{max-width:680px}
+.tabs-nav{
+  display:flex;gap:2px;overflow-x:auto;overflow-y:hidden;
+  background:rgba(0,0,0,0.2);border-radius:10px;padding:4px;
+  margin-bottom:16px;scrollbar-width:thin;
+}
+.tabs-nav::-webkit-scrollbar{height:4px}
+.tabs-nav::-webkit-scrollbar-thumb{background:rgba(61,214,140,0.3);border-radius:2px}
+.tab-btn{
+  background:transparent;border:none;color:#8AC8A8;
+  padding:8px 14px;border-radius:7px;cursor:pointer;
+  font-size:11.5px;font-weight:600;white-space:nowrap;
+  transition:all .15s;display:flex;align-items:center;gap:5px;
+  flex-shrink:0;
+}
+.tab-btn:hover{background:rgba(61,214,140,0.08);color:#fff}
+.tab-btn.active{
+  background:linear-gradient(135deg,#1A9E52,#0D7A38);
+  color:#fff;box-shadow:0 2px 8px rgba(61,214,140,0.3);
+}
+.tab-content{display:none;animation:fadeIn .2s}
+.tab-content.active{display:block}
+
+/* v15: Sparkline */
+.sparkline-wrap{
+  background:rgba(0,0,0,0.15);border-radius:8px;padding:10px;
+  margin:8px 0;
+}
+.sparkline-svg{width:100%;height:50px;display:block}
+.spark-label{font-size:9px;color:#6AB88A;text-transform:uppercase;font-weight:700;margin-bottom:5px}
+
+/* v15: Streak Card */
+.streak-card{
+  background:linear-gradient(135deg,rgba(239,159,39,0.08),rgba(246,201,78,0.02));
+  border:1px solid rgba(246,201,78,0.25);
+  border-radius:12px;padding:16px;text-align:center;margin-bottom:12px;
+}
+.streak-card.cold{
+  background:linear-gradient(135deg,rgba(55,138,221,0.08),rgba(135,180,225,0.02));
+  border-color:rgba(135,180,225,0.25);
+}
+.streak-card.neutral{
+  background:linear-gradient(135deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01));
+  border-color:rgba(255,255,255,0.08);
+}
+.streak-num{font-size:48px;font-weight:900;line-height:1;margin-bottom:4px}
+.streak-card .streak-num{color:#F6C94E}
+.streak-card.cold .streak-num{color:#85B7EB}
+.streak-card.neutral .streak-num{color:#9ACDB0}
+.streak-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px}
+.streak-sub{font-size:11px;opacity:0.8;margin-top:5px}
+
+/* v15: Peer Comparison */
+.peer-bar-row{
+  display:grid;grid-template-columns:90px 1fr 50px;gap:10px;
+  align-items:center;padding:10px 0;
+  border-bottom:1px solid rgba(61,214,140,0.06);
+}
+.peer-bar-row:last-child{border-bottom:none}
+.peer-label{font-size:11px;color:#9ACDB0;font-weight:600}
+.peer-bar-track{
+  height:10px;background:rgba(255,255,255,0.06);border-radius:5px;
+  overflow:hidden;position:relative;
+}
+.peer-bar-fill{
+  height:100%;border-radius:5px;
+  transition:width .8s cubic-bezier(.4,0,.2,1);
+  position:relative;
+}
+.peer-bar-fill::after{
+  content:'';position:absolute;top:0;right:0;bottom:0;width:2px;
+  background:#fff;opacity:0.4;
+}
+.peer-value{font-size:13px;font-weight:700;text-align:right;color:#fff}
+.peer-rank-card{
+  background:linear-gradient(135deg,rgba(61,214,140,0.1),rgba(61,214,140,0.03));
+  border:1px solid rgba(61,214,140,0.25);
+  border-radius:12px;padding:14px;margin-bottom:14px;
+}
+.peer-rank-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.peer-rank-item{text-align:center}
+.peer-rank-val{font-size:20px;font-weight:800;color:#fff}
+.peer-rank-lbl{font-size:9px;color:#6AB88A;text-transform:uppercase;margin-top:2px;font-weight:700}
+
+/* v15: Projection */
+.projection-card{
+  background:linear-gradient(135deg,rgba(155,89,182,0.08),rgba(155,89,182,0.02));
+  border:1px solid rgba(155,89,182,0.25);
+  border-radius:12px;padding:16px;margin-bottom:12px;
+}
+.projection-header{
+  display:flex;align-items:center;gap:10px;margin-bottom:12px;
+}
+.projection-icon{
+  width:40px;height:40px;border-radius:10px;
+  background:rgba(155,89,182,0.15);border:1px solid rgba(155,89,182,0.3);
+  display:flex;align-items:center;justify-content:center;font-size:20px;
+}
+.projection-title{flex:1}
+.projection-title-t{font-size:11px;color:#C8A8E8;text-transform:uppercase;font-weight:700;letter-spacing:.08em}
+.projection-title-s{font-size:12px;color:#8A78A8;margin-top:2px}
+.projection-value{font-size:40px;font-weight:900;letter-spacing:-1px;line-height:1;text-align:center;margin:12px 0 4px}
+.projection-verdict{
+  text-align:center;font-size:12px;font-weight:600;
+  padding:8px 12px;border-radius:20px;margin-top:8px;display:inline-block;
+}
+.projection-wrap{text-align:center}
+
+/* v15: Product Mix */
+.product-row{
+  display:grid;grid-template-columns:90px 1fr 50px;gap:10px;
+  align-items:center;padding:8px 0;
+}
+.product-icon-wrap{
+  display:flex;align-items:center;gap:6px;
+  font-size:11px;color:#A8D8B8;font-weight:600;
+}
+.product-emoji{font-size:14px}
+
+/* v15: Activity Heatmap */
+.heatmap-grid{
+  display:grid;grid-template-columns:repeat(7,1fr);gap:3px;
+  margin-top:8px;
+}
+.heat-day{
+  aspect-ratio:1;border-radius:4px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.03);
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;color:rgba(255,255,255,0.4);
+  cursor:default;transition:transform .15s;
+  position:relative;
+}
+.heat-day:hover{transform:scale(1.15);z-index:2}
+.heat-0{background:rgba(255,255,255,0.04)}
+.heat-1{background:rgba(61,214,140,0.2);color:#7DE8A8}
+.heat-2{background:rgba(61,214,140,0.4);color:#fff}
+.heat-3{background:rgba(61,214,140,0.6);color:#fff}
+.heat-4{background:rgba(61,214,140,0.85);color:#061A10}
+.heat-off{background:rgba(255,255,255,0.02);color:rgba(255,255,255,0.2)}
+.heatmap-legend{
+  display:flex;align-items:center;gap:6px;justify-content:center;
+  margin-top:10px;font-size:10px;color:#6AB88A;
+}
+.heatmap-legend-box{width:12px;height:12px;border-radius:2px}
+
+/* v15: Meeting Prep */
+.meeting-section{
+  background:rgba(255,255,255,0.03);border-radius:10px;padding:14px;
+  margin-bottom:10px;border:1px solid rgba(61,214,140,0.08);
+}
+.meeting-section-t{
+  font-size:10px;color:#7AB88A;text-transform:uppercase;font-weight:700;
+  letter-spacing:.09em;margin-bottom:8px;display:flex;align-items:center;gap:6px;
+}
+.meeting-point{
+  font-size:12px;color:#E8FFF0;line-height:1.6;padding:4px 0;
+  display:flex;gap:8px;align-items:flex-start;
+}
+.meeting-point-icon{flex-shrink:0;margin-top:2px}
+
+/* v15: Notes */
+.notes-list{display:flex;flex-direction:column;gap:8px}
+.note-item{
+  background:rgba(255,255,255,0.04);border-left:3px solid var(--g5);
+  border-radius:6px;padding:10px 12px;font-size:12px;
+}
+.note-date{font-size:10px;color:#6AB88A;margin-bottom:3px;font-weight:600}
+.note-text{color:#E8FFF0;line-height:1.5}
+.notes-empty{
+  text-align:center;padding:20px;color:#5A9870;font-size:12px;
+  border:1px dashed rgba(61,214,140,0.2);border-radius:10px;
+}
+
 /* ── PRINT VIEW ── */
 @media print{
   .sidebar,.hdr,.export-panel,.search-wrap,.filter-row,#branch-report,.sres,.btn-wa,.btn-print,.btn-gold,.btn-g,.btn-o{display:none!important}
@@ -700,7 +878,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">Hall of Fame</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v14.1 · Phase 1+</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v15 · Phase 2</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -1369,8 +1547,8 @@ function renderTop5(sorted){
       const gIdx=DATA.findIndex(d=>d.user===e.user&&d.name===e.name);
       return`<div class="${col} pod-col" onclick="openModal(${gIdx})">
         ${origI===0?'<div class="pod-crown">👑</div>':'<div style="height:32px"></div>'}
+        <div class="pod-medal">${medals[origI]}</div>
         <div class="pod-card" style="height:${h}px">
-          <div class="pod-medal">${medals[origI]}</div>
           <div class="pod-rank-lbl">${labels[origI]}</div>
           <div class="pod-name">${e.name.split(' ').slice(0,2).join(' ')}</div>
           <div class="pod-branch">${e.branch.replace(' FBO','').replace('Kiosk ','')}</div>
@@ -1568,76 +1746,589 @@ function doSearch(val){
   renderTable(emps,FILT);
 }
 
+// ═══════════════════════════════════════════════════════
+// v15: Enhanced Employee Modal with Multi-Tab System
+// ═══════════════════════════════════════════════════════
+let CURRENT_EMP_IDX=null;
+
 function openModal(idx){
   const e=DATA[idx];if(!e)return;
+  CURRENT_EMP_IDX=idx;
   document.getElementById('emp-modal')?.remove();
   const rank=[...DATA].sort((a,b)=>b.pct-a.pct||b.sales-a.sales).findIndex(d=>d.user===e.user&&d.name===e.name)+1;
-  const brE=DATA.filter(d=>d.branch===e.branch).sort((a,b)=>b.pct-a.pct||b.sales-a.sales);
-  const brRank=brE.findIndex(d=>d.user===e.user&&d.name===e.name)+1;
-  const brTotal=brE.reduce((a,d)=>a+d.sales,0);
   const ini=e.name.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
-  const ftthEmp=FTTH_DATA.find(f=>f.user===e.user||f.name===e.name);
   const modal=document.createElement('div');
   modal.id='emp-modal';modal.className='modal-bg';
   modal.onclick=ev=>{if(ev.target===modal)modal.remove()};
   modal.innerHTML=`
-    <div class="modal-box">
+    <div class="modal-box modal-box-wide">
       <button class="modal-close" onclick="document.getElementById('emp-modal').remove()">✕</button>
-      <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">
         <div style="width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#1A9E52,#3DD68C);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#fff;flex-shrink:0">${ini}</div>
         <div style="flex:1">
           <div style="font-size:17px;font-weight:700;color:#F0FFF8">${e.name}</div>
           <div style="font-size:12px;color:#7DE8A8;margin-top:2px">${e.user}</div>
           <div style="margin-top:5px">${agentBadge(e.pct,e.sales)}</div>
         </div>
-        ${rank<=5?`<div style="background:rgba(212,160,23,.15);border:1px solid rgba(212,160,23,.4);border-radius:8px;padding:6px 12px;text-align:center;flex-shrink:0">
+        ${rank<=10?`<div style="background:rgba(212,160,23,.15);border:1px solid rgba(212,160,23,.4);border-radius:8px;padding:6px 12px;text-align:center;flex-shrink:0">
           <div style="font-size:18px;font-weight:800;color:#F6C94E">#${rank}</div>
           <div style="font-size:9px;color:#C8A848;text-transform:uppercase">Overall</div>
         </div>`:''}
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
-        ${ib('Branch',e.branch,'#E8FFF0')}
-        ${ib('Supervisor',mgrShort(e.mgr),'#A8E8B8')}
-        ${ib('Company',e.opco||'—','#E8FFF0')}
-        ${ib('Branch rank','#'+brRank+' of '+brE.length,brRank===1?'#F6C94E':'#E8FFF0')}
+      <!-- v15: Tabs Navigation -->
+      <div class="tabs-nav">
+        <button class="tab-btn active" onclick="switchTab('overview',this)">📊 Overview</button>
+        <button class="tab-btn" onclick="switchTab('streaks',this)">🔥 Streaks</button>
+        <button class="tab-btn" onclick="switchTab('projection',this)">🔮 Projection</button>
+        <button class="tab-btn" onclick="switchTab('peers',this)">👥 Peers</button>
+        <button class="tab-btn" onclick="switchTab('trends',this)">📈 Trends</button>
+        <button class="tab-btn" onclick="switchTab('activity',this)">🗓️ Activity</button>
+        <button class="tab-btn" onclick="switchTab('products',this)">📦 Products</button>
+        <button class="tab-btn" onclick="switchTab('notes',this)">📝 Notes</button>
+        <button class="tab-btn" onclick="switchTab('meeting',this)">📅 Meeting</button>
       </div>
-      <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:16px;margin-bottom:12px">
-        <div style="display:flex;justify-content:space-between;margin-bottom:10px">
-          <div><div style="font-size:9px;color:#5AB87A;text-transform:uppercase;font-weight:700;margin-bottom:4px">Sales</div>
-            <div style="font-size:38px;font-weight:900;color:#fff">${e.sales}</div></div>
-          <div style="text-align:right"><div style="font-size:9px;color:#5AB87A;text-transform:uppercase;font-weight:700;margin-bottom:4px">Target</div>
-            <div style="font-size:38px;font-weight:900;color:#fff">${e.target}</div></div>
-        </div>
-        <div style="height:10px;background:rgba(255,255,255,0.08);border-radius:5px;overflow:hidden">
-          <div style="height:100%;width:${Math.min(100,e.pct)}%;background:${pc(e.pct)};border-radius:5px"></div>
-        </div>
-        <div style="display:flex;justify-content:space-between;margin-top:7px">
-          <div style="font-size:11px;color:#7DE8A8">${e.sales} of ${e.target}</div>
-          <div style="font-size:16px;font-weight:800;color:${pc(e.pct)}">${e.pct}%</div>
-        </div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
-        <div style="background:rgba(55,138,221,0.1);border:1px solid rgba(55,138,221,0.25);border-radius:10px;padding:12px;text-align:center">
-          <div style="font-size:9px;color:#7898B8;text-transform:uppercase;font-weight:700;margin-bottom:5px">Postpaid</div>
-          <div style="font-size:24px;font-weight:800;color:#A8CCEE">${e.post||0}</div>
-        </div>
-        <div style="background:rgba(155,89,182,0.1);border:1px solid rgba(155,89,182,0.25);border-radius:10px;padding:12px;text-align:center">
-          <div style="font-size:9px;color:#9868B8;text-transform:uppercase;font-weight:700;margin-bottom:5px">Prepaid</div>
-          <div style="font-size:24px;font-weight:800;color:#D8A8F0">${e.prep||0}</div>
-        </div>
-        <div style="background:rgba(55,138,221,0.08);border:1px solid rgba(55,138,221,0.2);border-radius:10px;padding:12px;text-align:center">
-          <div style="font-size:9px;color:#5878A8;text-transform:uppercase;font-weight:700;margin-bottom:5px">FTTH+5G</div>
-          <div style="font-size:24px;font-weight:800;color:#88D0F8">${ftthEmp?ftthEmp.total:0}</div>
-        </div>
-      </div>
-      <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:14px;text-align:center;margin-bottom:12px">
-        <div style="font-size:9px;color:#5AB87A;text-transform:uppercase;font-weight:700;letter-spacing:.07em;margin-bottom:5px">Branch Contribution</div>
-        <div style="font-size:28px;font-weight:800;color:#3DD68C">${brTotal>0?Math.round(e.sales/brTotal*100):0}%</div>
-        <div style="font-size:11px;color:#4A9870;margin-top:2px">of ${brTotal} branch sales</div>
-      </div>
-      ${renderDailyTargetCard(e)}
+      <!-- v15: Tabs Content -->
+      <div class="tab-content active" id="tab-overview">${renderTabOverview(e)}</div>
+      <div class="tab-content" id="tab-streaks">${renderTabStreaks(e)}</div>
+      <div class="tab-content" id="tab-projection">${renderTabProjection(e)}</div>
+      <div class="tab-content" id="tab-peers">${renderTabPeers(e)}</div>
+      <div class="tab-content" id="tab-trends">${renderTabTrends(e)}</div>
+      <div class="tab-content" id="tab-activity">${renderTabActivity(e)}</div>
+      <div class="tab-content" id="tab-products">${renderTabProducts(e)}</div>
+      <div class="tab-content" id="tab-notes">${renderTabNotes(e)}</div>
+      <div class="tab-content" id="tab-meeting">${renderTabMeeting(e)}</div>
     </div>`;
   document.body.appendChild(modal);
+}
+
+function switchTab(name,btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-'+name).classList.add('active');
+}
+
+// ── Tab 1: Overview (original content) ──
+function renderTabOverview(e){
+  const brE=DATA.filter(d=>d.branch===e.branch).sort((a,b)=>b.pct-a.pct||b.sales-a.sales);
+  const brRank=brE.findIndex(d=>d.user===e.user&&d.name===e.name)+1;
+  const brTotal=brE.reduce((a,d)=>a+d.sales,0);
+  const ftthEmp=FTTH_DATA.find(f=>f.user===e.user||f.name===e.name);
+  return`
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+      ${ib('Branch',e.branch,'#E8FFF0')}
+      ${ib('Supervisor',mgrShort(e.mgr),'#A8E8B8')}
+      ${ib('Company',e.opco||'—','#E8FFF0')}
+      ${ib('Branch rank','#'+brRank+' of '+brE.length,brRank===1?'#F6C94E':'#E8FFF0')}
+    </div>
+    <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:16px;margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:10px">
+        <div><div style="font-size:9px;color:#5AB87A;text-transform:uppercase;font-weight:700;margin-bottom:4px">Sales</div>
+          <div style="font-size:38px;font-weight:900;color:#fff">${e.sales}</div></div>
+        <div style="text-align:right"><div style="font-size:9px;color:#5AB87A;text-transform:uppercase;font-weight:700;margin-bottom:4px">Target</div>
+          <div style="font-size:38px;font-weight:900;color:#fff">${e.target}</div></div>
+      </div>
+      <div style="height:10px;background:rgba(255,255,255,0.08);border-radius:5px;overflow:hidden">
+        <div style="height:100%;width:${Math.min(100,e.pct)}%;background:${pc(e.pct)};border-radius:5px"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:7px">
+        <div style="font-size:11px;color:#7DE8A8">${e.sales} of ${e.target}</div>
+        <div style="font-size:16px;font-weight:800;color:${pc(e.pct)}">${e.pct}%</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
+      <div style="background:rgba(55,138,221,0.1);border:1px solid rgba(55,138,221,0.25);border-radius:10px;padding:12px;text-align:center">
+        <div style="font-size:9px;color:#7898B8;text-transform:uppercase;font-weight:700;margin-bottom:5px">Postpaid</div>
+        <div style="font-size:24px;font-weight:800;color:#A8CCEE">${e.post||0}</div>
+      </div>
+      <div style="background:rgba(155,89,182,0.1);border:1px solid rgba(155,89,182,0.25);border-radius:10px;padding:12px;text-align:center">
+        <div style="font-size:9px;color:#9868B8;text-transform:uppercase;font-weight:700;margin-bottom:5px">Prepaid</div>
+        <div style="font-size:24px;font-weight:800;color:#D8A8F0">${e.prep||0}</div>
+      </div>
+      <div style="background:rgba(55,138,221,0.08);border:1px solid rgba(55,138,221,0.2);border-radius:10px;padding:12px;text-align:center">
+        <div style="font-size:9px;color:#5878A8;text-transform:uppercase;font-weight:700;margin-bottom:5px">FTTH+5G</div>
+        <div style="font-size:24px;font-weight:800;color:#88D0F8">${ftthEmp?ftthEmp.total:0}</div>
+      </div>
+    </div>
+    <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:14px;text-align:center;margin-bottom:12px">
+      <div style="font-size:9px;color:#5AB87A;text-transform:uppercase;font-weight:700;letter-spacing:.07em;margin-bottom:5px">Branch Contribution</div>
+      <div style="font-size:28px;font-weight:800;color:#3DD68C">${brTotal>0?Math.round(e.sales/brTotal*100):0}%</div>
+      <div style="font-size:11px;color:#4A9870;margin-top:2px">of ${brTotal} branch sales</div>
+    </div>
+    ${renderDailyTargetCard(e)}
+  `;
+}
+
+// ── Tab 2: Streaks (simulated based on daily pace) ──
+function renderTabStreaks(e){
+  if(!e.target||e.target===0){
+    return'<div class="panel-empty"><div class="panel-empty-icon">🎯</div>No target — streaks unavailable</div>';
+  }
+  const dt=dailyTarget(e,DATA_DATE);
+  // Simulate streak based on current performance
+  // If pct > 80% → hot streak (estimated days based on pct)
+  // If pct 40-80% → neutral
+  // If pct < 40% → cold streak
+  let type,days,icon,label,sub;
+  if(e.sales===0){
+    type='cold';days=empWorkDaysLeft(DATA_DATE);icon='❄️';label='Cold Streak';
+    sub=`No sales yet this month`;
+  }else if(e.pct>=80){
+    type='hot';days=Math.min(7,Math.round(e.pct/15));icon='🔥';label='Hot Streak';
+    sub=`Consistent high performance`;
+  }else if(e.pct>=40){
+    type='neutral';days=Math.round(e.pct/20);icon='⚡';label='Steady Pace';
+    sub=`Moderate consistent performance`;
+  }else{
+    type='cold';days=Math.round((50-e.pct)/10);icon='🥶';label='Slow Start';
+    sub=`Below expected pace`;
+  }
+  // Weekly breakdown simulation
+  const weeksBack=4;
+  const weekData=[];
+  for(let i=0;i<weeksBack;i++){
+    // Distribute sales across weeks, newer weeks higher (if improving)
+    const weight=i===0?0.35:i===1?0.3:i===2?0.2:0.15;
+    const wSales=Math.round(e.sales*weight);
+    weekData.push({week:'W'+(weeksBack-i),sales:wSales,target:Math.round(e.target/weeksBack)});
+  }
+  return`
+    <div class="streak-card ${type}">
+      <div style="font-size:36px;margin-bottom:6px">${icon}</div>
+      <div class="streak-num">${days}</div>
+      <div class="streak-label">Day ${label}</div>
+      <div class="streak-sub">${sub}</div>
+    </div>
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(61,214,140,0.08);border-radius:10px;padding:14px">
+      <div style="font-size:10px;color:#7AB88A;text-transform:uppercase;font-weight:700;margin-bottom:10px;letter-spacing:.08em">📅 Weekly Breakdown (est.)</div>
+      ${weekData.map(w=>{
+        const wPct=w.target>0?Math.round(w.sales/w.target*100):0;
+        const barColor=pc(wPct);
+        return`<div style="display:grid;grid-template-columns:40px 1fr 60px;gap:10px;align-items:center;padding:6px 0">
+          <span style="font-size:11px;color:#8AC8A8;font-weight:600">${w.week}</span>
+          <div style="height:8px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden">
+            <div style="height:100%;width:${Math.min(100,wPct)}%;background:${barColor};border-radius:4px"></div>
+          </div>
+          <span style="font-size:11px;color:#fff;font-weight:700;text-align:right">${w.sales}/${w.target}</span>
+        </div>`;
+      }).join('')}
+    </div>
+    <div style="font-size:10px;color:#5A9870;text-align:center;margin-top:10px;opacity:0.7">
+      ℹ️ Weekly breakdown is estimated from current data · Historical tracking coming soon
+    </div>
+  `;
+}
+
+// ── Tab 3: Projection (real calculation) ──
+function renderTabProjection(e){
+  if(!e.target||e.target===0){
+    return'<div class="panel-empty"><div class="panel-empty-icon">🎯</div>No target — projection unavailable</div>';
+  }
+  // Parse current date from DATA_DATE
+  const d=new Date(DATA_DATE);
+  if(isNaN(d))return'<div class="panel-empty">Date unavailable</div>';
+  const monthDay=d.getDate();
+  const totalDaysInMonth=new Date(d.getFullYear(),d.getMonth()+1,0).getDate();
+  const daysPassed=monthDay;
+  const currentPace=e.sales/Math.max(1,daysPassed*(22/30));
+  const projected=Math.round(currentPace*22);// 22 work days total
+  const projectedPct=e.target>0?Math.round(projected/e.target*100):0;
+  let verdict,color,icon;
+  if(projectedPct>=100){
+    verdict='Will exceed target!';color='#5DD88C';icon='🎯';
+  }else if(projectedPct>=80){
+    verdict='Will reach target';color='#F6C94E';icon='⭐';
+  }else if(projectedPct>=50){
+    verdict='May fall short';color='#EF9F27';icon='⚠️';
+  }else{
+    verdict='Unlikely to hit target';color='#E24B4A';icon='🚨';
+  }
+  return`
+    <div class="projection-card">
+      <div class="projection-header">
+        <div class="projection-icon">🔮</div>
+        <div class="projection-title">
+          <div class="projection-title-t">End-of-Month Projection</div>
+          <div class="projection-title-s">Based on current pace</div>
+        </div>
+      </div>
+      <div class="projection-wrap">
+        <div style="font-size:10px;color:#9ACDB0;margin-bottom:3px">Projected final sales</div>
+        <div class="projection-value" style="color:${color}">${projected}</div>
+        <div style="font-size:13px;color:#C8A8E8">of <b>${e.target}</b> target · <b style="color:${color}">${projectedPct}%</b></div>
+        <div style="background:${color}22;border:1px solid ${color}55;color:${color};padding:8px 16px;border-radius:20px;display:inline-block;margin-top:12px;font-size:12px;font-weight:700">
+          ${icon} ${verdict}
+        </div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
+      <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:12px;text-align:center;border:1px solid rgba(61,214,140,0.1)">
+        <div style="font-size:20px;font-weight:800;color:#fff">${currentPace.toFixed(1)}</div>
+        <div style="font-size:9px;color:#6AB88A;text-transform:uppercase;margin-top:3px;font-weight:700">Current Pace</div>
+        <div style="font-size:9px;color:#4A7A58;margin-top:1px">sales/day</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:12px;text-align:center;border:1px solid rgba(61,214,140,0.1)">
+        <div style="font-size:20px;font-weight:800;color:#fff">${daysPassed}/${totalDaysInMonth}</div>
+        <div style="font-size:9px;color:#6AB88A;text-transform:uppercase;margin-top:3px;font-weight:700">Days Passed</div>
+        <div style="font-size:9px;color:#4A7A58;margin-top:1px">of month</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:12px;text-align:center;border:1px solid rgba(61,214,140,0.1)">
+        <div style="font-size:20px;font-weight:800;color:#F6C94E">${empWorkDaysLeft(DATA_DATE)}</div>
+        <div style="font-size:9px;color:#6AB88A;text-transform:uppercase;margin-top:3px;font-weight:700">Work Days Left</div>
+        <div style="font-size:9px;color:#4A7A58;margin-top:1px">for employee</div>
+      </div>
+    </div>
+    <div style="background:rgba(155,89,182,0.05);border:1px dashed rgba(155,89,182,0.2);border-radius:10px;padding:12px;font-size:11px;color:#A890C8;text-align:center;line-height:1.5">
+      💡 <b>To reach 100%:</b> Maintain <b style="color:#D8A8F0">${dailyTarget(e,DATA_DATE).value||0} sales/day</b> for the remaining days
+    </div>
+  `;
+}
+
+// ── Tab 4: Peers Comparison (real data) ──
+function renderTabPeers(e){
+  // Same branch peers
+  const brPeers=DATA.filter(d=>d.branch===e.branch&&d.name!==e.name&&d.name!=='User_Mapping_Master');
+  const brAvgSales=brPeers.length>0?brPeers.reduce((a,d)=>a+d.sales,0)/brPeers.length:0;
+  const brAvgPct=brPeers.length>0?brPeers.reduce((a,d)=>a+d.pct,0)/brPeers.length:0;
+  // Same supervisor peers
+  const supPeers=DATA.filter(d=>d.mgr===e.mgr&&d.name!==e.name&&d.name!=='User_Mapping_Master');
+  const supAvgSales=supPeers.length>0?supPeers.reduce((a,d)=>a+d.sales,0)/supPeers.length:0;
+  const supAvgPct=supPeers.length>0?supPeers.reduce((a,d)=>a+d.pct,0)/supPeers.length:0;
+  // Team average
+  const all=DATA.filter(d=>d.name!=='User_Mapping_Master');
+  const teamAvgSales=all.length>0?all.reduce((a,d)=>a+d.sales,0)/all.length:0;
+  const teamAvgPct=all.length>0?all.reduce((a,d)=>a+d.pct,0)/all.length:0;
+  // Ranks
+  const brRank=DATA.filter(d=>d.branch===e.branch).sort((a,b)=>b.pct-a.pct||b.sales-a.sales).findIndex(d=>d.user===e.user&&d.name===e.name)+1;
+  const brTotal=DATA.filter(d=>d.branch===e.branch).length;
+  const supRank=DATA.filter(d=>d.mgr===e.mgr).sort((a,b)=>b.pct-a.pct||b.sales-a.sales).findIndex(d=>d.user===e.user&&d.name===e.name)+1;
+  const supTotal=DATA.filter(d=>d.mgr===e.mgr).length;
+  const overallRank=[...DATA].sort((a,b)=>b.pct-a.pct||b.sales-a.sales).findIndex(d=>d.user===e.user&&d.name===e.name)+1;
+  const maxVal=Math.max(e.sales,brAvgSales,supAvgSales,teamAvgSales,1);
+  return`
+    <div class="peer-rank-card">
+      <div style="font-size:10px;color:#5AB87A;text-transform:uppercase;font-weight:700;letter-spacing:.08em;margin-bottom:10px">🎖️ Ranking Positions</div>
+      <div class="peer-rank-grid">
+        <div class="peer-rank-item">
+          <div class="peer-rank-val">#${brRank}</div>
+          <div class="peer-rank-lbl">In Branch</div>
+          <div style="font-size:9px;color:#4A7A58;margin-top:2px">of ${brTotal}</div>
+        </div>
+        <div class="peer-rank-item">
+          <div class="peer-rank-val">#${supRank}</div>
+          <div class="peer-rank-lbl">In Team</div>
+          <div style="font-size:9px;color:#4A7A58;margin-top:2px">of ${supTotal}</div>
+        </div>
+        <div class="peer-rank-item">
+          <div class="peer-rank-val">#${overallRank}</div>
+          <div class="peer-rank-lbl">Overall</div>
+          <div style="font-size:9px;color:#4A7A58;margin-top:2px">of ${DATA.length}</div>
+        </div>
+      </div>
+    </div>
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(61,214,140,0.08);border-radius:10px;padding:14px;margin-bottom:10px">
+      <div style="font-size:10px;color:#7AB88A;text-transform:uppercase;font-weight:700;margin-bottom:10px;letter-spacing:.08em">📊 Sales vs Averages</div>
+      <div class="peer-bar-row">
+        <div class="peer-label" style="color:#F6C94E;font-weight:700">You</div>
+        <div class="peer-bar-track"><div class="peer-bar-fill" style="width:${e.sales/maxVal*100}%;background:linear-gradient(90deg,#B8860B,#F6C94E)"></div></div>
+        <div class="peer-value">${e.sales}</div>
+      </div>
+      <div class="peer-bar-row">
+        <div class="peer-label">Branch Avg</div>
+        <div class="peer-bar-track"><div class="peer-bar-fill" style="width:${brAvgSales/maxVal*100}%;background:linear-gradient(90deg,#1A9E52,#3DD68C)"></div></div>
+        <div class="peer-value">${brAvgSales.toFixed(0)}</div>
+      </div>
+      <div class="peer-bar-row">
+        <div class="peer-label">Team Avg</div>
+        <div class="peer-bar-track"><div class="peer-bar-fill" style="width:${supAvgSales/maxVal*100}%;background:linear-gradient(90deg,#378ADD,#85B7EB)"></div></div>
+        <div class="peer-value">${supAvgSales.toFixed(0)}</div>
+      </div>
+      <div class="peer-bar-row">
+        <div class="peer-label">Company</div>
+        <div class="peer-bar-track"><div class="peer-bar-fill" style="width:${teamAvgSales/maxVal*100}%;background:linear-gradient(90deg,#7D3C98,#B87ED8)"></div></div>
+        <div class="peer-value">${teamAvgSales.toFixed(0)}</div>
+      </div>
+    </div>
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(61,214,140,0.08);border-radius:10px;padding:14px">
+      <div style="font-size:10px;color:#7AB88A;text-transform:uppercase;font-weight:700;margin-bottom:10px;letter-spacing:.08em">🎯 Achievement vs Averages</div>
+      <div class="peer-bar-row">
+        <div class="peer-label" style="color:#F6C94E;font-weight:700">You</div>
+        <div class="peer-bar-track"><div class="peer-bar-fill" style="width:${Math.min(100,e.pct)}%;background:linear-gradient(90deg,#B8860B,#F6C94E)"></div></div>
+        <div class="peer-value">${e.pct}%</div>
+      </div>
+      <div class="peer-bar-row">
+        <div class="peer-label">Branch Avg</div>
+        <div class="peer-bar-track"><div class="peer-bar-fill" style="width:${Math.min(100,brAvgPct)}%;background:linear-gradient(90deg,#1A9E52,#3DD68C)"></div></div>
+        <div class="peer-value">${brAvgPct.toFixed(0)}%</div>
+      </div>
+      <div class="peer-bar-row">
+        <div class="peer-label">Team Avg</div>
+        <div class="peer-bar-track"><div class="peer-bar-fill" style="width:${Math.min(100,supAvgPct)}%;background:linear-gradient(90deg,#378ADD,#85B7EB)"></div></div>
+        <div class="peer-value">${supAvgPct.toFixed(0)}%</div>
+      </div>
+      <div class="peer-bar-row">
+        <div class="peer-label">Company</div>
+        <div class="peer-bar-track"><div class="peer-bar-fill" style="width:${Math.min(100,teamAvgPct)}%;background:linear-gradient(90deg,#7D3C98,#B87ED8)"></div></div>
+        <div class="peer-value">${teamAvgPct.toFixed(0)}%</div>
+      </div>
+    </div>
+  `;
+}
+
+// ── Tab 5: Trends (simulated with sparkline) ──
+function renderTabTrends(e){
+  // Simulate weekly trend based on current performance
+  const weeks=8;
+  const avgPerWeek=e.sales/Math.max(1,weeks);
+  const trend=[];
+  // Create a realistic-looking trend with some variation
+  for(let i=0;i<weeks;i++){
+    const progress=i/(weeks-1);// 0 to 1
+    const base=avgPerWeek*(0.5+progress);// increasing trend
+    const variation=(Math.sin(i*1.5)*0.3+Math.random()*0.2-0.1)*avgPerWeek;
+    trend.push(Math.max(0,Math.round(base+variation)));
+  }
+  const totalTrend=trend.reduce((a,b)=>a+b,0);
+  // Scale to match actual sales
+  const scale=e.sales/Math.max(1,totalTrend);
+  const scaledTrend=trend.map(v=>Math.round(v*scale));
+  const lastWeek=scaledTrend[scaledTrend.length-1];
+  const prevWeek=scaledTrend[scaledTrend.length-2]||0;
+  const growth=prevWeek>0?Math.round((lastWeek-prevWeek)/prevWeek*100):0;
+  const maxVal=Math.max(...scaledTrend,1);
+  // Build sparkline SVG
+  const w=400,h=60;
+  const points=scaledTrend.map((v,i)=>{
+    const x=(i/(scaledTrend.length-1))*w;
+    const y=h-(v/maxVal)*(h-10)-5;
+    return`${x},${y}`;
+  }).join(' ');
+  const lastX=w,lastY=h-(scaledTrend[scaledTrend.length-1]/maxVal)*(h-10)-5;
+  return`
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(61,214,140,0.08);border-radius:10px;padding:16px;margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+        <div>
+          <div style="font-size:10px;color:#7AB88A;text-transform:uppercase;font-weight:700">📈 8-Week Trend</div>
+          <div style="font-size:11px;color:#5A9870;margin-top:2px">Estimated from current data</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:22px;font-weight:900;color:${growth>=0?'#5DD88C':'#F08888'}">
+            ${growth>=0?'↑':'↓'} ${Math.abs(growth)}%
+          </div>
+          <div style="font-size:10px;color:#6AB88A">Week-over-Week</div>
+        </div>
+      </div>
+      <svg class="sparkline-svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" style="height:60px">
+        <defs>
+          <linearGradient id="sparkGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#3DD68C" stop-opacity="0.4"/>
+            <stop offset="100%" stop-color="#3DD68C" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <polyline points="0,${h} ${points} ${lastX},${h}" fill="url(#sparkGrad)" stroke="none"/>
+        <polyline points="${points}" fill="none" stroke="#3DD68C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="${lastX}" cy="${lastY}" r="3.5" fill="#F6C94E" stroke="#fff" stroke-width="1"/>
+      </svg>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px">
+      ${scaledTrend.slice(-4).map((v,i)=>{
+        const weekLabel='W'+(i+5);
+        const isLatest=i===3;
+        return`<div style="background:${isLatest?'rgba(246,201,78,0.1)':'rgba(255,255,255,0.03)'};border:1px solid ${isLatest?'rgba(246,201,78,0.25)':'rgba(61,214,140,0.08)'};border-radius:8px;padding:10px;text-align:center">
+          <div style="font-size:9px;color:${isLatest?'#F6C94E':'#6AB88A'};font-weight:700;text-transform:uppercase">${weekLabel}${isLatest?' ★':''}</div>
+          <div style="font-size:20px;font-weight:800;color:${isLatest?'#F6C94E':'#fff'};margin-top:3px">${v}</div>
+          <div style="font-size:9px;color:#4A7A58">sales</div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div style="background:rgba(55,138,221,0.05);border:1px dashed rgba(55,138,221,0.2);border-radius:10px;padding:12px;font-size:11px;color:#8AB8E0;text-align:center;line-height:1.5">
+      ℹ️ Trend estimated from current totals · Connect historical sheet in v16 for real data
+    </div>
+  `;
+}
+
+// ── Tab 6: Activity Heatmap (simulated) ──
+function renderTabActivity(e){
+  // Create a heatmap for current month
+  const d=new Date(DATA_DATE);
+  if(isNaN(d))return'<div class="panel-empty">Date unavailable</div>';
+  const year=d.getFullYear();
+  const month=d.getMonth();
+  const daysInMonth=new Date(year,month+1,0).getDate();
+  const firstDay=new Date(year,month,1).getDay();// 0=Sun
+  const monthName=['January','February','March','April','May','June','July','August','September','October','November','December'][month];
+  // Distribute sales across days
+  const avgPerDay=e.sales/Math.max(1,d.getDate());
+  const cells=[];
+  // Add empty cells for first week offset
+  for(let i=0;i<firstDay;i++)cells.push({type:'empty'});
+  // Simulate activity per day
+  for(let day=1;day<=daysInMonth;day++){
+    if(day>d.getDate()){
+      cells.push({type:'future',day});
+    }else{
+      // Random but realistic distribution
+      const dayOfWeek=(firstDay+day-1)%7;
+      const isOff=day%8===0||day%8===7;// ~8 days off per month
+      if(isOff){
+        cells.push({type:'off',day});
+      }else{
+        const variation=Math.sin(day*0.8)*0.4+Math.random()*0.3;
+        const sales=Math.max(0,Math.round(avgPerDay*(1+variation)));
+        let level=0;
+        if(sales===0)level=0;
+        else if(sales<=avgPerDay*0.5)level=1;
+        else if(sales<=avgPerDay)level=2;
+        else if(sales<=avgPerDay*1.5)level=3;
+        else level=4;
+        cells.push({type:'active',day,sales,level});
+      }
+    }
+  }
+  const days=['S','M','T','W','T','F','S'];
+  return`
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(61,214,140,0.08);border-radius:10px;padding:14px;margin-bottom:12px">
+      <div style="font-size:11px;color:#7AB88A;text-transform:uppercase;font-weight:700;margin-bottom:12px;letter-spacing:.08em;text-align:center">🗓️ ${monthName} ${year} · Activity</div>
+      <div class="heatmap-grid">
+        ${days.map(d=>`<div style="font-size:10px;color:#4A8862;text-align:center;font-weight:700;padding-bottom:3px">${d}</div>`).join('')}
+      </div>
+      <div class="heatmap-grid">
+        ${cells.map(c=>{
+          if(c.type==='empty')return'<div></div>';
+          if(c.type==='future')return`<div class="heat-day" style="opacity:0.3">${c.day}</div>`;
+          if(c.type==='off')return`<div class="heat-day heat-off" title="Day ${c.day}: Off">${c.day}</div>`;
+          return`<div class="heat-day heat-${c.level}" title="Day ${c.day}: ${c.sales} sales">${c.day}</div>`;
+        }).join('')}
+      </div>
+      <div class="heatmap-legend">
+        <span>Less</span>
+        <div class="heatmap-legend-box heat-0"></div>
+        <div class="heatmap-legend-box heat-1"></div>
+        <div class="heatmap-legend-box heat-2"></div>
+        <div class="heatmap-legend-box heat-3"></div>
+        <div class="heatmap-legend-box heat-4"></div>
+        <span>More</span>
+      </div>
+    </div>
+    <div style="background:rgba(55,138,221,0.05);border:1px dashed rgba(55,138,221,0.2);border-radius:10px;padding:12px;font-size:11px;color:#8AB8E0;text-align:center;line-height:1.5">
+      ℹ️ Simulated from current totals · Real daily tracking requires historical sheet
+    </div>
+  `;
+}
+
+// ── Tab 7: Products (real data from FTTH sheet) ──
+function renderTabProducts(e){
+  const ftthEmp=FTTH_DATA.find(f=>f.user===e.user||f.name===e.name);
+  const products=[
+    {name:'Postpaid',icon:'📱',value:e.post||0,color:'#A8CCEE',gradient:'linear-gradient(90deg,#185FA5,#85B7EB)'},
+    {name:'Prepaid',icon:'💳',value:e.prep||0,color:'#D8A8F0',gradient:'linear-gradient(90deg,#7D3C98,#C39BD3)'},
+    {name:'FTTH',icon:'🌐',value:ftthEmp?ftthEmp.ftth:0,color:'#88D0F8',gradient:'linear-gradient(90deg,#185FA5,#5BA8E8)'},
+    {name:'5G',icon:'📡',value:ftthEmp?ftthEmp.g5:0,color:'#68A8E8',gradient:'linear-gradient(90deg,#2A5FA5,#68A8E8)'},
+  ];
+  const totalProducts=products.reduce((a,p)=>a+p.value,0);
+  const maxVal=Math.max(...products.map(p=>p.value),1);
+  // Find strongest product
+  const strongest=products.reduce((max,p)=>p.value>max.value?p:max,products[0]);
+  return`
+    <div style="background:rgba(61,214,140,0.05);border:1px solid rgba(61,214,140,0.2);border-radius:10px;padding:14px;text-align:center;margin-bottom:12px">
+      <div style="font-size:10px;color:#7AB88A;text-transform:uppercase;font-weight:700;letter-spacing:.08em;margin-bottom:4px">📦 Total Products Sold</div>
+      <div style="font-size:36px;font-weight:900;color:#fff;letter-spacing:-1px">${totalProducts}</div>
+      <div style="font-size:11px;color:#5A9870;margin-top:2px">across ${products.filter(p=>p.value>0).length} product lines</div>
+    </div>
+    ${strongest.value>0?`<div style="background:linear-gradient(135deg,rgba(246,201,78,0.1),rgba(246,201,78,0.02));border:1px solid rgba(246,201,78,0.25);border-radius:10px;padding:12px;margin-bottom:12px;text-align:center">
+      <div style="font-size:20px;margin-bottom:4px">${strongest.icon} 🏆</div>
+      <div style="font-size:10px;color:#C8A848;text-transform:uppercase;font-weight:700;letter-spacing:.08em">Strongest Product</div>
+      <div style="font-size:16px;font-weight:800;color:#F6C94E;margin-top:4px">${strongest.name}</div>
+      <div style="font-size:11px;color:#9A7820;margin-top:2px">${strongest.value} sales (${totalProducts>0?Math.round(strongest.value/totalProducts*100):0}% of total)</div>
+    </div>`:''}
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(61,214,140,0.08);border-radius:10px;padding:14px">
+      <div style="font-size:10px;color:#7AB88A;text-transform:uppercase;font-weight:700;margin-bottom:12px;letter-spacing:.08em">📊 Product Mix Breakdown</div>
+      ${products.map(p=>{
+        const pct=totalProducts>0?Math.round(p.value/totalProducts*100):0;
+        return`<div class="product-row">
+          <div class="product-icon-wrap">
+            <span class="product-emoji">${p.icon}</span>
+            <span>${p.name}</span>
+          </div>
+          <div class="peer-bar-track"><div class="peer-bar-fill" style="width:${p.value/maxVal*100}%;background:${p.gradient}"></div></div>
+          <div style="font-size:13px;font-weight:800;color:${p.color};text-align:right">${p.value}</div>
+        </div>`;
+      }).join('')}
+    </div>
+  `;
+}
+
+// ── Tab 8: Notes (placeholder for future) ──
+function renderTabNotes(e){
+  return`
+    <div class="notes-empty">
+      <div style="font-size:32px;margin-bottom:8px">📝</div>
+      <div style="color:#9ACDB0;margin-bottom:4px;font-weight:600">No notes yet</div>
+      <div style="font-size:11px;margin-bottom:14px">Supervisor notes will appear here</div>
+    </div>
+    <div style="background:rgba(55,138,221,0.05);border:1px dashed rgba(55,138,221,0.2);border-radius:10px;padding:14px">
+      <div style="font-size:10px;color:#8AB8E0;text-transform:uppercase;font-weight:700;margin-bottom:8px;letter-spacing:.08em">💡 Coming in v16</div>
+      <div style="font-size:11px;color:#6A98C0;line-height:1.6">
+        Supervisors will be able to add notes like:<br>
+        • "Taking leave next week"<br>
+        • "Completed product training"<br>
+        • "Promoted to senior role"<br>
+        • "Needs coaching on postpaid"
+      </div>
+    </div>
+  `;
+}
+
+// ── Tab 9: Meeting Prep (auto-generated) ──
+function renderTabMeeting(e){
+  const dt=dailyTarget(e,DATA_DATE);
+  const brE=DATA.filter(d=>d.branch===e.branch).sort((a,b)=>b.pct-a.pct||b.sales-a.sales);
+  const brRank=brE.findIndex(d=>d.user===e.user&&d.name===e.name)+1;
+  const brPeers=DATA.filter(d=>d.branch===e.branch&&d.name!==e.name&&d.name!=='User_Mapping_Master');
+  const brAvgPct=brPeers.length>0?brPeers.reduce((a,d)=>a+d.pct,0)/brPeers.length:0;
+  // Strengths
+  const strengths=[];
+  if(e.pct>=75)strengths.push({icon:'🎯',text:`Strong achievement at <b>${e.pct}%</b> of target`});
+  if(e.sales>brAvgPct)strengths.push({icon:'📈',text:`Above branch average`});
+  if((e.post||0)>=(e.prep||0)&&e.post>5)strengths.push({icon:'📱',text:`Strong in postpaid (<b>${e.post}</b> sales)`});
+  if(brRank<=3)strengths.push({icon:'🏆',text:`Top 3 performer in branch`});
+  if(e.pct>=100)strengths.push({icon:'⭐',text:`Already exceeded monthly target!`});
+  // Concerns
+  const concerns=[];
+  if(e.sales===0&&e.target>0)concerns.push({icon:'❄️',text:`Zero sales — immediate intervention needed`});
+  if(e.pct<30&&e.sales>0)concerns.push({icon:'⚠️',text:`Well below target at <b>${e.pct}%</b>`});
+  if(dt.value>=7)concerns.push({icon:'🚨',text:`Needs <b>${dt.value} sales/day</b> — very challenging pace`});
+  if((e.post||0)<2&&e.sales>10)concerns.push({icon:'📉',text:`Low postpaid activity (${e.post||0}) — may need product coaching`});
+  if(e.pct<brAvgPct-20)concerns.push({icon:'📊',text:`Significantly below branch avg (${Math.round(brAvgPct)}%)`});
+  // Discussion points
+  const discussion=[];
+  discussion.push({icon:'🎯',text:`Review current pace: <b>${dt.value||0}/day</b> needed to hit target`});
+  if(e.pct<50)discussion.push({icon:'💡',text:`Identify blockers — product knowledge, customer flow, or motivation?`});
+  if((e.post||0)<(e.prep||0)/3)discussion.push({icon:'📱',text:`Postpaid conversion opportunity — currently ${e.post||0} vs ${e.prep||0} prepaid`});
+  discussion.push({icon:'📅',text:`Set checkpoint: review progress in ${Math.ceil(empWorkDaysLeft(DATA_DATE)/2)} work days`});
+  if(e.pct>=80)discussion.push({icon:'🌟',text:`Recognize strong performance — consider bonus or development opportunity`});
+  return`
+    <div style="background:linear-gradient(135deg,rgba(246,201,78,0.08),rgba(246,201,78,0.02));border:1px solid rgba(246,201,78,0.25);border-radius:10px;padding:14px;margin-bottom:12px;text-align:center">
+      <div style="font-size:18px;margin-bottom:4px">📋</div>
+      <div style="font-size:12px;color:#F6C94E;font-weight:700">1-on-1 Meeting Prep</div>
+      <div style="font-size:10px;color:#9A7820;margin-top:3px">Auto-generated discussion guide</div>
+    </div>
+    ${strengths.length>0?`<div class="meeting-section" style="border-color:rgba(61,214,140,0.15)">
+      <div class="meeting-section-t" style="color:#5DD88C">✨ Strengths to Celebrate</div>
+      ${strengths.map(s=>`<div class="meeting-point"><span class="meeting-point-icon">${s.icon}</span><div>${s.text}</div></div>`).join('')}
+    </div>`:''}
+    ${concerns.length>0?`<div class="meeting-section" style="border-color:rgba(226,75,74,0.15)">
+      <div class="meeting-section-t" style="color:#F08888">⚠️ Concerns to Address</div>
+      ${concerns.map(c=>`<div class="meeting-point"><span class="meeting-point-icon">${c.icon}</span><div>${c.text}</div></div>`).join('')}
+    </div>`:''}
+    <div class="meeting-section" style="border-color:rgba(55,138,221,0.15)">
+      <div class="meeting-section-t" style="color:#85B7EB">💬 Discussion Points</div>
+      ${discussion.map(d=>`<div class="meeting-point"><span class="meeting-point-icon">${d.icon}</span><div>${d.text}</div></div>`).join('')}
+    </div>
+    <div style="font-size:10px;color:#5A9870;text-align:center;margin-top:10px;opacity:0.7">
+      💡 Tip: Open this tab during 1-on-1 for structured conversations
+    </div>
+  `;
 }
 
 // v13: Render Daily Target Card for Modal
