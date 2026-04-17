@@ -491,6 +491,197 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   box-shadow:0 4px 14px rgba(212,160,23,0.5);
 }
 
+/* v16.6 Step 5: Export Modal */
+.manual-export-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.75);
+  z-index:9997;display:none;align-items:center;justify-content:center;
+  padding:20px;backdrop-filter:blur(4px);
+}
+.manual-export-overlay.open{display:flex;animation:fadeIn .2s}
+.manual-export-box{
+  background:linear-gradient(180deg,#0D3D26,#0A2E1C);
+  border:2px solid rgba(212,160,23,0.5);border-radius:14px;
+  padding:22px;max-width:440px;width:100%;
+  max-height:90vh;overflow-y:auto;
+  box-shadow:0 16px 48px rgba(0,0,0,0.6),0 0 0 1px rgba(212,160,23,0.2);
+  animation:confirmPop .25s cubic-bezier(0.34,1.56,0.64,1);
+}
+.manual-export-hdr{
+  display:flex;align-items:center;gap:10px;margin-bottom:14px;
+  padding-bottom:12px;border-bottom:1px solid rgba(212,160,23,0.25);
+}
+.manual-export-hdr-icon{
+  font-size:28px;
+  filter:drop-shadow(0 3px 8px rgba(212,160,23,0.4));
+}
+.manual-export-hdr-text{flex:1}
+.manual-export-hdr-title{
+  font-size:15px;font-weight:800;
+  background:linear-gradient(135deg,#F4D88A,#D4A017);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.manual-export-hdr-sub{
+  font-size:11px;color:#A8D4BA;margin-top:2px;font-weight:600;
+}
+.manual-export-close{
+  background:transparent;border:none;color:#8FA0AE;
+  font-size:22px;cursor:pointer;padding:2px 8px;
+  border-radius:6px;transition:all .15s;
+}
+.manual-export-close:hover{background:rgba(255,255,255,0.08);color:#fff}
+
+/* Preview stats */
+.manual-export-stats{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:6px;
+  padding:10px;background:rgba(212,160,23,0.06);
+  border:1px solid rgba(212,160,23,0.2);border-radius:10px;
+  margin-bottom:14px;
+}
+.manual-export-stat{text-align:center}
+.manual-export-stat-num{
+  font-size:17px;font-weight:900;
+  background:linear-gradient(135deg,#F4D88A,#D4A017);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;line-height:1.1;
+}
+.manual-export-stat-lbl{
+  font-size:9px;color:#A8D4BA;text-transform:uppercase;
+  letter-spacing:0.5px;margin-top:2px;font-weight:700;
+}
+
+/* Export Action Buttons */
+.manual-export-actions{display:flex;flex-direction:column;gap:8px;margin-bottom:6px}
+.manual-export-btn{
+  padding:12px 14px;border-radius:10px;cursor:pointer;
+  display:flex;align-items:center;gap:10px;
+  transition:all .15s;border:1px solid;
+  font-weight:700;text-align:left;
+}
+.manual-export-btn-icon{font-size:22px;flex-shrink:0}
+.manual-export-btn-text{flex:1}
+.manual-export-btn-title{font-size:13px;font-weight:800}
+.manual-export-btn-sub{font-size:10px;font-weight:600;opacity:0.75;margin-top:1px}
+.manual-export-btn-arrow{font-size:16px;opacity:0.6;transition:all .15s}
+.manual-export-btn:hover .manual-export-btn-arrow{opacity:1;transform:translateX(3px)}
+
+.manual-export-btn.primary{
+  background:linear-gradient(135deg,rgba(212,160,23,0.2),rgba(212,160,23,0.08));
+  border-color:rgba(212,160,23,0.55);color:#F4D88A;
+}
+.manual-export-btn.primary:hover{
+  background:linear-gradient(135deg,rgba(212,160,23,0.35),rgba(212,160,23,0.15));
+  border-color:#F4D88A;transform:translateY(-1px);
+  box-shadow:0 4px 14px rgba(212,160,23,0.3);
+}
+.manual-export-btn.secondary{
+  background:linear-gradient(135deg,rgba(37,211,102,0.15),rgba(37,211,102,0.05));
+  border-color:rgba(37,211,102,0.5);color:#7DE8A8;
+}
+.manual-export-btn.secondary:hover{
+  background:linear-gradient(135deg,rgba(37,211,102,0.25),rgba(37,211,102,0.1));
+  border-color:#7DE8A8;transform:translateY(-1px);
+  box-shadow:0 4px 14px rgba(37,211,102,0.3);
+}
+.manual-export-btn.tertiary{
+  background:transparent;border-color:var(--border2);color:#C8EED8;
+  border-style:dashed;margin-top:4px;
+}
+.manual-export-btn.tertiary:hover{
+  background:rgba(255,255,255,0.04);border-color:#5A9870;
+}
+
+/* ───── PNG Export Sheet (hidden, rendered for canvas) ───── */
+.manual-png-sheet{
+  position:fixed;left:-99999px;top:0;
+  width:720px;padding:32px;
+  background:linear-gradient(180deg,#0D3D26,#061A10);
+  color:#fff;font-family:'IBM Plex Sans Arabic','Inter',system-ui,sans-serif;
+  box-sizing:border-box;
+}
+.png-sheet-hdr{
+  display:flex;align-items:center;gap:12px;
+  padding-bottom:18px;margin-bottom:20px;
+  border-bottom:2px solid #D4A017;
+  position:relative;
+}
+.png-sheet-hdr::after{
+  content:'';position:absolute;bottom:-2px;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,#F4D88A,#D4A017,#F4D88A,transparent);
+}
+.png-sheet-logo{
+  width:48px;height:48px;border-radius:12px;
+  background:linear-gradient(135deg,#1A9E52,#3DD68C);
+  display:flex;align-items:center;justify-content:center;
+  font-size:26px;box-shadow:0 4px 12px rgba(26,158,82,0.4);
+}
+.png-sheet-title-block{flex:1}
+.png-sheet-title{
+  font-size:22px;font-weight:900;
+  background:linear-gradient(135deg,#F4D88A,#D4A017);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;letter-spacing:0.5px;
+}
+.png-sheet-sub{
+  font-size:12px;color:#A8D4BA;font-weight:600;margin-top:3px;
+}
+.png-sheet-badge{
+  padding:6px 14px;border-radius:20px;
+  background:linear-gradient(135deg,#D4A017,#B8860B);
+  color:#fff;font-size:12px;font-weight:800;
+  box-shadow:0 3px 10px rgba(212,160,23,0.4);
+  white-space:nowrap;
+}
+.png-sheet-meta{
+  display:flex;gap:16px;margin-bottom:18px;flex-wrap:wrap;
+}
+.png-sheet-meta-item{
+  flex:1;min-width:130px;
+  padding:10px 14px;background:rgba(212,160,23,0.08);
+  border:1px solid rgba(212,160,23,0.25);border-radius:10px;
+}
+.png-sheet-meta-lbl{
+  font-size:9px;color:#F4D88A;text-transform:uppercase;
+  letter-spacing:1px;font-weight:800;margin-bottom:3px;
+}
+.png-sheet-meta-val{font-size:14px;font-weight:700;color:#fff}
+.png-sheet-table{
+  width:100%;border-collapse:separate;border-spacing:0;
+  border-radius:10px;overflow:hidden;margin-bottom:18px;
+  box-shadow:0 4px 14px rgba(0,0,0,0.3);
+}
+.png-sheet-table thead th{
+  background:linear-gradient(180deg,#D4A017,#B8860B);
+  color:#fff;font-size:11px;font-weight:800;
+  padding:10px 8px;text-align:center;
+  text-transform:uppercase;letter-spacing:0.5px;
+}
+.png-sheet-table thead th:first-child{text-align:left;padding-left:16px}
+.png-sheet-table tbody td{
+  padding:9px 8px;font-size:13px;color:#E0EFE5;
+  text-align:center;background:#0A2E1C;
+  border-bottom:1px solid rgba(255,255,255,0.05);
+}
+.png-sheet-table tbody td:first-child{
+  text-align:left;padding-left:16px;font-weight:600;
+}
+.png-sheet-table tbody tr:nth-child(even) td{background:#0D3D26}
+.png-sheet-table tbody tr:last-child td{border-bottom:none}
+.png-sheet-table tfoot td{
+  background:linear-gradient(135deg,#1A9E52,#3DD68C)!important;
+  color:#fff;font-weight:900;font-size:14px;
+  padding:11px 8px;
+}
+.png-sheet-table tfoot td:first-child{padding-left:16px}
+.png-sheet-footer{
+  display:flex;justify-content:space-between;align-items:center;
+  padding-top:14px;border-top:1px solid rgba(212,160,23,0.25);
+  font-size:10px;color:#5A9870;font-weight:600;
+}
+.png-sheet-footer-brand{
+  color:#F4D88A;font-weight:800;letter-spacing:0.5px;
+}
+
 /* ── v14: Slide-in Panels (v16.2: Fixed overflow issue) ── */
 .panel-overlay{
   position:fixed;top:0;bottom:0;width:480px;max-width:100vw;
@@ -1924,6 +2115,16 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     </div>
   </div>
 </div>
+
+<!-- v16.6 Step 5: Export Modal -->
+<div class="manual-export-overlay" id="manual-export-overlay" onclick="if(event.target===this)manualCloseExport()">
+  <div class="manual-export-box" id="manual-export-box">
+    <!-- Content injected by JS -->
+  </div>
+</div>
+
+<!-- v16.6 Step 5: Hidden PNG Sheet (offscreen, used for html2canvas) -->
+<div class="manual-png-sheet" id="manual-png-sheet"></div>
 
 <div class="wrap">
   <div class="sidebar">
@@ -4078,7 +4279,13 @@ function v14PostRender(){
 
 // ── Keyboard support for panels ──
 document.addEventListener('keydown',e=>{
-  if(e.key==='Escape')closePanel();
+  if(e.key!=='Escape')return;
+  // v16.6: Close top-most modal first (Export > Confirm > Panel)
+  const exp=document.getElementById('manual-export-overlay');
+  if(exp&&exp.classList.contains('open')){exp.classList.remove('open');return;}
+  const conf=document.getElementById('manual-confirm-overlay');
+  if(conf&&conf.classList.contains('open')){conf.classList.remove('open');return;}
+  closePanel();
 });
 
 // Hook v14 into existing renderView
@@ -7154,18 +7361,17 @@ function manualSlug(s){
 // ── Snapshot capture (Update buttons) ──
 function manualCaptureSnapshot(slot){
   // slot = 'u1' | 'u2' | 'u3'
+  // If clicked slot is already saved → open Export Modal
+  if(MANUAL_STATE.snapshots[slot]){
+    manualOpenExport(slot);
+    return;
+  }
   // Validation: enforce order — can't skip slots
   const order=['u1','u2','u3'];
   const idx=order.indexOf(slot);
-  // The next valid slot = first empty in order
   let nextValidIdx=0;
   while(nextValidIdx<order.length&&MANUAL_STATE.snapshots[order[nextValidIdx]]){
     nextValidIdx++;
-  }
-  // If clicked slot is already saved → it's locked, must unlock instead
-  if(MANUAL_STATE.snapshots[slot]){
-    manualAskUnlock(slot);
-    return;
   }
   // If clicked slot is ahead of next valid → must fill in order
   if(idx>nextValidIdx){
@@ -7196,6 +7402,8 @@ function manualCaptureSnapshot(slot){
   manualSave();
   manualShowToast(`✓ Update ${slot.replace('u','')} saved at ${timeLabel}`);
   renderManualPanel();
+  // Auto-open Export Modal right after save (so user can send it immediately)
+  setTimeout(()=>manualOpenExport(slot),400);
 }
 
 // ── Smart Lock logic ──
@@ -7263,6 +7471,301 @@ function manualConfirmOpen(){
 function manualConfirmClose(){
   const o=document.getElementById('manual-confirm-overlay');
   if(o)o.classList.remove('open');
+}
+
+// ── Export Modal logic ──
+function manualFormatDate(isoDate){
+  // isoDate = 'YYYY-MM-DD' → 'DD MMM YYYY'
+  try{
+    const parts=isoDate.split('-');
+    if(parts.length!==3)return isoDate;
+    const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const y=parts[0];
+    const m=months[parseInt(parts[1],10)-1]||parts[1];
+    const d=parseInt(parts[2],10);
+    return `${d} ${m} ${y}`;
+  }catch(e){return isoDate;}
+}
+
+function manualComputeSnapshotTotals(snap){
+  let totPre=0,totPost=0,totFtth=0,branchCount=0;
+  Object.keys(snap.entries).forEach(k=>{
+    const e=snap.entries[k];
+    const has=(e.pre>0||e.post>0||e.ftth>0);
+    if(has)branchCount++;
+    totPre+=e.pre||0;
+    totPost+=e.post||0;
+    totFtth+=e.ftth||0;
+  });
+  return {
+    totPre,totPost,totFtth,
+    totSales:totPre+totPost,
+    branchCount
+  };
+}
+
+function manualOpenExport(slot){
+  const snap=MANUAL_STATE.snapshots[slot];
+  if(!snap)return;
+  const num=slot.replace('u','');
+  const t=manualComputeSnapshotTotals(snap);
+  const hasFtth=snap.withFtth;
+  const box=document.getElementById('manual-export-box');
+  if(!box)return;
+  // Build preview + action buttons
+  box.innerHTML=`
+    <div class="manual-export-hdr">
+      <div class="manual-export-hdr-icon">📤</div>
+      <div class="manual-export-hdr-text">
+        <div class="manual-export-hdr-title">Export Update ${num}</div>
+        <div class="manual-export-hdr-sub">${snap.scopeName} · ${manualFormatDate(snap.date)} · ${snap.time}</div>
+      </div>
+      <button class="manual-export-close" onclick="manualCloseExport()" title="Close">✕</button>
+    </div>
+    <div class="manual-export-stats">
+      <div class="manual-export-stat">
+        <div class="manual-export-stat-num">${t.totSales}</div>
+        <div class="manual-export-stat-lbl">Total Sales</div>
+      </div>
+      <div class="manual-export-stat">
+        <div class="manual-export-stat-num">${t.branchCount}</div>
+        <div class="manual-export-stat-lbl">Branches</div>
+      </div>
+      <div class="manual-export-stat">
+        <div class="manual-export-stat-num">${hasFtth?t.totFtth:'—'}</div>
+        <div class="manual-export-stat-lbl">FTTH+5G</div>
+      </div>
+    </div>
+    <div class="manual-export-actions">
+      <button class="manual-export-btn primary" onclick="manualExportPNG('${slot}')">
+        <span class="manual-export-btn-icon">📷</span>
+        <span class="manual-export-btn-text">
+          <div class="manual-export-btn-title">Download PNG Image</div>
+          <div class="manual-export-btn-sub">Professional snapshot for WhatsApp / reports</div>
+        </span>
+        <span class="manual-export-btn-arrow">→</span>
+      </button>
+      <button class="manual-export-btn secondary" onclick="manualExportText('${slot}')">
+        <span class="manual-export-btn-icon">💬</span>
+        <span class="manual-export-btn-text">
+          <div class="manual-export-btn-title">Copy WhatsApp Text</div>
+          <div class="manual-export-btn-sub">Formatted text ready to paste in any chat</div>
+        </span>
+        <span class="manual-export-btn-arrow">→</span>
+      </button>
+      <button class="manual-export-btn tertiary" onclick="manualCloseExport();manualAskUnlock('${slot}')">
+        <span class="manual-export-btn-icon">🔓</span>
+        <span class="manual-export-btn-text">
+          <div class="manual-export-btn-title">Re-open for editing</div>
+          <div class="manual-export-btn-sub">Unlock this update to change numbers</div>
+        </span>
+        <span class="manual-export-btn-arrow">→</span>
+      </button>
+    </div>
+  `;
+  const o=document.getElementById('manual-export-overlay');
+  if(o)o.classList.add('open');
+}
+
+function manualCloseExport(){
+  const o=document.getElementById('manual-export-overlay');
+  if(o)o.classList.remove('open');
+}
+
+// ── Build the WhatsApp text message ──
+function manualBuildText(slot){
+  const snap=MANUAL_STATE.snapshots[slot];
+  if(!snap)return '';
+  const num=slot.replace('u','');
+  const t=manualComputeSnapshotTotals(snap);
+  const hasFtth=snap.withFtth;
+  const lines=[];
+  lines.push(`📊 Daily Sales Update — ${snap.scopeName}`);
+  lines.push(`📅 ${manualFormatDate(snap.date)} — Update ${num} (${snap.time})`);
+  lines.push('');
+  // Branches (only those with any value, sorted alphabetically)
+  const filled=Object.keys(snap.entries).filter(k=>{
+    const e=snap.entries[k];
+    return (e.pre>0||e.post>0||e.ftth>0);
+  }).sort();
+  if(filled.length===0){
+    lines.push('_(No branches filled)_');
+  }else{
+    filled.forEach(b=>{
+      const e=snap.entries[b];
+      const brShort=b.replace(' FBO','').replace('Kiosk ','');
+      const rowTotal=(e.pre||0)+(e.post||0);
+      lines.push(`🏪 ${brShort}`);
+      lines.push(`   • Prepaid: ${e.pre||0}`);
+      lines.push(`   • Postpaid: ${e.post||0}`);
+      lines.push(`   • Total: ${rowTotal}`);
+      if(hasFtth){
+        lines.push(`   • FTTH+5G: ${e.ftth||0}`);
+      }
+      lines.push('');
+    });
+  }
+  lines.push('━━━━━━━━━━━━━━━━━━━');
+  if(hasFtth){
+    lines.push(`💰 Prepaid + Postpaid: ${t.totSales}`);
+    lines.push(`📡 FTTH + 5G: ${t.totFtth}`);
+  }else{
+    lines.push(`💰 Grand Total: ${t.totSales}`);
+  }
+  return lines.join('\n');
+}
+
+function manualExportText(slot){
+  const text=manualBuildText(slot);
+  if(!text){manualShowToast('⚠ Nothing to export');return;}
+  // Try modern clipboard API first
+  const done=()=>manualShowToast('📋 Copied — paste into WhatsApp');
+  if(navigator.clipboard&&window.isSecureContext){
+    navigator.clipboard.writeText(text).then(done).catch(()=>manualFallbackCopy(text,done));
+  }else{
+    manualFallbackCopy(text,done);
+  }
+}
+
+function manualFallbackCopy(text,cb){
+  // Fallback for older browsers / non-secure contexts
+  try{
+    const ta=document.createElement('textarea');
+    ta.value=text;
+    ta.style.position='fixed';ta.style.left='-9999px';ta.style.top='0';
+    document.body.appendChild(ta);
+    ta.focus();ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    cb&&cb();
+  }catch(err){
+    manualShowToast('⚠ Copy failed — please copy manually');
+  }
+}
+
+// ── Build the PNG sheet (hidden HTML that html2canvas will render) ──
+function manualBuildPngSheet(slot){
+  const snap=MANUAL_STATE.snapshots[slot];
+  if(!snap)return '';
+  const num=slot.replace('u','');
+  const t=manualComputeSnapshotTotals(snap);
+  const hasFtth=snap.withFtth;
+  const filled=Object.keys(snap.entries).filter(k=>{
+    const e=snap.entries[k];
+    return (e.pre>0||e.post>0||e.ftth>0);
+  }).sort();
+  const escapeHtml=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  let rows='';
+  if(filled.length===0){
+    const colspan=hasFtth?5:4;
+    rows=`<tr><td colspan="${colspan}" style="text-align:center;padding:24px;color:#5A9870">No branches filled</td></tr>`;
+  }else{
+    filled.forEach(b=>{
+      const e=snap.entries[b];
+      const brShort=b.replace(' FBO','').replace('Kiosk ','');
+      const rowTotal=(e.pre||0)+(e.post||0);
+      rows+=`
+        <tr>
+          <td>${escapeHtml(brShort)}</td>
+          <td>${e.pre||0}</td>
+          <td>${e.post||0}</td>
+          <td style="font-weight:800;color:#F4D88A">${rowTotal}</td>
+          ${hasFtth?`<td style="color:#3DD68C;font-weight:700">${e.ftth||0}</td>`:''}
+        </tr>
+      `;
+    });
+  }
+  // Footer totals
+  const footer=`
+    <tr>
+      <td>GRAND TOTAL</td>
+      <td>${t.totPre}</td>
+      <td>${t.totPost}</td>
+      <td>${t.totSales}</td>
+      ${hasFtth?`<td>${t.totFtth}</td>`:''}
+    </tr>
+  `;
+  return `
+    <div class="png-sheet-hdr">
+      <div class="png-sheet-logo">🧮</div>
+      <div class="png-sheet-title-block">
+        <div class="png-sheet-title">Daily Sales Update</div>
+        <div class="png-sheet-sub">Salam Mobile · Retail MT</div>
+      </div>
+      <div class="png-sheet-badge">Update ${num}</div>
+    </div>
+    <div class="png-sheet-meta">
+      <div class="png-sheet-meta-item">
+        <div class="png-sheet-meta-lbl">Responsible</div>
+        <div class="png-sheet-meta-val">${escapeHtml(snap.scopeName)}</div>
+      </div>
+      <div class="png-sheet-meta-item">
+        <div class="png-sheet-meta-lbl">Date</div>
+        <div class="png-sheet-meta-val">${manualFormatDate(snap.date)}</div>
+      </div>
+      <div class="png-sheet-meta-item">
+        <div class="png-sheet-meta-lbl">Time</div>
+        <div class="png-sheet-meta-val">${escapeHtml(snap.time)}</div>
+      </div>
+    </div>
+    <table class="png-sheet-table">
+      <thead>
+        <tr>
+          <th>Branch</th>
+          <th>Prepaid</th>
+          <th>Postpaid</th>
+          <th>Total</th>
+          ${hasFtth?'<th>FTTH+5G</th>':''}
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+      <tfoot>${footer}</tfoot>
+    </table>
+    <div class="png-sheet-footer">
+      <div><span class="png-sheet-footer-brand">salam</span> Dashboard · v16.6</div>
+      <div>${t.branchCount} branches · Generated ${snap.time}</div>
+    </div>
+  `;
+}
+
+function manualExportPNG(slot){
+  const snap=MANUAL_STATE.snapshots[slot];
+  if(!snap){manualShowToast('⚠ Nothing to export');return;}
+  if(typeof html2canvas!=='function'){
+    manualShowToast('⚠ PNG library not loaded');
+    return;
+  }
+  const sheet=document.getElementById('manual-png-sheet');
+  if(!sheet){manualShowToast('⚠ PNG sheet missing');return;}
+  manualShowToast('📷 Generating image...');
+  sheet.innerHTML=manualBuildPngSheet(slot);
+  // Delay to let the DOM paint
+  setTimeout(()=>{
+    html2canvas(sheet,{
+      backgroundColor:'#061A10',
+      scale:2,
+      logging:false,
+      useCORS:true
+    }).then(canvas=>{
+      canvas.toBlob(blob=>{
+        if(!blob){manualShowToast('⚠ PNG generation failed');return;}
+        const url=URL.createObjectURL(blob);
+        const a=document.createElement('a');
+        const fname=`salam_update_${snap.scope}_${snap.date}_U${slot.replace('u','')}.png`;
+        a.href=url;a.download=fname;
+        document.body.appendChild(a);a.click();
+        setTimeout(()=>{
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+          sheet.innerHTML='';
+        },100);
+        manualShowToast('✓ PNG downloaded');
+      },'image/png');
+    }).catch(err=>{
+      manualShowToast('⚠ PNG generation failed');
+      sheet.innerHTML='';
+    });
+  },60);
 }
 
 // ── Toast message ──
@@ -7454,7 +7957,7 @@ function renderManualPanel(){
           }).join('')}
         </div>
         <div style="text-align:center;color:#5A9870;font-size:10px;margin-top:10px;opacity:0.75;line-height:1.5">
-          ✨ Export (PNG + WhatsApp text) arrives in the next step.<br>
+          💡 Click any saved update to export as PNG or copy as WhatsApp text.<br>
           🔒 Locks are enforced in order — later updates erase earlier re-opens.
         </div>
       </div>
