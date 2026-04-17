@@ -225,6 +225,25 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 }
 .manual-counter-divider{width:1px;height:32px;background:rgba(212,160,23,0.3)}
 
+/* v16.6 Step 6: Copy from previous update button */
+.manual-copy-prev-wrap{
+  padding:8px 12px 0;display:flex;justify-content:center;
+}
+.manual-copy-prev-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:7px 14px;border-radius:20px;cursor:pointer;
+  background:linear-gradient(135deg,rgba(55,138,221,0.15),rgba(55,138,221,0.05));
+  border:1px dashed rgba(55,138,221,0.5);
+  color:#A8D6F4;font-size:11px;font-weight:700;
+  transition:all .15s;
+}
+.manual-copy-prev-btn:hover{
+  background:linear-gradient(135deg,rgba(55,138,221,0.25),rgba(55,138,221,0.1));
+  border-color:#A8D6F4;border-style:solid;
+  transform:translateY(-1px);
+  box-shadow:0 3px 10px rgba(55,138,221,0.25);
+}
+.manual-copy-prev-btn:active{transform:translateY(0)}
 /* Table */
 .manual-table-wrap{padding:12px}
 .manual-table{
@@ -4799,7 +4818,9 @@ const HELP_CONTENT_EN={
   charts:{icon:'📊',title:'Charts',sub:'Bar chart & supervisor distribution'},
   supervisors:{icon:'👥',title:'Supervisor Cards',sub:'Team snapshot per supervisor'},
   search:{icon:'🔍',title:'Search & Filters',sub:'Find employees fast'},
-  exports:{icon:'📤',title:'Export Options',sub:'PNG, WhatsApp, Print'}
+  exports:{icon:'📤',title:'Export Options',sub:'PNG, WhatsApp, Print'},
+  // Part 3 — Premium Tool (v16.6)
+  manual:{icon:'🧮',title:'Manual Daily Update',sub:'Premium tool for supervisors'}
 };
 
 // ── Help Content — Arabic ──
@@ -4832,7 +4853,9 @@ const HELP_CONTENT_AR={
   charts:{icon:'📊',title:'الرسوم البيانية',sub:'رسم الفروع وتوزيع المشرفين'},
   supervisors:{icon:'👥',title:'بطاقات المشرفين',sub:'لمحة فريق كل مشرف'},
   search:{icon:'🔍',title:'البحث والتصفية',sub:'ابحث عن الموظفين بسرعة'},
-  exports:{icon:'📤',title:'خيارات التصدير',sub:'PNG، واتساب، طباعة'}
+  exports:{icon:'📤',title:'خيارات التصدير',sub:'PNG، واتساب، طباعة'},
+  // Part 3 — Premium Tool (v16.6)
+  manual:{icon:'🧮',title:'التحديث اليومي اليدوي',sub:'أداة مميّزة للمشرفين'}
 };
 
 function renderHelpPanel(){
@@ -4864,7 +4887,9 @@ function renderHelpHome(isAR,content,arClass){
     'employee','tab_overview','tab_streaks','tab_projection','tab_peers',
     'tab_trends','tab_activity','tab_products','tab_notes','tab_meeting',
     // Part 2 — Tools
-    'compare','watch','badges','charts','supervisors','search','exports'
+    'compare','watch','badges','charts','supervisors','search','exports',
+    // Part 3 — Premium Tool (v16.6)
+    'manual'
   ];
   const introTitle=isAR?'دليل استخدام الداشبورد':'Dashboard User Guide';
   const introDesc=isAR
@@ -4930,6 +4955,8 @@ function renderHelpSection(section,isAR,content,arClass){
   else if(section==='supervisors')sectionHTML=isAR?helpContent_supervisors_ar():helpContent_supervisors_en();
   else if(section==='search')sectionHTML=isAR?helpContent_search_ar():helpContent_search_en();
   else if(section==='exports')sectionHTML=isAR?helpContent_exports_ar():helpContent_exports_en();
+  // Part 3 — Premium Tool (v16.6)
+  else if(section==='manual')sectionHTML=isAR?helpContent_manual_ar():helpContent_manual_en();
   return`
     <div class="${arClass}">
       <button class="help-back-btn" onclick="showHelpSection('home')">
@@ -7160,6 +7187,169 @@ function helpContent_exports_ar(){
   `;
 }
 
+// ── 26. MANUAL DAILY UPDATE (Premium — v16.6) ──
+function helpContent_manual_en(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 What is Manual Daily Update?</div>
+      <div class="help-block-content">
+        A <b>Premium supervisor tool</b> for manually entering daily branch sales — <b>2 to 3 times per day</b> — and sharing them instantly as a polished PNG image or a formatted WhatsApp text. Look for the golden 🧮 icon at the end of the toolbar.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🖱️ How to open it</div>
+      <div class="help-block-content">
+        <ul>
+          <li>Click the <b>golden 🧮 icon</b> (last tool in the toolbar — it pulses gently to stand out)</li>
+          <li>A golden-accented panel slides in from the right</li>
+          <li>Choose the responsible person and the date at the top</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📋 Filling the numbers</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>Responsible:</b> Pick <b>All</b> (every branch) or a single supervisor (their branches only)</li>
+          <li><b>Date:</b> Defaults to today — change it to enter past dates</li>
+          <li><b>FTTH + 5G checkbox:</b> Adds an optional column for connectivity sales</li>
+          <li><b>For each branch:</b> Enter Prepaid and Postpaid (Total auto-calculates)</li>
+          <li>✕ button next to each branch resets that branch only</li>
+          <li>Filled rows turn <b>green</b> for easy tracking</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📌 The 3 Daily Snapshots</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>Update 1 / 2 / 3:</b> Capture current numbers at 3 moments during the day (typical: late morning, afternoon, evening)</li>
+          <li>Numbers are <b>cumulative</b> — each update includes the ones before</li>
+          <li>When you save Update 2, <b>Update 1 locks automatically</b> (can't edit its numbers)</li>
+          <li>Same for Update 3 — it locks both 1 and 2</li>
+          <li>Click 🔓 on any saved update to re-open it (warns if it will erase later ones)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📤 Exporting for WhatsApp</div>
+      <div class="help-block-content">
+        Immediately after saving any update, the Export window opens automatically:
+        <ul>
+          <li>📷 <b>Download PNG</b> — professional image with gold branding, ready to forward</li>
+          <li>💬 <b>Copy WhatsApp Text</b> — formatted message copied to clipboard — paste anywhere</li>
+          <li>🔓 <b>Re-open for editing</b> — unlock this update to change its numbers</li>
+        </ul>
+        Reopen any saved update later by clicking its button to export again.
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 Smart features</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>📋 Copy from Update N:</b> When starting a new update, use this button to start from the previous numbers — then just add what's new</li>
+          <li><b>Auto-save:</b> Everything you type is saved automatically — close and reopen freely</li>
+          <li><b>Per-date memory:</b> Each date keeps its own numbers — yesterday's data stays separate from today's</li>
+          <li><b>Per-responsible memory:</b> Same for each supervisor — their snapshots don't mix</li>
+          <li><b>Live counters</b> at the top show Prepaid / Postpaid / Total / FTTH / Filled branches in real time</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block warn">
+      <div class="help-block-title">⚠️ Important notes</div>
+      <div class="help-block-content">
+        <ul>
+          <li>Saved snapshots are stored <b>on this device only</b>. If you use multiple devices, each has its own data.</li>
+          <li>Clearing browser data will erase saved updates — export before clearing</li>
+          <li>Updates must be saved <b>in order</b> — you can't skip Update 1 to save Update 2</li>
+          <li>Re-opening Update 1 after Update 2 is saved will <b>erase Update 2</b> (you'll re-save it)</li>
+        </ul>
+      </div>
+    </div>
+  `;
+}
+
+function helpContent_manual_ar(){
+  return`
+    <div class="help-block what">
+      <div class="help-block-title">💡 ما هي أداة التحديث اليومي اليدوي؟</div>
+      <div class="help-block-content">
+        <b>أداة مميّزة للمشرفين</b> لإدخال مبيعات الفروع يدوياً — <b>2 إلى 3 مرات يومياً</b> — ومشاركتها فوراً كصورة PNG احترافيّة أو نص واتساب منسّق. ابحث عن الأيقونة الذهبيّة 🧮 في نهاية شريط الأدوات.
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">🖱️ كيفية الفتح</div>
+      <div class="help-block-content">
+        <ul>
+          <li>اضغط الأيقونة الذهبيّة <b>🧮</b> (آخر أداة في الشريط — تنبض برفق لتميّزها)</li>
+          <li>تنزلق لوحة ذهبيّة اللمسات من اليمين</li>
+          <li>اختر المسؤول والتاريخ في الأعلى</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📋 تعبئة الأرقام</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>المسؤول:</b> اختر <b>All</b> (كل الفروع) أو مشرفاً واحداً (فروعه فقط)</li>
+          <li><b>التاريخ:</b> الافتراضي اليوم — غيّره لإدخال تواريخ سابقة</li>
+          <li><b>خانة FTTH + 5G:</b> تضيف عموداً اختياريّاً لمبيعات الاتصال</li>
+          <li><b>لكل فرع:</b> أدخل Prepaid و Postpaid (Total يُحسَب تلقائياً)</li>
+          <li>زر ✕ بجانب كل فرع يصفّر ذلك الفرع فقط</li>
+          <li>الصفوف المعبّأة تتحوّل إلى <b>اللون الأخضر</b> للمتابعة السهلة</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📌 اللقطات اليوميّة الثلاث</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>Update 1 / 2 / 3:</b> التقط الأرقام الحاليّة في 3 أوقات خلال اليوم (عادةً: صباحاً، ظهراً، مساءً)</li>
+          <li>الأرقام <b>تراكميّة</b> — كل تحديث يشمل ما قبله</li>
+          <li>عند حفظ Update 2، <b>Update 1 يُقفل تلقائيّاً</b> (لا يمكن تعديل أرقامه)</li>
+          <li>نفس الشيء مع Update 3 — يُقفل كليهما (1 و 2)</li>
+          <li>اضغط 🔓 على أي تحديث محفوظ لإعادة فتحه (ينبّهك لو سيمسح اللقطات اللاحقة)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block how">
+      <div class="help-block-title">📤 التصدير للواتساب</div>
+      <div class="help-block-content">
+        فور حفظ أي تحديث، تفتح نافذة التصدير تلقائيّاً:
+        <ul>
+          <li>📷 <b>Download PNG</b> — صورة احترافيّة ببصمة ذهبيّة، جاهزة للإرسال</li>
+          <li>💬 <b>Copy WhatsApp Text</b> — رسالة منسّقة تُنسَخ للحافظة — ألصقها في أي مكان</li>
+          <li>🔓 <b>Re-open for editing</b> — افتح هذا التحديث لتعديل أرقامه</li>
+        </ul>
+        أعد فتح أي تحديث محفوظ لاحقاً بالضغط على زره للتصدير مرّة أخرى.
+      </div>
+    </div>
+    <div class="help-block tip">
+      <div class="help-block-title">💡 ميزات ذكيّة</div>
+      <div class="help-block-content">
+        <ul>
+          <li><b>📋 Copy from Update N:</b> عند بدء تحديث جديد، استخدم هذا الزر للبدء من الأرقام السابقة — ثم أضف الجديد فقط</li>
+          <li><b>حفظ تلقائي:</b> كل ما تكتبه يُحفَظ تلقائياً — أغلق وأعد الفتح بحريّة</li>
+          <li><b>ذاكرة لكل تاريخ:</b> كل تاريخ يحتفظ بأرقامه — بيانات أمس منفصلة عن اليوم</li>
+          <li><b>ذاكرة لكل مسؤول:</b> نفس الشيء لكل مشرف — لقطاتهم لا تختلط</li>
+          <li><b>عدّادات حيّة</b> في الأعلى تعرض Prepaid / Postpaid / Total / FTTH / الفروع المعبّأة لحظياً</li>
+        </ul>
+      </div>
+    </div>
+    <div class="help-block warn">
+      <div class="help-block-title">⚠️ ملاحظات مهمّة</div>
+      <div class="help-block-content">
+        <ul>
+          <li>اللقطات المحفوظة تُخزَّن <b>على هذا الجهاز فقط</b>. إن كنت تستخدم أجهزة متعدّدة، لكل جهاز بياناته الخاصّة.</li>
+          <li>مسح بيانات المتصفّح يمسح التحديثات المحفوظة — صدّر قبل المسح</li>
+          <li>التحديثات تُحفَظ <b>بالترتيب</b> — لا يمكنك تخطّي Update 1 لحفظ Update 2</li>
+          <li>إعادة فتح Update 1 بعد حفظ Update 2 ستؤدي إلى <b>مسح Update 2</b> (ستعيد حفظه)</li>
+        </ul>
+      </div>
+    </div>
+  `;
+}
+
 // ═══════════════════════════════════════════════════════
 // v16.6: Manual Daily Update Tool (Premium)
 // ═══════════════════════════════════════════════════════
@@ -7419,6 +7609,43 @@ function manualGetActiveSlot(){
 function manualIsEditingLocked(){
   // Editing is locked if ALL three snapshots are saved
   return manualGetActiveSlot()===null;
+}
+
+// v16.6 Step 6: Get the latest saved snapshot (for Copy-from-previous feature)
+function manualGetLastSavedSlot(){
+  const order=['u1','u2','u3'];
+  for(let i=order.length-1;i>=0;i--){
+    if(MANUAL_STATE.snapshots[order[i]])return order[i];
+  }
+  return null;
+}
+
+function manualCopyFromPrevious(){
+  if(manualIsEditingLocked()){
+    manualShowToast('🔒 All updates saved — unlock one first');
+    return;
+  }
+  const prevSlot=manualGetLastSavedSlot();
+  if(!prevSlot){
+    manualShowToast('⚠ No previous update to copy from');
+    return;
+  }
+  const prevSnap=MANUAL_STATE.snapshots[prevSlot];
+  if(!prevSnap||!prevSnap.entries){
+    manualShowToast('⚠ Previous update has no data');
+    return;
+  }
+  // Deep copy entries from previous snapshot
+  const newEntries={};
+  Object.keys(prevSnap.entries).forEach(k=>{
+    const e=prevSnap.entries[k];
+    newEntries[k]={pre:e.pre||0,post:e.post||0,ftth:e.ftth||0};
+  });
+  MANUAL_STATE.entries=newEntries;
+  manualSave();
+  const n=prevSlot.replace('u','');
+  manualShowToast(`📋 Copied from Update ${n} — edit & save as next`);
+  renderManualPanel();
 }
 
 function manualAskUnlock(slot){
@@ -7867,6 +8094,19 @@ function renderManualPanel(){
       </div>
     </div>
   `;
+  // ── Copy from previous button (only shown when there's a prev snapshot + not locked)
+  const lastSavedSlot=manualGetLastSavedSlot();
+  if(lastSavedSlot&&!fullyLocked){
+    const n=lastSavedSlot.replace('u','');
+    html+=`
+      <div class="manual-copy-prev-wrap">
+        <button class="manual-copy-prev-btn" onclick="manualCopyFromPrevious()" title="Copy numbers from the latest saved update as starting point">
+          <span>📋</span>
+          <span>Copy from Update ${n}</span>
+        </button>
+      </div>
+    `;
+  }
   // ── Table
   if(branches.length===0){
     html+=`<div class="manual-no-data">No branches found for this selection.</div>`;
