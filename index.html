@@ -452,62 +452,11 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 .manual-lock-banner-text{flex:1;line-height:1.5}
 .manual-lock-banner-text b{color:#F4D88A}
 
-/* Confirm Modal */
-.manual-confirm-overlay{
-  position:fixed;inset:0;background:rgba(0,0,0,0.75);
-  z-index:9998;display:none;align-items:center;justify-content:center;
-  padding:20px;backdrop-filter:blur(4px);
-}
-.manual-confirm-overlay.open{display:flex;animation:fadeIn .2s}
+/* Keyframes used by Export Modal */
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.manual-confirm-box{
-  background:linear-gradient(180deg,#0D3D26,#0A2E1C);
-  border:2px solid rgba(212,160,23,0.5);border-radius:14px;
-  padding:24px;max-width:380px;width:100%;
-  box-shadow:0 16px 48px rgba(0,0,0,0.6),0 0 0 1px rgba(212,160,23,0.2);
-  animation:confirmPop .25s cubic-bezier(0.34,1.56,0.64,1);
-}
 @keyframes confirmPop{
   from{opacity:0;transform:scale(0.88)}
   to{opacity:1;transform:scale(1)}
-}
-.manual-confirm-icon{
-  font-size:42px;text-align:center;margin-bottom:10px;
-  filter:drop-shadow(0 4px 10px rgba(212,160,23,0.5));
-}
-.manual-confirm-title{
-  text-align:center;font-size:16px;font-weight:800;
-  background:linear-gradient(135deg,#F4D88A,#D4A017);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  background-clip:text;margin-bottom:8px;
-}
-.manual-confirm-msg{
-  text-align:center;font-size:12px;color:#C8EED8;
-  line-height:1.6;margin-bottom:18px;
-}
-.manual-confirm-msg b{color:#F4D88A}
-.manual-confirm-actions{
-  display:flex;gap:10px;
-}
-.manual-confirm-btn{
-  flex:1;padding:10px 16px;border-radius:8px;
-  font-size:12px;font-weight:800;cursor:pointer;
-  transition:all .15s;border:1px solid;
-}
-.manual-confirm-btn.cancel{
-  background:var(--g3);border-color:var(--border2);color:#C8EED8;
-}
-.manual-confirm-btn.cancel:hover{
-  background:var(--g4);border-color:#5A9870;
-}
-.manual-confirm-btn.danger{
-  background:linear-gradient(135deg,#D4A017,#B8860B);
-  border-color:#F4D88A;color:#fff;
-  box-shadow:0 2px 8px rgba(212,160,23,0.3);
-}
-.manual-confirm-btn.danger:hover{
-  transform:translateY(-1px);
-  box-shadow:0 4px 14px rgba(212,160,23,0.5);
 }
 
 /* v16.6 Step 5: Export Modal */
@@ -2141,7 +2090,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">Manual Daily Update ✨</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v16.6.2 · Phase 3+</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v16.6.3 · Phase 3+</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -2234,19 +2183,6 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
         أداة إدخال يدوي يومي للمشرفين — تُبنى حالياً. الواجهة الكاملة تصل في الخطوة القادمة من تطوير v16.6.
       </div>
       <div class="manual-coming-soon">✨ الخطوة 1 من 6 — البنية جاهزة</div>
-    </div>
-  </div>
-</div>
-
-<!-- v16.6 Step 4: Unlock Confirm Modal -->
-<div class="manual-confirm-overlay" id="manual-confirm-overlay">
-  <div class="manual-confirm-box">
-    <div class="manual-confirm-icon">⚠️</div>
-    <div class="manual-confirm-title" id="manual-confirm-title">Unlock Update?</div>
-    <div class="manual-confirm-msg" id="manual-confirm-msg">This will erase later snapshots.</div>
-    <div class="manual-confirm-actions">
-      <button class="manual-confirm-btn cancel" onclick="manualConfirmClose()">Cancel</button>
-      <button class="manual-confirm-btn danger" id="manual-confirm-ok">Yes, unlock</button>
     </div>
   </div>
 </div>
@@ -4415,11 +4351,9 @@ function v14PostRender(){
 // ── Keyboard support for panels ──
 document.addEventListener('keydown',e=>{
   if(e.key!=='Escape')return;
-  // v16.6: Close top-most modal first (Export > Confirm > Panel)
+  // v16.6.3: Close export modal first, then panel
   const exp=document.getElementById('manual-export-overlay');
   if(exp&&exp.classList.contains('open')){exp.classList.remove('open');return;}
-  const conf=document.getElementById('manual-confirm-overlay');
-  if(conf&&conf.classList.contains('open')){conf.classList.remove('open');return;}
   closePanel();
 });
 
@@ -7303,13 +7237,13 @@ function helpContent_exports_ar(){
   `;
 }
 
-// ── 26. MANUAL DAILY UPDATE (Premium — v16.6) ──
+// ── 26. MANUAL DAILY UPDATE (Premium — v16.6.3) ──
 function helpContent_manual_en(){
   return`
     <div class="help-block what">
       <div class="help-block-title">💡 What is Manual Daily Update?</div>
       <div class="help-block-content">
-        A <b>Premium supervisor tool</b> for manually entering daily branch sales — <b>2 to 3 times per day</b> — and sharing them instantly as a polished PNG image or a formatted WhatsApp text. Look for the golden 🧮 icon at the end of the toolbar.
+        A <b>Premium supervisor tool</b> for quickly entering daily branch sales and sharing them as a polished PNG image or formatted WhatsApp text — whenever management requests an update. Look for the golden 🧮 icon at the end of the toolbar.
       </div>
     </div>
     <div class="help-block how">
@@ -7329,45 +7263,46 @@ function helpContent_manual_en(){
           <li><b>Responsible:</b> Pick <b>All</b> (every branch) or a single supervisor (their branches only)</li>
           <li><b>Date:</b> Defaults to today — change it to enter past dates</li>
           <li><b>FTTH + 5G checkbox:</b> Adds an optional column for connectivity sales</li>
-          <li><b>For each branch:</b> Enter Prepaid and Postpaid (Total auto-calculates)</li>
+          <li><b>For each branch:</b> Enter a single <b>Sales</b> number (cumulative total for that branch)</li>
           <li>✕ button next to each branch resets that branch only</li>
           <li>Filled rows turn <b>green</b> for easy tracking</li>
+          <li><b>The table is always open for editing</b> — no locking, no confirmations</li>
         </ul>
       </div>
     </div>
     <div class="help-block how">
-      <div class="help-block-title">📌 The 3 Daily Snapshots</div>
+      <div class="help-block-title">📌 The 3 Shift Buttons</div>
       <div class="help-block-content">
         <ul>
-          <li><b>Update 1 / 2 / 3:</b> Capture current numbers at 3 moments during the day (typical: late morning, afternoon, evening)</li>
-          <li>Numbers are <b>cumulative</b> — each update includes the ones before</li>
-          <li>When you save Update 2, <b>Update 1 locks automatically</b> (can't edit its numbers)</li>
-          <li>Same for Update 3 — it locks both 1 and 2</li>
-          <li>Click 🔓 on any saved update to re-open it (warns if it will erase later ones)</li>
+          <li>🌅 <b>Morning</b> — capture during the morning shift</li>
+          <li>🌆 <b>Afternoon</b> — capture during the afternoon shift</li>
+          <li>🌙 <b>End of Day</b> — capture the final day total</li>
+          <li><b>Press any button multiple times</b> in the same shift — each press re-captures with the current time</li>
+          <li>Example: if management asks for 2 Morning updates, press <b>Morning</b> at 10 AM, then edit numbers and press <b>Morning</b> again at 12 PM — the timestamp in the exported image/text makes them distinct</li>
+          <li>Numbers stay editable at all times — <b>no locks, no restrictions</b></li>
         </ul>
       </div>
     </div>
     <div class="help-block how">
       <div class="help-block-title">📤 Exporting for WhatsApp</div>
       <div class="help-block-content">
-        Immediately after saving any update, the Export window opens automatically:
+        Immediately after pressing any shift button, the Export window opens automatically:
         <ul>
-          <li>📷 <b>Download PNG</b> — professional image with gold branding, ready to forward</li>
+          <li>📷 <b>Download PNG</b> — professional image with salam branding, ready to forward</li>
           <li>💬 <b>Copy WhatsApp Text</b> — formatted message copied to clipboard — paste anywhere</li>
-          <li>🔓 <b>Re-open for editing</b> — unlock this update to change its numbers</li>
         </ul>
-        Reopen any saved update later by clicking its button to export again.
+        To re-export a saved snapshot, just click its shift button again — the Export window will open.
       </div>
     </div>
     <div class="help-block tip">
       <div class="help-block-title">💡 Smart features</div>
       <div class="help-block-content">
         <ul>
-          <li><b>📋 Copy from Update N:</b> When starting a new update, use this button to start from the previous numbers — then just add what's new</li>
-          <li><b>Auto-save:</b> Everything you type is saved automatically — close and reopen freely</li>
+          <li><b>Auto-save:</b> Everything you type is saved automatically — close and reopen the browser freely</li>
           <li><b>Per-date memory:</b> Each date keeps its own numbers — yesterday's data stays separate from today's</li>
           <li><b>Per-responsible memory:</b> Same for each supervisor — their snapshots don't mix</li>
-          <li><b>Live counters</b> at the top show Prepaid / Postpaid / Total / FTTH / Filled branches in real time</li>
+          <li><b>Live counters</b> at the top show Total Sales / FTTH+5G / Filled branches in real time</li>
+          <li><b>Real captured time:</b> The time shown in each export is the exact moment you pressed the button</li>
         </ul>
       </div>
     </div>
@@ -7377,8 +7312,8 @@ function helpContent_manual_en(){
         <ul>
           <li>Saved snapshots are stored <b>on this device only</b>. If you use multiple devices, each has its own data.</li>
           <li>Clearing browser data will erase saved updates — export before clearing</li>
-          <li>Updates must be saved <b>in order</b> — you can't skip Update 1 to save Update 2</li>
-          <li>Re-opening Update 1 after Update 2 is saved will <b>erase Update 2</b> (you'll re-save it)</li>
+          <li>Pressing a shift button <b>replaces</b> that shift's previous snapshot (time updates automatically)</li>
+          <li>To keep a record, always export to PNG or copy text before re-capturing</li>
         </ul>
       </div>
     </div>
@@ -7410,45 +7345,46 @@ function helpContent_manual_ar(){
           <li><b>المسؤول:</b> اختر <b>All</b> (كل الفروع) أو مشرفاً واحداً (فروعه فقط)</li>
           <li><b>التاريخ:</b> الافتراضي اليوم — غيّره لإدخال تواريخ سابقة</li>
           <li><b>خانة FTTH + 5G:</b> تضيف عموداً اختياريّاً لمبيعات الاتصال</li>
-          <li><b>لكل فرع:</b> أدخل Prepaid و Postpaid (Total يُحسَب تلقائياً)</li>
+          <li><b>لكل فرع:</b> أدخل رقم واحد فقط وهو <b>Sales</b> (الإجمالي التراكمي للفرع)</li>
           <li>زر ✕ بجانب كل فرع يصفّر ذلك الفرع فقط</li>
           <li>الصفوف المعبّأة تتحوّل إلى <b>اللون الأخضر</b> للمتابعة السهلة</li>
+          <li><b>الجدول مفتوح دائماً للتعديل</b> — لا قفل، لا تأكيدات</li>
         </ul>
       </div>
     </div>
     <div class="help-block how">
-      <div class="help-block-title">📌 اللقطات اليوميّة الثلاث</div>
+      <div class="help-block-title">📌 أزرار الشفتات الثلاثة</div>
       <div class="help-block-content">
         <ul>
-          <li><b>Update 1 / 2 / 3:</b> التقط الأرقام الحاليّة في 3 أوقات خلال اليوم (عادةً: صباحاً، ظهراً، مساءً)</li>
-          <li>الأرقام <b>تراكميّة</b> — كل تحديث يشمل ما قبله</li>
-          <li>عند حفظ Update 2، <b>Update 1 يُقفل تلقائيّاً</b> (لا يمكن تعديل أرقامه)</li>
-          <li>نفس الشيء مع Update 3 — يُقفل كليهما (1 و 2)</li>
-          <li>اضغط 🔓 على أي تحديث محفوظ لإعادة فتحه (ينبّهك لو سيمسح اللقطات اللاحقة)</li>
+          <li>🌅 <b>Morning</b> — التقاط لحظي خلال الشفت الصباحي</li>
+          <li>🌆 <b>Afternoon</b> — التقاط لحظي خلال الشفت المسائي</li>
+          <li>🌙 <b>End of Day</b> — التقاط الإجمالي النهائي لليوم</li>
+          <li><b>اضغط أي زر عدّة مرات</b> في نفس الشفت — كل ضغطة تعيد الالتقاط بالوقت الحالي</li>
+          <li>مثال: لو طلبت الإدارة تحديثَين للصباح، اضغط <b>Morning</b> الساعة 10 صباحاً، ثم عدّل الأرقام واضغط <b>Morning</b> مرة أخرى الساعة 12 ظهراً — الوقت في الصورة/النص يميّزهما</li>
+          <li>الأرقام قابلة للتعديل دائماً — <b>لا قفل، لا قيود</b></li>
         </ul>
       </div>
     </div>
     <div class="help-block how">
       <div class="help-block-title">📤 التصدير للواتساب</div>
       <div class="help-block-content">
-        فور حفظ أي تحديث، تفتح نافذة التصدير تلقائيّاً:
+        فور الضغط على أي زر شفت، تفتح نافذة التصدير تلقائيّاً:
         <ul>
-          <li>📷 <b>Download PNG</b> — صورة احترافيّة ببصمة ذهبيّة، جاهزة للإرسال</li>
+          <li>📷 <b>Download PNG</b> — صورة احترافيّة ببصمة salam، جاهزة للإرسال</li>
           <li>💬 <b>Copy WhatsApp Text</b> — رسالة منسّقة تُنسَخ للحافظة — ألصقها في أي مكان</li>
-          <li>🔓 <b>Re-open for editing</b> — افتح هذا التحديث لتعديل أرقامه</li>
         </ul>
-        أعد فتح أي تحديث محفوظ لاحقاً بالضغط على زره للتصدير مرّة أخرى.
+        لإعادة تصدير أي لقطة محفوظة، اضغط زر الشفت مرة أخرى — نافذة التصدير ستُفتح.
       </div>
     </div>
     <div class="help-block tip">
       <div class="help-block-title">💡 ميزات ذكيّة</div>
       <div class="help-block-content">
         <ul>
-          <li><b>📋 Copy from Update N:</b> عند بدء تحديث جديد، استخدم هذا الزر للبدء من الأرقام السابقة — ثم أضف الجديد فقط</li>
-          <li><b>حفظ تلقائي:</b> كل ما تكتبه يُحفَظ تلقائياً — أغلق وأعد الفتح بحريّة</li>
+          <li><b>حفظ تلقائي:</b> كل ما تكتبه يُحفَظ تلقائياً — أغلق وأعد فتح المتصفّح بحريّة</li>
           <li><b>ذاكرة لكل تاريخ:</b> كل تاريخ يحتفظ بأرقامه — بيانات أمس منفصلة عن اليوم</li>
           <li><b>ذاكرة لكل مسؤول:</b> نفس الشيء لكل مشرف — لقطاتهم لا تختلط</li>
-          <li><b>عدّادات حيّة</b> في الأعلى تعرض Prepaid / Postpaid / Total / FTTH / الفروع المعبّأة لحظياً</li>
+          <li><b>عدّادات حيّة</b> في الأعلى تعرض Total Sales / FTTH+5G / الفروع المعبّأة لحظياً</li>
+          <li><b>الوقت الحقيقي:</b> الوقت في كل صورة مصدّرة هو اللحظة التي ضغطت فيها الزر بالضبط</li>
         </ul>
       </div>
     </div>
@@ -7458,8 +7394,8 @@ function helpContent_manual_ar(){
         <ul>
           <li>اللقطات المحفوظة تُخزَّن <b>على هذا الجهاز فقط</b>. إن كنت تستخدم أجهزة متعدّدة، لكل جهاز بياناته الخاصّة.</li>
           <li>مسح بيانات المتصفّح يمسح التحديثات المحفوظة — صدّر قبل المسح</li>
-          <li>التحديثات تُحفَظ <b>بالترتيب</b> — لا يمكنك تخطّي Update 1 لحفظ Update 2</li>
-          <li>إعادة فتح Update 1 بعد حفظ Update 2 ستؤدي إلى <b>مسح Update 2</b> (ستعيد حفظه)</li>
+          <li>الضغط على زر شفت <b>يستبدل</b> اللقطة السابقة لذلك الشفت (الوقت يتحدّث تلقائياً)</li>
+          <li>للاحتفاظ بسجلّ، صدّر دائماً إلى PNG أو انسخ النص قبل إعادة الالتقاط</li>
         </ul>
       </div>
     </div>
@@ -7475,17 +7411,18 @@ const MANUAL_STATE={
   scope:'all',       // 'all' | 'aw' | 'am' | 'ms' | 'na'
   date:'',           // YYYY-MM-DD
   withFtth:false,    // include FTTH+5G column
-  entries:{},        // { branchName: {pre:n, post:n, ftth:n} }
+  entries:{},        // { branchName: {sales:n, ftth:n} }
   snapshots:{        // captured at button press
-    u1:null,         // {time:'HH:MM', entries:{...}, withFtth:bool}
-    u2:null,
-    u3:null
+    morning:null,    // {time:'HH:MM', entries:{...}, withFtth:bool, slotLabel:'Morning'}
+    afternoon:null,
+    endofday:null
   }
 };
 
 // Storage helpers
 function manualStorageKey(){
-  return `salam_manual_${MANUAL_STATE.scope}_${MANUAL_STATE.date}`;
+  // v16.6.3: bumped version to avoid mixing with old pre/post structure
+  return `salam_manual_v2_${MANUAL_STATE.scope}_${MANUAL_STATE.date}`;
 }
 
 function manualSave(){
@@ -7506,17 +7443,16 @@ function manualLoad(){
     const raw=localStorage.getItem(manualStorageKey());
     if(!raw){
       MANUAL_STATE.entries={};
-      MANUAL_STATE.snapshots={u1:null,u2:null,u3:null};
-      // keep withFtth as-is (user preference persists)
+      MANUAL_STATE.snapshots={morning:null,afternoon:null,endofday:null};
       return;
     }
     const payload=JSON.parse(raw);
     MANUAL_STATE.entries=payload.entries||{};
-    MANUAL_STATE.snapshots=payload.snapshots||{u1:null,u2:null,u3:null};
+    MANUAL_STATE.snapshots=payload.snapshots||{morning:null,afternoon:null,endofday:null};
     if(typeof payload.withFtth==='boolean')MANUAL_STATE.withFtth=payload.withFtth;
   }catch(err){
     MANUAL_STATE.entries={};
-    MANUAL_STATE.snapshots={u1:null,u2:null,u3:null};
+    MANUAL_STATE.snapshots={morning:null,afternoon:null,endofday:null};
   }
 }
 
@@ -7576,19 +7512,8 @@ function manualToggleFtth(){
 }
 
 function manualUpdateEntry(branch,field,value){
-  // If all 3 slots are saved → editing is locked
-  if(manualIsEditingLocked()){
-    // Revert the input
-    const inp=document.getElementById(`manual-input-${field}-${manualSlug(branch)}`);
-    if(inp){
-      const e=MANUAL_STATE.entries[branch]||{pre:0,post:0,ftth:0};
-      inp.value=e[field]||'';
-    }
-    manualShowToast('🔒 All updates saved — unlock one to edit');
-    return;
-  }
   const n=parseInt(value,10);
-  if(!MANUAL_STATE.entries[branch])MANUAL_STATE.entries[branch]={pre:0,post:0,ftth:0};
+  if(!MANUAL_STATE.entries[branch])MANUAL_STATE.entries[branch]={sales:0,ftth:0};
   MANUAL_STATE.entries[branch][field]=(isNaN(n)||n<0)?0:n;
   manualUpdateLiveTotals();
   manualAutosave();
@@ -7596,45 +7521,33 @@ function manualUpdateEntry(branch,field,value){
 
 function manualUpdateLiveTotals(){
   const entries=MANUAL_STATE.entries;
-  let totPre=0,totPost=0,totFtth=0,filledCount=0;
+  let totSales=0,totFtth=0,filledCount=0;
   const branches=manualGetBranches();
   branches.forEach(b=>{
     const e=entries[b.name];
     if(!e)return;
-    const hasAny=(e.pre>0||e.post>0||e.ftth>0);
+    const hasAny=(e.sales>0||e.ftth>0);
     if(hasAny)filledCount++;
-    totPre+=e.pre||0;
-    totPost+=e.post||0;
+    totSales+=e.sales||0;
     totFtth+=e.ftth||0;
   });
-  const totSales=totPre+totPost;
   // Update counter bar
-  const cPre=document.getElementById('manual-c-pre');
-  const cPost=document.getElementById('manual-c-post');
-  const cTot=document.getElementById('manual-c-tot');
+  const cSales=document.getElementById('manual-c-sales');
   const cFtth=document.getElementById('manual-c-ftth');
   const cFilled=document.getElementById('manual-c-filled');
-  if(cPre)cPre.textContent=totPre;
-  if(cPost)cPost.textContent=totPost;
-  if(cTot)cTot.textContent=totSales;
+  if(cSales)cSales.textContent=totSales;
   if(cFtth)cFtth.textContent=totFtth;
   if(cFilled)cFilled.textContent=`${filledCount}/${branches.length}`;
-  // Update per-row totals + filled class
+  // Update filled class on rows
   branches.forEach(b=>{
-    const e=entries[b.name]||{pre:0,post:0,ftth:0};
-    const rowTotal=(e.pre||0)+(e.post||0);
-    const totCell=document.getElementById(`manual-row-total-${manualSlug(b.name)}`);
-    if(totCell){
-      totCell.textContent=rowTotal;
-      totCell.className='manual-total'+(rowTotal===0?' zero':'');
-    }
+    const e=entries[b.name]||{sales:0,ftth:0};
     const row=document.getElementById(`manual-row-${manualSlug(b.name)}`);
     if(row){
-      const hasAny=(e.pre>0||e.post>0||e.ftth>0);
+      const hasAny=(e.sales>0||e.ftth>0);
       row.classList.toggle('filled',hasAny);
     }
     // Highlight inputs with values
-    ['pre','post','ftth'].forEach(f=>{
+    ['sales','ftth'].forEach(f=>{
       const inp=document.getElementById(`manual-input-${f}-${manualSlug(b.name)}`);
       if(inp){
         inp.classList.toggle('has-value',(e[f]||0)>0);
@@ -7644,15 +7557,11 @@ function manualUpdateLiveTotals(){
 }
 
 function manualClearBranch(branch){
-  if(manualIsEditingLocked()){
-    manualShowToast('🔒 All updates saved — unlock one to edit');
-    return;
-  }
   if(MANUAL_STATE.entries[branch]){
     delete MANUAL_STATE.entries[branch];
   }
   // Clear inputs without full re-render (keeps focus flow)
-  ['pre','post','ftth'].forEach(f=>{
+  ['sales','ftth'].forEach(f=>{
     const inp=document.getElementById(`manual-input-${f}-${manualSlug(branch)}`);
     if(inp)inp.value='';
   });
@@ -7664,26 +7573,9 @@ function manualSlug(s){
   return s.replace(/[^a-zA-Z0-9]/g,'_');
 }
 
-// ── Snapshot capture (Update buttons) ──
+// ── Snapshot capture (Shift buttons) ──
 function manualCaptureSnapshot(slot){
-  // slot = 'u1' | 'u2' | 'u3'
-  // If clicked slot is already saved → open Export Modal
-  if(MANUAL_STATE.snapshots[slot]){
-    manualOpenExport(slot);
-    return;
-  }
-  // Validation: enforce order — can't skip slots
-  const order=['u1','u2','u3'];
-  const idx=order.indexOf(slot);
-  let nextValidIdx=0;
-  while(nextValidIdx<order.length&&MANUAL_STATE.snapshots[order[nextValidIdx]]){
-    nextValidIdx++;
-  }
-  // If clicked slot is ahead of next valid → must fill in order
-  if(idx>nextValidIdx){
-    manualShowToast(`⚠ Please save Update ${nextValidIdx+1} first`);
-    return;
-  }
+  // slot = 'morning' | 'afternoon' | 'endofday'
   const now=new Date();
   const h=now.getHours();
   const m=String(now.getMinutes()).padStart(2,'0');
@@ -7694,8 +7586,9 @@ function manualCaptureSnapshot(slot){
   const snapshotEntries={};
   Object.keys(MANUAL_STATE.entries).forEach(k=>{
     const e=MANUAL_STATE.entries[k];
-    snapshotEntries[k]={pre:e.pre||0,post:e.post||0,ftth:e.ftth||0};
+    snapshotEntries[k]={sales:e.sales||0,ftth:e.ftth||0};
   });
+  const labelMap={morning:'Morning',afternoon:'Afternoon',endofday:'End of Day'};
   MANUAL_STATE.snapshots[slot]={
     time:timeLabel,
     timestamp:now.toISOString(),
@@ -7703,117 +7596,15 @@ function manualCaptureSnapshot(slot){
     withFtth:MANUAL_STATE.withFtth,
     scope:MANUAL_STATE.scope,
     scopeName:manualGetScopeName(),
-    date:MANUAL_STATE.date
+    date:MANUAL_STATE.date,
+    slotLabel:labelMap[slot]||slot
   };
   manualSave();
-  manualShowToast(`✓ Update ${slot.replace('u','')} saved at ${timeLabel}`);
+  const isUpdate=MANUAL_STATE.snapshots[slot]&&Object.keys(MANUAL_STATE.snapshots).filter(k=>k===slot).length>0;
+  manualShowToast(`✓ ${labelMap[slot]} captured at ${timeLabel}`);
   renderManualPanel();
   // Auto-open Export Modal right after save (so user can send it immediately)
   setTimeout(()=>manualOpenExport(slot),400);
-}
-
-// ── Smart Lock logic ──
-function manualGetActiveSlot(){
-  // The slot currently open for editing = first empty slot in order
-  const order=['u1','u2','u3'];
-  for(const s of order){
-    if(!MANUAL_STATE.snapshots[s])return s;
-  }
-  return null; // all 3 saved → fully locked
-}
-
-function manualIsEditingLocked(){
-  // Editing is locked if ALL three snapshots are saved
-  return manualGetActiveSlot()===null;
-}
-
-// v16.6 Step 6: Get the latest saved snapshot (for Copy-from-previous feature)
-function manualGetLastSavedSlot(){
-  const order=['u1','u2','u3'];
-  for(let i=order.length-1;i>=0;i--){
-    if(MANUAL_STATE.snapshots[order[i]])return order[i];
-  }
-  return null;
-}
-
-function manualCopyFromPrevious(){
-  if(manualIsEditingLocked()){
-    manualShowToast('🔒 All updates saved — unlock one first');
-    return;
-  }
-  const prevSlot=manualGetLastSavedSlot();
-  if(!prevSlot){
-    manualShowToast('⚠ No previous update to copy from');
-    return;
-  }
-  const prevSnap=MANUAL_STATE.snapshots[prevSlot];
-  if(!prevSnap||!prevSnap.entries){
-    manualShowToast('⚠ Previous update has no data');
-    return;
-  }
-  // Deep copy entries from previous snapshot
-  const newEntries={};
-  Object.keys(prevSnap.entries).forEach(k=>{
-    const e=prevSnap.entries[k];
-    newEntries[k]={pre:e.pre||0,post:e.post||0,ftth:e.ftth||0};
-  });
-  MANUAL_STATE.entries=newEntries;
-  manualSave();
-  const n=prevSlot.replace('u','');
-  manualShowToast(`📋 Copied from Update ${n} — edit & save as next`);
-  renderManualPanel();
-}
-
-function manualAskUnlock(slot){
-  // slot = 'u1' | 'u2' | 'u3' — the one user wants to re-open
-  const order=['u1','u2','u3'];
-  const idx=order.indexOf(slot);
-  // Find which later slots would be erased
-  const toErase=[];
-  for(let i=idx+1;i<order.length;i++){
-    if(MANUAL_STATE.snapshots[order[i]])toErase.push(i+1);
-  }
-  const num=idx+1;
-  const titleEl=document.getElementById('manual-confirm-title');
-  const msgEl=document.getElementById('manual-confirm-msg');
-  const okBtn=document.getElementById('manual-confirm-ok');
-  if(toErase.length===0){
-    // No later snapshots — just unlock this one (no data loss)
-    titleEl.textContent=`🔓 Re-open Update ${num}?`;
-    msgEl.innerHTML=`This will <b>unlock Update ${num}</b> for editing. Its numbers will stay and you can update them.`;
-    okBtn.textContent=`Yes, unlock Update ${num}`;
-  }else{
-    // Warn about erasing later snapshots
-    const eraseList=toErase.map(n=>`Update ${n}`).join(' and ');
-    titleEl.textContent=`⚠️ Re-open Update ${num}?`;
-    msgEl.innerHTML=`This will <b>unlock Update ${num}</b> and <b>erase ${eraseList}</b>. You'll need to save them again later.`;
-    okBtn.textContent=`Yes, erase and unlock`;
-  }
-  okBtn.onclick=()=>manualDoUnlock(slot);
-  manualConfirmOpen();
-}
-
-function manualDoUnlock(slot){
-  const order=['u1','u2','u3'];
-  const idx=order.indexOf(slot);
-  // Clear this slot and all later slots
-  for(let i=idx;i<order.length;i++){
-    MANUAL_STATE.snapshots[order[i]]=null;
-  }
-  manualSave();
-  manualConfirmClose();
-  manualShowToast(`🔓 Update ${idx+1} unlocked`);
-  renderManualPanel();
-}
-
-function manualConfirmOpen(){
-  const o=document.getElementById('manual-confirm-overlay');
-  if(o)o.classList.add('open');
-}
-
-function manualConfirmClose(){
-  const o=document.getElementById('manual-confirm-overlay');
-  if(o)o.classList.remove('open');
 }
 
 // ── Export Modal logic ──
@@ -7831,26 +7622,25 @@ function manualFormatDate(isoDate){
 }
 
 function manualComputeSnapshotTotals(snap){
-  let totPre=0,totPost=0,totFtth=0,branchCount=0;
+  let totSales=0,totFtth=0,branchCount=0;
   Object.keys(snap.entries).forEach(k=>{
     const e=snap.entries[k];
-    const has=(e.pre>0||e.post>0||e.ftth>0);
+    const has=(e.sales>0||e.ftth>0);
     if(has)branchCount++;
-    totPre+=e.pre||0;
-    totPost+=e.post||0;
+    totSales+=e.sales||0;
     totFtth+=e.ftth||0;
   });
   return {
-    totPre,totPost,totFtth,
-    totSales:totPre+totPost,
-    branchCount
+    totSales,totFtth,
+    branchCount,
+    avg:branchCount>0?Math.round((totSales/branchCount)*10)/10:0
   };
 }
 
 function manualOpenExport(slot){
   const snap=MANUAL_STATE.snapshots[slot];
   if(!snap)return;
-  const num=slot.replace('u','');
+  const slotLabel=snap.slotLabel||slot;
   const t=manualComputeSnapshotTotals(snap);
   const hasFtth=snap.withFtth;
   const box=document.getElementById('manual-export-box');
@@ -7860,7 +7650,7 @@ function manualOpenExport(slot){
     <div class="manual-export-hdr">
       <div class="manual-export-hdr-icon">📤</div>
       <div class="manual-export-hdr-text">
-        <div class="manual-export-hdr-title">Export Update ${num}</div>
+        <div class="manual-export-hdr-title">Export ${slotLabel}</div>
         <div class="manual-export-hdr-sub">${snap.scopeName} · ${manualFormatDate(snap.date)} · ${snap.time}</div>
       </div>
       <button class="manual-export-close" onclick="manualCloseExport()" title="Close">✕</button>
@@ -7896,14 +7686,6 @@ function manualOpenExport(slot){
         </span>
         <span class="manual-export-btn-arrow">→</span>
       </button>
-      <button class="manual-export-btn tertiary" onclick="manualCloseExport();manualAskUnlock('${slot}')">
-        <span class="manual-export-btn-icon">🔓</span>
-        <span class="manual-export-btn-text">
-          <div class="manual-export-btn-title">Re-open for editing</div>
-          <div class="manual-export-btn-sub">Unlock this update to change numbers</div>
-        </span>
-        <span class="manual-export-btn-arrow">→</span>
-      </button>
     </div>
   `;
   const o=document.getElementById('manual-export-overlay');
@@ -7919,41 +7701,34 @@ function manualCloseExport(){
 function manualBuildText(slot){
   const snap=MANUAL_STATE.snapshots[slot];
   if(!snap)return '';
-  const num=slot.replace('u','');
+  const slotLabel=snap.slotLabel||slot;
   const t=manualComputeSnapshotTotals(snap);
   const hasFtth=snap.withFtth;
   const lines=[];
   lines.push(`📊 Daily Sales Update — ${snap.scopeName}`);
-  lines.push(`📅 ${manualFormatDate(snap.date)} — Update ${num} (${snap.time})`);
+  lines.push(`📅 ${manualFormatDate(snap.date)} — ${slotLabel} (${snap.time})`);
   lines.push('');
-  // Branches (only those with any value, sorted alphabetically)
+  // Branches with any value, sorted alphabetically — full name, no emoji, no blank lines
   const filled=Object.keys(snap.entries).filter(k=>{
     const e=snap.entries[k];
-    return (e.pre>0||e.post>0||e.ftth>0);
+    return (e.sales>0||e.ftth>0);
   }).sort();
   if(filled.length===0){
-    lines.push('_(No branches filled)_');
+    lines.push('(No branches filled)');
   }else{
     filled.forEach(b=>{
       const e=snap.entries[b];
-      const brShort=b.replace(' FBO','').replace('Kiosk ','');
-      const rowTotal=(e.pre||0)+(e.post||0);
-      lines.push(`🏪 ${brShort}`);
-      lines.push(`   • Prepaid: ${e.pre||0}`);
-      lines.push(`   • Postpaid: ${e.post||0}`);
-      lines.push(`   • Total: ${rowTotal}`);
       if(hasFtth){
-        lines.push(`   • FTTH+5G: ${e.ftth||0}`);
+        lines.push(`${b} = ${e.sales||0} · FTTH+5G: ${e.ftth||0}`);
+      }else{
+        lines.push(`${b} = ${e.sales||0}`);
       }
-      lines.push('');
     });
   }
-  lines.push('━━━━━━━━━━━━━━━━━━━');
+  lines.push('');
+  lines.push(`Total Ach : ${t.totSales}`);
   if(hasFtth){
-    lines.push(`💰 Prepaid + Postpaid: ${t.totSales}`);
-    lines.push(`📡 FTTH + 5G: ${t.totFtth}`);
-  }else{
-    lines.push(`💰 Grand Total: ${t.totSales}`);
+    lines.push(`FTTH + 5G : ${t.totFtth}`);
   }
   return lines.join('\n');
 }
@@ -7990,34 +7765,30 @@ function manualFallbackCopy(text,cb){
 function manualBuildPngSheet(slot){
   const snap=MANUAL_STATE.snapshots[slot];
   if(!snap)return '';
-  const num=slot.replace('u','');
+  const slotLabel=snap.slotLabel||slot;
   const t=manualComputeSnapshotTotals(snap);
   const hasFtth=snap.withFtth;
   const filled=Object.keys(snap.entries).filter(k=>{
     const e=snap.entries[k];
-    return (e.pre>0||e.post>0||e.ftth>0);
+    return (e.sales>0||e.ftth>0);
   }).sort();
   const escapeHtml=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  // Inline SVG icons (html2canvas renders SVG reliably, emoji doesn't always)
+  // Inline SVG icons (html2canvas renders SVG reliably)
   const svgLeaf=`<svg class="png-logo-svg" viewBox="0 0 40 48" xmlns="http://www.w3.org/2000/svg"><path d="M 6 40 Q 2 26 6 14 Q 12 2 24 2 Q 34 2 36 12 Q 38 22 34 32 Q 30 42 20 44 Q 10 46 6 42 Q 4 41 6 40 Z"/></svg>`;
   const svgLeafMini=`<svg class="png-footer-logo-mini" viewBox="0 0 40 48" xmlns="http://www.w3.org/2000/svg"><path d="M 6 40 Q 2 26 6 14 Q 12 2 24 2 Q 34 2 36 12 Q 38 22 34 32 Q 30 42 20 44 Q 10 46 6 42 Q 4 41 6 40 Z"/></svg>`;
   const svgLeafWm=`<svg class="png-watermark" viewBox="0 0 40 48" xmlns="http://www.w3.org/2000/svg"><path d="M 6 40 Q 2 26 6 14 Q 12 2 24 2 Q 34 2 36 12 Q 38 22 34 32 Q 30 42 20 44 Q 10 46 6 42 Q 4 41 6 40 Z"/></svg>`;
-  // ── Build table rows
+  // ── Build table rows (single Sales column + optional FTTH)
   let rows='';
   if(filled.length===0){
-    const colspan=hasFtth?5:4;
+    const colspan=hasFtth?3:2;
     rows=`<tr><td colspan="${colspan}" style="text-align:center;padding:28px;color:#5A9870;font-style:italic">No branches filled for this snapshot</td></tr>`;
   }else{
     filled.forEach(b=>{
       const e=snap.entries[b];
-      const brShort=b.replace(' FBO','').replace('Kiosk ','');
-      const rowTotal=(e.pre||0)+(e.post||0);
       rows+=`
         <tr>
-          <td><span class="png-row-indicator"></span>${escapeHtml(brShort)}</td>
-          <td>${e.pre||0}</td>
-          <td>${e.post||0}</td>
-          <td><span class="png-row-total">${rowTotal}</span></td>
+          <td><span class="png-row-indicator"></span>${escapeHtml(b)}</td>
+          <td><span class="png-row-total">${e.sales||0}</span></td>
           ${hasFtth?`<td><span class="png-row-ftth">${e.ftth||0}</span></td>`:''}
         </tr>
       `;
@@ -8026,20 +7797,18 @@ function manualBuildPngSheet(slot){
   // ── Grand Total footer
   const footer=`
     <tr>
-      <td>GRAND TOTAL</td>
-      <td>${t.totPre}</td>
-      <td>${t.totPost}</td>
+      <td>TOTAL ACH</td>
       <td>${t.totSales}</td>
       ${hasFtth?`<td>${t.totFtth}</td>`:''}
     </tr>
   `;
-  // ── Hero breakdown chips (colored dots instead of emoji)
+  // ── Hero breakdown: Filled + Avg (+ FTTH if enabled)
   const ftthChip=hasFtth?`
     <div class="png-hero-chip">
       <span class="png-hero-chip-dot ftth"></span>
       <span class="png-hero-chip-num">${t.totFtth}</span> FTTH+5G
     </div>`:'';
-  // ── Full sheet HTML (clean, English only, no heavy emoji in headers)
+  // ── Full sheet HTML
   return `
     <div class="png-wrap">
       ${svgLeafWm}
@@ -8052,7 +7821,7 @@ function manualBuildPngSheet(slot){
           <div class="png-title-main">Daily Sales Update</div>
           <div class="png-title-sub">Salam Mobile &middot; Retail MT</div>
         </div>
-        <div class="png-update-badge">UPDATE ${num}</div>
+        <div class="png-update-badge">${String(slotLabel).toUpperCase()}</div>
       </div>
       <div class="png-hero">
         <div class="png-hero-num">${t.totSales}</div>
@@ -8060,11 +7829,11 @@ function manualBuildPngSheet(slot){
         <div class="png-hero-breakdown">
           <div class="png-hero-chip">
             <span class="png-hero-chip-dot prepaid"></span>
-            <span class="png-hero-chip-num">${t.totPre}</span> Prepaid
+            <span class="png-hero-chip-num">${t.branchCount}</span> Filled
           </div>
           <div class="png-hero-chip">
             <span class="png-hero-chip-dot postpaid"></span>
-            <span class="png-hero-chip-num">${t.totPost}</span> Postpaid
+            <span class="png-hero-chip-num">${t.avg}</span> Avg / Branch
           </div>
           ${ftthChip}
         </div>
@@ -8088,9 +7857,7 @@ function manualBuildPngSheet(slot){
           <thead>
             <tr>
               <th>Branch</th>
-              <th>Prepaid</th>
-              <th>Postpaid</th>
-              <th>Total</th>
+              <th>Sales</th>
               ${hasFtth?'<th>FTTH+5G</th>':''}
             </tr>
           </thead>
@@ -8102,7 +7869,7 @@ function manualBuildPngSheet(slot){
         <div class="png-footer-l">
           ${svgLeafMini}
           <span class="png-footer-brand">salam</span>
-          <span>Dashboard &middot; v16.6.2</span>
+          <span>Dashboard &middot; v16.6.3</span>
         </div>
         <div class="png-footer-r">
           <span>${t.branchCount} ${t.branchCount===1?'branch':'branches'} &middot; ${escapeHtml(snap.time)}</span>
@@ -8136,7 +7903,7 @@ function manualExportPNG(slot){
         if(!blob){manualShowToast('⚠ PNG generation failed');return;}
         const url=URL.createObjectURL(blob);
         const a=document.createElement('a');
-        const fname=`salam_update_${snap.scope}_${snap.date}_U${slot.replace('u','')}.png`;
+        const fname=`salam_update_${snap.scope}_${snap.date}_${slot}.png`;
         a.href=url;a.download=fname;
         document.body.appendChild(a);a.click();
         setTimeout(()=>{
@@ -8184,8 +7951,6 @@ function renderManualPanel(){
   const branches=manualGetBranches();
   const showFtth=MANUAL_STATE.withFtth;
   const snaps=MANUAL_STATE.snapshots;
-  const activeSlot=manualGetActiveSlot();
-  const fullyLocked=manualIsEditingLocked();
   // ── Controls
   let html=`
     <div class="manual-controls">
@@ -8211,33 +7976,12 @@ function renderManualPanel(){
       </div>
     </div>
   `;
-  // ── Lock banner (when all 3 saved)
-  if(fullyLocked){
-    html+=`
-      <div class="manual-lock-banner">
-        <div class="manual-lock-banner-icon">🔒</div>
-        <div class="manual-lock-banner-text">
-          <b>All 3 updates saved.</b> Editing is locked. Click 🔓 above any update to unlock it for changes.
-        </div>
-      </div>
-    `;
-  }
-  // ── Live counter
+  // ── Live counter (simplified: Sales + FTTH + Filled)
   html+=`
     <div class="manual-counter">
       <div class="manual-counter-item">
-        <div class="manual-counter-num" id="manual-c-pre">0</div>
-        <div class="manual-counter-lbl">Prepaid</div>
-      </div>
-      <div class="manual-counter-divider"></div>
-      <div class="manual-counter-item">
-        <div class="manual-counter-num" id="manual-c-post">0</div>
-        <div class="manual-counter-lbl">Postpaid</div>
-      </div>
-      <div class="manual-counter-divider"></div>
-      <div class="manual-counter-item">
-        <div class="manual-counter-num" id="manual-c-tot">0</div>
-        <div class="manual-counter-lbl">Total</div>
+        <div class="manual-counter-num" id="manual-c-sales">0</div>
+        <div class="manual-counter-lbl">Total Sales</div>
       </div>
       ${showFtth?`
       <div class="manual-counter-divider"></div>
@@ -8252,32 +7996,15 @@ function renderManualPanel(){
       </div>
     </div>
   `;
-  // ── Copy from previous button (only shown when there's a prev snapshot + not locked)
-  const lastSavedSlot=manualGetLastSavedSlot();
-  if(lastSavedSlot&&!fullyLocked){
-    const n=lastSavedSlot.replace('u','');
-    html+=`
-      <div class="manual-copy-prev-wrap">
-        <button class="manual-copy-prev-btn" onclick="manualCopyFromPrevious()" title="Copy numbers from the latest saved update as starting point">
-          <span>📋</span>
-          <span>Copy from Update ${n}</span>
-        </button>
-      </div>
-    `;
-  }
-  // ── Table
+  // ── Table (single Sales column + optional FTTH)
   if(branches.length===0){
     html+=`<div class="manual-no-data">No branches found for this selection.</div>`;
   }else{
-    const inpLockClass=fullyLocked?' input-locked':'';
-    const inpReadonly=fullyLocked?' readonly':'';
     html+=`<div class="manual-table-wrap"><table class="manual-table">
       <thead>
         <tr>
           <th>Branch</th>
-          <th>Prepaid</th>
-          <th>Postpaid</th>
-          <th>Total</th>
+          <th>Sales</th>
           ${showFtth?'<th>FTTH+5G</th>':''}
           <th></th>
         </tr>
@@ -8285,78 +8012,49 @@ function renderManualPanel(){
       <tbody>`;
     branches.forEach(b=>{
       const slug=manualSlug(b.name);
-      const e=MANUAL_STATE.entries[b.name]||{pre:0,post:0,ftth:0};
-      const rowTotal=(e.pre||0)+(e.post||0);
-      const hasAny=(e.pre>0||e.post>0||e.ftth>0);
-      const brShort=b.name.replace(' FBO','').replace('Kiosk ','');
+      const e=MANUAL_STATE.entries[b.name]||{sales:0,ftth:0};
+      const hasAny=(e.sales>0||e.ftth>0);
       const mgrChip=MANUAL_STATE.scope==='all'?`<span class="manual-mgr-chip">${mgrShort(b.mgr)}</span>`:'';
-      const clearBtn=fullyLocked?'':`<button class="manual-clear-btn" onclick="manualClearBranch('${b.name.replace(/'/g,"\\'")}')" title="Clear this branch">✕</button>`;
       html+=`
         <tr id="manual-row-${slug}" class="${hasAny?'filled':''}">
-          <td><div class="manual-branch-cell" title="${b.name}">${brShort}${mgrChip}</div></td>
-          <td><input type="number" min="0" inputmode="numeric" class="manual-input${inpLockClass} ${e.pre>0?'has-value':''}" id="manual-input-pre-${slug}" value="${e.pre||''}" oninput="manualUpdateEntry('${b.name.replace(/'/g,"\\'")}','pre',this.value)" placeholder="0"${inpReadonly}></td>
-          <td><input type="number" min="0" inputmode="numeric" class="manual-input${inpLockClass} ${e.post>0?'has-value':''}" id="manual-input-post-${slug}" value="${e.post||''}" oninput="manualUpdateEntry('${b.name.replace(/'/g,"\\'")}','post',this.value)" placeholder="0"${inpReadonly}></td>
-          <td><span class="manual-total${rowTotal===0?' zero':''}" id="manual-row-total-${slug}">${rowTotal}</span></td>
-          ${showFtth?`<td><input type="number" min="0" inputmode="numeric" class="manual-input${inpLockClass} ${e.ftth>0?'has-value':''}" id="manual-input-ftth-${slug}" value="${e.ftth||''}" oninput="manualUpdateEntry('${b.name.replace(/'/g,"\\'")}','ftth',this.value)" placeholder="0"${inpReadonly}></td>`:''}
-          <td>${clearBtn}</td>
+          <td><div class="manual-branch-cell" title="${b.name}">${b.name}${mgrChip}</div></td>
+          <td><input type="number" min="0" inputmode="numeric" class="manual-input ${e.sales>0?'has-value':''}" id="manual-input-sales-${slug}" value="${e.sales||''}" oninput="manualUpdateEntry('${b.name.replace(/'/g,"\\'")}','sales',this.value)" placeholder="0"></td>
+          ${showFtth?`<td><input type="number" min="0" inputmode="numeric" class="manual-input ${e.ftth>0?'has-value':''}" id="manual-input-ftth-${slug}" value="${e.ftth||''}" oninput="manualUpdateEntry('${b.name.replace(/'/g,"\\'")}','ftth',this.value)" placeholder="0"></td>`:''}
+          <td><button class="manual-clear-btn" onclick="manualClearBranch('${b.name.replace(/'/g,"\\'")}')" title="Clear this branch">✕</button></td>
         </tr>
       `;
     });
     html+=`</tbody></table></div>`;
-    // ── Update Buttons (3 snapshots) with smart states
+    // ── Shift Buttons (3 snapshots — no lock, always editable)
+    const shiftConfig=[
+      {slot:'morning',label:'Morning',icon:'🌅'},
+      {slot:'afternoon',label:'Afternoon',icon:'🌆'},
+      {slot:'endofday',label:'End of Day',icon:'🌙'}
+    ];
     html+=`
       <div class="manual-updates-section">
-        <div class="manual-updates-title">📌 Daily Snapshots</div>
+        <div class="manual-updates-title">📌 Capture Shift Snapshot</div>
         <div class="manual-updates-grid">
-          ${['u1','u2','u3'].map((slot,i)=>{
-            const n=i+1;
-            const snap=snaps[slot];
+          ${shiftConfig.map(cfg=>{
+            const snap=snaps[cfg.slot];
             const saved=!!snap;
-            const isActive=slot===activeSlot;
-            // Determine state: locked | active | saved (terminal) | empty-future
-            let stateClass='';
-            let icon='📌';
-            let status='Not yet';
-            let unlockBtn='';
-            if(saved){
-              // Is this snapshot locked (i.e., has a later saved snapshot)?
-              const hasLater=['u1','u2','u3'].slice(i+1).some(s=>snaps[s]);
-              if(hasLater){
-                stateClass='locked';
-                icon='🔒';
-                status=`Locked · ${snap.time}`;
-                unlockBtn=`<button class="manual-unlock-btn" onclick="event.stopPropagation();manualAskUnlock('${slot}')" title="Unlock for editing">🔓</button>`;
-              }else{
-                // Latest saved — still counts as "saved" (can be re-opened too)
-                stateClass='saved';
-                icon='✅';
-                status=`Saved · ${snap.time}`;
-                unlockBtn=`<button class="manual-unlock-btn" onclick="event.stopPropagation();manualAskUnlock('${slot}')" title="Re-open this update">🔓</button>`;
-              }
-            }else if(isActive){
-              stateClass='active';
-              icon='✏️';
-              status='Active — click to save';
-            }else{
-              // Future slot (waiting for earlier ones)
-              stateClass='';
-              icon='📌';
-              status=`Save Update ${n>1?n-1:n} first`;
-            }
+            const stateClass=saved?'saved':'';
+            const icon=saved?'✅':cfg.icon;
+            const status=saved?`Saved · ${snap.time}`:'Not yet';
+            const tooltip=saved?`Re-capture or export ${cfg.label}`:`Capture ${cfg.label} snapshot`;
             return `
-              <button class="manual-update-btn ${stateClass}" onclick="manualCaptureSnapshot('${slot}')" title="${stateClass==='locked'?'Locked snapshot':'Capture current numbers'}">
-                ${unlockBtn}
+              <button class="manual-update-btn ${stateClass}" onclick="manualCaptureSnapshot('${cfg.slot}')" title="${tooltip}">
                 <span class="manual-update-btn-check">✓</span>
                 <span class="manual-update-btn-icon">${icon}</span>
-                <span class="manual-update-btn-label">Update ${n}</span>
+                <span class="manual-update-btn-label">${cfg.label}</span>
                 <span class="manual-update-btn-status">${status}</span>
               </button>
             `;
           }).join('')}
         </div>
         <div style="text-align:center;color:#5A9870;font-size:10px;margin-top:10px;opacity:0.75;line-height:1.5">
-          💡 Click any saved update to export as PNG or copy as WhatsApp text.<br>
-          🔒 Locks are enforced in order — later updates erase earlier re-opens.
+          💡 Click any shift button to capture &amp; export current numbers.<br>
+          Press again anytime to re-capture with the latest values (time updates automatically).
         </div>
       </div>
     `;
