@@ -332,11 +332,12 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
 }
 .manual-update-btn{
-  position:relative;padding:14px 8px;background:var(--g3);
+  position:relative;padding:14px 8px 12px;background:var(--g3);
   border:1px solid rgba(212,160,23,0.3);border-radius:10px;
   cursor:pointer;transition:all .2s;
-  display:flex;flex-direction:column;align-items:center;gap:4px;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
   color:#E0EFE5;font-weight:700;
+  min-height:74px;
 }
 .manual-update-btn:hover{
   background:rgba(212,160,23,0.1);
@@ -427,21 +428,30 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   box-shadow:0 0 6px currentColor;
 }
 
-/* v16.6.4: Small × delete button on saved snapshots */
+/* v16.6.5: Unicode shift icon (☀ ◔ ☾) — widely supported */
+.shift-icon{
+  display:inline-block;font-size:14px;margin-right:6px;
+  vertical-align:middle;line-height:1;font-weight:400;
+}
+.manual-update-btn.shift-morning .shift-icon{color:#F4D88A}
+.manual-update-btn.shift-afternoon .shift-icon{color:#FFB968}
+.manual-update-btn.shift-endofday .shift-icon{color:#C27DD8}
+
+/* v16.6.5: × delete button — positioned INSIDE the button top-right corner */
 .manual-snap-delete{
-  position:absolute;top:-6px;right:-6px;
-  width:22px;height:22px;border-radius:50%;
-  background:rgba(226,75,74,0.9);
-  border:2px solid var(--g2);
-  color:#fff;font-size:11px;font-weight:900;
+  position:absolute;top:6px;right:6px;
+  width:20px;height:20px;border-radius:50%;
+  background:rgba(226,75,74,0.85);
+  border:1px solid rgba(226,75,74,0.4);
+  color:#fff;font-size:10px;font-weight:900;
   cursor:pointer;display:flex;align-items:center;justify-content:center;
   transition:all .15s;z-index:2;line-height:1;
   padding:0;
 }
 .manual-snap-delete:hover{
   background:#E24B4A;
-  transform:scale(1.18);
-  box-shadow:0 3px 10px rgba(226,75,74,0.5);
+  transform:scale(1.15);
+  box-shadow:0 2px 8px rgba(226,75,74,0.5);
 }
 
 /* Toast */
@@ -2166,7 +2176,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">Manual Daily Update ✨</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v16.6.4 · Phase 3+</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v16.6.5 · Phase 3+</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -7955,7 +7965,7 @@ function manualBuildPngSheet(slot){
         <div class="png-footer-l">
           ${svgLeafMini}
           <span class="png-footer-brand">salam</span>
-          <span>Dashboard &middot; v16.6.4</span>
+          <span>Dashboard &middot; v16.6.5</span>
         </div>
         <div class="png-footer-r">
           <span>${t.branchCount} ${t.branchCount===1?'branch':'branches'} &middot; ${escapeHtml(snap.time)}</span>
@@ -8111,36 +8121,38 @@ function renderManualPanel(){
       `;
     });
     html+=`</tbody></table></div>`;
-    // ── Shift Buttons (3 snapshots — no lock, always editable, color-coded)
+    // ── Shift Buttons (v16.6.5: clear icons, better text, fixed × delete)
     const shiftConfig=[
-      {slot:'morning',label:'Morning',cls:'shift-morning'},
-      {slot:'afternoon',label:'Afternoon',cls:'shift-afternoon'},
-      {slot:'endofday',label:'End of Day',cls:'shift-endofday'}
+      {slot:'morning',label:'Morning',cls:'shift-morning',icon:'☀'},
+      {slot:'afternoon',label:'Afternoon',cls:'shift-afternoon',icon:'◔'},
+      {slot:'endofday',label:'End of Day',cls:'shift-endofday',icon:'☾'}
     ];
     html+=`
       <div class="manual-updates-section">
-        <div class="manual-updates-title">Capture Shift Snapshot</div>
+        <div class="manual-updates-title">Daily Reports · 3 Shifts</div>
         <div class="manual-updates-grid">
           ${shiftConfig.map(cfg=>{
             const snap=snaps[cfg.slot];
             const saved=!!snap;
             const savedClass=saved?'saved':'';
-            const status=saved?`Saved · ${snap.time}`:'Not yet';
-            const tooltip=saved?`Click to export ${cfg.label} (or press ✕ to clear)`:`Capture ${cfg.label} snapshot`;
-            const deleteBtn=saved?`<button class="manual-snap-delete" onclick="event.stopPropagation();manualClearSnapshot('${cfg.slot}')" title="Delete this ${cfg.label} snapshot">✕</button>`:'';
+            const status=saved?`Captured · ${snap.time}`:'— Not captured —';
+            const tooltip=saved?`Click to export ${cfg.label} · Press × to clear`:`Capture ${cfg.label} snapshot now`;
+            const deleteBtn=saved?`<button class="manual-snap-delete" onclick="event.stopPropagation();manualClearSnapshot('${cfg.slot}')" title="Delete ${cfg.label} snapshot">×</button>`:'';
             return `
               <button class="manual-update-btn ${cfg.cls} ${savedClass}" onclick="manualCaptureSnapshot('${cfg.slot}')" title="${tooltip}">
                 ${deleteBtn}
-                <span class="manual-update-btn-check">✓</span>
-                <span class="manual-update-btn-label"><span class="shift-dot"></span>${cfg.label}</span>
+                <span class="manual-update-btn-label">
+                  <span class="shift-icon">${cfg.icon}</span>
+                  ${cfg.label}
+                </span>
                 <span class="manual-update-btn-status">${status}</span>
               </button>
             `;
           }).join('')}
         </div>
-        <div style="text-align:center;color:#5A9870;font-size:10px;margin-top:10px;opacity:0.75;line-height:1.5">
-          Click any shift button to capture &amp; export current numbers.<br>
-          Press again anytime to re-capture · Press ✕ on a saved snapshot to delete it.
+        <div style="text-align:center;color:#A8D4BA;font-size:10.5px;margin-top:12px;line-height:1.6;padding:0 8px">
+          <b style="color:#F4D88A">How it works:</b> Click a shift button to capture current numbers &amp; export.<br>
+          Press again anytime to update · Press <b style="color:#E88484">×</b> on a captured snapshot to clear it.
         </div>
       </div>
     `;
