@@ -1405,6 +1405,78 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   border-color:rgba(61,214,140,0.4);
 }
 .sb-div{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:8px 10px}
+
+/* v16.6.6: Senior Manager — premium gold styling */
+.sb-item.senior{
+  background:linear-gradient(135deg,rgba(244,216,138,0.12),rgba(212,160,23,0.04));
+  border:1px solid rgba(212,160,23,0.35);
+  padding:13px 12px;
+  margin-bottom:10px;
+  position:relative;
+}
+.sb-item.senior::after{
+  content:'';position:absolute;inset:0;border-radius:10px;pointer-events:none;
+  background:linear-gradient(135deg,transparent 40%,rgba(244,216,138,0.08) 50%,transparent 60%);
+  opacity:0.6;
+}
+.sb-item.senior:hover{
+  background:linear-gradient(135deg,rgba(244,216,138,0.2),rgba(212,160,23,0.08));
+  border-color:rgba(244,216,138,0.7);
+  box-shadow:0 4px 18px rgba(212,160,23,0.25),0 0 0 1px rgba(244,216,138,0.2);
+}
+.sb-item.senior.active{
+  background:linear-gradient(135deg,rgba(244,216,138,0.28),rgba(212,160,23,0.12));
+  border-color:rgba(244,216,138,0.75);
+  color:#fff;
+  box-shadow:0 6px 24px rgba(212,160,23,0.35),inset 0 1px 0 rgba(244,216,138,0.25);
+}
+.sb-item.senior.active::before{
+  opacity:1;width:4px;
+  background:linear-gradient(180deg,#F4D88A,#D4A017);
+  box-shadow:0 0 14px #F4D88A;
+}
+.sb-item.senior .sb-d{
+  width:10px;height:10px;
+  background:linear-gradient(135deg,#F4D88A,#D4A017);
+  box-shadow:0 0 10px #F4D88A,inset 0 -1px 2px rgba(0,0,0,0.3);
+}
+.sb-item.senior.active .sb-d{
+  box-shadow:0 0 18px #F4D88A,inset 0 -1px 2px rgba(0,0,0,0.3);
+  animation:pulse 2s infinite;
+}
+.sb-item.senior .sb-cnt{
+  background:linear-gradient(135deg,rgba(212,160,23,0.3),rgba(184,134,11,0.18));
+  color:#F4D88A;
+  border:1px solid rgba(244,216,138,0.35);
+  font-weight:800;
+}
+.sb-item.senior.active .sb-cnt{
+  background:linear-gradient(135deg,rgba(244,216,138,0.4),rgba(212,160,23,0.25));
+  color:#fff;
+  border-color:rgba(244,216,138,0.6);
+}
+.sb-item.senior .sb-name{
+  display:flex;flex-direction:column;gap:2px;flex:1;
+}
+.sb-item.senior .sb-name-main{
+  font-size:12.5px;font-weight:800;
+  background:linear-gradient(135deg,#F4D88A 0%,#FFF0B8 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;letter-spacing:0.2px;
+}
+.sb-item.senior.active .sb-name-main{
+  background:linear-gradient(135deg,#FFF3C4 0%,#F4D88A 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.sb-item.senior .sb-name-sub{
+  font-size:8.5px;color:#B89860;
+  font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+  opacity:0.85;
+}
+.sb-item.senior.active .sb-name-sub{
+  color:#F4D88A;opacity:1;
+}
 .qs-v{font-size:20px;font-weight:700;color:#fff}
 .qs-l{font-size:10px;color:#5AB87A;margin-bottom:8px}
 
@@ -2176,7 +2248,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">Manual Daily Update ✨</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v16.6.5 · Phase 3+</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v16.6.6 · Phase 3+</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -2287,8 +2359,13 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   <div class="sidebar">
     <div class="sb-section">
       <div class="sb-lbl">Views</div>
-      <button class="sb-item active" onclick="setView('all',this)">
-        <span class="sb-d"></span>All Supervisors<span class="sb-cnt" id="cnt-all">—</span>
+      <button class="sb-item senior active" onclick="setView('all',this)">
+        <span class="sb-d"></span>
+        <span class="sb-name">
+          <span class="sb-name-main">Eqla N Alshammari</span>
+          <span class="sb-name-sub">Senior Manager</span>
+        </span>
+        <span class="sb-cnt" id="cnt-all">—</span>
       </button>
       <button class="sb-item" onclick="setView('Abdulwahab',this)">
         <span class="sb-d" style="background:#F6C94E"></span>Abdulwahab AlShammari<span class="sb-cnt" id="cnt-aw">—</span>
@@ -4849,8 +4926,13 @@ function renderMobileSidebar(){
   content.innerHTML=`
     <div class="sb-section">
       <div class="sb-lbl">Views</div>
-      <button class="sb-item ${CUR==='all'?'active':''}" onclick="setView('all',this);closeMobileSidebar()">
-        <span class="sb-d"></span>All Supervisors<span class="sb-cnt">${DATA.length}</span>
+      <button class="sb-item senior ${CUR==='all'?'active':''}" onclick="setView('all',this);closeMobileSidebar()">
+        <span class="sb-d"></span>
+        <span class="sb-name">
+          <span class="sb-name-main">Eqla N Alshammari</span>
+          <span class="sb-name-sub">Senior Manager</span>
+        </span>
+        <span class="sb-cnt">${DATA.length}</span>
       </button>
       <button class="sb-item ${CUR==='Abdulwahab'?'active':''}" onclick="setView('Abdulwahab',this);closeMobileSidebar()">
         <span class="sb-d" style="background:#F6C94E"></span>Abdulwahab AlShammari<span class="sb-cnt">${k.aw}</span>
