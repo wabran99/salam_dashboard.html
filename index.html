@@ -111,25 +111,6 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   color:#fff;font-weight:700;border-color:#F4D88A;
 }
 
-/* v16.7.1: Language Toggle Button */
-.lang-toggle{
-  background:linear-gradient(135deg,rgba(61,214,140,0.15),rgba(61,214,140,0.05));
-  border:1px solid rgba(61,214,140,0.35);
-  color:#3DD68C;font-weight:800;font-size:11px;letter-spacing:1px;
-  padding:6px 12px;border-radius:8px;cursor:pointer;
-  transition:all .2s;margin-right:10px;
-  min-width:42px;text-align:center;
-  font-family:system-ui,-apple-system,sans-serif;
-}
-.lang-toggle:hover{
-  background:linear-gradient(135deg,rgba(61,214,140,0.25),rgba(61,214,140,0.1));
-  border-color:rgba(61,214,140,0.6);
-  color:#5DE8A8;
-  transform:translateY(-1px);
-  box-shadow:0 3px 10px rgba(61,214,140,0.2);
-}
-.lang-toggle:active{transform:translateY(0)}
-
 /* Premium Panel — gold accents */
 #panel-manual .panel-hdr{
   background:linear-gradient(135deg,rgba(212,160,23,0.18),rgba(212,160,23,0.04));
@@ -2230,46 +2211,44 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   <button class="tool-icon" onclick="openPanel('alerts')">
     🔔
     <span class="tool-icon-badge" id="alerts-badge" style="display:none">0</span>
-    <span class="tool-icon-tooltip" data-i18n="tb.alerts">Smart Alerts</span>
+    <span class="tool-icon-tooltip">Smart Alerts</span>
   </button>
   <button class="tool-icon" onclick="openPanel('risk')">
     🎯
     <span class="tool-icon-badge" id="risk-badge" style="display:none">0</span>
-    <span class="tool-icon-tooltip" data-i18n="tb.risk">At-Risk Radar</span>
+    <span class="tool-icon-tooltip">At-Risk Radar</span>
   </button>
   <button class="tool-icon" onclick="openPanel('fame')">
     🏆
-    <span class="tool-icon-tooltip" data-i18n="tb.hall">Hall of Fame</span>
+    <span class="tool-icon-tooltip">Hall of Fame</span>
   </button>
   <!-- v16: New icons -->
   <button class="tool-icon" onclick="openPanel('compare')">
     ⚖️
     <span class="tool-icon-badge" id="compare-badge" style="display:none">0</span>
-    <span class="tool-icon-tooltip" data-i18n="tb.compare">Compare</span>
+    <span class="tool-icon-tooltip">Compare</span>
   </button>
   <button class="tool-icon" onclick="openPanel('watch')">
     📌
     <span class="tool-icon-badge" id="watch-badge" style="display:none">0</span>
-    <span class="tool-icon-tooltip" data-i18n="tb.watch">Watch List</span>
+    <span class="tool-icon-tooltip">Watch List</span>
   </button>
   <button class="tool-icon" onclick="openPanel('badges')">
     🎖️
-    <span class="tool-icon-tooltip" data-i18n="tb.badges">Badges</span>
+    <span class="tool-icon-tooltip">Badges</span>
   </button>
   <!-- v16.3: Help Center -->
   <button class="tool-icon" onclick="openPanel('help')" style="background:linear-gradient(135deg,rgba(55,138,221,0.15),rgba(55,138,221,0.05));border-color:rgba(55,138,221,0.4)">
     ❓
-    <span class="tool-icon-tooltip" data-i18n="tb.guide">User Guide</span>
+    <span class="tool-icon-tooltip">User Guide</span>
   </button>
   <!-- v16.6: Manual Daily Update (Premium Gold) -->
   <button class="tool-icon tool-icon-gold" onclick="openPanel('manual')">
     🧮
-    <span class="tool-icon-tooltip" data-i18n="tb.manual">Manual Daily Update ✨</span>
+    <span class="tool-icon-tooltip">Manual Daily Update ✨</span>
   </button>
   <div style="flex:1"></div>
-  <!-- v16.7.1: Language Toggle -->
-  <button id="lang-toggle-btn" class="lang-toggle" onclick="toggleLang()" title="Switch to Arabic">AR</button>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v16.7.2 · Phase 3+</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v16.6.6 · Phase 3+</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -2292,7 +2271,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 
 <div class="panel-overlay" id="panel-alerts">
   <div class="panel-hdr">
-    <div class="panel-hdr-title">🔔 <span data-i18n="panel.alerts">Smart Alerts</span></div>
+    <div class="panel-hdr-title">🔔 Smart Alerts</div>
     <button class="panel-close" onclick="closePanel()">✕</button>
   </div>
   <div class="panel-body" id="panel-alerts-body"></div>
@@ -2300,7 +2279,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 
 <div class="panel-overlay" id="panel-risk">
   <div class="panel-hdr">
-    <div class="panel-hdr-title">🎯 <span data-i18n="panel.risk">At-Risk Radar</span></div>
+    <div class="panel-hdr-title">🎯 At-Risk Radar</div>
     <button class="panel-close" onclick="closePanel()">✕</button>
   </div>
   <div class="panel-body" id="panel-risk-body"></div>
@@ -2308,7 +2287,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 
 <div class="panel-overlay" id="panel-fame">
   <div class="panel-hdr">
-    <div class="panel-hdr-title">🏆 <span data-i18n="panel.hall">Hall of Fame</span></div>
+    <div class="panel-hdr-title">🏆 Hall of Fame</div>
     <button class="panel-close" onclick="closePanel()">✕</button>
   </div>
   <div class="panel-body" id="panel-fame-body"></div>
@@ -2317,7 +2296,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 <!-- v16: New Panels -->
 <div class="panel-overlay" id="panel-compare">
   <div class="panel-hdr">
-    <div class="panel-hdr-title">⚖️ <span data-i18n="panel.compare">Compare</span></div>
+    <div class="panel-hdr-title">⚖️ Compare</div>
     <button class="panel-close" onclick="closePanel()">✕</button>
   </div>
   <div class="panel-body" id="panel-compare-body"></div>
@@ -2325,7 +2304,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 
 <div class="panel-overlay" id="panel-watch">
   <div class="panel-hdr">
-    <div class="panel-hdr-title">📌 <span data-i18n="panel.watch">Watch List</span></div>
+    <div class="panel-hdr-title">📌 Watch List</div>
     <button class="panel-close" onclick="closePanel()">✕</button>
   </div>
   <div class="panel-body" id="panel-watch-body"></div>
@@ -2333,7 +2312,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 
 <div class="panel-overlay" id="panel-badges">
   <div class="panel-hdr">
-    <div class="panel-hdr-title">🎖️ <span data-i18n="panel.badges">Achievement Badges</span></div>
+    <div class="panel-hdr-title">🎖️ Achievement Badges</div>
     <button class="panel-close" onclick="closePanel()">✕</button>
   </div>
   <div class="panel-body" id="panel-badges-body"></div>
@@ -2342,7 +2321,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 <!-- v16.3: Help Center Panel -->
 <div class="panel-overlay" id="panel-help">
   <div class="panel-hdr">
-    <div class="panel-hdr-title">❓ <span data-i18n="panel.help">User Guide</span></div>
+    <div class="panel-hdr-title">❓ User Guide</div>
     <button class="panel-close" onclick="closePanel()">✕</button>
   </div>
   <div class="panel-body" id="panel-help-body"></div>
@@ -2351,7 +2330,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 <!-- v16.6: Manual Daily Update Panel (Premium Gold) -->
 <div class="panel-overlay" id="panel-manual">
   <div class="panel-hdr">
-    <div class="panel-hdr-title">🧮 <span data-i18n="panel.manual">Manual Daily Update</span></div>
+    <div class="panel-hdr-title">🧮 Manual Daily Update</div>
     <button class="panel-close" onclick="closePanel()">✕</button>
   </div>
   <div class="panel-body" id="panel-manual-body">
@@ -2379,12 +2358,12 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 <div class="wrap">
   <div class="sidebar">
     <div class="sb-section">
-      <div class="sb-lbl" data-i18n="sb.views">Views</div>
+      <div class="sb-lbl">Views</div>
       <button class="sb-item senior active" onclick="setView('all',this)">
         <span class="sb-d"></span>
         <span class="sb-name">
           <span class="sb-name-main">Eqla N Alshammari</span>
-          <span class="sb-name-sub" data-i18n="sb.seniorMgr">Senior Manager</span>
+          <span class="sb-name-sub">Senior Manager</span>
         </span>
         <span class="sb-cnt" id="cnt-all">—</span>
       </button>
@@ -2403,17 +2382,17 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     </div>
     <div class="sb-div"></div>
     <div class="sb-section">
-      <div class="sb-lbl" data-i18n="sb.quickStats">Quick stats</div>
+      <div class="sb-lbl">Quick stats</div>
       <div style="padding:6px 8px">
-        <div class="qs-l" data-i18n="sb.totalAgents">Total agents</div><div class="qs-v" id="sb-agents">—</div>
-        <div class="qs-l" style="margin-top:10px" data-i18n="sb.teamSales">Team sales</div>
+        <div class="qs-l">Total agents</div><div class="qs-v" id="sb-agents">—</div>
+        <div class="qs-l" style="margin-top:10px">Team sales</div>
         <div class="qs-v" style="color:#5DD88C" id="sb-sales">—</div>
-        <div class="qs-l" style="margin-top:10px" data-i18n="sb.achievement">Achievement</div>
+        <div class="qs-l" style="margin-top:10px">Achievement</div>
         <div class="qs-v" id="sb-pct">—</div>
         <div class="sb-div" style="margin:12px 0"></div>
-        <div class="qs-l" data-i18n="sb.ftth">FTTH + 5G</div>
+        <div class="qs-l">FTTH + 5G</div>
         <div class="qs-v" style="color:#A8CCEE" id="sb-ftth">—</div>
-        <div class="qs-l" style="margin-top:10px" data-i18n="sb.dataAsOf">Data as of</div>
+        <div class="qs-l" style="margin-top:10px">Data as of</div>
         <div style="font-size:13px;font-weight:600;color:#F6C94E" id="sb-date">—</div>
       </div>
     </div>
@@ -2430,235 +2409,6 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 <script>
 const CSV_UMM  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQzH2quWsRx-NsAhxFeqOsz9n_KElh80hZq64gnjviHC0OGVSXTGgQIC7HbhazVChH7Cde__gKhnQut/pub?gid=59746245&single=true&output=csv';
 const CSV_FTTH = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQzH2quWsRx-NsAhxFeqOsz9n_KElh80hZq64gnjviHC0OGVSXTGgQIC7HbhazVChH7Cde__gKhnQut/pub?gid=57457654&single=true&output=csv';
-
-// ═══════════════════════════════════════════════════════
-// v16.7.1: I18N System — Language Toggle Infrastructure
-// ═══════════════════════════════════════════════════════
-const I18N={
-  en:{
-    // Toolbar
-    'tb.refresh':'Refresh',
-    'tb.live':'Live',
-    'tb.updating':'Updating...',
-    'tb.error':'Error',
-    'tb.alerts':'Smart Alerts',
-    'tb.risk':'At-Risk Radar',
-    'tb.hall':'Hall of Fame',
-    'tb.compare':'Compare',
-    'tb.watch':'Watch List',
-    'tb.badges':'Badges',
-    'tb.guide':'User Guide',
-    'tb.manual':'Manual Daily Update ✨',
-    // Sidebar sections
-    'sb.views':'Views',
-    'sb.live':'Live',
-    'sb.status':'Status',
-    'sb.snr':'Senior Manager',
-    // Hero Stats
-    'hero.totalSales':'Total Sales',
-    'hero.achievement':'Achievement',
-    'hero.ftth5g':'FTTH + 5G',
-    'hero.activeAgents':'Active Agents',
-    'hero.daysLeft':'Work Days Left',
-    'hero.target':'Target',
-    'hero.achieved':'Achieved',
-    'hero.remaining':'Remaining',
-    'hero.dailyTarget':'Daily Target',
-    'hero.targetNeeded':'Target Needed',
-    'hero.perDay':'per day',
-    'hero.onTrack':'On Track',
-    'hero.offTrack':'Off Track',
-    'hero.teamSales':'Team Sales',
-    // Common
-    'common.all':'All',
-    'common.filter':'Filter',
-    'common.search':'Search',
-    'common.export':'Export',
-    'common.loading':'Loading...',
-    'common.noData':'No data available',
-    'common.retry':'Retry',
-    'common.close':'Close',
-    'common.cancel':'Cancel',
-    'common.save':'Save',
-    'common.delete':'Delete',
-    'common.confirm':'Confirm',
-    'common.yes':'Yes',
-    'common.no':'No',
-    'common.view':'View',
-    'common.back':'Back',
-    // Sidebar Quick Stats
-    'sb.quickStats':'Quick Stats',
-    'sb.totalAgents':'Total Agents',
-    'sb.teamSales':'Team Sales',
-    'sb.achievement':'Achievement',
-    'sb.ftth':'FTTH + 5G',
-    'sb.dataAsOf':'Data as of',
-    'sb.seniorMgr':'Senior Manager',
-    // Panel titles
-    'panel.alerts':'Smart Alerts',
-    'panel.risk':'At-Risk Radar',
-    'panel.hall':'Hall of Fame',
-    'panel.manual':'Manual Daily Update',
-    'panel.help':'Help Center',
-    'panel.settings':'Settings',
-    'panel.compare':'Compare',
-    'panel.watch':'Watch List',
-    'panel.badges':'Badges',
-    // Empty states
-    'empty.loading':'Loading data...',
-    'empty.noAgents':'No agents found for this selection.',
-    'empty.noAlerts':'No alerts at this time. Great job!',
-    'empty.noRisk':'No agents at risk currently.',
-    'empty.noWatch':'Your watch list is empty.',
-    'empty.noBadges':'No badges earned yet.',
-    'empty.error':'Could not load data.',
-    // Charts
-    'chart.salesBySupervisor':'Sales by Supervisor',
-    'chart.topPerformers':'Top Performers',
-    'chart.ftthDistribution':'FTTH & 5G Distribution',
-    'chart.salesTrend':'Sales Trend',
-    'chart.targetVsActual':'Target vs Actual',
-    // Language toggle
-    'lang.label':'Language',
-    'lang.en':'English',
-    'lang.ar':'العربية'
-  },
-  ar:{
-    // Toolbar
-    'tb.refresh':'تحديث',
-    'tb.live':'مباشر',
-    'tb.updating':'جارٍ التحديث...',
-    'tb.error':'خطأ',
-    'tb.alerts':'التنبيهات الذكية',
-    'tb.risk':'رادار المخاطر',
-    'tb.hall':'قاعة المتميّزين',
-    'tb.compare':'مقارنة',
-    'tb.watch':'قائمة المتابعة',
-    'tb.badges':'الأوسمة',
-    'tb.guide':'دليل الاستخدام',
-    'tb.manual':'التحديث اليدوي ✨',
-    // Sidebar sections
-    'sb.views':'العرض',
-    'sb.live':'مباشر',
-    'sb.status':'الحالة',
-    'sb.snr':'المدير الأول',
-    // Hero Stats
-    'hero.totalSales':'إجمالي المبيعات',
-    'hero.achievement':'نسبة الإنجاز',
-    'hero.ftth5g':'الفايبر + الجيل الخامس',
-    'hero.activeAgents':'الموظفون النشطون',
-    'hero.daysLeft':'أيام العمل المتبقية',
-    'hero.target':'الهدف',
-    'hero.achieved':'المُنجز',
-    'hero.remaining':'المتبقي',
-    'hero.dailyTarget':'الهدف اليومي',
-    'hero.targetNeeded':'الهدف المطلوب',
-    'hero.perDay':'يومياً',
-    'hero.onTrack':'على المسار',
-    'hero.offTrack':'خارج المسار',
-    'hero.teamSales':'مبيعات الفريق',
-    // Common
-    'common.all':'الكل',
-    'common.filter':'تصفية',
-    'common.search':'بحث',
-    'common.export':'تصدير',
-    'common.loading':'جارٍ التحميل...',
-    'common.noData':'لا توجد بيانات',
-    'common.retry':'إعادة المحاولة',
-    'common.close':'إغلاق',
-    'common.cancel':'إلغاء',
-    'common.save':'حفظ',
-    'common.delete':'حذف',
-    'common.confirm':'تأكيد',
-    'common.yes':'نعم',
-    'common.no':'لا',
-    'common.view':'عرض',
-    'common.back':'رجوع',
-    // Sidebar Quick Stats
-    'sb.quickStats':'إحصائيات سريعة',
-    'sb.totalAgents':'إجمالي الموظفين',
-    'sb.teamSales':'مبيعات الفريق',
-    'sb.achievement':'نسبة الإنجاز',
-    'sb.ftth':'الفايبر + الجيل الخامس',
-    'sb.dataAsOf':'البيانات حتى',
-    'sb.seniorMgr':'المدير الأول',
-    // Panel titles
-    'panel.alerts':'التنبيهات الذكية',
-    'panel.risk':'رادار المخاطر',
-    'panel.hall':'قاعة المتميّزين',
-    'panel.manual':'التحديث اليدوي',
-    'panel.help':'مركز المساعدة',
-    'panel.settings':'الإعدادات',
-    'panel.compare':'مقارنة',
-    'panel.watch':'قائمة المتابعة',
-    'panel.badges':'الأوسمة',
-    // Empty states
-    'empty.loading':'جارٍ تحميل البيانات...',
-    'empty.noAgents':'لا يوجد موظفون لهذا التحديد.',
-    'empty.noAlerts':'لا توجد تنبيهات حالياً. عمل ممتاز!',
-    'empty.noRisk':'لا يوجد موظفون معرّضون للخطر حالياً.',
-    'empty.noWatch':'قائمة المتابعة فارغة.',
-    'empty.noBadges':'لم يُكتسَب أي وسام بعد.',
-    'empty.error':'تعذّر تحميل البيانات.',
-    // Charts
-    'chart.salesBySupervisor':'المبيعات حسب المشرف',
-    'chart.topPerformers':'المتميّزون',
-    'chart.ftthDistribution':'توزيع الفايبر والجيل الخامس',
-    'chart.salesTrend':'اتجاه المبيعات',
-    'chart.targetVsActual':'الهدف مقابل المُنجز',
-    // Language toggle
-    'lang.label':'اللغة',
-    'lang.en':'English',
-    'lang.ar':'العربية'
-  }
-};
-
-// Current language — persisted in localStorage
-let LANG=(function(){
-  try{return localStorage.getItem('salam_lang')||'en';}catch(e){return 'en';}
-})();
-
-// Translation function
-function t(key){
-  const dict=I18N[LANG]||I18N.en;
-  return dict[key]||I18N.en[key]||key;
-}
-
-// Toggle language — re-renders everything
-function toggleLang(){
-  LANG=(LANG==='en')?'ar':'en';
-  try{localStorage.setItem('salam_lang',LANG);}catch(e){}
-  applyStaticTranslations();
-  // Re-render current view if data loaded
-  if(typeof DATA!=='undefined'&&DATA&&DATA.length){
-    if(typeof renderView==='function')renderView(CUR);
-    if(typeof updateSidebar==='function')updateSidebar();
-  }
-  // Show feedback
-  if(typeof manualShowToast==='function'){
-    manualShowToast(LANG==='ar'?'✓ تم التغيير إلى العربية':'✓ Switched to English');
-  }
-}
-
-// Apply translations to static DOM elements (those with data-i18n attribute)
-function applyStaticTranslations(){
-  document.querySelectorAll('[data-i18n]').forEach(el=>{
-    const key=el.getAttribute('data-i18n');
-    el.textContent=t(key);
-  });
-  document.querySelectorAll('[data-i18n-title]').forEach(el=>{
-    const key=el.getAttribute('data-i18n-title');
-    el.setAttribute('title',t(key));
-  });
-  // Update html lang attribute
-  document.documentElement.setAttribute('lang',LANG);
-  // Update language toggle button label
-  const btn=document.getElementById('lang-toggle-btn');
-  if(btn){
-    btn.textContent=(LANG==='en')?'AR':'EN';
-    btn.setAttribute('title',LANG==='en'?'Switch to Arabic':'Switch to English');
-  }
-}
 
 let DATA=[], FTTH_DATA=[], CUR='all', SEARCH='', FILT='all', DATA_DATE='';
 let barChart=null;
@@ -5175,12 +4925,12 @@ function renderMobileSidebar(){
   const ftthTotal=FTTH_DATA.reduce((a,e)=>a+e.total,0);
   content.innerHTML=`
     <div class="sb-section">
-      <div class="sb-lbl">${t('sb.views')}</div>
+      <div class="sb-lbl">Views</div>
       <button class="sb-item senior ${CUR==='all'?'active':''}" onclick="setView('all',this);closeMobileSidebar()">
         <span class="sb-d"></span>
         <span class="sb-name">
           <span class="sb-name-main">Eqla N Alshammari</span>
-          <span class="sb-name-sub">${t('sb.seniorMgr')}</span>
+          <span class="sb-name-sub">Senior Manager</span>
         </span>
         <span class="sb-cnt">${DATA.length}</span>
       </button>
@@ -5199,17 +4949,17 @@ function renderMobileSidebar(){
     </div>
     <div class="sb-div"></div>
     <div class="sb-section">
-      <div class="sb-lbl">${t('sb.quickStats')}</div>
+      <div class="sb-lbl">Quick stats</div>
       <div style="padding:6px 8px">
-        <div class="qs-l">${t('sb.totalAgents')}</div><div class="qs-v">${DATA.length}</div>
-        <div class="qs-l" style="margin-top:10px">${t('sb.teamSales')}</div>
+        <div class="qs-l">Total agents</div><div class="qs-v">${DATA.length}</div>
+        <div class="qs-l" style="margin-top:10px">Team sales</div>
         <div class="qs-v" style="color:#5DD88C">${tS}</div>
-        <div class="qs-l" style="margin-top:10px">${t('sb.achievement')}</div>
+        <div class="qs-l" style="margin-top:10px">Achievement</div>
         <div class="qs-v" style="color:${pc(tP)}">${tP}%</div>
         <div class="sb-div" style="margin:12px 0"></div>
-        <div class="qs-l">${t('sb.ftth')}</div>
+        <div class="qs-l">FTTH + 5G</div>
         <div class="qs-v" style="color:#A8CCEE">${ftthTotal}</div>
-        <div class="qs-l" style="margin-top:10px">${t('sb.dataAsOf')}</div>
+        <div class="qs-l" style="margin-top:10px">Data as of</div>
         <div style="font-size:13px;font-weight:600;color:#F6C94E">${DATA_DATE}</div>
       </div>
     </div>
@@ -8511,9 +8261,6 @@ openPanel=function(name){
 
 setInterval(loadData,5*60*1000);
 loadData();
-
-// v16.7.1: Apply translations on first page load
-applyStaticTranslations();
 </script>
 </body>
 </html>
