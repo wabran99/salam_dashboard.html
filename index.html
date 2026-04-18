@@ -368,6 +368,82 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 }
 .manual-update-btn.saved .manual-update-btn-check{opacity:1}
 
+/* v16.6.4: Distinct colors per shift (even when saved) */
+.manual-update-btn.shift-morning{
+  border-color:rgba(244,216,138,0.4);
+}
+.manual-update-btn.shift-morning:hover{
+  background:rgba(244,216,138,0.08);
+  border-color:rgba(244,216,138,0.8);
+  box-shadow:0 4px 12px rgba(244,216,138,0.2);
+}
+.manual-update-btn.shift-morning.saved{
+  background:linear-gradient(135deg,rgba(244,216,138,0.18),rgba(244,216,138,0.05));
+  border-color:rgba(244,216,138,0.7);
+  color:#F4D88A;
+}
+.manual-update-btn.shift-morning.saved .manual-update-btn-status{color:#F4D88A}
+.manual-update-btn.shift-morning.saved .manual-update-btn-check{color:#F4D88A}
+.manual-update-btn.shift-morning .shift-dot{background:#F4D88A}
+
+.manual-update-btn.shift-afternoon{
+  border-color:rgba(239,159,39,0.4);
+}
+.manual-update-btn.shift-afternoon:hover{
+  background:rgba(239,159,39,0.08);
+  border-color:rgba(239,159,39,0.8);
+  box-shadow:0 4px 12px rgba(239,159,39,0.2);
+}
+.manual-update-btn.shift-afternoon.saved{
+  background:linear-gradient(135deg,rgba(239,159,39,0.18),rgba(239,159,39,0.05));
+  border-color:rgba(239,159,39,0.7);
+  color:#FFB968;
+}
+.manual-update-btn.shift-afternoon.saved .manual-update-btn-status{color:#FFB968}
+.manual-update-btn.shift-afternoon.saved .manual-update-btn-check{color:#FFB968}
+.manual-update-btn.shift-afternoon .shift-dot{background:#EF9F27}
+
+.manual-update-btn.shift-endofday{
+  border-color:rgba(155,89,182,0.4);
+}
+.manual-update-btn.shift-endofday:hover{
+  background:rgba(155,89,182,0.08);
+  border-color:rgba(155,89,182,0.8);
+  box-shadow:0 4px 12px rgba(155,89,182,0.2);
+}
+.manual-update-btn.shift-endofday.saved{
+  background:linear-gradient(135deg,rgba(155,89,182,0.18),rgba(155,89,182,0.05));
+  border-color:rgba(155,89,182,0.7);
+  color:#C27DD8;
+}
+.manual-update-btn.shift-endofday.saved .manual-update-btn-status{color:#C27DD8}
+.manual-update-btn.shift-endofday.saved .manual-update-btn-check{color:#C27DD8}
+.manual-update-btn.shift-endofday .shift-dot{background:#9B59B6}
+
+/* Colored dot before label */
+.shift-dot{
+  display:inline-block;width:8px;height:8px;border-radius:50%;
+  margin-right:6px;vertical-align:middle;
+  box-shadow:0 0 6px currentColor;
+}
+
+/* v16.6.4: Small × delete button on saved snapshots */
+.manual-snap-delete{
+  position:absolute;top:-6px;right:-6px;
+  width:22px;height:22px;border-radius:50%;
+  background:rgba(226,75,74,0.9);
+  border:2px solid var(--g2);
+  color:#fff;font-size:11px;font-weight:900;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all .15s;z-index:2;line-height:1;
+  padding:0;
+}
+.manual-snap-delete:hover{
+  background:#E24B4A;
+  transform:scale(1.18);
+  box-shadow:0 3px 10px rgba(226,75,74,0.5);
+}
+
 /* Toast */
 .manual-toast{
   position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);
@@ -2090,7 +2166,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">Manual Daily Update ✨</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v16.6.3 · Phase 3+</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v16.6.4 · Phase 3+</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -7573,6 +7649,16 @@ function manualSlug(s){
   return s.replace(/[^a-zA-Z0-9]/g,'_');
 }
 
+// ── Clear a saved snapshot (v16.6.4) ──
+function manualClearSnapshot(slot){
+  if(!MANUAL_STATE.snapshots[slot])return;
+  const labelMap={morning:'Morning',afternoon:'Afternoon',endofday:'End of Day'};
+  MANUAL_STATE.snapshots[slot]=null;
+  manualSave();
+  manualShowToast(`✕ ${labelMap[slot]} snapshot cleared`);
+  renderManualPanel();
+}
+
 // ── Snapshot capture (Shift buttons) ──
 function manualCaptureSnapshot(slot){
   // slot = 'morning' | 'afternoon' | 'endofday'
@@ -7705,8 +7791,8 @@ function manualBuildText(slot){
   const t=manualComputeSnapshotTotals(snap);
   const hasFtth=snap.withFtth;
   const lines=[];
-  lines.push(`📊 Daily Sales Update — ${snap.scopeName}`);
-  lines.push(`📅 ${manualFormatDate(snap.date)} — ${slotLabel} (${snap.time})`);
+  lines.push(`Daily Sales Update — ${snap.scopeName}`);
+  lines.push(`${manualFormatDate(snap.date)} — ${slotLabel} (${snap.time})`);
   lines.push('');
   // Branches with any value, sorted alphabetically — full name, no emoji, no blank lines
   const filled=Object.keys(snap.entries).filter(k=>{
@@ -7869,7 +7955,7 @@ function manualBuildPngSheet(slot){
         <div class="png-footer-l">
           ${svgLeafMini}
           <span class="png-footer-brand">salam</span>
-          <span>Dashboard &middot; v16.6.3</span>
+          <span>Dashboard &middot; v16.6.4</span>
         </div>
         <div class="png-footer-r">
           <span>${t.branchCount} ${t.branchCount===1?'branch':'branches'} &middot; ${escapeHtml(snap.time)}</span>
@@ -8025,36 +8111,36 @@ function renderManualPanel(){
       `;
     });
     html+=`</tbody></table></div>`;
-    // ── Shift Buttons (3 snapshots — no lock, always editable)
+    // ── Shift Buttons (3 snapshots — no lock, always editable, color-coded)
     const shiftConfig=[
-      {slot:'morning',label:'Morning',icon:'🌅'},
-      {slot:'afternoon',label:'Afternoon',icon:'🌆'},
-      {slot:'endofday',label:'End of Day',icon:'🌙'}
+      {slot:'morning',label:'Morning',cls:'shift-morning'},
+      {slot:'afternoon',label:'Afternoon',cls:'shift-afternoon'},
+      {slot:'endofday',label:'End of Day',cls:'shift-endofday'}
     ];
     html+=`
       <div class="manual-updates-section">
-        <div class="manual-updates-title">📌 Capture Shift Snapshot</div>
+        <div class="manual-updates-title">Capture Shift Snapshot</div>
         <div class="manual-updates-grid">
           ${shiftConfig.map(cfg=>{
             const snap=snaps[cfg.slot];
             const saved=!!snap;
-            const stateClass=saved?'saved':'';
-            const icon=saved?'✅':cfg.icon;
+            const savedClass=saved?'saved':'';
             const status=saved?`Saved · ${snap.time}`:'Not yet';
-            const tooltip=saved?`Re-capture or export ${cfg.label}`:`Capture ${cfg.label} snapshot`;
+            const tooltip=saved?`Click to export ${cfg.label} (or press ✕ to clear)`:`Capture ${cfg.label} snapshot`;
+            const deleteBtn=saved?`<button class="manual-snap-delete" onclick="event.stopPropagation();manualClearSnapshot('${cfg.slot}')" title="Delete this ${cfg.label} snapshot">✕</button>`:'';
             return `
-              <button class="manual-update-btn ${stateClass}" onclick="manualCaptureSnapshot('${cfg.slot}')" title="${tooltip}">
+              <button class="manual-update-btn ${cfg.cls} ${savedClass}" onclick="manualCaptureSnapshot('${cfg.slot}')" title="${tooltip}">
+                ${deleteBtn}
                 <span class="manual-update-btn-check">✓</span>
-                <span class="manual-update-btn-icon">${icon}</span>
-                <span class="manual-update-btn-label">${cfg.label}</span>
+                <span class="manual-update-btn-label"><span class="shift-dot"></span>${cfg.label}</span>
                 <span class="manual-update-btn-status">${status}</span>
               </button>
             `;
           }).join('')}
         </div>
         <div style="text-align:center;color:#5A9870;font-size:10px;margin-top:10px;opacity:0.75;line-height:1.5">
-          💡 Click any shift button to capture &amp; export current numbers.<br>
-          Press again anytime to re-capture with the latest values (time updates automatically).
+          Click any shift button to capture &amp; export current numbers.<br>
+          Press again anytime to re-capture · Press ✕ on a saved snapshot to delete it.
         </div>
       </div>
     `;
