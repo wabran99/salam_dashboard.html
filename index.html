@@ -8137,7 +8137,7 @@ function renderManualPanel(){
             const savedClass=saved?'saved':'';
             const status=saved?`Captured · ${snap.time}`:'— Not captured —';
             const tooltip=saved?`Click to export ${cfg.label} · Press × to clear`:`Capture ${cfg.label} snapshot now`;
-            const deleteBtn=saved?`<button class="manual-snap-delete" onclick="event.stopPropagation();manualClearSnapshot('${cfg.slot}')" title="Delete ${cfg.label} snapshot">×</button>`:'';
+            const deleteBtn=saved?`<span class="manual-snap-delete" role="button" tabindex="0" onclick="event.stopPropagation();manualClearSnapshot('${cfg.slot}')" title="Delete ${cfg.label} snapshot">×</span>`:'';
             return `
               <button class="manual-update-btn ${cfg.cls} ${savedClass}" onclick="manualCaptureSnapshot('${cfg.slot}')" title="${tooltip}">
                 ${deleteBtn}
