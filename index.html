@@ -901,7 +901,8 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 .risk-stat-l{font-size:8px;color:#8A9898;text-transform:uppercase;margin-top:2px}
 
 /* ── v14: Hall of Fame ── */
-.fame-card{background:linear-gradient(135deg,rgba(212,160,23,0.08),rgba(212,160,23,0.03));border:1px solid rgba(212,160,23,0.25);border-radius:12px;padding:14px;margin-bottom:12px;cursor:pointer;transition:all .15s}
+.fame-card{background:linear-gradient(135deg,rgba(212,160,23,0.08),rgba(212,160,23,0.03));border:1px solid rgba(212,160,23,0.25);border-radius:12px;padding:14px;margin-bottom:12px;cursor:pointer;transition:all .15s;position:relative;overflow:hidden}
+.fame-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,rgba(212,160,23,0.4),transparent)}
 .fame-card:hover{background:linear-gradient(135deg,rgba(212,160,23,0.15),rgba(212,160,23,0.06));transform:translateY(-2px)}
 .fame-card-hdr{display:flex;align-items:center;gap:10px;margin-bottom:10px}
 .fame-award{font-size:26px}
@@ -914,6 +915,84 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 .fame-stat{display:flex;flex-direction:column}
 .fame-stat-v{font-size:16px;font-weight:800;color:#F6C94E}
 .fame-stat-l{font-size:9px;color:#8A9898;text-transform:uppercase;margin-top:1px}
+
+/* v16.8: Tier-based styling for Salam Legends */
+/* Elite Tier — brightest gold */
+.fame-card.fame-elite{
+  background:linear-gradient(135deg,rgba(244,216,138,0.15),rgba(212,160,23,0.06));
+  border:1px solid rgba(244,216,138,0.5);
+  box-shadow:0 4px 14px rgba(212,160,23,0.15),inset 0 1px 0 rgba(244,216,138,0.2);
+}
+.fame-card.fame-elite::before{
+  height:4px;
+  background:linear-gradient(90deg,transparent,#F4D88A,#D4A017,#F4D88A,transparent);
+  box-shadow:0 0 12px rgba(244,216,138,0.5);
+}
+.fame-card.fame-elite:hover{
+  background:linear-gradient(135deg,rgba(244,216,138,0.22),rgba(212,160,23,0.1));
+  border-color:rgba(244,216,138,0.8);
+  box-shadow:0 6px 20px rgba(212,160,23,0.3);
+}
+.fame-card.fame-elite .fame-award{
+  filter:drop-shadow(0 2px 8px rgba(244,216,138,0.6));
+}
+/* Category Tier — silver */
+.fame-card.fame-category{
+  background:linear-gradient(135deg,rgba(200,210,220,0.08),rgba(140,160,180,0.03));
+  border:1px solid rgba(200,210,220,0.25);
+}
+.fame-card.fame-category::before{
+  background:linear-gradient(90deg,transparent,rgba(200,210,220,0.5),transparent);
+}
+.fame-card.fame-category:hover{
+  background:linear-gradient(135deg,rgba(200,210,220,0.14),rgba(140,160,180,0.06));
+  border-color:rgba(200,210,220,0.45);
+}
+/* Character Tier — bronze */
+.fame-card.fame-character{
+  background:linear-gradient(135deg,rgba(205,127,50,0.08),rgba(165,100,40,0.03));
+  border:1px solid rgba(205,127,50,0.28);
+}
+.fame-card.fame-character::before{
+  background:linear-gradient(90deg,transparent,rgba(205,127,50,0.5),transparent);
+}
+.fame-card.fame-character:hover{
+  background:linear-gradient(135deg,rgba(205,127,50,0.14),rgba(165,100,40,0.06));
+  border-color:rgba(205,127,50,0.5);
+}
+
+/* v16.8: Employee card badge (tiny award on employee cards) */
+.emp-badge-chip{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:3px 8px 3px 6px;border-radius:10px;
+  font-size:10px;font-weight:800;
+  background:linear-gradient(135deg,rgba(244,216,138,0.22),rgba(212,160,23,0.1));
+  border:1px solid rgba(244,216,138,0.45);
+  color:#F4D88A;
+  margin-left:6px;vertical-align:middle;
+  box-shadow:0 2px 6px rgba(212,160,23,0.2);
+  white-space:nowrap;
+}
+.emp-badge-chip .emp-badge-icon{font-size:12px;line-height:1}
+.emp-badge-chip .emp-badge-text{letter-spacing:0.2px}
+
+/* v16.8: Legend badge on Podium cards */
+.pod-legend-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  margin-top:8px;padding:4px 10px;
+  border-radius:12px;
+  background:linear-gradient(135deg,rgba(244,216,138,0.15),rgba(212,160,23,0.05));
+  border:1px solid rgba(244,216,138,0.4);
+  font-size:9.5px;font-weight:800;letter-spacing:0.3px;
+  text-transform:uppercase;
+  box-shadow:0 2px 8px rgba(212,160,23,0.15);
+  max-width:100%;overflow:hidden;
+}
+.pod-legend-icon{font-size:12px;line-height:1}
+.pod-legend-text{
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  max-width:120px;
+}
 
 /* ── v14: Live Ticker ── */
 .ticker-wrap{background:linear-gradient(90deg,rgba(61,214,140,0.08),rgba(61,214,140,0.03),rgba(61,214,140,0.08));border-bottom:1px solid var(--border);padding:8px 0;overflow:hidden;position:relative}
@@ -2220,7 +2299,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   </button>
   <button class="tool-icon" onclick="openPanel('fame')">
     🏆
-    <span class="tool-icon-tooltip">Hall of Fame</span>
+    <span class="tool-icon-tooltip">Salam Legends</span>
   </button>
   <!-- v16: New icons -->
   <button class="tool-icon" onclick="openPanel('compare')">
@@ -2248,7 +2327,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">Manual Daily Update ✨</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v16.6.6 · Phase 3+</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v16.8 · Salam Legends</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -2287,7 +2366,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 
 <div class="panel-overlay" id="panel-fame">
   <div class="panel-hdr">
-    <div class="panel-hdr-title">🏆 Hall of Fame</div>
+    <div class="panel-hdr-title">🏆 Salam Legends</div>
     <button class="panel-close" onclick="closePanel()">✕</button>
   </div>
   <div class="panel-body" id="panel-fame-body"></div>
@@ -2509,7 +2588,7 @@ async function loadData(){
     if(!DATA.length)throw new Error('empty');
     // v12: Set DATA_DATE dynamically from sheet filename, fallback to today's date
     DATA_DATE=sheetDate||getFallbackDate();
-    updateSidebar();renderView(CUR);
+    updateSidebar();rebuildFamesCache();renderView(CUR);
     document.getElementById('live-lbl').textContent='Live';
     document.getElementById('hdr-sub').textContent=
       `Data as of ${DATA_DATE} · ${DATA.length} agents · `+new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
@@ -2617,6 +2696,16 @@ function agentBadge(pct,sales){
   if(pct>=50)return'<span class="badge badge-track">✅ On Track</span>';
   if(pct>=25)return'<span class="badge badge-risk">⚠️ At Risk</span>';
   return'<span class="badge badge-cold">❄️ Inactive</span>';
+}
+
+// v16.8: Salam Legends badge chip — shown next to employee name
+function legendBadge(e){
+  const b=getEmployeeBadge(e.user,e.name);
+  if(!b)return '';
+  return `<span class="emp-badge-chip" title="${b.title}" style="color:${b.color};border-color:${b.color}60">
+    <span class="emp-badge-icon">${b.award}</span>
+    <span class="emp-badge-text">${b.title}</span>
+  </span>`;
 }
 
 function renderView(view){
@@ -3023,6 +3112,7 @@ function renderTop5(sorted){
       const e=top3[origI];
       const col=cols[origI];
       const gIdx=DATA.findIndex(d=>d.user===e.user&&d.name===e.name);
+      const _lb=getEmployeeBadge(e.user,e.name);
       return`<div class="${col} pod-col" onclick="openModal(${gIdx})">
         ${origI===0?'<div class="pod-crown">👑</div>':'<div style="height:32px"></div>'}
         <div class="pod-medal">${medals[origI]}</div>
@@ -3035,6 +3125,7 @@ function renderTop5(sorted){
             <div class="pod-score-pct">${e.pct}%</div>
             <div class="pod-score-lbl">sales · achievement</div>
           </div>
+          ${_lb?`<div class="pod-legend-badge" style="color:${_lb.color};border-color:${_lb.color}60" title="${_lb.title}"><span class="pod-legend-icon">${_lb.award}</span><span class="pod-legend-text">${_lb.title}</span></div>`:''}
         </div>
         <div class="pod-base"></div>
       </div>`;
@@ -3050,10 +3141,11 @@ function renderTop5(sorted){
           const rank=i+4;
           const gIdx=DATA.findIndex(d=>d.user===e.user&&d.name===e.name);
           const pctColor=pc(e.pct);
+          const _lb=getEmployeeBadge(e.user,e.name);
           return`<div class="top-slim-row" onclick="openModal(${gIdx})">
             <div class="slim-rank">${rank}</div>
             <div style="min-width:0">
-              <div class="slim-name">${e.name}</div>
+              <div class="slim-name">${e.name} ${_lb?`<span class="emp-badge-chip" title="${_lb.title}" style="color:${_lb.color};border-color:${_lb.color}60;font-size:9px;padding:2px 6px 2px 4px"><span class="emp-badge-icon" style="font-size:10px">${_lb.award}</span></span>`:''}</div>
               <div class="slim-branch">${e.branch.replace(' FBO','').replace('Kiosk ','')}</div>
             </div>
             <div class="slim-sup">${mgrShort(e.mgr)}</div>
@@ -3183,7 +3275,7 @@ function renderTable(emps,brF){
       <span class="rk ${rc}">${i+1}</span>
       <button class="watch-star ${isWatched?'on':''}" onclick="event.stopPropagation();toggleWatch('${empKey.replace(/'/g,"\\'")}')" title="${isWatched?'Remove from Watch List':'Add to Watch List'}">${isWatched?'★':'☆'}</button>
       <div>
-        <div class="en">${e.name} ${agentBadge(e.pct,e.sales)}</div>
+        <div class="en">${e.name} ${agentBadge(e.pct,e.sales)} ${legendBadge(e)}</div>
         <div class="eb">${e.branch}</div>
       </div>
       <div class="esup">${mgrShort(e.mgr)}</div>
@@ -3251,6 +3343,7 @@ function openModal(idx){
           <div style="font-size:12px;color:#7DE8A8;margin-top:2px">${e.user}</div>
           <div style="margin-top:5px;display:flex;gap:6px;flex-wrap:wrap;align-items:center">
             ${agentBadge(e.pct,e.sales)}
+            ${legendBadge(e)}
             <!-- v16: Quick action buttons in Modal -->
             <button onclick="toggleWatch('${(e.user||e.name).replace(/'/g,"\\'")}');openModal(${idx})" style="background:${WATCH_LIST.includes(e.user||e.name)?'rgba(246,201,78,0.2)':'rgba(255,255,255,0.05)'};border:1px solid ${WATCH_LIST.includes(e.user||e.name)?'rgba(246,201,78,0.4)':'rgba(255,255,255,0.1)'};color:${WATCH_LIST.includes(e.user||e.name)?'#F6C94E':'#8AC8A8'};padding:3px 10px;border-radius:12px;font-size:10px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:4px">
               ${WATCH_LIST.includes(e.user||e.name)?'★ Watching':'☆ Watch'}
@@ -4400,44 +4493,135 @@ function updateRiskBadge(){
   }
 }
 
-// ── Hall of Fame logic ──
+// ── Salam Legends (v16.8) — 9 tiered awards, unique winner per badge ──
 function renderFamePanel(){
   const body=document.getElementById('panel-fame-body');
   if(!DATA.length){body.innerHTML='<div class="panel-empty">Loading...</div>';return;}
   const valid=DATA.filter(e=>e.target>0&&e.name!=='User_Mapping_Master');
-  // 1. Employee of the Month (highest %)
-  const champ=[...valid].sort((a,b)=>b.pct-a.pct||b.sales-a.sales)[0];
-  // 2. Top Seller (highest absolute sales)
-  const topSeller=[...valid].sort((a,b)=>b.sales-a.sales)[0];
-  // 3. Overachiever (highest % above 100%)
-  const overachievers=valid.filter(e=>e.pct>=100).sort((a,b)=>b.pct-a.pct);
-  const overKing=overachievers[0];
-  // 4. Postpaid King
-  const postKing=[...valid].sort((a,b)=>(b.post||0)-(a.post||0))[0];
-  // 5. Rising Star (high % with lower target — proven potential)
-  const rising=[...valid].filter(e=>e.target<=50&&e.pct>=80).sort((a,b)=>b.pct-a.pct)[0];
-  // 6. Consistency (steady achievement 50-85% — reliable)
-  const consistent=[...valid].filter(e=>e.pct>=50&&e.pct<=85&&e.sales>=10).sort((a,b)=>b.sales-a.sales)[0];
-  const awards=[
-    {key:'champ',emp:champ,award:'👑',title:'Employee of the Month',subtitle:'Highest achievement %',color:'#F6C94E',statLabel:'Achievement'},
-    {key:'top',emp:topSeller,award:'💰',title:'Top Seller',subtitle:'Most sales overall',color:'#5DD88C',statLabel:'Total Sales'},
-    {key:'over',emp:overKing,award:'🚀',title:'Overachiever',subtitle:'Exceeded target',color:'#F6C94E',statLabel:'Achievement'},
-    {key:'post',emp:postKing,award:'📱',title:'Postpaid King',subtitle:'Top postpaid sales',color:'#A8CCEE',statLabel:'Postpaid Sales'},
-    {key:'rising',emp:rising,award:'⭐',title:'Rising Star',subtitle:'High % on smaller target',color:'#ED93B1',statLabel:'Achievement'},
-    {key:'consistent',emp:consistent,award:'🎯',title:'Consistency Champion',subtitle:'Reliable performer',color:'#85B7EB',statLabel:'Total Sales'}
-  ].filter(a=>a.emp);
-  if(!awards.length){
+  if(!valid.length){
     body.innerHTML='<div class="panel-empty"><div class="panel-empty-icon">🏆</div>Awards coming soon...<br><span style="font-size:11px;opacity:0.7">Need more data</span></div>';
     return;
   }
-  body.innerHTML=awards.map(a=>{
-    const e=a.emp;
+  // Tie-breaker: higher total sales wins
+  const tiebreak=(a,b)=>b.sales-a.sales;
+  // Build FTTH lookup by user (for Fiber Master & 5G Pioneer)
+  const ftthMap={};
+  FTTH_DATA.forEach(f=>{if(f.user)ftthMap[f.user]=f;});
+  // Award hierarchy — ORDER MATTERS (higher = assigned first)
+  const hierarchy=[
+    {
+      key:'champ',tier:'elite',
+      award:'👑',color:'#F6C94E',
+      title:'Employee of the Month',titleAr:'موظف الشهر',
+      subtitle:'Highest achievement %',subtitleAr:'أعلى نسبة إنجاز',
+      statLabel:'Achievement',
+      // Ranking: by highest % → sales tiebreak
+      rank:(pool)=>[...pool].sort((a,b)=>(b.pct-a.pct)||tiebreak(a,b))
+    },
+    {
+      key:'top',tier:'elite',
+      award:'💎',color:'#5DD88C',
+      title:'Top Performer',titleAr:'المتصدّر الأول',
+      subtitle:'Most sales overall',subtitleAr:'أعلى مبيعات إجمالية',
+      statLabel:'Total Sales',
+      rank:(pool)=>[...pool].sort(tiebreak)
+    },
+    {
+      key:'crusher',tier:'elite',
+      award:'🏆',color:'#F6C94E',
+      title:'Target Crusher',titleAr:'قاهر الأهداف',
+      subtitle:'Highest % above 100%',subtitleAr:'أعلى تجاوز للهدف',
+      statLabel:'Achievement',
+      rank:(pool)=>[...pool].filter(e=>e.pct>=100).sort((a,b)=>(b.pct-a.pct)||tiebreak(a,b))
+    },
+    {
+      key:'post',tier:'category',
+      award:'📱',color:'#A8CCEE',
+      title:'Postpaid Champion',titleAr:'بطل الفوترة',
+      subtitle:'Top postpaid sales',subtitleAr:'أعلى مبيعات الفوترة',
+      statLabel:'Postpaid Sales',
+      rank:(pool)=>[...pool].filter(e=>(e.post||0)>0).sort((a,b)=>((b.post||0)-(a.post||0))||tiebreak(a,b))
+    },
+    {
+      key:'prep',tier:'category',
+      award:'💳',color:'#D8A8F0',
+      title:'Prepaid Leader',titleAr:'متصدّر المسبق',
+      subtitle:'Top prepaid sales',subtitleAr:'أعلى مبيعات الدفع المسبق',
+      statLabel:'Prepaid Sales',
+      rank:(pool)=>[...pool].filter(e=>(e.prep||0)>0).sort((a,b)=>((b.prep||0)-(a.prep||0))||tiebreak(a,b))
+    },
+    {
+      key:'fiber',tier:'category',
+      award:'🌐',color:'#88D0F8',
+      title:'Fiber Master',titleAr:'سيّد الفايبر',
+      subtitle:'Top FTTH sales',subtitleAr:'أعلى مبيعات الفايبر',
+      statLabel:'FTTH Sales',
+      rank:(pool)=>[...pool].map(e=>({...e,_ftth:(ftthMap[e.user]?ftthMap[e.user].ftth:0)})).filter(e=>e._ftth>0).sort((a,b)=>(b._ftth-a._ftth)||tiebreak(a,b))
+    },
+    {
+      key:'fiveG',tier:'category',
+      award:'📡',color:'#68A8E8',
+      title:'5G Pioneer',titleAr:'رائد الجيل الخامس',
+      subtitle:'Top 5G sales',subtitleAr:'أعلى مبيعات الجيل الخامس',
+      statLabel:'5G Sales',
+      rank:(pool)=>[...pool].map(e=>({...e,_g5:(ftthMap[e.user]?ftthMap[e.user].g5:0)})).filter(e=>e._g5>0).sort((a,b)=>(b._g5-a._g5)||tiebreak(a,b))
+    },
+    {
+      key:'rising',tier:'character',
+      award:'⭐',color:'#ED93B1',
+      title:'Rising Star',titleAr:'النجم الصاعد',
+      subtitle:'High % on smaller target',subtitleAr:'نسبة عالية بهدف أقل',
+      statLabel:'Achievement',
+      rank:(pool)=>[...pool].filter(e=>e.target<=50&&e.pct>=80).sort((a,b)=>(b.pct-a.pct)||tiebreak(a,b))
+    },
+    {
+      key:'improved',tier:'character',
+      award:'🚀',color:'#F6A84E',
+      title:'Most Improved',titleAr:'الأسرع تطوّراً',
+      subtitle:'Strongest recent pace',subtitleAr:'أقوى وتيرة حاليّة',
+      statLabel:'Daily Pace',
+      // "Most improved" heuristic: high achievement relative to peers + decent sales
+      // Since we lack historical data, use: best pct-per-target-ratio on smaller targets
+      rank:(pool)=>[...pool].filter(e=>e.sales>=5&&e.pct>=50).sort((a,b)=>{
+        const aPace=a.sales/Math.max(1,a.target);
+        const bPace=b.sales/Math.max(1,b.target);
+        return (bPace-aPace)||tiebreak(a,b);
+      })
+    }
+  ];
+  // Allocate awards — each employee gets ONE award (the highest in hierarchy)
+  const taken=new Set();
+  const winners=[];
+  hierarchy.forEach(tier=>{
+    const ranked=tier.rank(valid);
+    // Find first employee not already taken
+    for(const emp of ranked){
+      const uid=emp.user+'|'+emp.name;
+      if(!taken.has(uid)){
+        taken.add(uid);
+        winners.push({tier,emp});
+        break;
+      }
+    }
+  });
+  if(!winners.length){
+    body.innerHTML='<div class="panel-empty"><div class="panel-empty-icon">🏆</div>Awards coming soon...<br><span style="font-size:11px;opacity:0.7">Need more data</span></div>';
+    return;
+  }
+  // Render
+  body.innerHTML=winners.map(w=>{
+    const e=w.emp;
+    const a=w.tier;
     const gIdx=DATA.findIndex(d=>d.user===e.user&&d.name===e.name);
     let statValue;
     if(a.statLabel==='Achievement')statValue=e.pct+'%';
     else if(a.statLabel==='Total Sales')statValue=e.sales;
     else if(a.statLabel==='Postpaid Sales')statValue=e.post||0;
-    return`<div class="fame-card" onclick="closePanel();setTimeout(()=>openModal(${gIdx}),300)">
+    else if(a.statLabel==='Prepaid Sales')statValue=e.prep||0;
+    else if(a.statLabel==='FTTH Sales')statValue=(ftthMap[e.user]?ftthMap[e.user].ftth:0);
+    else if(a.statLabel==='5G Sales')statValue=(ftthMap[e.user]?ftthMap[e.user].g5:0);
+    else if(a.statLabel==='Daily Pace')statValue=(e.sales/Math.max(1,e.target)*100).toFixed(0)+'%';
+    return`<div class="fame-card fame-${a.tier}" onclick="closePanel();setTimeout(()=>openModal(${gIdx}),300)">
       <div class="fame-card-hdr">
         <div class="fame-award">${a.award}</div>
         <div class="fame-award-info">
@@ -4454,6 +4638,52 @@ function renderFamePanel(){
       </div>
     </div>`;
   }).join('');
+}
+
+// ── Global: lookup winner badges by user name (used in employee cards) ──
+function getEmployeeBadge(user,name){
+  // Return cached badge or null
+  if(!DATA.length)return null;
+  if(typeof _famesCache==='undefined'||!_famesCache)return null;
+  const uid=user+'|'+name;
+  return _famesCache[uid]||null;
+}
+
+let _famesCache=null;
+
+function rebuildFamesCache(){
+  // Rebuild the same logic as renderFamePanel — but cache by uid
+  if(!DATA.length){_famesCache={};return;}
+  const valid=DATA.filter(e=>e.target>0&&e.name!=='User_Mapping_Master');
+  if(!valid.length){_famesCache={};return;}
+  const tiebreak=(a,b)=>b.sales-a.sales;
+  const ftthMap={};
+  FTTH_DATA.forEach(f=>{if(f.user)ftthMap[f.user]=f;});
+  const hierarchy=[
+    {key:'champ',award:'👑',color:'#F6C94E',title:'Employee of the Month',rank:(p)=>[...p].sort((a,b)=>(b.pct-a.pct)||tiebreak(a,b))},
+    {key:'top',award:'💎',color:'#5DD88C',title:'Top Performer',rank:(p)=>[...p].sort(tiebreak)},
+    {key:'crusher',award:'🏆',color:'#F6C94E',title:'Target Crusher',rank:(p)=>[...p].filter(e=>e.pct>=100).sort((a,b)=>(b.pct-a.pct)||tiebreak(a,b))},
+    {key:'post',award:'📱',color:'#A8CCEE',title:'Postpaid Champion',rank:(p)=>[...p].filter(e=>(e.post||0)>0).sort((a,b)=>((b.post||0)-(a.post||0))||tiebreak(a,b))},
+    {key:'prep',award:'💳',color:'#D8A8F0',title:'Prepaid Leader',rank:(p)=>[...p].filter(e=>(e.prep||0)>0).sort((a,b)=>((b.prep||0)-(a.prep||0))||tiebreak(a,b))},
+    {key:'fiber',award:'🌐',color:'#88D0F8',title:'Fiber Master',rank:(p)=>[...p].map(e=>({...e,_ftth:(ftthMap[e.user]?ftthMap[e.user].ftth:0)})).filter(e=>e._ftth>0).sort((a,b)=>(b._ftth-a._ftth)||tiebreak(a,b))},
+    {key:'fiveG',award:'📡',color:'#68A8E8',title:'5G Pioneer',rank:(p)=>[...p].map(e=>({...e,_g5:(ftthMap[e.user]?ftthMap[e.user].g5:0)})).filter(e=>e._g5>0).sort((a,b)=>(b._g5-a._g5)||tiebreak(a,b))},
+    {key:'rising',award:'⭐',color:'#ED93B1',title:'Rising Star',rank:(p)=>[...p].filter(e=>e.target<=50&&e.pct>=80).sort((a,b)=>(b.pct-a.pct)||tiebreak(a,b))},
+    {key:'improved',award:'🚀',color:'#F6A84E',title:'Most Improved',rank:(p)=>[...p].filter(e=>e.sales>=5&&e.pct>=50).sort((a,b)=>{const aPace=a.sales/Math.max(1,a.target);const bPace=b.sales/Math.max(1,b.target);return (bPace-aPace)||tiebreak(a,b);})}
+  ];
+  const taken=new Set();
+  const cache={};
+  hierarchy.forEach(tier=>{
+    const ranked=tier.rank(valid);
+    for(const emp of ranked){
+      const uid=emp.user+'|'+emp.name;
+      if(!taken.has(uid)){
+        taken.add(uid);
+        cache[uid]={award:tier.award,color:tier.color,title:tier.title,key:tier.key};
+        break;
+      }
+    }
+  });
+  _famesCache=cache;
 }
 
 // ── Live Ticker logic ──
