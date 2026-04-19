@@ -2,7 +2,7 @@
 <!--
  ═══════════════════════════════════════════════════════════════════
    SALAM — SALES PERFORMANCE DASHBOARD
-   Retail MT · Salam Mobile · Hail , Saudi Arabia
+   Retail MT · Salam Mobile · Riyadh, Saudi Arabia
  ═══════════════════════════════════════════════════════════════════
    Designed & Developed by: Eng. Abdulwahab M Alshammari
    Internal Use Only — © 2026 All Rights Reserved
@@ -2343,7 +2343,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">Manual Daily Update ✨</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🔒 v16.9.5 · Live Tracking</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🔒 v16.9.6 · Enhanced Tracking</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -2463,7 +2463,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
         <span class="sb-cnt" id="cnt-all">—</span>
       </button>
       <button class="sb-item" onclick="setView('Abdulwahab',this)">
-        <span class="sb-d" style="background:#F6C94E"></span>Eng. Abdulwahab M Alshammari<span class="sb-cnt" id="cnt-aw">—</span>
+        <span class="sb-d" style="background:#F6C94E"></span>Abdulwahab M Alshammari<span class="sb-cnt" id="cnt-aw">—</span>
       </button>
       <button class="sb-item" onclick="setView('Ahmed',this)">
         <span class="sb-d" style="background:#85B7EB"></span>Ahmed AlMutairi<span class="sb-cnt" id="cnt-am">—</span>
@@ -2583,42 +2583,63 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     else if(/Android/.test(ua))os='Android';
     else if(/iPhone|iPad/.test(ua))os='iOS';
     else if(/Linux/.test(ua))os='Linux';
-    // Get IP + geo info from free service
-    fetch('https://ipapi.co/json/').then(r=>r.json()).then(geo=>{
-      const payload={
+    // v16.9.6: Enhanced fingerprinting — timezone, language, session ID
+    let timezone='Unknown';
+    try{timezone=Intl.DateTimeFormat().resolvedOptions().timeZone||'Unknown';}catch(e){}
+    const language=(navigator.language||navigator.userLanguage||'Unknown');
+    // Generate unique session ID
+    const sessionId='SLM-'+Date.now().toString(36)+'-'+Math.random().toString(36).substring(2,8).toUpperCase();
+    // Common payload fields
+    const basePayload={
+      device:isMobile?'Mobile':'Desktop',
+      browser:browser,
+      os:os,
+      screen:window.screen.width+'x'+window.screen.height,
+      referrer:document.referrer||'(Direct)',
+      userAgent:ua,
+      sessionId:sessionId,
+      timezone:timezone,
+      language:language
+    };
+    // v16.9.6: Dual-fallback geo lookup (ipapi.co → ipwho.is → no-geo)
+    function _sendLog(payload){
+      try{
+        fetch(VISITOR_LOG_URL,{
+          method:'POST',
+          mode:'no-cors',
+          headers:{'Content-Type':'text/plain'},
+          body:JSON.stringify(payload)
+        }).catch(()=>{});
+      }catch(e){}
+    }
+    // Primary: ipapi.co
+    fetch('https://ipapi.co/json/').then(r=>{
+      if(!r.ok)throw new Error('ipapi failed');
+      return r.json();
+    }).then(geo=>{
+      if(geo.error)throw new Error('ipapi rate-limited');
+      _sendLog(Object.assign({
         ip:geo.ip||'unknown',
         country:geo.country_name||'unknown',
-        city:geo.city||'unknown',
-        device:isMobile?'Mobile':'Desktop',
-        browser:browser,
-        os:os,
-        screen:window.screen.width+'x'+window.screen.height,
-        referrer:document.referrer||'(Direct)'
-      };
-      // Send to Google Apps Script (fire & forget)
-      fetch(VISITOR_LOG_URL,{
-        method:'POST',
-        mode:'no-cors',
-        headers:{'Content-Type':'text/plain'},
-        body:JSON.stringify(payload)
-      }).catch(()=>{});
+        city:geo.city||'unknown'
+      },basePayload));
     }).catch(()=>{
-      // Fallback: log without IP if geo fails
-      fetch(VISITOR_LOG_URL,{
-        method:'POST',
-        mode:'no-cors',
-        headers:{'Content-Type':'text/plain'},
-        body:JSON.stringify({
+      // Fallback: ipwho.is (different provider, higher quota)
+      fetch('https://ipwho.is/').then(r=>r.json()).then(geo=>{
+        if(!geo.success)throw new Error('ipwho failed');
+        _sendLog(Object.assign({
+          ip:geo.ip||'unknown',
+          country:geo.country||'unknown',
+          city:geo.city||'unknown'
+        },basePayload));
+      }).catch(()=>{
+        // Last resort: no geo data
+        _sendLog(Object.assign({
           ip:'geo-blocked',
           country:'unknown',
-          city:'unknown',
-          device:isMobile?'Mobile':'Desktop',
-          browser:browser,
-          os:os,
-          screen:window.screen.width+'x'+window.screen.height,
-          referrer:document.referrer||'(Direct)'
-        })
-      }).catch(()=>{});
+          city:'unknown'
+        },basePayload));
+      });
     });
   }
   // Log on page load (after DOM ready)
@@ -3416,7 +3437,7 @@ function renderView(view){
           <div class="sec-t" style="color:#5888A8">By Supervisor · FTTH & 5G</div>
           <div style="background:var(--card);border:1px solid rgba(55,138,221,0.2);border-radius:var(--r);overflow:hidden">
             ${[
-              {key:'aw',label:'Eng. Abdulwahab M Alshammari',color:'#F6C94E'},
+              {key:'aw',label:'Abdulwahab M Alshammari',color:'#F6C94E'},
               {key:'am',label:'Ahmed AlMutairi',color:'#85B7EB'},
               {key:'ms',label:'Mohammed AlShehri',color:'#5DCAA5'},
               {key:'na',label:'Najwah AlOmari',color:'#ED93B1'},
@@ -3610,7 +3631,7 @@ function renderTop5Post(allSorted){
 
 function renderSupCards(){
   const sups=[
-    {key:'Abdulwahab',full:'Eng. Abdulwahab M Alshammari',color:'#F6C94E'},
+    {key:'Abdulwahab',full:'Abdulwahab M Alshammari',color:'#F6C94E'},
     {key:'Ahmed',     full:'Ahmed AlMutairi',       color:'#85B7EB'},
     {key:'Mohammed',  full:'Mohammed AlShehri',     color:'#5DCAA5'},
     {key:'Najwah',    full:'Najwah AlOmari',         color:'#ED93B1'},
@@ -3657,7 +3678,7 @@ function renderSupCards(){
 
 function renderSupBars(emps){
   const sups=[
-    {key:'Abdulwahab',full:'Eng. Abdulwahab M Alshammari',color:'#F6C94E'},
+    {key:'Abdulwahab',full:'Abdulwahab M Alshammari',color:'#F6C94E'},
     {key:'Ahmed',     full:'Ahmed AlMutairi',       color:'#85B7EB'},
     {key:'Mohammed',  full:'Mohammed AlShehri',     color:'#5DCAA5'},
     {key:'Najwah',    full:'Najwah AlOmari',         color:'#ED93B1'},
@@ -6105,7 +6126,7 @@ function renderMobileSidebar(){
         <span class="sb-cnt">${DATA.length}</span>
       </button>
       <button class="sb-item ${CUR==='Abdulwahab'?'active':''}" onclick="setView('Abdulwahab',this);closeMobileSidebar()">
-        <span class="sb-d" style="background:#F6C94E"></span>Eng. Abdulwahab M Alshammari<span class="sb-cnt">${k.aw}</span>
+        <span class="sb-d" style="background:#F6C94E"></span>Abdulwahab M Alshammari<span class="sb-cnt">${k.aw}</span>
       </button>
       <button class="sb-item ${CUR==='Ahmed'?'active':''}" onclick="setView('Ahmed',this);closeMobileSidebar()">
         <span class="sb-d" style="background:#85B7EB"></span>Ahmed AlMutairi<span class="sb-cnt">${k.am}</span>
