@@ -2327,7 +2327,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">Manual Daily Update ✨</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v16.8 · Salam Legends</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v16.9 · Browse Date Live</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -2488,8 +2488,10 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 <script>
 const CSV_UMM  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQzH2quWsRx-NsAhxFeqOsz9n_KElh80hZq64gnjviHC0OGVSXTGgQIC7HbhazVChH7Cde__gKhnQut/pub?gid=59746245&single=true&output=csv';
 const CSV_FTTH = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQzH2quWsRx-NsAhxFeqOsz9n_KElh80hZq64gnjviHC0OGVSXTGgQIC7HbhazVChH7Cde__gKhnQut/pub?gid=57457654&single=true&output=csv';
+// v16.9: Browse Date — real per-transaction timestamps (Sales Date + Sales Time)
+const CSV_BROWSE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQzH2quWsRx-NsAhxFeqOsz9n_KElh80hZq64gnjviHC0OGVSXTGgQIC7HbhazVChH7Cde__gKhnQut/pub?gid=167999167&single=true&output=csv';
 
-let DATA=[], FTTH_DATA=[], CUR='all', SEARCH='', FILT='all', DATA_DATE='';
+let DATA=[], FTTH_DATA=[], BROWSE_DATA=[], CUR='all', SEARCH='', FILT='all', DATA_DATE='';
 let barChart=null;
 
 // Working days remaining in April 2026
@@ -2576,15 +2578,35 @@ function getFallbackDate(){
 async function loadData(){
   document.getElementById('live-lbl').textContent='Updating...';
   try{
-    // v12: Fetch date from filename in parallel with data
-    const [r1,r2,sheetDate]=await Promise.all([
+    // v16.9: Fetch Browse Date in parallel if URL is configured
+    const browseEnabled=CSV_BROWSE&&!CSV_BROWSE.includes('BROWSE_DATE_URL_HERE');
+    const fetches=[
       fetch(CSV_UMM+'&t='+Date.now()),
       fetch(CSV_FTTH+'&t='+Date.now()),
       fetchSheetDate()
-    ]);
+    ];
+    if(browseEnabled){
+      fetches.push(fetch(CSV_BROWSE+'&t='+Date.now()).catch(()=>null));
+    }
+    const results=await Promise.all(fetches);
+    const r1=results[0],r2=results[1],sheetDate=results[2];
+    const r3=browseEnabled?results[3]:null;
     const [t1,t2]=await Promise.all([r1.text(),r2.text()]);
     DATA=parseCSV_UMM(t1);
     FTTH_DATA=parseCSV_FTTH(t2);
+    // v16.9: Parse Browse Date if loaded
+    if(r3&&r3.ok){
+      try{
+        const t3=await r3.text();
+        BROWSE_DATA=parseCSV_BROWSE(t3);
+        console.log(`✓ Browse Date loaded: ${BROWSE_DATA.length} transactions`);
+      }catch(e){
+        console.warn('Browse Date parse failed:',e);
+        BROWSE_DATA=[];
+      }
+    }else{
+      BROWSE_DATA=[];
+    }
     if(!DATA.length)throw new Error('empty');
     // v12: Set DATA_DATE dynamically from sheet filename, fallback to today's date
     DATA_DATE=sheetDate||getFallbackDate();
@@ -2646,6 +2668,91 @@ function parseCSV_FTTH(txt){
     const pct=target>0?Math.round(total/target*100):0;
     return{name,user:o['user']||'',mgr,branch:o['branch name']||o['branch']||'',target,ftth,g5,total,pct};
   }).filter(Boolean).filter(e=>e.target>0);
+}
+
+// v16.9: Parse Browse Date — real per-transaction records with date/time
+// Returns array of {user, date, time, lineType, iccid, dayOfMonth, hour, isoDate}
+function parseCSV_BROWSE(txt){
+  if(!txt||txt.trim().length<10)return[];
+  const lines=txt.trim().split('\n');
+  if(lines.length<2)return[];
+  const hdrs=lines[0].split(',').map(h=>h.replace(/"/g,'').trim().toLowerCase());
+  // Smart column detection — tolerate naming variations
+  const findCol=(...names)=>{
+    for(const n of names){
+      const idx=hdrs.findIndex(h=>h.includes(n));
+      if(idx>=0)return idx;
+    }
+    return -1;
+  };
+  const colUser  = findCol('username','user name','user');
+  const colDate  = findCol('sales date','date','browse date','created');
+  const colTime  = findCol('sales time','time','hour');
+  const colType  = findCol('linetype','line type','type','product');
+  const colIccid = findCol('iccid','sim','msisdn');
+  if(colUser<0||colDate<0){
+    console.warn('Browse Date: missing required columns (user/date). Headers:',hdrs);
+    return[];
+  }
+  return lines.slice(1).map(l=>{
+    const c=splitLine(l);
+    const user=(c[colUser]||'').replace(/"/g,'').trim().toLowerCase();
+    const rawDate=(c[colDate]||'').replace(/"/g,'').trim();
+    const rawTime=colTime>=0?(c[colTime]||'').replace(/"/g,'').trim():'';
+    const lineType=colType>=0?(c[colType]||'').replace(/"/g,'').trim().toLowerCase():'';
+    const iccid=colIccid>=0?(c[colIccid]||'').replace(/"/g,'').trim():'';
+    if(!user||!rawDate)return null;
+    // Parse date: handles "2026-04-17", "17/04/2026", "4/17/2026", "17-Apr-2026"
+    const d=parseSmartDate(rawDate);
+    if(!d)return null;
+    const hour=parseSmartHour(rawTime);
+    return{
+      user,
+      date:rawDate,
+      time:rawTime,
+      lineType,
+      iccid,
+      dayOfMonth:d.getDate(),
+      month:d.getMonth()+1,
+      year:d.getFullYear(),
+      hour,
+      isoDate:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`,
+      dayOfWeek:d.getDay(),  // 0=Sunday, 6=Saturday
+      weekOfMonth:Math.ceil(d.getDate()/7)
+    };
+  }).filter(Boolean);
+}
+
+// Smart date parser — handles many formats
+function parseSmartDate(s){
+  if(!s)return null;
+  // Try direct Date parsing first
+  let d=new Date(s);
+  if(!isNaN(d.getTime())&&d.getFullYear()>2020&&d.getFullYear()<2030)return d;
+  // Try DD/MM/YYYY
+  const m1=s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
+  if(m1){
+    d=new Date(+m1[3],+m1[2]-1,+m1[1]);
+    if(!isNaN(d.getTime()))return d;
+  }
+  // Try YYYY-MM-DD
+  const m2=s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+  if(m2){
+    d=new Date(+m2[1],+m2[2]-1,+m2[3]);
+    if(!isNaN(d.getTime()))return d;
+  }
+  return null;
+}
+
+// Extract hour (0-23) from time string
+function parseSmartHour(s){
+  if(!s)return null;
+  const m=s.match(/(\d{1,2})[:.](\d{1,2})/);
+  if(!m)return null;
+  let h=+m[1];
+  if(s.toLowerCase().includes('pm')&&h<12)h+=12;
+  if(s.toLowerCase().includes('am')&&h===12)h=0;
+  return h>=0&&h<24?h:null;
 }
 
 function updateSidebar(){
@@ -3391,6 +3498,137 @@ function switchTab(name,btn){
   document.getElementById('tab-'+name).classList.add('active');
 }
 
+// ═══════════════════════════════════════════════════════
+// v16.9: Browse Date Analytics Helpers
+// Real per-transaction data analysis for Streaks, Trends, Activity
+// ═══════════════════════════════════════════════════════
+
+// Is Browse Date data available?
+function hasBrowseData(){return BROWSE_DATA&&BROWSE_DATA.length>0;}
+
+// Get all transactions for a specific employee
+function getEmpTransactions(e){
+  if(!hasBrowseData())return[];
+  const userLower=(e.user||'').toLowerCase();
+  const nameLower=(e.name||'').toLowerCase();
+  return BROWSE_DATA.filter(b=>
+    b.user===userLower||
+    (b.user&&userLower&&b.user.includes(userLower))
+  );
+}
+
+// Daily sales count for an employee — returns {"2026-04-01": 5, "2026-04-02": 3, ...}
+function getEmpDailySales(e){
+  const tx=getEmpTransactions(e);
+  const daily={};
+  tx.forEach(t=>{
+    daily[t.isoDate]=(daily[t.isoDate]||0)+1;
+  });
+  return daily;
+}
+
+// Daily sales split by type — {"2026-04-01": {post:3, prep:2, total:5}, ...}
+function getEmpDailyBreakdown(e){
+  const tx=getEmpTransactions(e);
+  const daily={};
+  tx.forEach(t=>{
+    if(!daily[t.isoDate])daily[t.isoDate]={post:0,prep:0,other:0,total:0};
+    daily[t.isoDate].total++;
+    if(t.lineType==='postpaid')daily[t.isoDate].post++;
+    else if(t.lineType==='prepaid')daily[t.isoDate].prep++;
+    else daily[t.isoDate].other++;
+  });
+  return daily;
+}
+
+// Weekly totals for employee's current month
+function getEmpWeeklySales(e){
+  const daily=getEmpDailySales(e);
+  const weeks={w1:0,w2:0,w3:0,w4:0,w5:0};
+  Object.entries(daily).forEach(([iso,count])=>{
+    const day=parseInt(iso.split('-')[2]);
+    if(day<=7)weeks.w1+=count;
+    else if(day<=14)weeks.w2+=count;
+    else if(day<=21)weeks.w3+=count;
+    else if(day<=28)weeks.w4+=count;
+    else weeks.w5+=count;
+  });
+  return weeks;
+}
+
+// Current hot streak — consecutive days with sales ending today/latest day
+function getEmpHotStreak(e){
+  const daily=getEmpDailySales(e);
+  const dates=Object.keys(daily).sort().reverse();  // newest first
+  if(!dates.length)return 0;
+  let streak=0;
+  const latest=new Date(dates[0]);
+  for(let i=0;i<30;i++){
+    const check=new Date(latest);
+    check.setDate(check.getDate()-i);
+    const iso=`${check.getFullYear()}-${String(check.getMonth()+1).padStart(2,'0')}-${String(check.getDate()).padStart(2,'0')}`;
+    if(daily[iso]&&daily[iso]>0)streak++;
+    else break;
+  }
+  return streak;
+}
+
+// Best day of week — "Saturday", "Sunday", etc.
+function getEmpBestDayOfWeek(e){
+  const tx=getEmpTransactions(e);
+  if(!tx.length)return null;
+  const counts=[0,0,0,0,0,0,0];  // Sun-Sat
+  tx.forEach(t=>{counts[t.dayOfWeek]++;});
+  const max=Math.max(...counts);
+  if(max===0)return null;
+  const day=counts.indexOf(max);
+  const names=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  return{name:names[day],count:max,allCounts:counts};
+}
+
+// Peak hour — most productive hour (0-23)
+function getEmpPeakHour(e){
+  const tx=getEmpTransactions(e).filter(t=>t.hour!==null);
+  if(!tx.length)return null;
+  const hours={};
+  tx.forEach(t=>{hours[t.hour]=(hours[t.hour]||0)+1;});
+  let maxHour=0,maxCount=0;
+  Object.entries(hours).forEach(([h,c])=>{
+    if(c>maxCount){maxCount=c;maxHour=parseInt(h);}
+  });
+  const fmt=h=>{
+    if(h===0)return'12:00 AM';
+    if(h<12)return h+':00 AM';
+    if(h===12)return'12:00 PM';
+    return(h-12)+':00 PM';
+  };
+  return{hour:maxHour,count:maxCount,display:fmt(maxHour)+' - '+fmt((maxHour+1)%24)};
+}
+
+// Get all unique active days
+function getEmpActiveDays(e){
+  const daily=getEmpDailySales(e);
+  return Object.keys(daily).length;
+}
+
+// Compare current week vs previous week (for Week-over-Week %)
+function getEmpWoWChange(e){
+  const daily=getEmpDailySales(e);
+  const dates=Object.keys(daily).sort();
+  if(dates.length<7)return null;
+  const latest=new Date(dates[dates.length-1]);
+  const thisWeekStart=new Date(latest);thisWeekStart.setDate(latest.getDate()-6);
+  const lastWeekStart=new Date(thisWeekStart);lastWeekStart.setDate(thisWeekStart.getDate()-7);
+  let thisWeek=0,lastWeek=0;
+  Object.entries(daily).forEach(([iso,count])=>{
+    const d=new Date(iso);
+    if(d>=thisWeekStart&&d<=latest)thisWeek+=count;
+    else if(d>=lastWeekStart&&d<thisWeekStart)lastWeek+=count;
+  });
+  if(lastWeek===0)return thisWeek>0?100:0;
+  return Math.round(((thisWeek-lastWeek)/lastWeek)*100);
+}
+
 // ── Tab 1: Overview (original content) ──
 function renderTabOverview(e){
   const brE=DATA.filter(d=>d.branch===e.branch).sort((a,b)=>b.pct-a.pct||b.sales-a.sales);
@@ -3442,14 +3680,115 @@ function renderTabOverview(e){
   `;
 }
 
-// ── Tab 2: Streaks (v15.1: Real weekly calculation) ──
+// ── Tab 2: Streaks (v16.9: REAL data from Browse Date) ──
 function renderTabStreaks(e){
   if(!e.target||e.target===0){
     return'<div class="panel-empty"><div class="panel-empty-icon">🎯</div>No target — streaks unavailable</div>';
   }
-  const dt=dailyTarget(e,DATA_DATE);
-  // Simulate streak based on current performance
+  const hasBrowse=hasBrowseData();
+  const tx=hasBrowse?getEmpTransactions(e):[];
+  const hasRealData=tx.length>0;
+  // v16.9: Use REAL streak if browse data exists
   let type,days,icon,label,sub;
+  if(hasRealData){
+    const realStreak=getEmpHotStreak(e);
+    const bestDay=getEmpBestDayOfWeek(e);
+    const peakHour=getEmpPeakHour(e);
+    const activeDays=getEmpActiveDays(e);
+    if(e.sales===0){
+      type='cold';days=0;icon='❄️';label='No Activity';
+      sub=`No sales yet this month`;
+    }else if(realStreak>=5){
+      type='hot';days=realStreak;icon='🔥';label='Day Hot Streak';
+      sub=`${realStreak} consecutive days with sales`;
+    }else if(realStreak>=2){
+      type='neutral';days=realStreak;icon='⚡';label='Day Active Streak';
+      sub=`${realStreak} days in a row — keep going!`;
+    }else{
+      type='neutral';days=activeDays;icon='📅';label='Active Days';
+      sub=`Sold on ${activeDays} different days this month`;
+    }
+    // Real weekly data from transactions
+    const dailyBreakdown=getEmpDailyBreakdown(e);
+    const d=new Date(DATA_DATE);
+    const dayOfMonth=d.getDate();
+    const weeksPassed=Math.ceil(dayOfMonth/7);
+    const monthName=['January','February','March','April','May','June','July','August','September','October','November','December'][d.getMonth()];
+    // Accumulate REAL sales per week from transactions
+    const weekData=[];
+    const weekSales=[0,0,0,0,0];
+    const weekPostPrep=[{p:0,r:0},{p:0,r:0},{p:0,r:0},{p:0,r:0},{p:0,r:0}];
+    Object.entries(dailyBreakdown).forEach(([iso,bd])=>{
+      const day=parseInt(iso.split('-')[2]);
+      const wk=Math.min(4,Math.ceil(day/7)-1);
+      weekSales[wk]+=bd.total;
+      weekPostPrep[wk].p+=bd.post;
+      weekPostPrep[wk].r+=bd.prep;
+    });
+    const targetPerWeek=Math.round(e.target/4);
+    for(let i=0;i<weeksPassed;i++){
+      const startDay=i*7+1;
+      const endDay=Math.min((i+1)*7,dayOfMonth);
+      weekData.push({
+        week:'W'+(i+1),
+        range:`${startDay}-${endDay} ${monthName.substring(0,3)}`,
+        sales:weekSales[i],
+        post:weekPostPrep[i].p,
+        prep:weekPostPrep[i].r,
+        target:targetPerWeek,
+        isCurrent:i===weeksPassed-1
+      });
+    }
+    // Build insights row
+    const insights=[];
+    if(bestDay)insights.push({icon:'📅',label:'Best Day',value:bestDay.name,sub:`${bestDay.count} sales`});
+    if(peakHour)insights.push({icon:'⏰',label:'Peak Hour',value:peakHour.display,sub:`${peakHour.count} sales`});
+    insights.push({icon:'✅',label:'Active Days',value:activeDays,sub:`out of ${dayOfMonth}`});
+    return`
+      <div class="streak-card ${type}">
+        <div style="font-size:36px;margin-bottom:6px">${icon}</div>
+        <div class="streak-num">${days}</div>
+        <div class="streak-label">${label}</div>
+        <div class="streak-sub">${sub}</div>
+      </div>
+      ${insights.length?`<div style="display:grid;grid-template-columns:repeat(${insights.length},1fr);gap:8px;margin-bottom:14px">
+        ${insights.map(i=>`<div style="background:rgba(61,214,140,0.08);border:1px solid rgba(61,214,140,0.2);border-radius:10px;padding:10px;text-align:center">
+          <div style="font-size:18px;margin-bottom:3px">${i.icon}</div>
+          <div style="font-size:9px;color:#7AB88A;text-transform:uppercase;font-weight:700;letter-spacing:.05em">${i.label}</div>
+          <div style="font-size:15px;color:#fff;font-weight:800;margin:4px 0 2px">${i.value}</div>
+          <div style="font-size:9px;color:#5A9870">${i.sub}</div>
+        </div>`).join('')}
+      </div>`:''}
+      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(61,214,140,0.08);border-radius:10px;padding:14px">
+        <div style="font-size:10px;color:#7AB88A;text-transform:uppercase;font-weight:700;margin-bottom:10px;letter-spacing:.08em">📅 This Month · ${weeksPassed} Week${weeksPassed>1?'s':''} So Far · Real Data</div>
+        ${weekData.map(w=>{
+          const wPct=w.target>0?Math.round(w.sales/w.target*100):0;
+          const barColor=pc(wPct);
+          return`<div style="display:grid;grid-template-columns:50px 1fr 75px;gap:10px;align-items:center;padding:7px 0;${w.isCurrent?'background:rgba(246,201,78,0.05);border-radius:6px;padding-left:6px;padding-right:6px':''}">
+            <div>
+              <div style="font-size:12px;color:${w.isCurrent?'#F6C94E':'#8AC8A8'};font-weight:700">${w.week}${w.isCurrent?' ★':''}</div>
+              <div style="font-size:9px;color:#4A7A58;margin-top:1px">${w.range}</div>
+            </div>
+            <div>
+              <div style="height:8px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden;margin-bottom:3px">
+                <div style="height:100%;width:${Math.min(100,wPct)}%;background:${barColor};border-radius:4px"></div>
+              </div>
+              ${w.sales>0?`<div style="font-size:9px;color:#5A9870">📱 ${w.post} post · 💳 ${w.prep} prep</div>`:''}
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:13px;color:#fff;font-weight:700">${w.sales}/${w.target}</div>
+              <div style="font-size:9px;color:${barColor};font-weight:600">${wPct}%</div>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+      <div style="font-size:10px;color:#5A9870;text-align:center;margin-top:10px;opacity:0.7">
+        ✓ Based on ${tx.length} real transactions · Live from data sheet
+      </div>
+    `;
+  }
+  // FALLBACK: Old logic if Browse Date unavailable
+  const dt=dailyTarget(e,DATA_DATE);
   if(e.sales===0){
     type='cold';days=empWorkDaysLeft(DATA_DATE);icon='❄️';label='Cold Streak';
     sub=`No sales yet this month`;
@@ -3642,7 +3981,10 @@ function renderTabPeers(e){
       </div>
     </div>
     <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(61,214,140,0.08);border-radius:10px;padding:14px;margin-bottom:10px">
-      <div style="font-size:10px;color:#7AB88A;text-transform:uppercase;font-weight:700;margin-bottom:10px;letter-spacing:.08em">📊 Sales vs Averages</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <div style="font-size:10px;color:#7AB88A;text-transform:uppercase;font-weight:700;letter-spacing:.08em">📊 Sales vs Averages</div>
+        <div style="font-size:9px;color:#5A9870;font-style:italic">sum ÷ count</div>
+      </div>
       <div class="peer-bar-row">
         <div class="peer-label" style="color:#F6C94E;font-weight:700">You</div>
         <div class="peer-bar-track"><div class="peer-bar-fill" style="width:${e.sales/maxVal*100}%;background:linear-gradient(90deg,#B8860B,#F6C94E)"></div></div>
@@ -3690,13 +4032,123 @@ function renderTabPeers(e){
   `;
 }
 
-// ── Tab 5: Trends (v15.1: Real weeks passed only) ──
+// ── Tab 5: Trends (v16.9: REAL data from Browse Date) ──
 function renderTabTrends(e){
-  // v15.1: Only show weeks that have actually passed in current month
   const d=new Date(DATA_DATE);
   const dayOfMonth=d.getDate();
-  const weeksPassed=Math.ceil(dayOfMonth/7);
   const monthName=['January','February','March','April','May','June','July','August','September','October','November','December'][d.getMonth()];
+  const hasBrowse=hasBrowseData();
+  const tx=hasBrowse?getEmpTransactions(e):[];
+  // v16.9: Use REAL trend data if available
+  if(tx.length>0){
+    const daily=getEmpDailySales(e);
+    const dailyBD=getEmpDailyBreakdown(e);
+    const dates=Object.keys(daily).sort();
+    if(dates.length<2){
+      return`
+        <div class="panel-empty">
+          <div class="panel-empty-icon">📈</div>
+          <div style="color:#9ACDB0;margin-bottom:6px">Not enough days for a trend</div>
+          <div style="font-size:11px;opacity:0.7">${tx.length} transactions on ${dates.length} day — need at least 2 active days</div>
+        </div>
+      `;
+    }
+    // Real weekly aggregates
+    const weekSales=[0,0,0,0,0];
+    Object.entries(daily).forEach(([iso,count])=>{
+      const day=parseInt(iso.split('-')[2]);
+      const wk=Math.min(4,Math.ceil(day/7)-1);
+      weekSales[wk]+=count;
+    });
+    const weeksPassed=Math.ceil(dayOfMonth/7);
+    const scaledTrend=weekSales.slice(0,weeksPassed);
+    const lastWeek=scaledTrend[scaledTrend.length-1];
+    const prevWeek=scaledTrend[scaledTrend.length-2]||0;
+    const growth=prevWeek>0?Math.round((lastWeek-prevWeek)/prevWeek*100):(lastWeek>0?100:0);
+    const maxVal=Math.max(...scaledTrend,1);
+    // Current week note (if it's day 15-17 vs full week 8-14)
+    const currentWeekLabel=weeksPassed===3&&dayOfMonth<21?` · only ${dayOfMonth-14} day${dayOfMonth-14>1?'s':''} so far`:'';
+    // SVG sparkline
+    const w=400,h=60;
+    const points=scaledTrend.map((v,i)=>{
+      const x=scaledTrend.length>1?(i/(scaledTrend.length-1))*w:w/2;
+      const y=h-(v/maxVal)*(h-10)-5;
+      return`${x},${y}`;
+    }).join(' ');
+    const lastX=scaledTrend.length>1?w:w/2;
+    const lastY=h-(scaledTrend[scaledTrend.length-1]/maxVal)*(h-10)-5;
+    // Daily pattern (last 7 days)
+    const last7Days=[];
+    const today=new Date(dates[dates.length-1]);
+    for(let i=6;i>=0;i--){
+      const check=new Date(today);check.setDate(today.getDate()-i);
+      const iso=`${check.getFullYear()}-${String(check.getMonth()+1).padStart(2,'0')}-${String(check.getDate()).padStart(2,'0')}`;
+      last7Days.push({
+        day:check.getDate(),
+        count:daily[iso]||0,
+        dow:['S','M','T','W','T','F','S'][check.getDay()]
+      });
+    }
+    const max7=Math.max(...last7Days.map(d=>d.count),1);
+    return`
+      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(61,214,140,0.08);border-radius:10px;padding:16px;margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+          <div>
+            <div style="font-size:10px;color:#7AB88A;text-transform:uppercase;font-weight:700">📈 ${monthName} Trend · ${weeksPassed} Weeks</div>
+            <div style="font-size:11px;color:#5A9870;margin-top:2px">Based on ${tx.length} real transactions</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:22px;font-weight:900;color:${growth>=0?'#5DD88C':'#F08888'}">
+              ${growth>=0?'↑':'↓'} ${Math.abs(growth)}%
+            </div>
+            <div style="font-size:10px;color:#6AB88A">Week-over-Week</div>
+          </div>
+        </div>
+        <svg class="sparkline-svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" style="height:60px">
+          <defs>
+            <linearGradient id="sparkGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#3DD68C" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#3DD68C" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <polyline points="0,${h} ${points} ${lastX},${h}" fill="url(#sparkGrad)" stroke="none"/>
+          <polyline points="${points}" fill="none" stroke="#3DD68C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="${lastX}" cy="${lastY}" r="3.5" fill="#F6C94E" stroke="#fff" stroke-width="1"/>
+        </svg>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(${weeksPassed},1fr);gap:6px;margin-bottom:12px">
+        ${scaledTrend.map((v,i)=>{
+          const isLatest=i===scaledTrend.length-1;
+          return`<div style="background:${isLatest?'rgba(246,201,78,0.1)':'rgba(255,255,255,0.03)'};border:1px solid ${isLatest?'rgba(246,201,78,0.25)':'rgba(61,214,140,0.08)'};border-radius:8px;padding:10px;text-align:center">
+            <div style="font-size:9px;color:${isLatest?'#F6C94E':'#6AB88A'};font-weight:700;text-transform:uppercase">W${i+1}${isLatest?' ★':''}</div>
+            <div style="font-size:20px;font-weight:800;color:${isLatest?'#F6C94E':'#fff'};margin-top:3px">${v}</div>
+            <div style="font-size:9px;color:#4A7A58">sales${isLatest?currentWeekLabel:''}</div>
+          </div>`;
+        }).join('')}
+      </div>
+      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(61,214,140,0.08);border-radius:10px;padding:14px;margin-bottom:10px">
+        <div style="font-size:10px;color:#7AB88A;text-transform:uppercase;font-weight:700;margin-bottom:10px;letter-spacing:.08em">📅 Last 7 Days</div>
+        <div style="display:flex;gap:4px;align-items:flex-end;height:60px">
+          ${last7Days.map(d=>{
+            const pct=(d.count/max7)*100;
+            const color=d.count===0?'rgba(100,100,100,0.2)':d.count>=max7*0.7?'#5DD88C':d.count>=max7*0.4?'#3DB86F':'#1E7A4E';
+            return`<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px" title="${d.count} sales">
+              <div style="flex:1;width:100%;display:flex;align-items:flex-end">
+                <div style="width:100%;height:${Math.max(3,pct)}%;background:${color};border-radius:3px;transition:all .3s"></div>
+              </div>
+              <div style="font-size:10px;color:${d.count>0?'#fff':'#5A9870'};font-weight:700">${d.count}</div>
+              <div style="font-size:9px;color:#5A9870">${d.dow}</div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+      <div style="background:rgba(61,214,140,0.05);border:1px dashed rgba(61,214,140,0.2);border-radius:10px;padding:12px;font-size:11px;color:#7DE8A8;text-align:center;line-height:1.5">
+        ✓ Real transaction data · Updated live with every refresh
+      </div>
+    `;
+  }
+  // FALLBACK: Old logic if Browse Date unavailable
+  const weeksPassed=Math.ceil(dayOfMonth/7);
   if(weeksPassed<2){
     return`
       <div class="panel-empty">
@@ -3784,9 +4236,8 @@ function renderTabTrends(e){
   `;
 }
 
-// ── Tab 6: Activity Heatmap (simulated) ──
+// ── Tab 6: Activity Heatmap (v16.9: REAL data from Browse Date) ──
 function renderTabActivity(e){
-  // Create a heatmap for current month
   const d=new Date(DATA_DATE);
   if(isNaN(d))return'<div class="panel-empty">Date unavailable</div>';
   const year=d.getFullYear();
@@ -3794,10 +4245,89 @@ function renderTabActivity(e){
   const daysInMonth=new Date(year,month+1,0).getDate();
   const firstDay=new Date(year,month,1).getDay();// 0=Sun
   const monthName=['January','February','March','April','May','June','July','August','September','October','November','December'][month];
-  // Distribute sales across days
+  const hasBrowse=hasBrowseData();
+  const tx=hasBrowse?getEmpTransactions(e):[];
+  // v16.9: Use REAL daily data if available
+  if(tx.length>0){
+    const dailyBD=getEmpDailyBreakdown(e);
+    // Find max for scaling
+    let maxSales=0;
+    Object.values(dailyBD).forEach(bd=>{if(bd.total>maxSales)maxSales=bd.total;});
+    const cells=[];
+    for(let i=0;i<firstDay;i++)cells.push({type:'empty'});
+    for(let day=1;day<=daysInMonth;day++){
+      const iso=`${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+      const bd=dailyBD[iso];
+      if(day>d.getDate()){
+        cells.push({type:'future',day});
+      }else if(!bd||bd.total===0){
+        cells.push({type:'off',day});
+      }else{
+        let level=1;
+        if(bd.total>=maxSales*0.8)level=4;
+        else if(bd.total>=maxSales*0.6)level=3;
+        else if(bd.total>=maxSales*0.3)level=2;
+        cells.push({type:'active',day,sales:bd.total,post:bd.post,prep:bd.prep,other:bd.other,level});
+      }
+    }
+    // Summary stats
+    const totalDays=Object.keys(dailyBD).length;
+    const totalSales=Object.values(dailyBD).reduce((a,bd)=>a+bd.total,0);
+    const avgPerDay=totalDays>0?(totalSales/totalDays).toFixed(1):0;
+    const bestDay=Object.entries(dailyBD).sort((a,b)=>b[1].total-a[1].total)[0];
+    const bestDayNum=bestDay?parseInt(bestDay[0].split('-')[2]):0;
+    const bestDaySales=bestDay?bestDay[1].total:0;
+    const days=['S','M','T','W','T','F','S'];
+    return`
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
+        <div style="background:rgba(61,214,140,0.08);border:1px solid rgba(61,214,140,0.2);border-radius:10px;padding:10px;text-align:center">
+          <div style="font-size:9px;color:#7AB88A;text-transform:uppercase;font-weight:700">Active Days</div>
+          <div style="font-size:22px;color:#5DE8A8;font-weight:800;margin-top:4px">${totalDays}</div>
+          <div style="font-size:9px;color:#5A9870">of ${d.getDate()}</div>
+        </div>
+        <div style="background:rgba(244,216,138,0.08);border:1px solid rgba(244,216,138,0.2);border-radius:10px;padding:10px;text-align:center">
+          <div style="font-size:9px;color:#BFA850;text-transform:uppercase;font-weight:700">Avg / Day</div>
+          <div style="font-size:22px;color:#F4D88A;font-weight:800;margin-top:4px">${avgPerDay}</div>
+          <div style="font-size:9px;color:#9A7820">sales</div>
+        </div>
+        <div style="background:rgba(239,159,39,0.08);border:1px solid rgba(239,159,39,0.2);border-radius:10px;padding:10px;text-align:center">
+          <div style="font-size:9px;color:#BF7830;text-transform:uppercase;font-weight:700">Best Day</div>
+          <div style="font-size:22px;color:#F6C94E;font-weight:800;margin-top:4px">${bestDayNum?bestDayNum:'—'}</div>
+          <div style="font-size:9px;color:#9A7820">${bestDaySales} sales</div>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(61,214,140,0.08);border-radius:10px;padding:14px;margin-bottom:12px">
+        <div style="font-size:11px;color:#7AB88A;text-transform:uppercase;font-weight:700;margin-bottom:12px;letter-spacing:.08em;text-align:center">🗓️ ${monthName} ${year} · Real Activity</div>
+        <div class="heatmap-grid">
+          ${days.map(d=>`<div style="font-size:10px;color:#4A8862;text-align:center;font-weight:700;padding-bottom:3px">${d}</div>`).join('')}
+        </div>
+        <div class="heatmap-grid">
+          ${cells.map(c=>{
+            if(c.type==='empty')return'<div></div>';
+            if(c.type==='future')return`<div class="heat-day" style="opacity:0.3">${c.day}</div>`;
+            if(c.type==='off')return`<div class="heat-day heat-off" title="Day ${c.day}: No sales">${c.day}</div>`;
+            const tooltip=`Day ${c.day}: ${c.sales} sales (${c.post} post · ${c.prep} prep${c.other?' · '+c.other+' other':''})`;
+            return`<div class="heat-day heat-${c.level}" title="${tooltip}">${c.day}</div>`;
+          }).join('')}
+        </div>
+        <div class="heatmap-legend">
+          <span>Less</span>
+          <div class="heatmap-legend-box heat-0"></div>
+          <div class="heatmap-legend-box heat-1"></div>
+          <div class="heatmap-legend-box heat-2"></div>
+          <div class="heatmap-legend-box heat-3"></div>
+          <div class="heatmap-legend-box heat-4"></div>
+          <span>More</span>
+        </div>
+      </div>
+      <div style="background:rgba(61,214,140,0.05);border:1px dashed rgba(61,214,140,0.2);border-radius:10px;padding:12px;font-size:11px;color:#7DE8A8;text-align:center;line-height:1.5">
+        ✓ ${tx.length} real transactions · Hover over any day to see Postpaid/Prepaid split
+      </div>
+    `;
+  }
+  // FALLBACK: Old simulation if Browse Date unavailable
   const avgPerDay=e.sales/Math.max(1,d.getDate());
   const cells=[];
-  // Add empty cells for first week offset
   for(let i=0;i<firstDay;i++)cells.push({type:'empty'});
   // Simulate activity per day
   for(let day=1;day<=daysInMonth;day++){
