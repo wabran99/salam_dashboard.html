@@ -2327,7 +2327,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">Manual Daily Update ✨</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v16.9 · Browse Date Live</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v16.9.1 · Hybrid Streaks</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -2686,30 +2686,47 @@ function parseCSV_BROWSE(txt){
     return -1;
   };
   const colUser  = findCol('username','user name','user');
+  // v16.9.1: Prioritize ActivationDateTime (combined field) over separate date/time
+  const colActDT = findCol('activationdatetime','activation datetime','activation date time','activation_datetime');
   const colDate  = findCol('sales date','date','browse date','created');
   const colTime  = findCol('sales time','time','hour');
   const colType  = findCol('linetype','line type','type','product');
   const colIccid = findCol('iccid','sim','msisdn');
-  if(colUser<0||colDate<0){
-    console.warn('Browse Date: missing required columns (user/date). Headers:',hdrs);
+  // Decide which source to use
+  const useActDT = colActDT>=0;
+  if(colUser<0||(colActDT<0&&colDate<0)){
+    console.warn('Browse Date: missing required columns. Headers:',hdrs);
     return[];
   }
+  console.log(`✓ Browse Date source: ${useActDT?'ActivationDateTime (combined)':'Sales Date + Sales Time (separate)'}`);
   return lines.slice(1).map(l=>{
     const c=splitLine(l);
     const user=(c[colUser]||'').replace(/"/g,'').trim().toLowerCase();
-    const rawDate=(c[colDate]||'').replace(/"/g,'').trim();
-    const rawTime=colTime>=0?(c[colTime]||'').replace(/"/g,'').trim():'';
     const lineType=colType>=0?(c[colType]||'').replace(/"/g,'').trim().toLowerCase():'';
     const iccid=colIccid>=0?(c[colIccid]||'').replace(/"/g,'').trim():'';
-    if(!user||!rawDate)return null;
-    // Parse date: handles "2026-04-17", "17/04/2026", "4/17/2026", "17-Apr-2026"
-    const d=parseSmartDate(rawDate);
-    if(!d)return null;
-    const hour=parseSmartHour(rawTime);
+    // v16.9.1: Extract date AND hour from the right source
+    let d,hour;
+    if(useActDT){
+      // ActivationDateTime contains both date AND time — parse together
+      const rawDT=(c[colActDT]||'').replace(/"/g,'').trim();
+      if(!rawDT)return null;
+      d=parseSmartDateTime(rawDT);
+      if(!d)return null;
+      hour=d.getHours();  // Real hour from ActivationDateTime
+    }else{
+      // Fallback: separate date + time columns
+      const rawDate=(c[colDate]||'').replace(/"/g,'').trim();
+      const rawTime=colTime>=0?(c[colTime]||'').replace(/"/g,'').trim():'';
+      if(!user||!rawDate)return null;
+      d=parseSmartDate(rawDate);
+      if(!d)return null;
+      hour=parseSmartHour(rawTime);
+    }
+    if(!user)return null;
     return{
       user,
-      date:rawDate,
-      time:rawTime,
+      date:d.toLocaleDateString(),
+      time:d.toTimeString().substring(0,5),
       lineType,
       iccid,
       dayOfMonth:d.getDate(),
@@ -2717,10 +2734,47 @@ function parseCSV_BROWSE(txt){
       year:d.getFullYear(),
       hour,
       isoDate:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`,
-      dayOfWeek:d.getDay(),  // 0=Sunday, 6=Saturday
+      dayOfWeek:d.getDay(),
       weekOfMonth:Math.ceil(d.getDate()/7)
     };
   }).filter(Boolean);
+}
+
+// v16.9.1: Parse combined date+time string (ActivationDateTime)
+// Handles: "2026-04-17 14:35:00", "17/04/2026 14:35", "4/17/2026 2:35:00 PM", etc.
+function parseSmartDateTime(s){
+  if(!s)return null;
+  // Try direct ISO/standard parsing first
+  let d=new Date(s);
+  if(!isNaN(d.getTime())&&d.getFullYear()>2020&&d.getFullYear()<2030){
+    return d;
+  }
+  // Try "DD/MM/YYYY HH:MM[:SS] [AM/PM]"
+  const m1=s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})[\s,T]+(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?(?:\s*(AM|PM|am|pm))?/);
+  if(m1){
+    let h=+m1[4];
+    if(m1[7]&&m1[7].toLowerCase()==='pm'&&h<12)h+=12;
+    if(m1[7]&&m1[7].toLowerCase()==='am'&&h===12)h=0;
+    d=new Date(+m1[3],+m1[2]-1,+m1[1],h,+m1[5],+(m1[6]||0));
+    if(!isNaN(d.getTime()))return d;
+  }
+  // Try "YYYY-MM-DD HH:MM[:SS]"
+  const m2=s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})[\s,T]+(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?/);
+  if(m2){
+    d=new Date(+m2[1],+m2[2]-1,+m2[3],+m2[4],+m2[5],+(m2[6]||0));
+    if(!isNaN(d.getTime()))return d;
+  }
+  // Try "M/D/YYYY H:MM[:SS] [AM/PM]" (US format)
+  const m3=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?\s*(AM|PM|am|pm)?/);
+  if(m3){
+    let h=+m3[4];
+    if(m3[7]&&m3[7].toLowerCase()==='pm'&&h<12)h+=12;
+    if(m3[7]&&m3[7].toLowerCase()==='am'&&h===12)h=0;
+    d=new Date(+m3[3],+m3[1]-1,+m3[2],h,+m3[5],+(m3[6]||0));
+    if(!isNaN(d.getTime()))return d;
+  }
+  // Fallback: try date-only parse
+  return parseSmartDate(s);
 }
 
 // Smart date parser — handles many formats
@@ -3556,21 +3610,50 @@ function getEmpWeeklySales(e){
   return weeks;
 }
 
-// Current hot streak — consecutive days with sales ending today/latest day
-function getEmpHotStreak(e){
+// v16.9.1: Hybrid Streak System — 3 levels
+// Returns {active, onTarget, hot, activeHistory, onTargetHistory, hotHistory}
+function getEmpStreakBreakdown(e){
   const daily=getEmpDailySales(e);
   const dates=Object.keys(daily).sort().reverse();  // newest first
-  if(!dates.length)return 0;
-  let streak=0;
+  if(!dates.length)return{active:0,onTarget:0,hot:0};
+  // Calculate daily target from monthly target ÷ work days
+  // Assume ~22 work days per month (4 weeks × 5-6 days, excl weekends)
+  const workDaysPerMonth=22;
+  const dailyTargetGoal=e.target>0?(e.target/workDaysPerMonth):0;
+  const hotThreshold=dailyTargetGoal*1.2;  // 120% of daily target
+  // Walk backwards from latest date, counting each streak separately
   const latest=new Date(dates[0]);
+  let activeStreak=0, onTargetStreak=0, hotStreak=0;
+  let activeBroken=false, onTargetBroken=false, hotBroken=false;
   for(let i=0;i<30;i++){
     const check=new Date(latest);
     check.setDate(check.getDate()-i);
     const iso=`${check.getFullYear()}-${String(check.getMonth()+1).padStart(2,'0')}-${String(check.getDate()).padStart(2,'0')}`;
-    if(daily[iso]&&daily[iso]>0)streak++;
-    else break;
+    const daySales=daily[iso]||0;
+    // Active: sales ≥ 1
+    if(daySales>=1&&!activeBroken)activeStreak++;
+    else activeBroken=true;
+    // On-Target: sales ≥ daily target
+    if(daySales>=dailyTargetGoal&&dailyTargetGoal>0&&!onTargetBroken)onTargetStreak++;
+    else onTargetBroken=true;
+    // Hot: sales ≥ 120% of daily target
+    if(daySales>=hotThreshold&&hotThreshold>0&&!hotBroken)hotStreak++;
+    else hotBroken=true;
+    // Stop if all three broken
+    if(activeBroken&&onTargetBroken&&hotBroken)break;
   }
-  return streak;
+  return{
+    active:activeStreak,
+    onTarget:onTargetStreak,
+    hot:hotStreak,
+    dailyTarget:Math.round(dailyTargetGoal*10)/10,  // Round to 1 decimal
+    hotThreshold:Math.round(hotThreshold*10)/10
+  };
+}
+
+// Keep old function for backward compatibility
+function getEmpHotStreak(e){
+  return getEmpStreakBreakdown(e).active;
 }
 
 // Best day of week — "Saturday", "Sunday", etc.
@@ -3689,25 +3772,12 @@ function renderTabStreaks(e){
   const tx=hasBrowse?getEmpTransactions(e):[];
   const hasRealData=tx.length>0;
   // v16.9: Use REAL streak if browse data exists
-  let type,days,icon,label,sub;
   if(hasRealData){
-    const realStreak=getEmpHotStreak(e);
+    // v16.9.1: Get 3-level streak breakdown
+    const streaks=getEmpStreakBreakdown(e);
     const bestDay=getEmpBestDayOfWeek(e);
     const peakHour=getEmpPeakHour(e);
     const activeDays=getEmpActiveDays(e);
-    if(e.sales===0){
-      type='cold';days=0;icon='❄️';label='No Activity';
-      sub=`No sales yet this month`;
-    }else if(realStreak>=5){
-      type='hot';days=realStreak;icon='🔥';label='Day Hot Streak';
-      sub=`${realStreak} consecutive days with sales`;
-    }else if(realStreak>=2){
-      type='neutral';days=realStreak;icon='⚡';label='Day Active Streak';
-      sub=`${realStreak} days in a row — keep going!`;
-    }else{
-      type='neutral';days=activeDays;icon='📅';label='Active Days';
-      sub=`Sold on ${activeDays} different days this month`;
-    }
     // Real weekly data from transactions
     const dailyBreakdown=getEmpDailyBreakdown(e);
     const d=new Date(DATA_DATE);
@@ -3744,13 +3814,40 @@ function renderTabStreaks(e){
     if(bestDay)insights.push({icon:'📅',label:'Best Day',value:bestDay.name,sub:`${bestDay.count} sales`});
     if(peakHour)insights.push({icon:'⏰',label:'Peak Hour',value:peakHour.display,sub:`${peakHour.count} sales`});
     insights.push({icon:'✅',label:'Active Days',value:activeDays,sub:`out of ${dayOfMonth}`});
-    return`
-      <div class="streak-card ${type}">
-        <div style="font-size:36px;margin-bottom:6px">${icon}</div>
-        <div class="streak-num">${days}</div>
-        <div class="streak-label">${label}</div>
-        <div class="streak-sub">${sub}</div>
+    // v16.9.1: Hybrid 3-level streak display
+    const streakCards=`
+      <div style="background:linear-gradient(135deg,rgba(244,216,138,0.08),rgba(212,160,23,0.02));border:1px solid rgba(244,216,138,0.25);border-radius:12px;padding:16px;margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+          <div style="font-size:11px;color:#F4D88A;text-transform:uppercase;font-weight:700;letter-spacing:.08em">🏆 Streak Tracker</div>
+          <div style="font-size:10px;color:#9A7820;font-style:italic">Daily goal: ${streaks.dailyTarget}/day</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+          <div style="background:rgba(61,214,140,0.1);border:1px solid rgba(61,214,140,0.3);border-radius:10px;padding:14px;text-align:center">
+            <div style="font-size:26px;margin-bottom:4px">📅</div>
+            <div style="font-size:36px;font-weight:900;color:#5DE8A8;line-height:1">${streaks.active}</div>
+            <div style="font-size:10px;color:#7DE8A8;text-transform:uppercase;font-weight:700;margin-top:4px;letter-spacing:.05em">Active</div>
+            <div style="font-size:9px;color:#5A9870;margin-top:3px">sold 1+ item</div>
+          </div>
+          <div style="background:rgba(244,216,138,0.12);border:1px solid rgba(244,216,138,0.4);border-radius:10px;padding:14px;text-align:center">
+            <div style="font-size:26px;margin-bottom:4px">🎯</div>
+            <div style="font-size:36px;font-weight:900;color:#F4D88A;line-height:1">${streaks.onTarget}</div>
+            <div style="font-size:10px;color:#F4D88A;text-transform:uppercase;font-weight:700;margin-top:4px;letter-spacing:.05em">On Target</div>
+            <div style="font-size:9px;color:#9A7820;margin-top:3px">&#8805; ${streaks.dailyTarget}/day</div>
+          </div>
+          <div style="background:rgba(239,159,39,0.12);border:1px solid rgba(246,168,78,0.4);border-radius:10px;padding:14px;text-align:center">
+            <div style="font-size:26px;margin-bottom:4px">🔥</div>
+            <div style="font-size:36px;font-weight:900;color:#F6A84E;line-height:1">${streaks.hot}</div>
+            <div style="font-size:10px;color:#F6A84E;text-transform:uppercase;font-weight:700;margin-top:4px;letter-spacing:.05em">Hot</div>
+            <div style="font-size:9px;color:#BF7830;margin-top:3px">&#8805; ${streaks.hotThreshold}/day</div>
+          </div>
+        </div>
+        <div style="margin-top:12px;padding-top:12px;border-top:1px dashed rgba(244,216,138,0.2);font-size:10px;color:#B8A870;line-height:1.5;text-align:center">
+          💡 Active = any sale · On Target = hit daily quota · Hot = exceed by 20%+
+        </div>
       </div>
+    `;
+    return`
+      ${streakCards}
       ${insights.length?`<div style="display:grid;grid-template-columns:repeat(${insights.length},1fr);gap:8px;margin-bottom:14px">
         ${insights.map(i=>`<div style="background:rgba(61,214,140,0.08);border:1px solid rgba(61,214,140,0.2);border-radius:10px;padding:10px;text-align:center">
           <div style="font-size:18px;margin-bottom:3px">${i.icon}</div>
