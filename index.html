@@ -2327,7 +2327,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">Manual Daily Update ✨</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v16.9.1 · Hybrid Streaks</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">✨ v16.9.3 · URLs Encrypted</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -2486,10 +2486,43 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 <div id="wa-report"></div>
 
 <script>
-const CSV_UMM  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQzH2quWsRx-NsAhxFeqOsz9n_KElh80hZq64gnjviHC0OGVSXTGgQIC7HbhazVChH7Cde__gKhnQut/pub?gid=59746245&single=true&output=csv';
-const CSV_FTTH = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQzH2quWsRx-NsAhxFeqOsz9n_KElh80hZq64gnjviHC0OGVSXTGgQIC7HbhazVChH7Cde__gKhnQut/pub?gid=57457654&single=true&output=csv';
-// v16.9: Browse Date — real per-transaction timestamps (Sales Date + Sales Time)
-const CSV_BROWSE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQzH2quWsRx-NsAhxFeqOsz9n_KElh80hZq64gnjviHC0OGVSXTGgQIC7HbhazVChH7Cde__gKhnQut/pub?gid=167999167&single=true&output=csv';
+// v16.9.3: Protected endpoint construction — no plaintext URLs in source
+// The Sheet ID is split, XOR-encrypted, Base64-encoded, and reversed.
+// Reconstruction happens at runtime only when data is requested.
+const _z7=[
+  '==AWCQ3OuQAHpxVCI9DHzQSEOpVcBJgf6MBJhdUQAQQKTcjZbo2czxRY',
+  '==wVtNhNmIAY+p1ckZjMqMyHBEXejtCFWkBBgV3fC8wGrcTPYVFBE0TC',
+  'CdUYcRCG'
+];
+// Scattered key pieces (don't look like a key)
+const _k7a='SL2';const _k7b='026';const _k7c='WAB';
+// GIDs stored as reversed hex (less obvious than decimal)
+const _g7=['5c7af83','6fbbc63','fb6730a'];  // umm, ftth, browse
+// Reconstruction function — intentionally hard to follow
+function _b7(i){
+  try{
+    const k=_k7a+_k7b+_k7c;
+    const r=_z7[i].split('').reverse().join('');
+    const d=atob(r);
+    let o='';
+    for(let j=0;j<d.length;j++){
+      o+=String.fromCharCode(d.charCodeAt(j)^k.charCodeAt(j%k.length));
+    }
+    return o;
+  }catch(e){return'';}
+}
+function _q7(gidIdx){
+  const id=_b7(0)+_b7(1)+_b7(2);
+  const gid=parseInt(_g7[gidIdx].split('').reverse().join(''),16);
+  // Domain parts — split & reversed
+  const _h=['moc.elgoog.scod','/d/e/','daerpsdaerps'.substring(0,12).split('').reverse().join('').replace('xx','')].join('');
+  const _u=['s','p','t','t','h'].reverse().join('')+'://'+'moc.elgoog.scod'.split('').reverse().join('')+'/'+'steehsdaerps'.split('').reverse().join('')+'/d/e/';
+  return _u+id+'/pub?gid='+gid+'&single=true&output=csv';
+}
+// Public endpoints (computed lazily — not stored as strings)
+Object.defineProperty(window,'CSV_UMM',{get:()=>_q7(0)});
+Object.defineProperty(window,'CSV_FTTH',{get:()=>_q7(1)});
+Object.defineProperty(window,'CSV_BROWSE',{get:()=>_q7(2)});
 
 let DATA=[], FTTH_DATA=[], BROWSE_DATA=[], CUR='all', SEARCH='', FILT='all', DATA_DATE='';
 let barChart=null;
@@ -2541,7 +2574,13 @@ function dailyTarget(emp,dateStr){
 }
 
 // ── v12: Fetch latest date from Google Sheets filename ──
-const PUBHTML_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vQzH2quWsRx-NsAhxFeqOsz9n_KElh80hZq64gnjviHC0OGVSXTGgQIC7HbhazVChH7Cde__gKhnQut/pubhtml';
+// v16.9.3: Also computed lazily (reuses the same encrypted Sheet ID)
+Object.defineProperty(window,'PUBHTML_URL',{
+  get:()=>{
+    const _u=['s','p','t','t','h'].reverse().join('')+'://'+'moc.elgoog.scod'.split('').reverse().join('')+'/'+'steehsdaerps'.split('').reverse().join('')+'/d/e/';
+    return _u+(_b7(0)+_b7(1)+_b7(2))+'/pubhtml';
+  }
+});
 
 async function fetchSheetDate(){
   try{
@@ -3610,43 +3649,67 @@ function getEmpWeeklySales(e){
   return weeks;
 }
 
-// v16.9.1: Hybrid Streak System — 3 levels
-// Returns {active, onTarget, hot, activeHistory, onTargetHistory, hotHistory}
+// v16.9.1: Hybrid Streak System — 3 levels + Longest tracking
+// Returns {active, onTarget, hot, longestActive, longestOnTarget, longestHot, ...}
 function getEmpStreakBreakdown(e){
   const daily=getEmpDailySales(e);
-  const dates=Object.keys(daily).sort().reverse();  // newest first
-  if(!dates.length)return{active:0,onTarget:0,hot:0};
+  const dates=Object.keys(daily).sort();  // oldest first
+  if(!dates.length)return{active:0,onTarget:0,hot:0,longestActive:0,longestOnTarget:0,longestHot:0};
   // Calculate daily target from monthly target ÷ work days
-  // Assume ~22 work days per month (4 weeks × 5-6 days, excl weekends)
   const workDaysPerMonth=22;
   const dailyTargetGoal=e.target>0?(e.target/workDaysPerMonth):0;
   const hotThreshold=dailyTargetGoal*1.2;  // 120% of daily target
-  // Walk backwards from latest date, counting each streak separately
-  const latest=new Date(dates[0]);
-  let activeStreak=0, onTargetStreak=0, hotStreak=0;
-  let activeBroken=false, onTargetBroken=false, hotBroken=false;
-  for(let i=0;i<30;i++){
-    const check=new Date(latest);
-    check.setDate(check.getDate()-i);
-    const iso=`${check.getFullYear()}-${String(check.getMonth()+1).padStart(2,'0')}-${String(check.getDate()).padStart(2,'0')}`;
+  // v16.9.2: Walk through ALL days in the month (not just active ones)
+  // This catches "streak broken by 0-sale days"
+  const firstDate=new Date(dates[0]);
+  const lastDate=new Date(dates[dates.length-1]);
+  // Track current (from latest backwards) and longest streaks
+  let currentActive=0, currentOnTarget=0, currentHot=0;
+  let longestActive=0, longestOnTarget=0, longestHot=0;
+  let runActive=0, runOnTarget=0, runHot=0;
+  // Walk chronologically from first date to last date
+  const allDays=[];
+  const iter=new Date(firstDate);
+  while(iter<=lastDate){
+    const iso=`${iter.getFullYear()}-${String(iter.getMonth()+1).padStart(2,'0')}-${String(iter.getDate()).padStart(2,'0')}`;
     const daySales=daily[iso]||0;
-    // Active: sales ≥ 1
-    if(daySales>=1&&!activeBroken)activeStreak++;
-    else activeBroken=true;
-    // On-Target: sales ≥ daily target
-    if(daySales>=dailyTargetGoal&&dailyTargetGoal>0&&!onTargetBroken)onTargetStreak++;
-    else onTargetBroken=true;
-    // Hot: sales ≥ 120% of daily target
-    if(daySales>=hotThreshold&&hotThreshold>0&&!hotBroken)hotStreak++;
-    else hotBroken=true;
-    // Stop if all three broken
-    if(activeBroken&&onTargetBroken&&hotBroken)break;
+    allDays.push({iso,sales:daySales});
+    // Active streak (any sale)
+    if(daySales>=1){
+      runActive++;
+      if(runActive>longestActive)longestActive=runActive;
+    }else{
+      runActive=0;
+    }
+    // On-Target streak
+    if(daySales>=dailyTargetGoal&&dailyTargetGoal>0){
+      runOnTarget++;
+      if(runOnTarget>longestOnTarget)longestOnTarget=runOnTarget;
+    }else{
+      runOnTarget=0;
+    }
+    // Hot streak
+    if(daySales>=hotThreshold&&hotThreshold>0){
+      runHot++;
+      if(runHot>longestHot)longestHot=runHot;
+    }else{
+      runHot=0;
+    }
+    iter.setDate(iter.getDate()+1);
   }
+  // Current streak = the last run (still going if last day had sales)
+  // Since we tracked it in chronological order, the "current" is the final run value
+  currentActive=runActive;
+  currentOnTarget=runOnTarget;
+  currentHot=runHot;
   return{
-    active:activeStreak,
-    onTarget:onTargetStreak,
-    hot:hotStreak,
-    dailyTarget:Math.round(dailyTargetGoal*10)/10,  // Round to 1 decimal
+    active:currentActive,
+    onTarget:currentOnTarget,
+    hot:currentHot,
+    longestActive,
+    longestOnTarget,
+    longestHot,
+    dailyTarget:Math.round(dailyTargetGoal*10)/10,
     hotThreshold:Math.round(hotThreshold*10)/10
   };
 }
@@ -3814,7 +3877,7 @@ function renderTabStreaks(e){
     if(bestDay)insights.push({icon:'📅',label:'Best Day',value:bestDay.name,sub:`${bestDay.count} sales`});
     if(peakHour)insights.push({icon:'⏰',label:'Peak Hour',value:peakHour.display,sub:`${peakHour.count} sales`});
     insights.push({icon:'✅',label:'Active Days',value:activeDays,sub:`out of ${dayOfMonth}`});
-    // v16.9.1: Hybrid 3-level streak display
+    // v16.9.2: Hybrid 3-level streak display with Current + Longest
     const streakCards=`
       <div style="background:linear-gradient(135deg,rgba(244,216,138,0.08),rgba(212,160,23,0.02));border:1px solid rgba(244,216,138,0.25);border-radius:12px;padding:16px;margin-bottom:12px">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
@@ -3822,27 +3885,57 @@ function renderTabStreaks(e){
           <div style="font-size:10px;color:#9A7820;font-style:italic">Daily goal: ${streaks.dailyTarget}/day</div>
         </div>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
-          <div style="background:rgba(61,214,140,0.1);border:1px solid rgba(61,214,140,0.3);border-radius:10px;padding:14px;text-align:center">
-            <div style="font-size:26px;margin-bottom:4px">📅</div>
-            <div style="font-size:36px;font-weight:900;color:#5DE8A8;line-height:1">${streaks.active}</div>
-            <div style="font-size:10px;color:#7DE8A8;text-transform:uppercase;font-weight:700;margin-top:4px;letter-spacing:.05em">Active</div>
-            <div style="font-size:9px;color:#5A9870;margin-top:3px">sold 1+ item</div>
+          <div style="background:rgba(61,214,140,0.1);border:1px solid rgba(61,214,140,0.3);border-radius:10px;padding:14px;text-align:center;position:relative">
+            <div style="font-size:24px;margin-bottom:2px">📅</div>
+            <div style="display:flex;justify-content:space-around;align-items:baseline;margin-top:4px">
+              <div style="flex:1">
+                <div style="font-size:30px;font-weight:900;color:#5DE8A8;line-height:1">${streaks.active}</div>
+                <div style="font-size:8px;color:#7DE8A8;text-transform:uppercase;margin-top:2px;letter-spacing:.05em">Current</div>
+              </div>
+              <div style="width:1px;height:30px;background:rgba(61,214,140,0.2)"></div>
+              <div style="flex:1">
+                <div style="font-size:30px;font-weight:900;color:#B8E8C0;line-height:1">${streaks.longestActive}</div>
+                <div style="font-size:8px;color:#7DA890;text-transform:uppercase;margin-top:2px;letter-spacing:.05em">Best</div>
+              </div>
+            </div>
+            <div style="font-size:11px;color:#7DE8A8;text-transform:uppercase;font-weight:700;margin-top:8px;letter-spacing:.05em">Active</div>
+            <div style="font-size:9px;color:#5A9870;margin-top:2px">sold 1+ item</div>
           </div>
-          <div style="background:rgba(244,216,138,0.12);border:1px solid rgba(244,216,138,0.4);border-radius:10px;padding:14px;text-align:center">
-            <div style="font-size:26px;margin-bottom:4px">🎯</div>
-            <div style="font-size:36px;font-weight:900;color:#F4D88A;line-height:1">${streaks.onTarget}</div>
-            <div style="font-size:10px;color:#F4D88A;text-transform:uppercase;font-weight:700;margin-top:4px;letter-spacing:.05em">On Target</div>
-            <div style="font-size:9px;color:#9A7820;margin-top:3px">&#8805; ${streaks.dailyTarget}/day</div>
+          <div style="background:rgba(244,216,138,0.12);border:1px solid rgba(244,216,138,0.4);border-radius:10px;padding:14px;text-align:center;position:relative">
+            <div style="font-size:24px;margin-bottom:2px">🎯</div>
+            <div style="display:flex;justify-content:space-around;align-items:baseline;margin-top:4px">
+              <div style="flex:1">
+                <div style="font-size:30px;font-weight:900;color:#F4D88A;line-height:1">${streaks.onTarget}</div>
+                <div style="font-size:8px;color:#F4D88A;text-transform:uppercase;margin-top:2px;letter-spacing:.05em">Current</div>
+              </div>
+              <div style="width:1px;height:30px;background:rgba(244,216,138,0.2)"></div>
+              <div style="flex:1">
+                <div style="font-size:30px;font-weight:900;color:#E8D8A8;line-height:1">${streaks.longestOnTarget}</div>
+                <div style="font-size:8px;color:#C8B878;text-transform:uppercase;margin-top:2px;letter-spacing:.05em">Best</div>
+              </div>
+            </div>
+            <div style="font-size:11px;color:#F4D88A;text-transform:uppercase;font-weight:700;margin-top:8px;letter-spacing:.05em">On Target</div>
+            <div style="font-size:9px;color:#9A7820;margin-top:2px">&#8805; ${streaks.dailyTarget}/day</div>
           </div>
-          <div style="background:rgba(239,159,39,0.12);border:1px solid rgba(246,168,78,0.4);border-radius:10px;padding:14px;text-align:center">
-            <div style="font-size:26px;margin-bottom:4px">🔥</div>
-            <div style="font-size:36px;font-weight:900;color:#F6A84E;line-height:1">${streaks.hot}</div>
-            <div style="font-size:10px;color:#F6A84E;text-transform:uppercase;font-weight:700;margin-top:4px;letter-spacing:.05em">Hot</div>
-            <div style="font-size:9px;color:#BF7830;margin-top:3px">&#8805; ${streaks.hotThreshold}/day</div>
+          <div style="background:rgba(239,159,39,0.12);border:1px solid rgba(246,168,78,0.4);border-radius:10px;padding:14px;text-align:center;position:relative">
+            <div style="font-size:24px;margin-bottom:2px">🔥</div>
+            <div style="display:flex;justify-content:space-around;align-items:baseline;margin-top:4px">
+              <div style="flex:1">
+                <div style="font-size:30px;font-weight:900;color:#F6A84E;line-height:1">${streaks.hot}</div>
+                <div style="font-size:8px;color:#F6A84E;text-transform:uppercase;margin-top:2px;letter-spacing:.05em">Current</div>
+              </div>
+              <div style="width:1px;height:30px;background:rgba(246,168,78,0.2)"></div>
+              <div style="flex:1">
+                <div style="font-size:30px;font-weight:900;color:#E8B868;line-height:1">${streaks.longestHot}</div>
+                <div style="font-size:8px;color:#BF9850;text-transform:uppercase;margin-top:2px;letter-spacing:.05em">Best</div>
+              </div>
+            </div>
+            <div style="font-size:11px;color:#F6A84E;text-transform:uppercase;font-weight:700;margin-top:8px;letter-spacing:.05em">Hot</div>
+            <div style="font-size:9px;color:#BF7830;margin-top:2px">&#8805; ${streaks.hotThreshold}/day</div>
           </div>
         </div>
         <div style="margin-top:12px;padding-top:12px;border-top:1px dashed rgba(244,216,138,0.2);font-size:10px;color:#B8A870;line-height:1.5;text-align:center">
-          💡 Active = any sale · On Target = hit daily quota · Hot = exceed by 20%+
+          💡 <b>Current</b> = days in a row right now &nbsp;·&nbsp; <b>Best</b> = longest streak this month
         </div>
       </div>
     `;
