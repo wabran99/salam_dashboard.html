@@ -2,9 +2,9 @@
 <!--
  ═══════════════════════════════════════════════════════════════════
    SALAM — SALES PERFORMANCE DASHBOARD
-   Retail MT · Salam Mobile · Riyadh, Saudi Arabia
+   Retail MT · Salam Mobile · Hail , Saudi Arabia
  ═══════════════════════════════════════════════════════════════════
-   Designed & Developed by: Abdulwahab Eisi M Alshammari
+   Designed & Developed by: Eng. Abdulwahab M Alshammari
    Internal Use Only — © 2026 All Rights Reserved
    Unauthorized copying, modification, or redistribution prohibited.
    Built: v16.9.3 · April 2026 · Build ID: WAB-2026-04-17
@@ -14,8 +14,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="author" content="Abdulwahab Eisi M Alshammari">
-<meta name="copyright" content="© 2026 Abdulwahab Alshammari — Retail MT, Salam Mobile">
+<meta name="author" content="Eng. Abdulwahab M Alshammari">
+<meta name="copyright" content="© 2026 Eng. Abdulwahab M Alshammari — Retail MT, Salam Mobile">
 <meta name="description" content="Sales Performance Dashboard — Retail MT, Salam Mobile. Internal proprietary tool.">
 <meta name="robots" content="noindex, nofollow, noarchive">
 <meta name="rights" content="All rights reserved. Unauthorized use prohibited.">
@@ -2343,7 +2343,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">Manual Daily Update ✨</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🔒 v16.9.3 · Protected</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🔒 v16.9.5 · Live Tracking</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -2463,7 +2463,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
         <span class="sb-cnt" id="cnt-all">—</span>
       </button>
       <button class="sb-item" onclick="setView('Abdulwahab',this)">
-        <span class="sb-d" style="background:#F6C94E"></span>Abdulwahab AlShammari<span class="sb-cnt" id="cnt-aw">—</span>
+        <span class="sb-d" style="background:#F6C94E"></span>Eng. Abdulwahab M Alshammari<span class="sb-cnt" id="cnt-aw">—</span>
       </button>
       <button class="sb-item" onclick="setView('Ahmed',this)">
         <span class="sb-d" style="background:#85B7EB"></span>Ahmed AlMutairi<span class="sb-cnt" id="cnt-am">—</span>
@@ -2504,13 +2504,13 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 <script>
 // ═══════════════════════════════════════════════════════
 // v16.9.3: Protection Layer — DevTools Detection + Signature
-// Developed by Abdulwahab Alshammari · Retail MT · Salam Mobile
+// Developed by Eng. Abdulwahab M Alshammari · Retail MT · Salam Mobile
 // ═══════════════════════════════════════════════════════
 (function(){
   'use strict';
   // — Watermark: 5 hidden fingerprints in runtime —
   window.__SLM_FINGERPRINT__={
-    author:'Abdulwahab Eisi M Alshammari',
+    author:'Eng. Abdulwahab M Alshammari',
     team:'Retail MT',
     org:'Salam Mobile',
     build:'v16.9.3',
@@ -2552,27 +2552,152 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
       console.log('%cThis is a browser feature intended for developers.',s1);
       console.log('%c⚠️  If someone told you to copy-paste something here, it is likely a scam.',s2);
       console.log('%c───────────────────────────────────────────────────',s3);
-      console.log('%c© 2026 Abdulwahab Eisi M Alshammari',s3);
+      console.log('%c© 2026 Eng. Abdulwahab M Alshammari',s3);
       console.log('%cRetail MT · Salam Mobile · All Rights Reserved',s3);
       console.log('%cBuild: v16.9.3 · ID: WAB-SLM-2026-04-17',s4);
       console.log('%c───────────────────────────────────────────────────',s3);
     }catch(e){}
   },500);
-  // — DevTools detection (non-blocking, just logs attempt) —
-  let devToolsOpen=false;
-  const threshold=160;
-  setInterval(function(){
-    const widthGap=window.outerWidth-window.innerWidth>threshold;
-    const heightGap=window.outerHeight-window.innerHeight>threshold;
-    if(widthGap||heightGap){
-      if(!devToolsOpen){
-        devToolsOpen=true;
-        try{console.log('%c👀 DevTools detected — this dashboard is proprietary.','color:#F69090;font-weight:700');}catch(e){}
-      }
-    }else{
-      devToolsOpen=false;
+  // — Visitor tracking: log every session to Google Apps Script —
+  // [CONFIG] Endpoint configured — logs every visitor to private Sheet
+  const VISITOR_LOG_URL='https://script.google.com/macros/s/AKfycbw4z6utqCyZdhxkvQao4NHKed2SBTJmqRVdpgjbwbMENMhrwc6AHbYVhl6Rezir7Blu/exec';
+  function _logVisitor(){
+    if(!VISITOR_LOG_URL||VISITOR_LOG_URL.includes('VISITOR_LOG_URL_HERE'))return;
+    // Check if already logged this session
+    try{
+      if(sessionStorage.getItem('_slm_logged'))return;
+      sessionStorage.setItem('_slm_logged','1');
+    }catch(e){}
+    // Gather device info
+    const ua=navigator.userAgent;
+    const isMobile=/Mobile|Android|iPhone|iPad/i.test(ua);
+    let browser='Unknown';
+    if(/Chrome/.test(ua)&&!/Edge|Edg/.test(ua))browser='Chrome';
+    else if(/Firefox/.test(ua))browser='Firefox';
+    else if(/Safari/.test(ua)&&!/Chrome/.test(ua))browser='Safari';
+    else if(/Edg/.test(ua))browser='Edge';
+    let os='Unknown';
+    if(/Windows NT 10/.test(ua))os='Windows 10/11';
+    else if(/Windows/.test(ua))os='Windows';
+    else if(/Mac OS/.test(ua))os='macOS';
+    else if(/Android/.test(ua))os='Android';
+    else if(/iPhone|iPad/.test(ua))os='iOS';
+    else if(/Linux/.test(ua))os='Linux';
+    // Get IP + geo info from free service
+    fetch('https://ipapi.co/json/').then(r=>r.json()).then(geo=>{
+      const payload={
+        ip:geo.ip||'unknown',
+        country:geo.country_name||'unknown',
+        city:geo.city||'unknown',
+        device:isMobile?'Mobile':'Desktop',
+        browser:browser,
+        os:os,
+        screen:window.screen.width+'x'+window.screen.height,
+        referrer:document.referrer||'(Direct)'
+      };
+      // Send to Google Apps Script (fire & forget)
+      fetch(VISITOR_LOG_URL,{
+        method:'POST',
+        mode:'no-cors',
+        headers:{'Content-Type':'text/plain'},
+        body:JSON.stringify(payload)
+      }).catch(()=>{});
+    }).catch(()=>{
+      // Fallback: log without IP if geo fails
+      fetch(VISITOR_LOG_URL,{
+        method:'POST',
+        mode:'no-cors',
+        headers:{'Content-Type':'text/plain'},
+        body:JSON.stringify({
+          ip:'geo-blocked',
+          country:'unknown',
+          city:'unknown',
+          device:isMobile?'Mobile':'Desktop',
+          browser:browser,
+          os:os,
+          screen:window.screen.width+'x'+window.screen.height,
+          referrer:document.referrer||'(Direct)'
+        })
+      }).catch(()=>{});
+    });
+  }
+  // Log on page load (after DOM ready)
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',_logVisitor);
+  }else{
+    _logVisitor();
+  }
+
+  // — Aggressive DevTools detection — blur content when opened —
+  let _devOpen=false;
+  let _warnCount=0;
+  function _blockContent(){
+    if(!document.body)return;
+    document.body.style.filter='blur(20px)';
+    document.body.style.pointerEvents='none';
+    // Show warning overlay
+    let overlay=document.getElementById('_sec-overlay');
+    if(!overlay){
+      overlay=document.createElement('div');
+      overlay.id='_sec-overlay';
+      overlay.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(10,10,15,0.98);z-index:999999;display:flex;align-items:center;justify-content:center;pointer-events:auto;font-family:system-ui,sans-serif';
+      overlay.innerHTML='<div style="text-align:center;padding:40px;max-width:500px">'+
+        '<div style="font-size:72px;margin-bottom:20px">🛑</div>'+
+        '<div style="font-size:28px;font-weight:800;color:#F69090;margin-bottom:12px">Access Restricted</div>'+
+        '<div style="font-size:15px;color:#D8B8B8;line-height:1.7;margin-bottom:24px">Developer Tools detected.<br>This dashboard is proprietary and protected.<br>Please close DevTools to continue.</div>'+
+        '<div style="font-size:12px;color:#888;padding-top:20px;border-top:1px solid rgba(255,255,255,0.1)">© 2026 Eng. Abdulwahab M Alshammari<br>Retail MT · Salam Mobile · Internal Use Only</div>'+
+        '</div>';
+      document.body.appendChild(overlay);
     }
-  },1000);
+    overlay.style.display='flex';
+  }
+  function _unblockContent(){
+    if(!document.body)return;
+    document.body.style.filter='';
+    document.body.style.pointerEvents='';
+    const overlay=document.getElementById('_sec-overlay');
+    if(overlay)overlay.style.display='none';
+  }
+  // Method 1: Size-based detection
+  const _threshold=160;
+  setInterval(function(){
+    const widthGap=window.outerWidth-window.innerWidth>_threshold;
+    const heightGap=window.outerHeight-window.innerHeight>_threshold;
+    const isOpen=widthGap||heightGap;
+    if(isOpen&&!_devOpen){
+      _devOpen=true;
+      _blockContent();
+    }else if(!isOpen&&_devOpen){
+      _devOpen=false;
+      _unblockContent();
+    }
+  },500);
+  // Method 2: Timing-based detection (debugger trick)
+  setInterval(function(){
+    const start=performance.now();
+    (function(){
+      try{debugger;}catch(e){}
+    })();
+    const elapsed=performance.now()-start;
+    if(elapsed>100&&!_devOpen){
+      _devOpen=true;
+      _blockContent();
+    }
+  },2000);
+  // Method 3: Console property getter (detects console inspection)
+  const _element=new Image();
+  Object.defineProperty(_element,'id',{
+    get:function(){
+      if(!_devOpen){
+        _devOpen=true;
+        _blockContent();
+      }
+      return '_sec_trap';
+    }
+  });
+  setInterval(function(){
+    try{console.debug(_element);console.clear();}catch(e){}
+  },3000);
 })();
 </script>
 
@@ -2580,7 +2705,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 // v16.9.3: Protected endpoint construction — no plaintext URLs in source
 // The Sheet ID is split, XOR-encrypted, Base64-encoded, and reversed.
 // Reconstruction happens at runtime only when data is requested.
-// [WAB-01] Built by Abdulwahab Alshammari — do not remove this line
+// [WAB-01] Built by Eng. Abdulwahab M Alshammari — do not remove this line
 const _z7=[
   '==AWCQ3OuQAHpxVCI9DHzQSEOpVcBJgf6MBJhdUQAQQKTcjZbo2czxRY',
   '==wVtNhNmIAY+p1ckZjMqMyHBEXejtCFWkBBgV3fC8wGrcTPYVFBE0TC',
@@ -3291,7 +3416,7 @@ function renderView(view){
           <div class="sec-t" style="color:#5888A8">By Supervisor · FTTH & 5G</div>
           <div style="background:var(--card);border:1px solid rgba(55,138,221,0.2);border-radius:var(--r);overflow:hidden">
             ${[
-              {key:'aw',label:'Abdulwahab AlShammari',color:'#F6C94E'},
+              {key:'aw',label:'Eng. Abdulwahab M Alshammari',color:'#F6C94E'},
               {key:'am',label:'Ahmed AlMutairi',color:'#85B7EB'},
               {key:'ms',label:'Mohammed AlShehri',color:'#5DCAA5'},
               {key:'na',label:'Najwah AlOmari',color:'#ED93B1'},
@@ -3382,7 +3507,7 @@ function renderView(view){
       Auto-refresh every 5 min · Data as of ${DATA_DATE}
     </div>
     <div style="font-size:10px;color:#2A5A42;text-align:center;padding-bottom:20px;opacity:0.7">
-      © 2026 Abdulwahab Alshammari · Retail MT · Internal Use Only
+      © 2026 Eng. Abdulwahab M Alshammari · Retail MT · Internal Use Only
     </div>
   `;
 
@@ -3485,7 +3610,7 @@ function renderTop5Post(allSorted){
 
 function renderSupCards(){
   const sups=[
-    {key:'Abdulwahab',full:'Abdulwahab AlShammari',color:'#F6C94E'},
+    {key:'Abdulwahab',full:'Eng. Abdulwahab M Alshammari',color:'#F6C94E'},
     {key:'Ahmed',     full:'Ahmed AlMutairi',       color:'#85B7EB'},
     {key:'Mohammed',  full:'Mohammed AlShehri',     color:'#5DCAA5'},
     {key:'Najwah',    full:'Najwah AlOmari',         color:'#ED93B1'},
@@ -3532,7 +3657,7 @@ function renderSupCards(){
 
 function renderSupBars(emps){
   const sups=[
-    {key:'Abdulwahab',full:'Abdulwahab AlShammari',color:'#F6C94E'},
+    {key:'Abdulwahab',full:'Eng. Abdulwahab M Alshammari',color:'#F6C94E'},
     {key:'Ahmed',     full:'Ahmed AlMutairi',       color:'#85B7EB'},
     {key:'Mohammed',  full:'Mohammed AlShehri',     color:'#5DCAA5'},
     {key:'Najwah',    full:'Najwah AlOmari',         color:'#ED93B1'},
@@ -5980,7 +6105,7 @@ function renderMobileSidebar(){
         <span class="sb-cnt">${DATA.length}</span>
       </button>
       <button class="sb-item ${CUR==='Abdulwahab'?'active':''}" onclick="setView('Abdulwahab',this);closeMobileSidebar()">
-        <span class="sb-d" style="background:#F6C94E"></span>Abdulwahab AlShammari<span class="sb-cnt">${k.aw}</span>
+        <span class="sb-d" style="background:#F6C94E"></span>Eng. Abdulwahab M Alshammari<span class="sb-cnt">${k.aw}</span>
       </button>
       <button class="sb-item ${CUR==='Ahmed'?'active':''}" onclick="setView('Ahmed',this);closeMobileSidebar()">
         <span class="sb-d" style="background:#85B7EB"></span>Ahmed AlMutairi<span class="sb-cnt">${k.am}</span>
