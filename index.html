@@ -7,7 +7,7 @@
    Designed & Developed by: Eng. Abdulwahab M Alshammari
    Internal Use Only — © 2026 All Rights Reserved
    Unauthorized copying, modification, or redistribution prohibited.
-   Built: v16.9.3 · April 2026 · Build ID: WAB-2026-04-17
+   Built: v16.9.8 · April 2026 · Build ID: WAB-2026-04-20
  ═══════════════════════════════════════════════════════════════════
 -->
 <html lang="en">
@@ -1953,10 +1953,10 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 .tbl-hdr{padding:11px 18px;background:rgba(255,255,255,0.03);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
 .tbl-title{font-size:10px;font-weight:700;color:#6AB88A;text-transform:uppercase;letter-spacing:.08em}
 .tbl-cnt{font-size:11px;color:#6AB88A}
-.tbl-head{display:grid;grid-template-columns:28px 24px 2fr 1fr 55px 55px 55px 50px 50px 80px 95px;gap:6px;padding:8px 18px;background:rgba(255,255,255,0.03);border-bottom:1px solid var(--border)}
+.tbl-head{display:grid;grid-template-columns:28px 24px 1.8fr 0.9fr 55px 55px 55px 45px 45px 50px 50px 75px 85px;gap:6px;padding:8px 18px;background:rgba(255,255,255,0.03);border-bottom:1px solid var(--border)}
 .th{font-size:9px;font-weight:700;color:#4A8862;text-transform:uppercase;letter-spacing:.06em}
 .thc{text-align:center}.thr{text-align:right}
-.tbl-row{display:grid;grid-template-columns:28px 24px 2fr 1fr 55px 55px 55px 50px 50px 80px 95px;gap:6px;padding:10px 18px;border-bottom:1px solid rgba(61,214,140,0.05);align-items:center;transition:background .12s;cursor:pointer}
+.tbl-row{display:grid;grid-template-columns:28px 24px 1.8fr 0.9fr 55px 55px 55px 45px 45px 50px 50px 75px 85px;gap:6px;padding:10px 18px;border-bottom:1px solid rgba(61,214,140,0.05);align-items:center;transition:background .12s;cursor:pointer}
 .tbl-row:last-child{border-bottom:none}
 .tbl-row:hover{background:var(--card2)}
 .tbl-row.r1{background:rgba(212,160,23,.06)}
@@ -1972,6 +1972,11 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 .pv{font-size:12px;font-weight:600;text-align:center}
 .npost{font-size:12px;font-weight:600;color:#A8CCEE;text-align:center}
 .nprep{font-size:12px;font-weight:600;color:#D8A8F0;text-align:center}
+/* v16.9.8: Fiber + 5G columns in main table */
+.nfiber{font-size:11.5px;font-weight:600;color:#88D0F8;text-align:center;background:rgba(136,208,248,0.08);border-radius:5px;padding:3px 2px}
+.nfiber.zero{color:#4A6A80;background:transparent;font-weight:400;opacity:0.5}
+.n5g{font-size:11.5px;font-weight:600;color:#68A8E8;text-align:center;background:rgba(104,168,232,0.08);border-radius:5px;padding:3px 2px}
+.n5g.zero{color:#3A5870;background:transparent;font-weight:400;opacity:0.5}
 
 /* ── v13: Daily Target Badge ── */
 .daily-badge{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:700;white-space:nowrap}
@@ -2224,9 +2229,10 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   .ftth-top5-grid{grid-template-columns:repeat(3,1fr)}
   .top-slim-row{grid-template-columns:36px 1fr 55px 50px;gap:8px}
   .top-slim-row>:nth-child(3){display:none}
+  /* v16.9.8: Updated for new Fiber/5G columns (13 total) */
   .tbl-head,.tbl-row{grid-template-columns:28px 24px 1fr 60px 80px 95px}
-  .tbl-head>:nth-child(n+4):not(:nth-child(5)):not(:nth-child(10)):not(:nth-child(11)),
-  .tbl-row>:nth-child(n+4):not(:nth-child(5)):not(:nth-child(10)):not(:nth-child(11)){display:none}
+  .tbl-head>:nth-child(n+4):not(:nth-child(5)):not(:nth-child(12)):not(:nth-child(13)),
+  .tbl-row>:nth-child(n+4):not(:nth-child(5)):not(:nth-child(12)):not(:nth-child(13)){display:none}
   .podium-wrap{gap:5px}
   .pod-1 .pod-card{width:140px}
   .pod-2 .pod-card{width:120px}
@@ -2343,7 +2349,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">Manual Daily Update ✨</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🔒 v16.9.7 · Security Panel</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🔒 v16.9.8 · Security Panel</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -2803,11 +2809,17 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     const overlay=document.getElementById('_sec-overlay');
     if(overlay)overlay.style.display='none';
   }
-  // Method 1: Size-based detection
-  const _threshold=160;
+  // Method 1: Size-based detection — v16.9.8: Smart device-aware
+  // Mobile browsers (Safari/Chrome iOS) auto-hide/show address bar,
+  // which causes innerHeight to fluctuate ~85px — this used to trigger
+  // a false positive. Fix: ignore heightGap on mobile, use higher threshold.
+  const _isMobile=(window.matchMedia&&window.matchMedia('(pointer: coarse)').matches)||(navigator.maxTouchPoints||0)>0;
+  const _threshold=_isMobile?250:160;
   setInterval(function(){
     const widthGap=window.outerWidth-window.innerWidth>_threshold;
-    const heightGap=window.outerHeight-window.innerHeight>_threshold;
+    // On mobile, heightGap is unreliable due to address bar toggling.
+    // DevTools on mobile (via remote debugging) still widens widthGap.
+    const heightGap=_isMobile?false:(window.outerHeight-window.innerHeight>_threshold);
     const isOpen=widthGap||heightGap;
     if(isOpen&&!_devOpen){
       _devOpen=true;
@@ -3807,6 +3819,8 @@ function renderView(view){
         <span class="th thc">Ach%</span>
         <span class="th thc" style="color:#8ABCE0">Post</span>
         <span class="th thc" style="color:#D8A8F0">Pre</span>
+        <span class="th thc" style="color:#88D0F8">🌐 Fiber</span>
+        <span class="th thc" style="color:#68A8E8">📡 5G</span>
         <span class="th thc" style="color:#F6C94E">🎯 Daily</span>
         <span class="th thr">Progress</span>
       </div>
@@ -3992,6 +4006,9 @@ function renderTable(emps,brF){
   let f=brF==='all'?emps:emps.filter(e=>e.branch===brF);
   if(SEARCH){const q=SEARCH.toLowerCase();f=f.filter(e=>e.name.toLowerCase().includes(q)||e.user.toLowerCase().includes(q)||e.branch.toLowerCase().includes(q));}
   const sorted=[...f].sort((a,b)=>b.pct-a.pct||b.sales-a.sales);
+  // v16.9.8: Build FTTH/5G lookup map for table display
+  const ftthMap={};
+  FTTH_DATA.forEach(ft=>{if(ft.user)ftthMap[ft.user]=ft;});
   document.getElementById('tbl-cnt').textContent=sorted.length+' agents';
   document.getElementById('tbl-rows').innerHTML=sorted.length?sorted.map((e,i)=>{
     const rk=i===0?'r1':i===1?'r2':i===2?'r3':'';
@@ -4013,6 +4030,8 @@ function renderTable(emps,brF){
       <span class="pv" style="color:${pc(e.pct)}">${e.pct}%</span>
       <span class="npost">${e.post||0}</span>
       <span class="nprep">${e.prep||0}</span>
+      <span class="nfiber${(ftthMap[e.user]?.ftth)?'':' zero'}">${(ftthMap[e.user]?.ftth)||0}</span>
+      <span class="n5g${(ftthMap[e.user]?.g5)?'':' zero'}">${(ftthMap[e.user]?.g5)||0}</span>
       <span class="thc"><span class="daily-badge ${dt.cls}">${dt.display}</span></span>
       <div class="prog">
         <div class="prog-bar"><div class="prog-fill" style="width:${Math.min(100,e.pct)}%;background:${pc(e.pct)}"></div></div>
@@ -5827,15 +5846,23 @@ function renderFamePanel(){
       key:'improved',tier:'character',
       award:'🚀',color:'#F6A84E',
       title:'Most Improved',titleAr:'الأسرع تطوّراً',
-      subtitle:'Strongest recent pace',subtitleAr:'أقوى وتيرة حاليّة',
-      statLabel:'Daily Pace',
-      // "Most improved" heuristic: high achievement relative to peers + decent sales
-      // Since we lack historical data, use: best pct-per-target-ratio on smaller targets
-      rank:(pool)=>[...pool].filter(e=>e.sales>=5&&e.pct>=50).sort((a,b)=>{
-        const aPace=a.sales/Math.max(1,a.target);
-        const bPace=b.sales/Math.max(1,b.target);
-        return (bPace-aPace)||tiebreak(a,b);
-      })
+      subtitle:'Best Post/Prep balance',subtitleAr:'أفضل توازن في المبيعات',
+      statLabel:'Balance',
+      // v16.9.8: True "improvement" = balanced performance across both categories.
+      // Uses company split (45% Postpaid / 55% Prepaid) as the ideal reference.
+      // Employees who lean heavily on one type (especially easy Prepaid) are penalized.
+      // Formula: balance = 1 - |actual_post_share - 0.45| / 0.45  (0 to 1, higher=better)
+      // Then multiplied by total sales to reward both balance AND volume.
+      rank:(pool)=>[...pool].filter(e=>e.sales>=8&&e.pct>=40&&(e.post+e.prep)>0).map(e=>{
+        const total=e.post+e.prep;
+        const postShare=total>0?e.post/total:0;
+        // Ideal postShare = 0.45 (to match 45/55 company target)
+        const deviation=Math.abs(postShare-0.45);
+        const balanceScore=Math.max(0,1-(deviation/0.45)); // 1.0 perfect, 0.0 fully unbalanced
+        // Combined score: balance × sqrt(sales) to reward both quality and activity
+        const improvedScore=balanceScore*Math.sqrt(e.sales);
+        return{...e,_balance:balanceScore,_improvedScore:improvedScore};
+      }).sort((a,b)=>(b._improvedScore-a._improvedScore)||tiebreak(a,b))
     }
   ];
   // Allocate awards — each employee gets ONE award (the highest in hierarchy)
@@ -5870,6 +5897,13 @@ function renderFamePanel(){
     else if(a.statLabel==='FTTH Sales')statValue=(ftthMap[e.user]?ftthMap[e.user].ftth:0);
     else if(a.statLabel==='5G Sales')statValue=(ftthMap[e.user]?ftthMap[e.user].g5:0);
     else if(a.statLabel==='Daily Pace')statValue=(e.sales/Math.max(1,e.target)*100).toFixed(0)+'%';
+    else if(a.statLabel==='Balance'){
+      // v16.9.8: Show balance as "Post/Prep ratio"
+      const total=(e.post||0)+(e.prep||0);
+      const postPct=total>0?Math.round((e.post||0)/total*100):0;
+      const prepPct=100-postPct;
+      statValue=postPct+'/'+prepPct;
+    }
     return`<div class="fame-card fame-${a.tier}" onclick="closePanel();setTimeout(()=>openModal(${gIdx}),300)">
       <div class="fame-card-hdr">
         <div class="fame-award">${a.award}</div>
