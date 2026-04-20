@@ -26,7 +26,7 @@
     PIN: '5577',
     MAX_ATTEMPTS: 3,
     LOCK_DURATION: 60 * 60 * 1000,  // 1 hour
-    SESSION_DURATION: 8 * 60 * 60 * 1000,  // 8 hours after successful login
+    SESSION_DURATION: 30 * 60 * 1000,  // 8 hours after successful login
     TELEGRAM_BOT: '8294900462:AAFIZq_4PlvE6tC69Jy3I5XTQXzxbHrVjoY',
     TELEGRAM_CHAT: '407207051'
   };
@@ -104,6 +104,30 @@
     setCookie('session', getFingerprint(), 1);
     setCookie('session_exp', String(Date.now() + GATE_CONFIG.SESSION_DURATION), 1);
     setCookie('attempts', '0', 1);
+    startActivityTracking();
+  }
+  
+  // Extends session on user activity (sliding window)
+  let _activityTimeout = null;
+  function extendSession() {
+    if (hasValidSession()) {
+      setCookie('session_exp', String(Date.now() + GATE_CONFIG.SESSION_DURATION), 1);
+    }
+  }
+  
+  function startActivityTracking() {
+    // Throttle to avoid writing cookie on every event
+    const throttledExtend = () => {
+      if (_activityTimeout) return;
+      _activityTimeout = setTimeout(() => {
+        extendSession();
+        _activityTimeout = null;
+      }, 10000); // Check every 10 seconds max
+    };
+    
+    ['mousedown', 'keydown', 'scroll', 'touchstart'].forEach(evt => {
+      document.addEventListener(evt, throttledExtend, { passive: true });
+    });
   }
   
   function recordFailedAttempt() {
@@ -362,6 +386,8 @@
     // Already authenticated?
     if (hasValidSession()) {
       console.log('[🚪 Gate] Valid session found');
+      // Start activity tracking for session extension
+      if (typeof startActivityTracking === 'function') startActivityTracking();
       return;
     }
     
