@@ -12,6 +12,442 @@
 -->
 <html lang="en">
 <head>
+<!-- ═══ FORTRESS GATE v16.9.9 · Full Lockdown ═══ -->
+<script>
+/* ════════════════════════════════════════════════════════════════
+   🚪 FORTRESS GATE v16.9.9 — Full Lockdown
+   Requires PIN entry before ANY dashboard access
+   ════════════════════════════════════════════════════════════════ */
+
+(function() {
+  'use strict';
+  
+  const GATE_CONFIG = {
+    PIN: '5577',
+    MAX_ATTEMPTS: 3,
+    LOCK_DURATION: 60 * 60 * 1000,  // 1 hour
+    SESSION_DURATION: 8 * 60 * 60 * 1000,  // 8 hours after successful login
+    TELEGRAM_BOT: '8294900462:AAFIZq_4PlvE6tC69Jy3I5XTQXzxbHrVjoY',
+    TELEGRAM_CHAT: '407207051'
+  };
+  
+  // ══════════ STORAGE ══════════
+  function setCookie(key, val, days = 1) {
+    try {
+      const d = new Date();
+      d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+      document.cookie = 'fg_' + key + '=' + encodeURIComponent(val) + ';expires=' + d.toUTCString() + ';path=/';
+    } catch(e) {}
+  }
+  
+  function getCookie(key) {
+    try {
+      const name = 'fg_' + key + '=';
+      const cookies = document.cookie.split(';');
+      for (let c of cookies) {
+        c = c.trim();
+        if (c.indexOf(name) === 0) return decodeURIComponent(c.substring(name.length));
+      }
+    } catch(e) {}
+    return null;
+  }
+  
+  // ══════════ DEVICE FINGERPRINT ══════════
+  function getFingerprint() {
+    const data = [
+      navigator.userAgent, navigator.language,
+      screen.width + 'x' + screen.height, screen.colorDepth,
+      new Date().getTimezoneOffset(), navigator.hardwareConcurrency || 0,
+      navigator.platform, navigator.vendor
+    ].join('|');
+    let hash = 0;
+    for (let i = 0; i < data.length; i++) {
+      hash = ((hash << 5) - hash) + data.charCodeAt(i);
+      hash = hash & hash;
+    }
+    return 'fp_' + Math.abs(hash).toString(36);
+  }
+  
+  // ══════════ TELEGRAM ══════════
+  async function notify(message, priority = 'info') {
+    const icons = { high: '🚨', medium: '⚠️', info: 'ℹ️', success: '✅' };
+    const fp = getFingerprint();
+    const time = new Date().toLocaleString('ar-SA', { timeZone: 'Asia/Riyadh' });
+    const fullMsg = `${icons[priority]} *Salam Dashboard Gate*\n\n${message}\n\n━━━━━━━━━━━\n📍 ${time}\n🖥️ \`${fp}\``;
+    
+    try {
+      await fetch(`https://api.telegram.org/bot${GATE_CONFIG.TELEGRAM_BOT}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: GATE_CONFIG.TELEGRAM_CHAT,
+          text: fullMsg,
+          parse_mode: 'Markdown'
+        })
+      });
+    } catch (e) {}
+  }
+  
+  // ══════════ GATE CHECK ══════════
+  function hasValidSession() {
+    const sessionToken = getCookie('session');
+    const sessionExp = parseInt(getCookie('session_exp') || '0');
+    return sessionToken === getFingerprint() && Date.now() < sessionExp;
+  }
+  
+  function isLocked() {
+    const lockUntil = parseInt(getCookie('lock_until') || '0');
+    return Date.now() < lockUntil;
+  }
+  
+  function grantAccess() {
+    setCookie('session', getFingerprint(), 1);
+    setCookie('session_exp', String(Date.now() + GATE_CONFIG.SESSION_DURATION), 1);
+    setCookie('attempts', '0', 1);
+  }
+  
+  function recordFailedAttempt() {
+    const attempts = parseInt(getCookie('attempts') || '0') + 1;
+    setCookie('attempts', String(attempts), 1);
+    
+    if (attempts >= GATE_CONFIG.MAX_ATTEMPTS) {
+      setCookie('lock_until', String(Date.now() + GATE_CONFIG.LOCK_DURATION), 1);
+      setCookie('attempts', '0', 1);
+      return { locked: true, remaining: 0 };
+    }
+    return { locked: false, remaining: GATE_CONFIG.MAX_ATTEMPTS - attempts };
+  }
+  
+  // ══════════ UI: HIDE DASHBOARD IMMEDIATELY ══════════
+  function hideDashboard() {
+    // Create overlay that blocks everything
+    let style = document.getElementById('fg-hide-style');
+    if (!style) {
+      style = document.createElement('style');
+      style.id = 'fg-hide-style';
+      document.head.appendChild(style);
+    }
+    style.textContent = `
+      body > *:not(#fg-overlay):not(script):not(style):not(link) {
+        display: none !important;
+      }
+    `;
+  }
+  
+  function showDashboard() {
+    // Remove hiding style
+    const hideStyle = document.getElementById('fg-hide-style');
+    if (hideStyle) hideStyle.remove();
+    // Remove overlay
+    const overlay = document.getElementById('fg-overlay');
+    if (overlay) overlay.remove();
+    // Remove early hide if exists
+    const earlyStyle = document.getElementById('fg-early-hide');
+    if (earlyStyle) earlyStyle.remove();
+    // Force body visible
+    document.body.style.visibility = 'visible';
+    document.documentElement.style.visibility = 'visible';
+    // Force remove any remaining display:none from body
+    document.body.style.removeProperty('display');
+  }
+  
+  // ══════════ UI: GATE SCREEN ══════════
+  function showGate(lockInfo) {
+    hideDashboard();
+    
+    const existing = document.getElementById('fg-overlay');
+    if (existing) existing.remove();
+    
+    const overlay = document.createElement('div');
+    overlay.id = 'fg-overlay';
+    
+    if (lockInfo && lockInfo.locked) {
+      // Locked screen
+      const lockUntil = parseInt(getCookie('lock_until') || '0');
+      const minsLeft = Math.ceil((lockUntil - Date.now()) / 60000);
+      
+      overlay.innerHTML = `
+        <div style="position:fixed;inset:0;background:linear-gradient(180deg,#0A3D2A 0%,#0F5237 50%,#0A3D2A 100%);display:flex;align-items:center;justify-content:center;z-index:999999;font-family:'Tajawal',system-ui,sans-serif;direction:rtl">
+          <div style="text-align:center;padding:40px;max-width:440px">
+            <div style="font-size:80px;margin-bottom:16px">🔒</div>
+            <h1 style="color:#F09595;font-size:26px;font-weight:900;margin:0 0 12px">تم القفل مؤقتاً</h1>
+            <p style="color:#C0DD97;font-size:15px;line-height:1.7;margin:0 0 24px">تم تجاوز الحد المسموح من المحاولات.<br>المرجو المحاولة بعد <strong style="color:#F4D88A">${minsLeft} دقيقة</strong></p>
+            <div style="padding:16px;background:rgba(163,45,45,0.1);border:1px solid rgba(163,45,45,0.3);border-radius:12px;color:#F7C1C1;font-size:12px">
+              في حال كنت أنت صاحب الصلاحية، تواصل مع المدير لرفع الحظر
+            </div>
+            <div style="margin-top:30px;padding-top:20px;border-top:1px solid rgba(212,160,23,0.2);color:rgba(212,160,23,0.4);font-size:11px;letter-spacing:4px">S A L A M · S E C U R E</div>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(overlay);
+      return;
+    }
+    
+    // Normal PIN screen - LUXURY DESIGN
+    overlay.innerHTML = `
+      <div style="position:fixed;inset:0;overflow:hidden;z-index:999999;font-family:'Tajawal',system-ui,sans-serif;direction:rtl;background:radial-gradient(ellipse at top,#0F5237 0%,#0A3D2A 40%,#051F15 100%)">
+        
+        <!-- Luxury background pattern -->
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle at 25% 25%,rgba(212,160,23,0.08) 0%,transparent 50%),radial-gradient(circle at 75% 75%,rgba(212,160,23,0.06) 0%,transparent 50%);"></div>
+        
+        <!-- Animated rings -->
+        <div style="position:absolute;top:50%;left:50%;width:800px;height:800px;margin:-400px 0 0 -400px;border:1px solid rgba(212,160,23,0.08);border-radius:50%;animation:fgRotate 60s linear infinite"></div>
+        <div style="position:absolute;top:50%;left:50%;width:1100px;height:1100px;margin:-550px 0 0 -550px;border:1px solid rgba(212,160,23,0.05);border-radius:50%;animation:fgRotate 90s linear infinite reverse"></div>
+        <div style="position:absolute;top:50%;left:50%;width:600px;height:600px;margin:-300px 0 0 -300px;border:1px dashed rgba(212,160,23,0.1);border-radius:50%;animation:fgRotate 40s linear infinite"></div>
+        
+        <!-- Decorative corners -->
+        <div style="position:absolute;top:40px;left:40px;width:60px;height:60px;border-top:2px solid #D4A017;border-left:2px solid #D4A017;opacity:0.6"></div>
+        <div style="position:absolute;top:40px;right:40px;width:60px;height:60px;border-top:2px solid #D4A017;border-right:2px solid #D4A017;opacity:0.6"></div>
+        <div style="position:absolute;bottom:40px;left:40px;width:60px;height:60px;border-bottom:2px solid #D4A017;border-left:2px solid #D4A017;opacity:0.6"></div>
+        <div style="position:absolute;bottom:40px;right:40px;width:60px;height:60px;border-bottom:2px solid #D4A017;border-right:2px solid #D4A017;opacity:0.6"></div>
+        
+        <!-- Floating particles -->
+        <div style="position:absolute;top:20%;left:15%;width:4px;height:4px;background:#D4A017;border-radius:50%;box-shadow:0 0 20px #D4A017;animation:fgFloat 6s ease-in-out infinite"></div>
+        <div style="position:absolute;top:70%;left:80%;width:3px;height:3px;background:#F4D88A;border-radius:50%;box-shadow:0 0 15px #F4D88A;animation:fgFloat 8s ease-in-out infinite 1s"></div>
+        <div style="position:absolute;top:40%;left:85%;width:5px;height:5px;background:#D4A017;border-radius:50%;box-shadow:0 0 25px #D4A017;animation:fgFloat 7s ease-in-out infinite 2s"></div>
+        <div style="position:absolute;top:80%;left:20%;width:3px;height:3px;background:#F4D88A;border-radius:50%;box-shadow:0 0 15px #F4D88A;animation:fgFloat 9s ease-in-out infinite 3s"></div>
+        
+        <!-- Main content centered -->
+        <div style="position:relative;z-index:10;height:100vh;display:flex;align-items:center;justify-content:center;padding:20px">
+          <div style="background:linear-gradient(180deg,rgba(15,82,55,0.85) 0%,rgba(10,61,42,0.9) 100%);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border:1px solid rgba(212,160,23,0.4);border-radius:32px;padding:60px 50px;max-width:460px;width:100%;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.08),0 0 60px rgba(212,160,23,0.1);position:relative">
+            
+            <!-- Top crown decoration -->
+            <div style="position:absolute;top:-28px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#D4A017,#F4D88A,#D4A017);padding:3px;border-radius:50%;box-shadow:0 8px 24px rgba(212,160,23,0.4)">
+              <div style="width:56px;height:56px;background:#0A3D2A;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px">👑</div>
+            </div>
+            
+            <!-- Brand -->
+            <div style="margin-top:20px;margin-bottom:8px">
+              <div style="display:inline-block;padding:10px 32px;background:linear-gradient(135deg,rgba(212,160,23,0.2),rgba(244,216,138,0.1));border:1px solid rgba(212,160,23,0.5);border-radius:40px;color:#F4D88A;font-size:13px;font-weight:700;letter-spacing:8px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.1)">S A L A M</div>
+            </div>
+            
+            <!-- Gold separator -->
+            <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin:20px 0 24px">
+              <div style="width:60px;height:1px;background:linear-gradient(90deg,transparent,#D4A017,transparent)"></div>
+              <div style="width:8px;height:8px;background:#D4A017;border-radius:50%;box-shadow:0 0 10px #D4A017"></div>
+              <div style="width:60px;height:1px;background:linear-gradient(90deg,transparent,#D4A017,transparent)"></div>
+            </div>
+            
+            <h1 style="color:#FFFFFF;font-size:30px;font-weight:900;margin:0 0 10px;letter-spacing:-0.5px;text-shadow:0 2px 20px rgba(212,160,23,0.2)">لوحة الأداء التنفيذية</h1>
+            <p style="color:#D4A017;font-size:14px;font-weight:500;margin:0 0 36px;letter-spacing:3px">P R E M I U M · A C C E S S</p>
+            
+            <!-- PIN prompt -->
+            <p style="color:#C0DD97;font-size:14px;margin:0 0 20px;font-weight:400">أدخل الرقم السري للدخول</p>
+            
+            <!-- Dots -->
+            <div id="fg-dots" style="display:flex;justify-content:center;gap:16px;margin-bottom:32px">
+              ${[0,1,2,3].map(() => '<div class="fg-dot" style="width:22px;height:22px;border:2px solid #D4A017;border-radius:50%;background:transparent;transition:all 0.25s cubic-bezier(0.4,0,0.2,1);box-shadow:inset 0 1px 0 rgba(255,255,255,0.1)"></div>').join('')}
+            </div>
+            
+            <!-- Keypad -->
+            <div id="fg-keypad" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px">
+              ${[1,2,3,4,5,6,7,8,9,'',0,'←'].map(n => 
+                n === '' ? '<div></div>' : 
+                `<button class="fg-key" data-key="${n}" style="background:linear-gradient(180deg,rgba(212,160,23,0.15),rgba(212,160,23,0.08));border:1.5px solid rgba(212,160,23,0.4);color:#F4D88A;font-size:24px;font-weight:700;padding:20px;border-radius:16px;cursor:pointer;transition:all 0.2s cubic-bezier(0.4,0,0.2,1);font-family:inherit;box-shadow:inset 0 1px 0 rgba(255,255,255,0.08),0 2px 8px rgba(0,0,0,0.2);position:relative;overflow:hidden">${n}</button>`
+              ).join('')}
+            </div>
+            
+            <!-- Message -->
+            <div id="fg-msg" style="color:#F09595;font-size:13px;min-height:20px;margin-top:8px;font-weight:500;letter-spacing:0.3px"></div>
+            
+            <!-- Footer -->
+            <div style="margin-top:32px;padding-top:24px;border-top:1px solid rgba(212,160,23,0.15);display:flex;align-items:center;justify-content:center;gap:8px">
+              <div style="color:rgba(212,160,23,0.5);font-size:11px;letter-spacing:2px">SECURE GATE</div>
+              <div style="width:4px;height:4px;background:rgba(212,160,23,0.4);border-radius:50%"></div>
+              <div style="color:rgba(212,160,23,0.4);font-size:11px">v16.9.9</div>
+            </div>
+            
+          </div>
+        </div>
+        
+      </div>
+    `;
+    
+    document.body.appendChild(overlay);
+    
+    let pin = '';
+    const updateDots = () => {
+      document.querySelectorAll('.fg-dot').forEach((dot, i) => {
+        if (i < pin.length) {
+          dot.classList.add('filled');
+        } else {
+          dot.classList.remove('filled');
+        }
+      });
+    };
+    
+    const shake = () => {
+      const box = overlay.querySelector('div[style*="backdrop-filter"]');
+      if (box) {
+        box.style.animation = 'fgShake 0.4s';
+        setTimeout(() => box.style.animation = '', 400);
+      }
+    };
+    
+    const checkPin = () => {
+      if (pin.length !== 4) return;
+      
+      if (pin === GATE_CONFIG.PIN) {
+        // Success
+        document.getElementById('fg-msg').style.color = '#9FE1CB';
+        document.getElementById('fg-msg').textContent = '✓ دخول ناجح · جاري التحميل...';
+        
+        document.querySelectorAll('.fg-dot').forEach(dot => {
+          dot.style.background = '#9FE1CB';
+          dot.style.borderColor = '#9FE1CB';
+        });
+        
+        grantAccess();
+        notify('✅ *دخول ناجح*\n\nتم فتح اللوحة بنجاح', 'success');
+        
+        setTimeout(() => {
+          showDashboard();
+          // Trigger any initialization that dashboard needs
+          if (window.loadData) {
+            try { window.loadData(); } catch(e) {}
+          }
+        }, 800);
+        
+      } else {
+        // Fail
+        const result = recordFailedAttempt();
+        shake();
+        
+        if (result.locked) {
+          notify('🚨 *تم القفل — محاولات اختراق*\n\n3 محاولات خاطئة متتالية\nالقفل مفعّل لمدة ساعة', 'high');
+          showGate({ locked: true });
+        } else {
+          document.getElementById('fg-msg').textContent = `✗ رقم خاطئ · متبقي ${result.remaining} محاولات`;
+          
+          if (result.remaining === 1) {
+            notify(`⚠️ *تحذير — محاولة أخيرة*\n\nسيتم القفل لمدة ساعة عند المحاولة التالية الخاطئة`, 'medium');
+          }
+          
+          pin = '';
+          updateDots();
+        }
+      }
+    };
+    
+    // Keypad clicks
+    document.querySelectorAll('.fg-key').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.key;
+        if (key === '←') pin = pin.slice(0, -1);
+        else if (pin.length < 4) pin += key;
+        updateDots();
+        if (pin.length === 4) setTimeout(checkPin, 250);
+      });
+      
+      btn.addEventListener('mouseenter', () => {
+        btn.style.background = 'rgba(212,160,23,0.25)';
+        btn.style.borderColor = '#D4A017';
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.background = 'rgba(212,160,23,0.12)';
+        btn.style.borderColor = 'rgba(212,160,23,0.4)';
+      });
+      btn.addEventListener('mousedown', () => {
+        btn.style.transform = 'scale(0.95)';
+      });
+      btn.addEventListener('mouseup', () => {
+        btn.style.transform = 'scale(1)';
+      });
+    });
+    
+    // Keyboard
+    const keyHandler = (e) => {
+      if (!document.getElementById('fg-overlay')) {
+        document.removeEventListener('keydown', keyHandler);
+        return;
+      }
+      if (e.key >= '0' && e.key <= '9' && pin.length < 4) {
+        pin += e.key;
+        updateDots();
+        if (pin.length === 4) setTimeout(checkPin, 250);
+      } else if (e.key === 'Backspace') {
+        pin = pin.slice(0, -1);
+        updateDots();
+      }
+    };
+    document.addEventListener('keydown', keyHandler);
+    
+    // Luxury animations
+    if (!document.getElementById('fg-shake-style')) {
+      const style = document.createElement('style');
+      style.id = 'fg-shake-style';
+      style.textContent = `
+        @keyframes fgShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-12px)}40%{transform:translateX(12px)}60%{transform:translateX(-8px)}80%{transform:translateX(8px)}}
+        @keyframes fgRotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+        @keyframes fgFloat{0%,100%{transform:translateY(0) scale(1);opacity:0.6}50%{transform:translateY(-30px) scale(1.2);opacity:1}}
+        @keyframes fgGoldPulse{0%,100%{box-shadow:0 0 0 0 rgba(212,160,23,0.5)}50%{box-shadow:0 0 0 12px rgba(212,160,23,0)}}
+        .fg-key:hover{background:linear-gradient(180deg,rgba(212,160,23,0.35),rgba(212,160,23,0.2)) !important;border-color:#D4A017 !important;transform:translateY(-2px);box-shadow:inset 0 1px 0 rgba(255,255,255,0.15),0 8px 20px rgba(212,160,23,0.3) !important}
+        .fg-key:active{transform:translateY(0) scale(0.96) !important}
+        .fg-dot.filled{background:linear-gradient(135deg,#D4A017,#F4D88A) !important;border-color:#F4D88A !important;box-shadow:0 0 16px rgba(212,160,23,0.6),inset 0 1px 0 rgba(255,255,255,0.3) !important;transform:scale(1.15)}
+      `;
+      document.head.appendChild(style);
+    }
+  }
+  
+  // ══════════ MAIN ══════════
+  function checkGate() {
+    // Already authenticated?
+    if (hasValidSession()) {
+      console.log('[🚪 Gate] Valid session found');
+      return;
+    }
+    
+    // Hide immediately
+    hideDashboard();
+    
+    // Locked?
+    if (isLocked()) {
+      showGate({ locked: true });
+      return;
+    }
+    
+    // Show PIN
+    notify(`ℹ️ *محاولة دخول جديدة*\n\nجهاز جديد يحاول الدخول للوحة`, 'info');
+    showGate();
+  }
+  
+  // Run IMMEDIATELY (before DOMContentLoaded if possible)
+  if (document.body) {
+    checkGate();
+  } else {
+    // Hide with CSS before body exists
+    const earlyStyle = document.createElement('style');
+    earlyStyle.id = 'fg-early-hide';
+    earlyStyle.textContent = 'body { visibility: hidden !important; }';
+    document.head.appendChild(earlyStyle);
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      earlyStyle.remove();
+      checkGate();
+    });
+  }
+  
+  // Expose API for logout / admin control
+  window.FortressGate = {
+    logout: () => {
+      setCookie('session', '', -1);
+      setCookie('session_exp', '0', -1);
+      location.reload();
+    },
+    isAuthenticated: hasValidSession,
+    notify: notify,
+    forceUnlock: () => {
+      setCookie('lock_until', '0', -1);
+      setCookie('attempts', '0', -1);
+      location.reload();
+    }
+  };
+  
+})();
+
+</script>
+<!-- ═══ END FORTRESS GATE ═══ -->
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="Eng. Abdulwahab M Alshammari">
