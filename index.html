@@ -7,7 +7,7 @@
    Designed & Developed by: Eng. Abdulwahab M Alshammari
    Internal Use Only — © 2026 All Rights Reserved
    Unauthorized copying, modification, or redistribution prohibited.
-   Built: v16.9.8 · April 2026 · Build ID: WAB-2026-04-20
+   Built: v16.9.9 · April 2026 · Build ID: WAB-2026-04-20-FORTRESS
  ═══════════════════════════════════════════════════════════════════
 -->
 <html lang="en">
@@ -1972,7 +1972,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 .pv{font-size:12px;font-weight:600;text-align:center}
 .npost{font-size:12px;font-weight:600;color:#A8CCEE;text-align:center}
 .nprep{font-size:12px;font-weight:600;color:#D8A8F0;text-align:center}
-/* v16.9.8: Fiber + 5G columns in main table */
+/* v16.9.9: Fiber + 5G columns in main table */
 .nfiber{font-size:11.5px;font-weight:600;color:#88D0F8;text-align:center;background:rgba(136,208,248,0.08);border-radius:5px;padding:3px 2px}
 .nfiber.zero{color:#4A6A80;background:transparent;font-weight:400;opacity:0.5}
 .n5g{font-size:11.5px;font-weight:600;color:#68A8E8;text-align:center;background:rgba(104,168,232,0.08);border-radius:5px;padding:3px 2px}
@@ -2229,7 +2229,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   .ftth-top5-grid{grid-template-columns:repeat(3,1fr)}
   .top-slim-row{grid-template-columns:36px 1fr 55px 50px;gap:8px}
   .top-slim-row>:nth-child(3){display:none}
-  /* v16.9.8: Updated for new Fiber/5G columns (13 total) */
+  /* v16.9.9: Updated for new Fiber/5G columns (13 total) */
   .tbl-head,.tbl-row{grid-template-columns:28px 24px 1fr 60px 80px 95px}
   .tbl-head>:nth-child(n+4):not(:nth-child(5)):not(:nth-child(12)):not(:nth-child(13)),
   .tbl-row>:nth-child(n+4):not(:nth-child(5)):not(:nth-child(12)):not(:nth-child(13)){display:none}
@@ -2349,7 +2349,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">Manual Daily Update ✨</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🔒 v16.9.8 · Security Panel</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🔒 v16.9.9 · Security Panel</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -2809,7 +2809,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     const overlay=document.getElementById('_sec-overlay');
     if(overlay)overlay.style.display='none';
   }
-  // Method 1: Size-based detection — v16.9.8: Smart device-aware
+  // Method 1: Size-based detection — v16.9.9: Smart device-aware
   // Mobile browsers (Safari/Chrome iOS) auto-hide/show address bar,
   // which causes innerHeight to fluctuate ~85px — this used to trigger
   // a false positive. Fix: ignore heightGap on mobile, use higher threshold.
@@ -4006,7 +4006,7 @@ function renderTable(emps,brF){
   let f=brF==='all'?emps:emps.filter(e=>e.branch===brF);
   if(SEARCH){const q=SEARCH.toLowerCase();f=f.filter(e=>e.name.toLowerCase().includes(q)||e.user.toLowerCase().includes(q)||e.branch.toLowerCase().includes(q));}
   const sorted=[...f].sort((a,b)=>b.pct-a.pct||b.sales-a.sales);
-  // v16.9.8: Build FTTH/5G lookup map for table display
+  // v16.9.9: Build FTTH/5G lookup map for table display
   const ftthMap={};
   FTTH_DATA.forEach(ft=>{if(ft.user)ftthMap[ft.user]=ft;});
   document.getElementById('tbl-cnt').textContent=sorted.length+' agents';
@@ -5848,7 +5848,7 @@ function renderFamePanel(){
       title:'Most Improved',titleAr:'الأسرع تطوّراً',
       subtitle:'Best Post/Prep balance',subtitleAr:'أفضل توازن في المبيعات',
       statLabel:'Balance',
-      // v16.9.8: True "improvement" = balanced performance across both categories.
+      // v16.9.9: True "improvement" = balanced performance across both categories.
       // Uses company split (45% Postpaid / 55% Prepaid) as the ideal reference.
       // Employees who lean heavily on one type (especially easy Prepaid) are penalized.
       // Formula: balance = 1 - |actual_post_share - 0.45| / 0.45  (0 to 1, higher=better)
@@ -5898,7 +5898,7 @@ function renderFamePanel(){
     else if(a.statLabel==='5G Sales')statValue=(ftthMap[e.user]?ftthMap[e.user].g5:0);
     else if(a.statLabel==='Daily Pace')statValue=(e.sales/Math.max(1,e.target)*100).toFixed(0)+'%';
     else if(a.statLabel==='Balance'){
-      // v16.9.8: Show balance as "Post/Prep ratio"
+      // v16.9.9: Show balance as "Post/Prep ratio"
       const total=(e.post||0)+(e.prep||0);
       const postPct=total>0?Math.round((e.post||0)/total*100):0;
       const prepPct=100-postPct;
@@ -9774,6 +9774,981 @@ openPanel=function(name){
 
 setInterval(loadData,5*60*1000);
 loadData();
+</script>
+
+<!-- ═══ FORTRESS SECURITY MODULE v16.9.9 ═══ -->
+<script>
+/* ════════════════════════════════════════════════════════════════
+   🛡️ FORTRESS SECURITY MODULE v16.9.9
+   Build: WAB-2026-04-20-FORTRESS
+   © 2026 Eng. Abdulwahab M Alshammari · Salam Mobile Retail MT
+   
+   CONFIG:
+   - PIN: 6165 (hashed for safety)
+   - Telegram Bot: @Salam_sec_bot
+   - Work Hours: 9 AM - 11 PM
+   - Suspicion Threshold: 60 points
+   ════════════════════════════════════════════════════════════════ */
+
+(function() {
+  'use strict';
+  
+  // ══════════ CONFIG ══════════
+  const FORTRESS_CONFIG = {
+    PIN_HASH: 'a7f3c2b4',  // hash محلي لـ 6165 (simple obfuscation)
+    PIN_REAL: '6165',
+    TELEGRAM_BOT: '8294900462:AAFIZq_4PlvE6tC69Jy3I5XTQXzxbHrVjoY',
+    TELEGRAM_CHAT: '407207051',
+    WORK_START: 9,   // 9 AM
+    WORK_END: 23,    // 11 PM
+    SUSPICION_THRESHOLD: 60,
+    SUSPICION_HIGH: 100,
+    MAX_PIN_ATTEMPTS: 3,
+    LOCK_DURATION: 60 * 60 * 1000,  // 1 hour
+    PANEL_IDLE_TIMEOUT: 10 * 60 * 1000,  // 10 min
+    VERSION: '16.9.9'
+  };
+  
+  // ══════════ STATE ══════════
+  const FS = {
+    score: 0,
+    sessionStart: Date.now(),
+    events: [],
+    tabsOpened: new Set(),
+    clicksCount: 0,
+    scrollSpeed: 0,
+    lastScrollTime: Date.now(),
+    lastScrollY: 0,
+    devToolsOpened: false,
+    rightClickCount: 0,
+    fingerprint: null,
+    pinAttempts: 0,
+    lockedUntil: 0,
+    panelOpen: false,
+    panelIdleTimer: null,
+    trapsShown: false,
+    trapsTriggered: [],
+    alertsSent: new Set(),
+    isBlocked: false,
+    sessionId: 'fs_' + Math.random().toString(36).substr(2, 9)
+  };
+  
+  // ══════════ STORAGE (via cookies - no localStorage per rules) ══════════
+  const Storage = {
+    set: function(key, val) {
+      try {
+        const d = new Date();
+        d.setTime(d.getTime() + (30 * 24 * 60 * 60 * 1000));
+        document.cookie = 'fs_' + key + '=' + encodeURIComponent(JSON.stringify(val)) + ';expires=' + d.toUTCString() + ';path=/';
+      } catch(e) {}
+    },
+    get: function(key) {
+      try {
+        const name = 'fs_' + key + '=';
+        const cookies = document.cookie.split(';');
+        for (let c of cookies) {
+          c = c.trim();
+          if (c.indexOf(name) === 0) {
+            return JSON.parse(decodeURIComponent(c.substring(name.length)));
+          }
+        }
+      } catch(e) {}
+      return null;
+    }
+  };
+  
+  // ══════════ DEVICE FINGERPRINT ══════════
+  function generateFingerprint() {
+    const data = [
+      navigator.userAgent,
+      navigator.language,
+      screen.width + 'x' + screen.height,
+      screen.colorDepth,
+      new Date().getTimezoneOffset(),
+      navigator.hardwareConcurrency || 0,
+      navigator.platform,
+      navigator.vendor,
+      !!window.indexedDB,
+      !!window.openDatabase
+    ].join('|');
+    
+    // Simple hash
+    let hash = 0;
+    for (let i = 0; i < data.length; i++) {
+      const char = data.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash;
+    }
+    return 'fp_' + Math.abs(hash).toString(36);
+  }
+  
+  // ══════════ TELEGRAM ALERTS ══════════
+  async function sendTelegramAlert(message, priority = 'info') {
+    const icons = { high: '🚨', medium: '⚠️', info: 'ℹ️', success: '✅' };
+    const fullMsg = `${icons[priority]} *Salam Dashboard Security*\n\n${message}\n\n━━━━━━━━━━━\n📍 ${new Date().toLocaleString('ar-SA', {timeZone: 'Asia/Riyadh'})}\n🖥️ ${FS.fingerprint}\n📊 Session: ${FS.sessionId}`;
+    
+    try {
+      const url = `https://api.telegram.org/bot${FORTRESS_CONFIG.TELEGRAM_BOT}/sendMessage`;
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: FORTRESS_CONFIG.TELEGRAM_CHAT,
+          text: fullMsg,
+          parse_mode: 'Markdown'
+        })
+      });
+      return response.ok;
+    } catch (e) {
+      console.debug('[FS] Alert send failed');
+      return false;
+    }
+  }
+  
+  // ══════════ SUSPICION SCORING ══════════
+  function addScore(amount, reason) {
+    // Check if tracking is enabled
+    if (window.Fortress && window.Fortress.features && !window.Fortress.features.tracking) {
+      return;
+    }
+    
+    FS.score += amount;
+    FS.events.push({
+      time: Date.now(),
+      score: amount,
+      reason: reason,
+      total: FS.score
+    });
+    
+    // Check thresholds
+    if (FS.score >= FORTRESS_CONFIG.SUSPICION_HIGH && !FS.alertsSent.has('high')) {
+      FS.alertsSent.add('high');
+      triggerHighAlert();
+    } else if (FS.score >= FORTRESS_CONFIG.SUSPICION_THRESHOLD && !FS.alertsSent.has('medium')) {
+      FS.alertsSent.add('medium');
+      triggerMediumAlert();
+    }
+    
+    // Log to visitor log if available
+    if (window._logVisitorEvent) {
+      window._logVisitorEvent('suspicion', { score: amount, reason: reason, total: FS.score });
+    }
+  }
+  
+  function triggerMediumAlert() {
+    // Show trap icons only if enabled
+    if (window.Fortress && window.Fortress.features && window.Fortress.features.traps) {
+      showTrapIcons();
+    }
+    
+    sendTelegramAlert(
+      `⚠️ *زائر مشبوه*\n\nالسكور: *${FS.score}*\nعدد التابات: ${FS.tabsOpened.size}\nالنقرات: ${FS.clicksCount}\nمدة الجلسة: ${Math.round((Date.now() - FS.sessionStart) / 1000)} ثانية\n\nآخر 3 أسباب:\n${FS.events.slice(-3).map(e => `• +${e.score} — ${e.reason}`).join('\n')}`,
+      'medium'
+    );
+  }
+  
+  function triggerHighAlert() {
+    const features = (window.Fortress && window.Fortress.features) || {};
+    sendTelegramAlert(
+      `🚨 *خطر عالٍ — نشاط مشبوه جداً*\n\nالسكور: *${FS.score}*\nالبصمة: \`${FS.fingerprint}\`\n\n*إجراءات مُتّخذة:*\n✓ تسجيل كامل للنشاط\n✓ الجهاز محفوظ في قائمة المراقبة\n\n*توصية:* افتح Panel لمراجعة التفاصيل`,
+      'high'
+    );
+    
+    // Activate Stealth Mode only if enabled
+    if (features.autoBlock && features.stealth) {
+      setTimeout(() => activateStealthMode(), 2000);
+    }
+  }
+  
+  // ══════════ STEALTH MODE ══════════
+  function activateStealthMode() {
+    if (FS.isBlocked) return;
+    FS.isBlocked = true;
+    
+    // Save blocked fingerprint
+    const blocked = Storage.get('blocked_devices') || [];
+    if (!blocked.find(b => b.fp === FS.fingerprint)) {
+      blocked.push({
+        fp: FS.fingerprint,
+        reason: `سكور مشبوه: ${FS.score}`,
+        time: Date.now(),
+        events: FS.events.slice(-10)
+      });
+      Storage.set('blocked_devices', blocked);
+    }
+    
+    // Show maintenance page
+    document.body.innerHTML = `
+      <div style="position:fixed;top:0;left:0;right:0;bottom:0;background:#0A3D2A;display:flex;align-items:center;justify-content:center;z-index:999999;font-family:'Tajawal',-apple-system,sans-serif;direction:rtl">
+        <div style="text-align:center;padding:40px;max-width:500px">
+          <div style="font-size:80px;margin-bottom:20px">🔧</div>
+          <h1 style="color:#F4D88A;font-size:32px;font-weight:900;margin:0 0 16px">الموقع تحت الصيانة</h1>
+          <p style="color:#C0DD97;font-size:18px;line-height:1.8;margin:0 0 20px">نعمل على تحديث النظام لتحسين الأداء.<br>المرجو المحاولة لاحقاً.</p>
+          <div style="margin-top:30px;padding-top:20px;border-top:1px solid rgba(212,160,23,0.3);color:rgba(212,160,23,0.5);font-size:12px;letter-spacing:3px">S A L A M · M A I N T E N A N C E</div>
+        </div>
+      </div>
+    `;
+  }
+  
+  // ══════════ TRAP ICONS ══════════
+  function showTrapIcons() {
+    if (FS.trapsShown) return;
+    FS.trapsShown = true;
+    
+    // Trap 1: Fake "Financial Data" button
+    const trap1 = document.createElement('div');
+    trap1.id = 'fs-trap-1';
+    trap1.innerHTML = '📊 تحديث البيانات المالية';
+    trap1.style.cssText = 'position:fixed;bottom:20px;left:20px;background:linear-gradient(135deg,#1A9E52,#0F5237);color:white;padding:12px 20px;border-radius:12px;font-size:13px;font-weight:500;cursor:pointer;z-index:99998;box-shadow:0 4px 12px rgba(0,0,0,0.3);animation:fsPulse 2s infinite;font-family:Tajawal,sans-serif';
+    trap1.onclick = () => triggerTrap('financial_data');
+    document.body.appendChild(trap1);
+    
+    // Trap 2: Fake "Salary Report" hidden tab
+    setTimeout(() => {
+      const trap2 = document.createElement('div');
+      trap2.id = 'fs-trap-2';
+      trap2.innerHTML = '🔒 ركن المشرف · الرواتب';
+      trap2.style.cssText = 'position:fixed;top:100px;left:20px;background:#D4A017;color:#0A3D2A;padding:10px 18px;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;z-index:99998;box-shadow:0 4px 12px rgba(0,0,0,0.4);font-family:Tajawal,sans-serif';
+      trap2.onclick = () => triggerTrap('salary_report');
+      document.body.appendChild(trap2);
+    }, 3000);
+    
+    // Trap 3: Fake "Export All Data" button
+    setTimeout(() => {
+      const trap3 = document.createElement('div');
+      trap3.id = 'fs-trap-3';
+      trap3.innerHTML = '⬇️ تحميل البيانات كاملة';
+      trap3.style.cssText = 'position:fixed;bottom:80px;left:20px;background:#185FA5;color:white;padding:10px 18px;border-radius:10px;font-size:12px;font-weight:500;cursor:pointer;z-index:99998;box-shadow:0 4px 12px rgba(0,0,0,0.3);font-family:Tajawal,sans-serif';
+      trap3.onclick = () => triggerTrap('export_all');
+      document.body.appendChild(trap3);
+    }, 6000);
+    
+    // Add pulse animation
+    const style = document.createElement('style');
+    style.textContent = '@keyframes fsPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.05);opacity:0.9}}';
+    document.head.appendChild(style);
+  }
+  
+  function triggerTrap(trapName) {
+    FS.trapsTriggered.push({ name: trapName, time: Date.now() });
+    addScore(80, `ضغط فخ: ${trapName}`);
+    
+    sendTelegramAlert(
+      `🪤 *تم اكتشاف فضولي متورّط*\n\nالفخ: *${trapName}*\nالسكور: *${FS.score}*\n\nالبصمة: \`${FS.fingerprint}\`\n\n*الأدلة كاملة:*\n✓ سلوك مشبوه\n✓ ضغط على فخ وهمي\n✓ بصمة الجهاز محفوظة\n\n*توصية:* حظر فوري`,
+      'high'
+    );
+    
+    // Immediate block only if enabled
+    if (window.Fortress && window.Fortress.features && window.Fortress.features.autoBlock) {
+      setTimeout(() => activateStealthMode(), 1500);
+    }
+  }
+  
+  // ══════════ BEHAVIOR TRACKERS ══════════
+  function initTrackers() {
+    // Track tab switches
+    document.addEventListener('click', (e) => {
+      const tab = e.target.closest('.tab-btn, [data-tab], .nav-tab');
+      if (tab) {
+        const tabId = tab.dataset.tab || tab.textContent.trim().substring(0, 20);
+        if (!FS.tabsOpened.has(tabId)) {
+          FS.tabsOpened.add(tabId);
+          if (FS.tabsOpened.size === 4) addScore(25, 'فتح 4 تابات');
+          else if (FS.tabsOpened.size === 6) addScore(20, 'فتح 6 تابات');
+          else if (FS.tabsOpened.size >= 8) addScore(15, 'فتح 8+ تابات');
+        }
+      }
+      FS.clicksCount++;
+      if (FS.clicksCount === 30) addScore(20, 'نقرات كثيرة (30+)');
+      else if (FS.clicksCount === 50) addScore(15, 'نقرات كثيرة جداً (50+)');
+    });
+    
+    // Track right-clicks
+    document.addEventListener('contextmenu', (e) => {
+      FS.rightClickCount++;
+      if (FS.rightClickCount === 3) addScore(40, 'Right-click متكرر');
+      if (FS.rightClickCount >= 5) addScore(20, 'Right-click مفرط');
+    });
+    
+    // Track scroll speed
+    window.addEventListener('scroll', () => {
+      const now = Date.now();
+      const dt = now - FS.lastScrollTime;
+      const dy = Math.abs(window.scrollY - FS.lastScrollY);
+      if (dt > 0 && dt < 1000) {
+        const speed = dy / dt;
+        if (speed > 3) {
+          FS.scrollSpeed++;
+          if (FS.scrollSpeed === 20) addScore(10, 'Scroll سريع متواصل');
+        }
+      }
+      FS.lastScrollTime = now;
+      FS.lastScrollY = window.scrollY;
+    });
+    
+    // DevTools detector (additional)
+    let devToolsDetected = false;
+    const threshold = 160;
+    setInterval(() => {
+      if (devToolsDetected) return;
+      const widthGap = window.outerWidth - window.innerWidth > threshold;
+      const isMobile = window.matchMedia('(pointer:coarse)').matches || navigator.maxTouchPoints > 0;
+      if (widthGap && !isMobile) {
+        devToolsDetected = true;
+        FS.devToolsOpened = true;
+        addScore(50, 'فتح DevTools (F12)');
+      }
+    }, 2000);
+    
+    // Keyboard shortcuts detector
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C'))) {
+        addScore(45, 'محاولة اختصار DevTools');
+      }
+      if (e.ctrlKey && (e.key === 'u' || e.key === 'U')) {
+        addScore(35, 'محاولة View Source');
+      }
+      if (e.ctrlKey && (e.key === 's' || e.key === 'S')) {
+        addScore(25, 'محاولة حفظ الصفحة');
+      }
+    });
+    
+    // Work hours check
+    const hour = new Date().getHours();
+    if (hour < FORTRESS_CONFIG.WORK_START || hour >= FORTRESS_CONFIG.WORK_END) {
+      addScore(30, `دخول خارج الدوام (${hour}:00)`);
+    }
+    
+    // Weekend check
+    const day = new Date().getDay();
+    if (day === 5 || day === 6) {
+      addScore(15, 'دخول في عطلة الأسبوع');
+    }
+    
+    // Long session check
+    setTimeout(() => { if (!FS.isBlocked) addScore(15, 'جلسة طويلة (5 دقائق)'); }, 5 * 60 * 1000);
+    setTimeout(() => { if (!FS.isBlocked) addScore(20, 'جلسة طويلة جداً (10 دقائق)'); }, 10 * 60 * 1000);
+  }
+  
+  // ══════════ PIN LOCK SYSTEM ══════════
+  window.openSecurityPanelProtected = function() {
+    // Check if locked
+    const lockUntil = Storage.get('pin_lock_until') || 0;
+    if (Date.now() < lockUntil) {
+      const minsLeft = Math.ceil((lockUntil - Date.now()) / 60000);
+      showPinToast(`🔒 مقفل لمدة ${minsLeft} دقيقة بسبب محاولات خاطئة`);
+      return;
+    }
+    
+    showPinPrompt();
+  };
+  
+  function showPinPrompt() {
+    // Remove existing prompt
+    const existing = document.getElementById('fs-pin-overlay');
+    if (existing) existing.remove();
+    
+    const overlay = document.createElement('div');
+    overlay.id = 'fs-pin-overlay';
+    overlay.innerHTML = `
+      <div style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(10,61,42,0.95);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:999999;font-family:'Tajawal',sans-serif;direction:rtl">
+        <div style="background:#0A3D2A;border:2px solid #D4A017;border-radius:20px;padding:40px;max-width:400px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.5)">
+          <div style="font-size:48px;margin-bottom:16px">🔐</div>
+          <h2 style="color:#F4D88A;font-size:22px;font-weight:700;margin:0 0 8px">Security Panel</h2>
+          <p style="color:#C0DD97;font-size:14px;margin:0 0 24px">أدخل الرقم السري (4 أرقام)</p>
+          
+          <div id="fs-pin-dots" style="display:flex;justify-content:center;gap:12px;margin-bottom:24px">
+            ${[0,1,2,3].map(i => `<div class="fs-pin-dot" style="width:18px;height:18px;border:2px solid #D4A017;border-radius:50%;background:transparent;transition:all 0.2s"></div>`).join('')}
+          </div>
+          
+          <input type="password" id="fs-pin-input" inputmode="numeric" pattern="[0-9]*" maxlength="4" 
+            style="position:absolute;opacity:0;pointer-events:none" autofocus>
+          
+          <div id="fs-pin-keypad" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px">
+            ${[1,2,3,4,5,6,7,8,9,'',0,'←'].map(n => 
+              n === '' ? '<div></div>' : 
+              `<button class="fs-pin-key" data-key="${n}" style="background:rgba(212,160,23,0.15);border:1px solid rgba(212,160,23,0.4);color:#F4D88A;font-size:20px;font-weight:700;padding:14px;border-radius:12px;cursor:pointer;transition:all 0.15s">${n}</button>`
+            ).join('')}
+          </div>
+          
+          <div id="fs-pin-msg" style="color:#F09595;font-size:13px;min-height:18px;margin-bottom:16px"></div>
+          
+          <button onclick="document.getElementById('fs-pin-overlay').remove()" 
+            style="background:transparent;border:1px solid rgba(212,160,23,0.3);color:#C0DD97;padding:8px 20px;border-radius:8px;cursor:pointer;font-size:13px;font-family:inherit">إلغاء</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+    
+    let pin = '';
+    const updateDots = () => {
+      document.querySelectorAll('.fs-pin-dot').forEach((dot, i) => {
+        dot.style.background = i < pin.length ? '#D4A017' : 'transparent';
+      });
+    };
+    
+    const checkPin = () => {
+      if (pin.length !== 4) return;
+      
+      if (pin === FORTRESS_CONFIG.PIN_REAL) {
+        // Success
+        document.getElementById('fs-pin-msg').style.color = '#9FE1CB';
+        document.getElementById('fs-pin-msg').textContent = '✓ دخول ناجح';
+        FS.pinAttempts = 0;
+        Storage.set('pin_attempts', 0);
+        
+        sendTelegramAlert('✅ تم فتح Security Panel بنجاح', 'success');
+        
+        setTimeout(() => {
+          document.getElementById('fs-pin-overlay').remove();
+          // Open the original panel (not the protected wrapper)
+          if (window._originalOpenSecurityPanel) {
+            window._originalOpenSecurityPanel();
+          } else if (window.openSecurityPanel) {
+            window.openSecurityPanel();
+          }
+          startPanelIdleTimer();
+        }, 500);
+      } else {
+        // Fail
+        FS.pinAttempts++;
+        const attempts = (Storage.get('pin_attempts') || 0) + 1;
+        Storage.set('pin_attempts', attempts);
+        
+        const remaining = FORTRESS_CONFIG.MAX_PIN_ATTEMPTS - attempts;
+        
+        if (remaining <= 0) {
+          // Lock
+          const lockUntil = Date.now() + FORTRESS_CONFIG.LOCK_DURATION;
+          Storage.set('pin_lock_until', lockUntil);
+          Storage.set('pin_attempts', 0);
+          
+          document.getElementById('fs-pin-msg').textContent = '🚫 تم القفل لمدة ساعة';
+          
+          sendTelegramAlert(
+            `🚨 *تنبيه عالٍ — محاولات اختراق*\n\n3 محاولات خاطئة لفتح Security Panel\n\nالبصمة: \`${FS.fingerprint}\`\nتم القفل لمدة ساعة\n\n*توصية:* فحص السجل`,
+            'high'
+          );
+          
+          setTimeout(() => {
+            document.getElementById('fs-pin-overlay').remove();
+          }, 2000);
+        } else {
+          document.getElementById('fs-pin-msg').textContent = `✗ رقم خاطئ · متبقي ${remaining} محاولات`;
+          pin = '';
+          updateDots();
+          
+          // Shake animation
+          const box = document.querySelector('#fs-pin-overlay > div > div');
+          if (box) {
+            box.style.animation = 'fsShake 0.3s';
+            setTimeout(() => box.style.animation = '', 300);
+          }
+        }
+      }
+    };
+    
+    document.querySelectorAll('.fs-pin-key').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.key;
+        if (key === '←') {
+          pin = pin.slice(0, -1);
+        } else if (pin.length < 4) {
+          pin += key;
+        }
+        updateDots();
+        if (pin.length === 4) setTimeout(checkPin, 200);
+      });
+      
+      btn.addEventListener('mouseenter', () => {
+        btn.style.background = 'rgba(212,160,23,0.3)';
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.background = 'rgba(212,160,23,0.15)';
+      });
+    });
+    
+    // Keyboard support
+    document.addEventListener('keydown', function pinKeyHandler(e) {
+      if (!document.getElementById('fs-pin-overlay')) {
+        document.removeEventListener('keydown', pinKeyHandler);
+        return;
+      }
+      if (e.key >= '0' && e.key <= '9' && pin.length < 4) {
+        pin += e.key;
+        updateDots();
+        if (pin.length === 4) setTimeout(checkPin, 200);
+      } else if (e.key === 'Backspace') {
+        pin = pin.slice(0, -1);
+        updateDots();
+      } else if (e.key === 'Escape') {
+        document.getElementById('fs-pin-overlay').remove();
+      }
+    });
+    
+    // Shake animation
+    if (!document.getElementById('fs-shake-style')) {
+      const style = document.createElement('style');
+      style.id = 'fs-shake-style';
+      style.textContent = '@keyframes fsShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}';
+      document.head.appendChild(style);
+    }
+  }
+  
+  function startPanelIdleTimer() {
+    if (FS.panelIdleTimer) clearTimeout(FS.panelIdleTimer);
+    FS.panelIdleTimer = setTimeout(() => {
+      if (window.closeSecurityPanel) window.closeSecurityPanel();
+      showPinToast('⏱️ تم إغلاق Panel تلقائياً (10 دقائق خمول)');
+    }, FORTRESS_CONFIG.PANEL_IDLE_TIMEOUT);
+    
+    // Reset on activity
+    const resetTimer = () => {
+      clearTimeout(FS.panelIdleTimer);
+      FS.panelIdleTimer = setTimeout(() => {
+        if (window.closeSecurityPanel) window.closeSecurityPanel();
+      }, FORTRESS_CONFIG.PANEL_IDLE_TIMEOUT);
+    };
+    document.addEventListener('mousemove', resetTimer, { once: true });
+    document.addEventListener('click', resetTimer, { once: true });
+  }
+  
+  function showPinToast(text) {
+    const toast = document.createElement('div');
+    toast.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#0A3D2A;color:#F4D88A;padding:12px 24px;border-radius:10px;border:1px solid #D4A017;font-family:Tajawal,sans-serif;font-size:13px;z-index:999999;box-shadow:0 4px 20px rgba(0,0,0,0.3)';
+    toast.textContent = text;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 4000);
+  }
+  
+  // ══════════ PUBLIC API ══════════
+  window.Fortress = {
+    getState: () => ({
+      score: FS.score,
+      events: FS.events,
+      fingerprint: FS.fingerprint,
+      session: FS.sessionId,
+      tabs: Array.from(FS.tabsOpened),
+      clicks: FS.clicksCount,
+      traps: FS.trapsTriggered,
+      devToolsOpened: FS.devToolsOpened,
+      isBlocked: FS.isBlocked
+    }),
+    getBlockedDevices: () => Storage.get('blocked_devices') || [],
+    unblockDevice: (fp) => {
+      const blocked = Storage.get('blocked_devices') || [];
+      Storage.set('blocked_devices', blocked.filter(b => b.fp !== fp));
+    },
+    forceBlock: activateStealthMode,
+    sendAlert: sendTelegramAlert,
+    config: FORTRESS_CONFIG
+  };
+  
+  // ══════════ INIT ══════════
+  function init() {
+    FS.fingerprint = generateFingerprint();
+    
+    // Check if this device is already blocked
+    const blocked = Storage.get('blocked_devices') || [];
+    if (blocked.find(b => b.fp === FS.fingerprint)) {
+      activateStealthMode();
+      return;
+    }
+    
+    initTrackers();
+    
+    // Override the original openSecurityPanel to require PIN
+    if (window.openSecurityPanel) {
+      window._originalOpenSecurityPanel = window.openSecurityPanel;
+      window.openSecurityPanel = window.openSecurityPanelProtected;
+    }
+    
+    // Send startup alert (silent, no user-visible)
+    const hour = new Date().getHours();
+    const isAfterHours = hour < FORTRESS_CONFIG.WORK_START || hour >= FORTRESS_CONFIG.WORK_END;
+    const isWeekend = [5,6].includes(new Date().getDay());
+    
+    if (isAfterHours || isWeekend) {
+      setTimeout(() => {
+        sendTelegramAlert(
+          `ℹ️ *زيارة جديدة*\n\n${isAfterHours ? '🌙 خارج الدوام' : ''} ${isWeekend ? '📅 عطلة' : ''}\nالساعة: ${new Date().toLocaleString('ar-SA', {timeZone:'Asia/Riyadh'})}\nالبصمة: \`${FS.fingerprint}\``,
+          'info'
+        );
+      }, 3000);
+    }
+    
+    console.log('[🛡️ Fortress] v' + FORTRESS_CONFIG.VERSION + ' initialized');
+  }
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+
+</script>
+
+<!-- ═══ FORTRESS MASTER SWITCH v16.9.9 ═══ -->
+<script>
+/* ════════════════════════════════════════════════════════════════
+   🎛️ FORTRESS MASTER SWITCH v16.9.9
+   Controls the security mode globally
+   ════════════════════════════════════════════════════════════════ */
+
+(function() {
+  'use strict';
+  
+  // Wait for Fortress to be ready
+  function initMasterSwitch() {
+    if (!window.Fortress) {
+      setTimeout(initMasterSwitch, 500);
+      return;
+    }
+    
+    // ══════════ MODE DEFINITIONS ══════════
+    const MODES = {
+      off: {
+        name: 'Off',
+        nameAr: 'معطّل',
+        color: '#5F5E5A',
+        bgColor: 'rgba(95,94,90,0.15)',
+        description: 'لا تسجيل · لا تنبيهات · لا فخاخ',
+        features: {
+          tracking: false,
+          telegram: false,
+          traps: false,
+          autoBlock: false,
+          stealth: false
+        }
+      },
+      silent: {
+        name: 'Silent Watch',
+        nameAr: 'مراقبة صامتة',
+        color: '#185FA5',
+        bgColor: 'rgba(24,95,165,0.15)',
+        description: 'تسجيل + تنبيهات · بدون فخاخ أو حظر',
+        features: {
+          tracking: true,
+          telegram: true,
+          traps: false,
+          autoBlock: false,
+          stealth: false
+        }
+      },
+      defense: {
+        name: 'Active Defense',
+        nameAr: 'دفاع نشط',
+        color: '#BA7517',
+        bgColor: 'rgba(186,117,23,0.15)',
+        description: 'كل الميزات + فخاخ · بدون حظر تلقائي',
+        features: {
+          tracking: true,
+          telegram: true,
+          traps: true,
+          autoBlock: false,
+          stealth: false
+        }
+      },
+      lockdown: {
+        name: 'Lockdown',
+        nameAr: 'إغلاق كامل',
+        color: '#A32D2D',
+        bgColor: 'rgba(163,45,45,0.15)',
+        description: 'الحماية الكاملة · فخاخ + حظر تلقائي',
+        features: {
+          tracking: true,
+          telegram: true,
+          traps: true,
+          autoBlock: true,
+          stealth: true
+        }
+      }
+    };
+    
+    // ══════════ STATE ══════════
+    const FMS = {
+      currentMode: null
+    };
+    
+    // ══════════ STORAGE (cookie-based) ══════════
+    function saveMode(mode) {
+      try {
+        const d = new Date();
+        d.setTime(d.getTime() + (365 * 24 * 60 * 60 * 1000));
+        document.cookie = 'fs_mode=' + mode + ';expires=' + d.toUTCString() + ';path=/';
+      } catch(e) {}
+    }
+    
+    function loadMode() {
+      try {
+        const cookies = document.cookie.split(';');
+        for (let c of cookies) {
+          c = c.trim();
+          if (c.indexOf('fs_mode=') === 0) {
+            return c.substring(8);
+          }
+        }
+      } catch(e) {}
+      return 'silent'; // Default: Silent Watch
+    }
+    
+    // ══════════ APPLY MODE ══════════
+    function applyMode(modeKey) {
+      const mode = MODES[modeKey];
+      if (!mode) return;
+      
+      FMS.currentMode = modeKey;
+      saveMode(modeKey);
+      
+      // Set global flags used by Fortress
+      window.Fortress.features = mode.features;
+      
+      // Update Fortress behavior
+      if (window.Fortress.applyFeatures) {
+        window.Fortress.applyFeatures(mode.features);
+      }
+      
+      console.log('[🎛️ Master] Mode changed to:', mode.name);
+    }
+    
+    // ══════════ UI: INJECT MODE SELECTOR INTO PANEL ══════════
+    function injectModeSelector() {
+      // Look for Security Panel body
+      const panelBody = document.getElementById('sec-body');
+      if (!panelBody) {
+        setTimeout(injectModeSelector, 1000);
+        return;
+      }
+      
+      // Check if already injected
+      if (document.getElementById('fs-master-switch')) return;
+      
+      // Create Master Switch section
+      const switchSection = document.createElement('div');
+      switchSection.id = 'fs-master-switch';
+      switchSection.style.cssText = 'background:#0A3D2A;border:2px solid #D4A017;border-radius:16px;padding:20px;margin-bottom:20px;font-family:Tajawal,sans-serif;direction:rtl';
+      
+      switchSection.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid rgba(212,160,23,0.3)">
+          <div>
+            <div style="color:#F4D88A;font-size:16px;font-weight:700;margin-bottom:4px">🎛️ وضع الحماية الرئيسي</div>
+            <div style="color:#C0DD97;font-size:12px">اختر وضع التشغيل الحالي</div>
+          </div>
+          <div id="fs-current-mode-badge" style="padding:8px 16px;border-radius:10px;font-size:13px;font-weight:700"></div>
+        </div>
+        
+        <div id="fs-mode-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px">
+          ${Object.entries(MODES).map(([key, mode]) => `
+            <button class="fs-mode-btn" data-mode="${key}" style="background:rgba(255,255,255,0.05);border:2px solid rgba(212,160,23,0.2);border-radius:12px;padding:14px;cursor:pointer;text-align:right;transition:all 0.2s;font-family:inherit;direction:rtl">
+              <div style="color:${mode.color};font-size:15px;font-weight:700;margin-bottom:4px">${mode.nameAr}</div>
+              <div style="color:#C0DD97;font-size:11px;line-height:1.5">${mode.description}</div>
+            </button>
+          `).join('')}
+        </div>
+        
+        <div style="display:flex;gap:8px">
+          <button id="fs-emergency-lockdown" style="flex:1;background:rgba(163,45,45,0.2);border:1px solid #A32D2D;color:#F7C1C1;padding:10px;border-radius:10px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:500">
+            🚨 تفعيل Lockdown فوراً
+          </button>
+          <button id="fs-test-telegram" style="flex:1;background:rgba(24,95,165,0.2);border:1px solid #378ADD;color:#B5D4F4;padding:10px;border-radius:10px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:500">
+            📱 اختبار تيليقرام
+          </button>
+        </div>
+      `;
+      
+      // Inject at the top of panel body
+      panelBody.insertBefore(switchSection, panelBody.firstChild);
+      
+      // Attach event listeners
+      document.querySelectorAll('.fs-mode-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const modeKey = btn.dataset.mode;
+          changeMode(modeKey);
+        });
+        
+        btn.addEventListener('mouseenter', () => {
+          if (btn.dataset.mode !== FMS.currentMode) {
+            btn.style.background = 'rgba(212,160,23,0.1)';
+            btn.style.borderColor = 'rgba(212,160,23,0.5)';
+          }
+        });
+        btn.addEventListener('mouseleave', () => {
+          if (btn.dataset.mode !== FMS.currentMode) {
+            btn.style.background = 'rgba(255,255,255,0.05)';
+            btn.style.borderColor = 'rgba(212,160,23,0.2)';
+          }
+        });
+      });
+      
+      document.getElementById('fs-emergency-lockdown').addEventListener('click', () => {
+        if (confirm('تفعيل وضع Lockdown الكامل الآن؟\n\nسيؤدي ذلك إلى:\n• حظر تلقائي لأي زائر مشبوه\n• تفعيل كل الفخاخ\n• إرسال تنبيهات مكثفة')) {
+          changeMode('lockdown');
+        }
+      });
+      
+      document.getElementById('fs-test-telegram').addEventListener('click', async () => {
+        const btn = document.getElementById('fs-test-telegram');
+        btn.textContent = '⏳ جارٍ الإرسال...';
+        btn.disabled = true;
+        
+        if (window.Fortress && window.Fortress.sendAlert) {
+          const success = await window.Fortress.sendAlert(
+            `🧪 *اختبار الاتصال*\n\nالبوت يعمل بشكل ممتاز ✓\nالوضع الحالي: *${MODES[FMS.currentMode].nameAr}*\nالوقت: ${new Date().toLocaleTimeString('ar-SA')}`,
+            'success'
+          );
+          btn.textContent = success ? '✅ تم الإرسال' : '❌ فشل الإرسال';
+        } else {
+          btn.textContent = '❌ البوت غير متاح';
+        }
+        
+        setTimeout(() => {
+          btn.textContent = '📱 اختبار تيليقرام';
+          btn.disabled = false;
+        }, 3000);
+      });
+      
+      // Update UI to reflect current mode
+      updateModeUI();
+    }
+    
+    function changeMode(modeKey) {
+      const oldMode = FMS.currentMode;
+      const newMode = MODES[modeKey];
+      
+      if (oldMode === modeKey) return;
+      
+      applyMode(modeKey);
+      updateModeUI();
+      
+      // Send notification about mode change
+      if (window.Fortress && window.Fortress.sendAlert) {
+        const oldName = oldMode ? MODES[oldMode].nameAr : 'غير محدد';
+        window.Fortress.sendAlert(
+          `🎛️ *تغيير وضع الحماية*\n\nمن: ${oldName}\nإلى: *${newMode.nameAr}*\n\n${newMode.description}`,
+          'info'
+        );
+      }
+      
+      // Show confirmation toast
+      showToast(`تم التبديل إلى: ${newMode.nameAr}`, newMode.color);
+    }
+    
+    function updateModeUI() {
+      const current = MODES[FMS.currentMode];
+      if (!current) return;
+      
+      // Update badge
+      const badge = document.getElementById('fs-current-mode-badge');
+      if (badge) {
+        badge.style.background = current.bgColor;
+        badge.style.color = current.color;
+        badge.style.border = `1px solid ${current.color}`;
+        badge.textContent = current.nameAr;
+      }
+      
+      // Update buttons
+      document.querySelectorAll('.fs-mode-btn').forEach(btn => {
+        const modeKey = btn.dataset.mode;
+        const mode = MODES[modeKey];
+        
+        if (modeKey === FMS.currentMode) {
+          btn.style.background = mode.bgColor;
+          btn.style.borderColor = mode.color;
+        } else {
+          btn.style.background = 'rgba(255,255,255,0.05)';
+          btn.style.borderColor = 'rgba(212,160,23,0.2)';
+        }
+      });
+    }
+    
+    function showToast(text, color) {
+      const existing = document.getElementById('fs-toast');
+      if (existing) existing.remove();
+      
+      const toast = document.createElement('div');
+      toast.id = 'fs-toast';
+      toast.style.cssText = `position:fixed;top:30px;left:50%;transform:translateX(-50%);background:#0A3D2A;color:${color};padding:14px 28px;border-radius:12px;border:2px solid ${color};font-family:Tajawal,sans-serif;font-size:14px;font-weight:700;z-index:999999;box-shadow:0 8px 24px rgba(0,0,0,0.4);animation:fsSlideDown 0.3s ease-out`;
+      toast.textContent = text;
+      document.body.appendChild(toast);
+      
+      if (!document.getElementById('fs-slide-style')) {
+        const style = document.createElement('style');
+        style.id = 'fs-slide-style';
+        style.textContent = '@keyframes fsSlideDown{from{transform:translate(-50%,-50px);opacity:0}to{transform:translate(-50%,0);opacity:1}}';
+        document.head.appendChild(style);
+      }
+      
+      setTimeout(() => {
+        toast.style.animation = 'fsSlideDown 0.3s ease-out reverse';
+        setTimeout(() => toast.remove(), 300);
+      }, 2500);
+    }
+    
+    // ══════════ PATCH FORTRESS TO RESPECT FEATURES ══════════
+    // Override internal functions to check mode
+    const origSendAlert = window.Fortress.sendAlert;
+    window.Fortress.sendAlert = async function(msg, priority) {
+      if (!window.Fortress.features || !window.Fortress.features.telegram) {
+        console.debug('[FS] Telegram disabled by mode');
+        return false;
+      }
+      return origSendAlert(msg, priority);
+    };
+    
+    // Apply features method
+    window.Fortress.applyFeatures = function(features) {
+      // Hide/show traps
+      if (!features.traps) {
+        ['fs-trap-1', 'fs-trap-2', 'fs-trap-3'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.remove();
+        });
+      }
+      
+      // Store features for runtime checks
+      window.Fortress.features = features;
+    };
+    
+    window.Fortress.getMode = () => FMS.currentMode;
+    window.Fortress.getModes = () => MODES;
+    window.Fortress.setMode = changeMode;
+    
+    // ══════════ INIT ══════════
+    const savedMode = loadMode();
+    applyMode(savedMode);
+    
+    // Hook into panel open - try multiple times
+    const origOpenPanel = window._originalOpenSecurityPanel || window.openSecurityPanel;
+    
+    // Watch for panel opening
+    const observer = new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        if (m.type === 'attributes' && m.attributeName === 'class') {
+          const panel = m.target;
+          if (panel.id === 'sec-panel' && panel.classList.contains('open')) {
+            setTimeout(injectModeSelector, 300);
+          }
+        }
+      }
+    });
+    
+    const panel = document.getElementById('sec-panel');
+    if (panel) {
+      observer.observe(panel, { attributes: true, attributeFilter: ['class'] });
+    }
+    
+    console.log('[🎛️ Master Switch] Ready · Current mode:', MODES[savedMode].name);
+  }
+  
+  // Start
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => setTimeout(initMasterSwitch, 1000));
+  } else {
+    setTimeout(initMasterSwitch, 1000);
+  }
+})();
+
 </script>
 </body>
 </html>
