@@ -2908,7 +2908,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
         <span class="sb-d" style="background:#5DCAA5"></span>Mohammed AlShehri<span class="sb-cnt" id="cnt-ms">—</span>
       </button>
       <button class="sb-item" onclick="setView('Najwah',this)">
-        <span class="sb-d" style="background:#ED93B1"></span>Najwah AlOmari<span class="sb-cnt" id="cnt-na">—</span>
+        <span class="sb-d" style="background:#ED93B1"></span>Najwa D AlOmari<span class="sb-cnt" id="cnt-na">—</span>
       </button>
     </div>
     <div class="sb-div"></div>
@@ -4170,7 +4170,7 @@ function renderView(view){
               {key:'aw',label:'Abdulwahab M Alshammari',color:'#F6C94E'},
               {key:'am',label:'Ahmed AlMutairi',color:'#85B7EB'},
               {key:'ms',label:'Mohammed AlShehri',color:'#5DCAA5'},
-              {key:'na',label:'Najwah AlOmari',color:'#ED93B1'},
+              {key:'na',label:'Najwa D AlOmari',color:'#ED93B1'},
             ].map(s=>{
               const sv=ftthEmps.filter(e=>mk(e.mgr)===s.key);
               const t=sv.reduce((a,e)=>a+e.total,0);
@@ -4366,7 +4366,7 @@ function renderSupCards(){
     {key:'Abdulwahab',full:'Abdulwahab M Alshammari',color:'#F6C94E'},
     {key:'Ahmed',     full:'Ahmed AlMutairi',       color:'#85B7EB'},
     {key:'Mohammed',  full:'Mohammed AlShehri',     color:'#5DCAA5'},
-    {key:'Najwah',    full:'Najwah AlOmari',         color:'#ED93B1'},
+    {key:'Najwah',    full:'Najwa D AlOmari',         color:'#ED93B1'},
   ];
   return`<div class="sec-t">Supervisor Overview</div>
   <div class="sup-grid">
@@ -4413,7 +4413,7 @@ function renderSupBars(emps){
     {key:'Abdulwahab',full:'Abdulwahab M Alshammari',color:'#F6C94E'},
     {key:'Ahmed',     full:'Ahmed AlMutairi',       color:'#85B7EB'},
     {key:'Mohammed',  full:'Mohammed AlShehri',     color:'#5DCAA5'},
-    {key:'Najwah',    full:'Najwah AlOmari',         color:'#ED93B1'},
+    {key:'Najwah',    full:'Najwa D AlOmari',         color:'#ED93B1'},
   ];
   const maxS=Math.max(...sups.map(s=>emps.filter(e=>e.mgr.toLowerCase().includes(s.key.toLowerCase())).reduce((a,e)=>a+e.sales,0)),1);
   document.getElementById('sup-bars').innerHTML=sups.map(s=>{
@@ -6887,7 +6887,7 @@ function renderMobileSidebar(){
         <span class="sb-d" style="background:#5DCAA5"></span>Mohammed AlShehri<span class="sb-cnt">${k.ms}</span>
       </button>
       <button class="sb-item ${CUR==='Najwah'?'active':''}" onclick="setView('Najwah',this);closeMobileSidebar()">
-        <span class="sb-d" style="background:#ED93B1"></span>Najwah AlOmari<span class="sb-cnt">${k.na}</span>
+        <span class="sb-d" style="background:#ED93B1"></span>Najwa D AlOmari<span class="sb-cnt">${k.na}</span>
       </button>
     </div>
     <div class="sb-div"></div>
