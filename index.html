@@ -3839,7 +3839,7 @@ function mk(m){
   if(l.includes('abdulwahab'))return'aw';
   if(l.includes('ahmed'))return'am';
   if(l.includes('mohammed'))return'ms';
-  if(l.includes('Najwa D AlOmari'))return'na';
+  if(l.includes('najwah'))return'na';
   return'other';
 }
 function mgrShort(m){
@@ -7153,7 +7153,7 @@ function helpContent_overview_en(){
           <li><b>Header:</b> Logo, title, and quick action buttons</li>
           <li><b>Toolbar:</b> 7 tool icons for Alerts, Radar, Fame, Compare, Watch, Badges, and this Guide</li>
           <li><b>Ticker:</b> Live stream of key achievements</li>
-          <li><b>Sidebar:</b> Filter by supervisor (All / Abdulwahab / Ahmed / Mohammed / Najwah)</li>
+          <li><b>Sidebar:</b> Filter by supervisor (All / Abdulwahab / Ahmed / Mohammed / Najwa)</li>
           <li><b>Main Content:</b> KPIs, podium, charts, and employee table</li>
         </ul>
       </div>
@@ -9097,7 +9097,7 @@ function helpContent_supervisors_en(){
           <li>🟡 <b>Abdulwahab</b></li>
           <li>🔵 <b>Ahmed</b></li>
           <li>🟢 <b>Mohammed</b></li>
-          <li>💗 <b>Najwah</b></li>
+          <li>💗 <b>Najwa D AlOmari</b></li>
         </ul>
         These colors help you spot each team at a glance without reading names.
       </div>
@@ -10083,7 +10083,7 @@ function renderManualPanel(){
             <option value="aw" ${MANUAL_STATE.scope==='aw'?'selected':''}>👤 Abdulwahab</option>
             <option value="am" ${MANUAL_STATE.scope==='am'?'selected':''}>👤 Ahmed</option>
             <option value="ms" ${MANUAL_STATE.scope==='ms'?'selected':''}>👤 Mohammed</option>
-            <option value="na" ${MANUAL_STATE.scope==='na'?'selected':''}>👤 Najwah</option>
+            <option value="na" ${MANUAL_STATE.scope==='na'?'selected':''}>👤 Najwa D AlOmari</option>
           </select>
         </div>
         <div class="manual-field">
