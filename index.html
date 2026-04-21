@@ -11180,5 +11180,300 @@ loadData();
 })();
 
 </script>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// Salam Dashboard — Behavior Tracker v1
+// ═══════════════════════════════════════════════════════════════
+// حقن هذا الكود قبل </body> في الداشبورد
+// ═══════════════════════════════════════════════════════════════
+
+(function() {
+  'use strict';
+
+  const TRACKER_CONFIG = {
+    WEBHOOK_URL: 'https://script.google.com/macros/s/AKfycbw4z6utqCyZdhxkvQao4NHKed2SBTJmqRVdpgjbwbMENMhrwc6AHbYVhl6Rezir7Blu/exec',
+    HEARTBEAT_INTERVAL: 30 * 1000,
+    IDLE_THRESHOLD: 60 * 1000,
+    MIN_EVENT_GAP: 500,
+    DEBUG: false
+  };
+
+  const state = {
+    fingerprint: null,
+    sessionId: null,
+    sessionStart: Date.now(),
+    lastActivity: Date.now(),
+    isIdle: false,
+    currentTab: 'main',
+    knownUser: '',
+    heartbeatTimer: null,
+    eventQueue: [],
+    lastEventTime: 0
+  };
+
+  // ─── 1. Fingerprint دائم ───
+  function generateFingerprint() {
+    const stored = localStorage.getItem('salam_fp');
+    if (stored) return stored;
+
+    const raw = [
+      navigator.userAgent,
+      navigator.language,
+      screen.width + 'x' + screen.height,
+      new Date().getTimezoneOffset(),
+      navigator.hardwareConcurrency || '',
+      navigator.platform || ''
+    ].join('|');
+
+    let hash = 0;
+    for (let i = 0; i < raw.length; i++) {
+      hash = ((hash << 5) - hash + raw.charCodeAt(i)) | 0;
+    }
+    const fp = 'fp_' + Math.abs(hash).toString(36) + '_' + Date.now().toString(36).slice(-4);
+    try { localStorage.setItem('salam_fp', fp); } catch(e) {}
+    return fp;
+  }
+
+  function generateSessionId() {
+    return 'sess_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 8);
+  }
+
+  // ─── 2. Device Detection ───
+  function getDeviceType() {
+    const ua = navigator.userAgent;
+    if (/Mobile|Android|iPhone|iPad/i.test(ua)) return 'Mobile';
+    if (/Tablet|iPad/i.test(ua)) return 'Tablet';
+    return 'Desktop';
+  }
+
+  function getBrowser() {
+    const ua = navigator.userAgent;
+    if (/Edg/.test(ua)) return 'Edge';
+    if (/Chrome/.test(ua)) return 'Chrome';
+    if (/Safari/.test(ua)) return 'Safari';
+    if (/Firefox/.test(ua)) return 'Firefox';
+    return 'Other';
+  }
+
+  function getOS() {
+    const ua = navigator.userAgent;
+    if (/Windows NT 10/i.test(ua)) return 'Windows 10/11';
+    if (/Windows/i.test(ua)) return 'Windows';
+    if (/Mac/i.test(ua)) return 'macOS';
+    if (/Android/i.test(ua)) return 'Android';
+    if (/iPhone|iPad/i.test(ua)) return 'iOS';
+    if (/Linux/i.test(ua)) return 'Linux';
+    return 'Other';
+  }
+
+  // ─── 3. HTTP Helpers ───
+  function sendBeacon(action, data) {
+    if (!TRACKER_CONFIG.WEBHOOK_URL || TRACKER_CONFIG.WEBHOOK_URL.includes('PASTE_YOUR')) {
+      if (TRACKER_CONFIG.DEBUG) console.warn('[Tracker] Webhook not set');
+      return;
+    }
+    const url = TRACKER_CONFIG.WEBHOOK_URL + '?action=' + encodeURIComponent(action);
+    const payload = JSON.stringify(data);
+
+    try {
+      if (navigator.sendBeacon) {
+        const blob = new Blob([payload], {type: 'text/plain;charset=UTF-8'});
+        navigator.sendBeacon(url, blob);
+      } else {
+        fetch(url, {
+          method: 'POST',
+          body: payload,
+          keepalive: true,
+          headers: {'Content-Type': 'text/plain;charset=UTF-8'}
+        }).catch(function(){});
+      }
+    } catch(e) {
+      if (TRACKER_CONFIG.DEBUG) console.error('[Tracker]', e);
+    }
+  }
+
+  async function fetchJSON(action, params) {
+    if (!TRACKER_CONFIG.WEBHOOK_URL || TRACKER_CONFIG.WEBHOOK_URL.includes('PASTE_YOUR')) return null;
+    const qs = Object.entries(params || {})
+      .map(function(kv){ return encodeURIComponent(kv[0]) + '=' + encodeURIComponent(kv[1]); })
+      .join('&');
+    const url = TRACKER_CONFIG.WEBHOOK_URL + '?action=' + action + (qs ? '&' + qs : '');
+    try {
+      const res = await fetch(url);
+      return await res.json();
+    } catch(e) { return null; }
+  }
+
+  // ─── 4. Session Init ───
+  function initSession() {
+    state.fingerprint = generateFingerprint();
+    state.sessionId = generateSessionId();
+    state.sessionStart = Date.now();
+
+    const payload = {
+      fingerprint: state.fingerprint,
+      sessionId: state.sessionId,
+      device: getDeviceType(),
+      browser: getBrowser(),
+      os: getOS(),
+      screen: screen.width + 'x' + screen.height,
+      userAgent: navigator.userAgent,
+      language: navigator.language,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      referrer: document.referrer || '(Direct)',
+      tab: state.currentTab,
+      details: {
+        path: location.pathname,
+        url: location.href,
+        vpDiag: Math.round(Math.sqrt(innerWidth*innerWidth + innerHeight*innerHeight))
+      }
+    };
+    sendBeacon('visit', payload);
+  }
+
+  // ─── 5. Heartbeat ───
+  function sendHeartbeat() {
+    if (state.isIdle) return;
+    sendBeacon('heartbeat', {
+      fingerprint: state.fingerprint,
+      sessionId: state.sessionId,
+      tab: state.currentTab,
+      sessionDuration: Math.round((Date.now() - state.sessionStart) / 1000)
+    });
+  }
+
+  function startHeartbeat() {
+    if (state.heartbeatTimer) return;
+    state.heartbeatTimer = setInterval(sendHeartbeat, TRACKER_CONFIG.HEARTBEAT_INTERVAL);
+  }
+
+  // ─── 6. Activity Detection ───
+  function markActive() {
+    state.lastActivity = Date.now();
+    if (state.isIdle) {
+      state.isIdle = false;
+      trackEvent('became_active', {});
+    }
+  }
+
+  function checkIdle() {
+    if (Date.now() - state.lastActivity > TRACKER_CONFIG.IDLE_THRESHOLD && !state.isIdle) {
+      state.isIdle = true;
+      trackEvent('became_idle', {});
+    }
+  }
+
+  // ─── 7. Public Tracking ───
+  function trackEvent(event, details) {
+    const now = Date.now();
+    if (now - state.lastEventTime < TRACKER_CONFIG.MIN_EVENT_GAP) return;
+    state.lastEventTime = now;
+
+    sendBeacon('track', {
+      fingerprint: state.fingerprint,
+      sessionId: state.sessionId,
+      event: event,
+      details: details || {},
+      duration: Math.round((now - state.sessionStart) / 1000)
+    });
+  }
+
+  // ─── 8. Auto-detect Tab Changes ───
+  function watchTabChanges() {
+    const observer = new MutationObserver(function() {
+      try {
+        const active = document.querySelector('.sb-item.active, .tab-btn.active, [aria-current="page"]');
+        if (active) {
+          const tabName = (active.textContent || '').trim().slice(0, 30);
+          if (tabName && tabName !== state.currentTab) {
+            state.currentTab = tabName;
+            trackEvent('tab_switch', {tab: tabName});
+          }
+        }
+      } catch(e) {}
+    });
+    observer.observe(document.body, {
+      attributes: true,
+      childList: true,
+      subtree: true,
+      attributeFilter: ['class', 'aria-current']
+    });
+  }
+
+  // ─── 9. Auto-track clicks on employees ───
+  function watchEmployeeClicks() {
+    document.addEventListener('click', function(e) {
+      markActive();
+      const target = e.target.closest('[data-emp], [data-user], .emp-card, .podium-item');
+      if (target) {
+        const empName = target.dataset.emp || target.dataset.user ||
+                        (target.querySelector('.emp-name') || target).textContent.trim().slice(0, 50);
+        if (empName) trackEvent('employee_click', {employee: empName});
+      }
+    }, true);
+  }
+
+  // ─── 10. Lifecycle ───
+  document.addEventListener('visibilitychange', function() {
+    if (document.hidden) {
+      sendBeacon('track', {
+        fingerprint: state.fingerprint,
+        sessionId: state.sessionId,
+        event: 'tab_hidden',
+        duration: Math.round((Date.now() - state.sessionStart) / 1000)
+      });
+    } else {
+      markActive();
+      sendBeacon('track', {
+        fingerprint: state.fingerprint,
+        sessionId: state.sessionId,
+        event: 'tab_visible'
+      });
+    }
+  });
+
+  window.addEventListener('beforeunload', function() {
+    sendBeacon('track', {
+      fingerprint: state.fingerprint,
+      sessionId: state.sessionId,
+      event: 'session_end',
+      duration: Math.round((Date.now() - state.sessionStart) / 1000)
+    });
+  });
+
+  ['mousedown', 'keydown', 'scroll', 'touchstart'].forEach(function(ev) {
+    window.addEventListener(ev, markActive, {passive: true});
+  });
+  setInterval(checkIdle, 15000);
+
+  // ─── 11. Public API ───
+  window.SalamTracker = {
+    init: function() {
+      initSession();
+      startHeartbeat();
+      watchTabChanges();
+      watchEmployeeClicks();
+      if (TRACKER_CONFIG.DEBUG) console.log('[Tracker] started', state.fingerprint);
+    },
+    trackEvent: trackEvent,
+    getFingerprint: function() { return state.fingerprint; },
+    fetchLive: function() { return fetchJSON('live'); },
+    fetchUsers: function() { return fetchJSON('users'); },
+    fetchStats: function(fp) { return fetchJSON('stats', {fp: fp}); },
+    fetchEvents: function(fp) { return fetchJSON('events', {fp: fp}); },
+    mapDevice: function(fp, user, secret) {
+      sendBeacon('map', {fingerprint: fp, user: user, secret: secret});
+    }
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() { window.SalamTracker.init(); });
+  } else {
+    window.SalamTracker.init();
+  }
+})();
+
+</script>
 </body>
 </html>
