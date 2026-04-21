@@ -2907,7 +2907,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
       <button class="sb-item" onclick="setView('Mohammed',this)">
         <span class="sb-d" style="background:#5DCAA5"></span>Mohammed AlShehri<span class="sb-cnt" id="cnt-ms">—</span>
       </button>
-      <button class="sb-item" onclick="setView('Najwah',this)">
+      <button class="sb-item" onclick="setView('Najwa D AlOmari',this)">
         <span class="sb-d" style="background:#ED93B1"></span>Najwa D AlOmari<span class="sb-cnt" id="cnt-na">—</span>
       </button>
     </div>
@@ -3839,7 +3839,7 @@ function mk(m){
   if(l.includes('abdulwahab'))return'aw';
   if(l.includes('ahmed'))return'am';
   if(l.includes('mohammed'))return'ms';
-  if(l.includes('najwah'))return'na';
+  if(l.includes('Najwa D AlOmari'))return'na';
   return'other';
 }
 function mgrShort(m){
@@ -4366,7 +4366,7 @@ function renderSupCards(){
     {key:'Abdulwahab',full:'Abdulwahab M Alshammari',color:'#F6C94E'},
     {key:'Ahmed',     full:'Ahmed AlMutairi',       color:'#85B7EB'},
     {key:'Mohammed',  full:'Mohammed AlShehri',     color:'#5DCAA5'},
-    {key:'Najwah',    full:'Najwa D AlOmari',         color:'#ED93B1'},
+    {key:'Najwa D AlOmari',    full:'Najwa D AlOmari',         color:'#ED93B1'},
   ];
   return`<div class="sec-t">Supervisor Overview</div>
   <div class="sup-grid">
@@ -4413,7 +4413,7 @@ function renderSupBars(emps){
     {key:'Abdulwahab',full:'Abdulwahab M Alshammari',color:'#F6C94E'},
     {key:'Ahmed',     full:'Ahmed AlMutairi',       color:'#85B7EB'},
     {key:'Mohammed',  full:'Mohammed AlShehri',     color:'#5DCAA5'},
-    {key:'Najwah',    full:'Najwa D AlOmari',         color:'#ED93B1'},
+    {key:'Najwa D AlOmari',    full:'Najwa D AlOmari',         color:'#ED93B1'},
   ];
   const maxS=Math.max(...sups.map(s=>emps.filter(e=>e.mgr.toLowerCase().includes(s.key.toLowerCase())).reduce((a,e)=>a+e.sales,0)),1);
   document.getElementById('sup-bars').innerHTML=sups.map(s=>{
@@ -6886,7 +6886,7 @@ function renderMobileSidebar(){
       <button class="sb-item ${CUR==='Mohammed'?'active':''}" onclick="setView('Mohammed',this);closeMobileSidebar()">
         <span class="sb-d" style="background:#5DCAA5"></span>Mohammed AlShehri<span class="sb-cnt">${k.ms}</span>
       </button>
-      <button class="sb-item ${CUR==='Najwah'?'active':''}" onclick="setView('Najwah',this);closeMobileSidebar()">
+      <button class="sb-item ${CUR==='Najwa D AlOmari'?'active':''}" onclick="setView('Najwa D AlOmari',this);closeMobileSidebar()">
         <span class="sb-d" style="background:#ED93B1"></span>Najwa D AlOmari<span class="sb-cnt">${k.na}</span>
       </button>
     </div>
@@ -9600,7 +9600,7 @@ function manualGetBranches(){
 
 function manualGetScopeName(){
   if(MANUAL_STATE.scope==='all')return 'All';
-  const map={aw:'Abdulwahab',am:'Ahmed',ms:'Mohammed',na:'Najwah'};
+  const map={aw:'Abdulwahab',am:'Ahmed',ms:'Mohammed',na:'Najwa D AlOmari'};
   return map[MANUAL_STATE.scope]||MANUAL_STATE.scope;
 }
 
