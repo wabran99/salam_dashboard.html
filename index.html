@@ -7,15 +7,27 @@
    Designed & Developed by: Eng. Abdulwahab M Alshammari
    Internal Use Only — © 2026 All Rights Reserved
    Unauthorized copying, modification, or redistribution prohibited.
-   Built: v16.9.9 · April 2026 · Build ID: WAB-2026-04-20-FORTRESS
+   Built: v17.0 · April 2026 · Build ID: WAB-2026-04-21-INTEL
  ═══════════════════════════════════════════════════════════════════
 -->
+
+<!-- ═══ VERSION HISTORY ═══
+  v17.0     · 2026-04-21 · Behavior Intel + Live Presence Panel + Tracker
+  v16.9.10 · 2026-04-21 · Najwa name mapping fix + mk() function
+  v16.9.9  · 2026-04-20 · FORTRESS Security + Full Lockdown + PIN Gate
+  v16.9.8  · 2026-04-20 · Mobile Blur fix + Most Improved + Fiber/5G columns
+  v16.9.7  · earlier    · Security Panel (Admin-only)
+  v16.9.6  · earlier    · Enhanced fingerprinting
+  v16.9.3  · 2026-04-17 · DevTools Detection + Signature
+  v16.9.1  · earlier    · ActivationDateTime + Streak System
+═══════════════════════════════════════ -->
+
 <html lang="en">
 <head>
-<!-- ═══ FORTRESS GATE v16.9.9 · Full Lockdown ═══ -->
+<!-- ═══ FORTRESS GATE v17.0 · Behavior Intel + Full Lockdown ═══ -->
 <script>
 /* ════════════════════════════════════════════════════════════════
-   🚪 FORTRESS GATE v16.9.9 — Full Lockdown
+   🚪 FORTRESS GATE v17.0 — Lockdown + Behavior Intel
    Requires PIN entry before ANY dashboard access
    ════════════════════════════════════════════════════════════════ */
 
@@ -248,7 +260,7 @@
             <div style="margin-top:16px;padding-top:12px;border-top:1px solid rgba(212,160,23,0.15);display:flex;align-items:center;justify-content:center;gap:8px">
               <div style="color:rgba(212,160,23,0.5);font-size:9px;letter-spacing:2px">SECURE GATE</div>
               <div style="width:3px;height:3px;background:rgba(212,160,23,0.4);border-radius:50%"></div>
-              <div style="color:rgba(212,160,23,0.4);font-size:9px">v16.9.9</div>
+              <div style="color:rgba(212,160,23,0.4);font-size:9px">v17.0</div>
             </div>
           </div>
         </div>
@@ -2779,7 +2791,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">Manual Daily Update ✨</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🔒 v16.9.9 · Security Panel</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🔒 v17.0 · Security Panel + Live Intel</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -3057,8 +3069,8 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     team:'Retail MT',
     org:'Salam Mobile',
     build:'v16.9.3',
-    date:'2026-04-17',
-    id:'WAB-SLM-2026-04-17'
+    date:'2026-04-21',
+    id:'WAB-2026-04-21-INTEL'
   };
   Object.freeze(window.__SLM_FINGERPRINT__);
   // — Disable right-click (except on input fields for usability) —
@@ -3097,7 +3109,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
       console.log('%c───────────────────────────────────────────────────',s3);
       console.log('%c© 2026 Eng. Abdulwahab M Alshammari',s3);
       console.log('%cRetail MT · Salam Mobile · All Rights Reserved',s3);
-      console.log('%cBuild: v16.9.3 · ID: WAB-SLM-2026-04-17',s4);
+      console.log('%cBuild: v17.0 · ID: WAB-2026-04-21-INTEL',s4);
       console.log('%c───────────────────────────────────────────────────',s3);
     }catch(e){}
   },500);
@@ -10206,11 +10218,11 @@ setInterval(loadData,5*60*1000);
 loadData();
 </script>
 
-<!-- ═══ FORTRESS SECURITY MODULE v16.9.9 ═══ -->
+<!-- ═══ FORTRESS SECURITY MODULE v17.0 ═══ -->
 <script>
 /* ════════════════════════════════════════════════════════════════
-   🛡️ FORTRESS SECURITY MODULE v16.9.9
-   Build: WAB-2026-04-20-FORTRESS
+   🛡️ FORTRESS SECURITY MODULE v17.0
+   Build: WAB-2026-04-21-INTEL
    © 2026 Eng. Abdulwahab M Alshammari · Salam Mobile Retail MT
    
    CONFIG:
@@ -10819,10 +10831,10 @@ loadData();
 
 </script>
 
-<!-- ═══ FORTRESS MASTER SWITCH v16.9.9 ═══ -->
+<!-- ═══ FORTRESS MASTER SWITCH v17.0 ═══ -->
 <script>
 /* ════════════════════════════════════════════════════════════════
-   🎛️ FORTRESS MASTER SWITCH v16.9.9
+   🎛️ FORTRESS MASTER SWITCH v17.0
    Controls the security mode globally
    ════════════════════════════════════════════════════════════════ */
 
@@ -11474,6 +11486,343 @@ loadData();
   }
 })();
 
+</script>
+
+<style id="live-panel-styles">
+.live-panel-section{background:linear-gradient(135deg,rgba(26,158,82,0.08) 0%,rgba(10,61,42,0.12) 100%);border:1px solid rgba(61,214,140,0.2);border-radius:14px;padding:18px;margin-bottom:16px}
+.live-panel-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid rgba(61,214,140,0.12)}
+.live-panel-title{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;color:#F4D88A;letter-spacing:0.12em;text-transform:uppercase}
+.live-dot{width:10px;height:10px;border-radius:50%;background:#3DD68C;box-shadow:0 0 10px rgba(61,214,140,0.6);animation:livePulse 2s ease-in-out infinite}
+@keyframes livePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.15)}}
+.live-count-badge{background:rgba(61,214,140,0.15);color:#3DD68C;font-size:12px;padding:4px 12px;border-radius:12px;font-weight:700}
+.live-stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.live-stat-box{background:rgba(255,255,255,0.02);border:1px solid rgba(61,214,140,0.1);border-radius:10px;padding:10px;text-align:center}
+.live-stat-label{font-size:9px;color:#7AB88A;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px}
+.live-stat-value{font-size:20px;font-weight:800;color:#F4D88A}
+.live-stat-value.green{color:#3DD68C}
+.live-stat-value.amber{color:#D4A017}
+.live-users-list{display:flex;flex-direction:column;gap:10px;max-height:420px;overflow-y:auto;padding-right:4px}
+.live-users-list::-webkit-scrollbar{width:4px}
+.live-users-list::-webkit-scrollbar-track{background:transparent}
+.live-users-list::-webkit-scrollbar-thumb{background:rgba(61,214,140,0.2);border-radius:2px}
+.live-user-card{background:rgba(15,82,55,0.4);border:1px solid rgba(61,214,140,0.15);border-radius:12px;padding:14px;position:relative;transition:all 0.2s}
+.live-user-card:hover{border-color:rgba(61,214,140,0.35);background:rgba(15,82,55,0.55);transform:translateY(-1px)}
+.live-user-card.known{border-right:3px solid #3DD68C}
+.live-user-card.idle{border-right:3px solid #D4A017;opacity:0.85}
+.live-user-card.unknown{border-right:3px solid #F4D88A;background:rgba(212,160,23,0.05)}
+.live-user-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;gap:10px}
+.live-user-identity{flex:1;min-width:0}
+.live-user-name{color:#FFFFFF;font-size:14px;font-weight:600;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.live-user-name.unknown-name{color:#F4D88A;font-family:'Monaco',monospace;font-size:12px}
+.live-user-sub{color:#9AB5A4;font-size:11px;display:flex;align-items:center;gap:6px}
+.live-user-sub .dot-sep{width:3px;height:3px;border-radius:50%;background:#5F8578}
+.live-user-status{font-size:10px;padding:3px 10px;border-radius:10px;font-weight:600;white-space:nowrap;display:inline-flex;align-items:center;gap:5px}
+.live-user-status .mini-dot{width:5px;height:5px;border-radius:50%}
+.status-active{background:rgba(61,214,140,0.15);color:#3DD68C}
+.status-active .mini-dot{background:#3DD68C;box-shadow:0 0 6px #3DD68C;animation:livePulse 1.5s infinite}
+.status-idle{background:rgba(212,160,23,0.15);color:#D4A017}
+.status-idle .mini-dot{background:#D4A017}
+.status-unknown{background:rgba(212,160,23,0.15);color:#F4D88A}
+.status-unknown .mini-dot{background:#F4D88A}
+.live-user-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.05)}
+.live-metric{text-align:center}
+.live-metric-label{font-size:9px;color:#7AB88A;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:3px}
+.live-metric-value{font-size:12px;color:#E8F5EE;font-weight:500}
+.live-metric-value.duration{color:#F4D88A;font-weight:700;font-size:13px}
+.live-user-actions{margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.05);display:flex;gap:6px}
+.live-action-btn{flex:1;background:rgba(61,214,140,0.1);color:#3DD68C;border:1px solid rgba(61,214,140,0.2);border-radius:6px;padding:6px 10px;font-size:11px;font-family:inherit;cursor:pointer;transition:all 0.15s;font-weight:500}
+.live-action-btn:hover{background:rgba(61,214,140,0.2);border-color:#3DD68C}
+.live-action-btn.primary{background:#D4A017;color:#0A3D2A;border-color:#D4A017;font-weight:700}
+.live-action-btn.primary:hover{background:#F4D88A}
+.live-empty{text-align:center;padding:40px 20px;color:#5F8578;font-size:13px}
+.live-empty-icon{font-size:32px;margin-bottom:10px;display:block}
+.live-last-updated{text-align:center;font-size:10px;color:#5F8578;margin-top:12px;letter-spacing:0.05em}
+.live-refresh-btn{background:rgba(61,214,140,0.1);color:#3DD68C;border:1px solid rgba(61,214,140,0.3);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;font-family:inherit;transition:all 0.15s}
+.live-refresh-btn:hover{background:rgba(61,214,140,0.2)}
+.live-refresh-btn.refreshing{animation:livePulse 0.8s infinite}
+.live-map-modal{position:fixed;inset:0;background:rgba(10,31,21,0.92);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:10000;padding:20px}
+.live-map-modal.open{display:flex}
+.live-map-box{background:linear-gradient(135deg,#0F2C1E 0%,#0A3D2A 100%);border:1px solid rgba(212,160,23,0.4);border-radius:16px;padding:24px;max-width:420px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.5)}
+.live-map-title{color:#F4D88A;font-size:16px;font-weight:700;margin:0 0 6px;display:flex;align-items:center;gap:8px}
+.live-map-sub{color:#9AB5A4;font-size:12px;margin-bottom:16px;font-family:monospace;background:rgba(0,0,0,0.2);padding:6px 10px;border-radius:6px;word-break:break-all}
+.live-map-label{color:#C0DD97;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;display:block}
+.live-map-input,.live-map-select{width:100%;background:rgba(0,0,0,0.3);border:1px solid rgba(61,214,140,0.25);border-radius:8px;padding:10px 12px;font-family:inherit;font-size:14px;color:#FFFFFF;margin-bottom:12px;box-sizing:border-box}
+.live-map-input:focus,.live-map-select:focus{outline:none;border-color:#3DD68C;background:rgba(0,0,0,0.4)}
+.live-map-secret{font-family:monospace;letter-spacing:3px;text-align:center}
+.live-map-actions{display:flex;gap:10px;margin-top:16px}
+.live-map-btn{flex:1;padding:10px 16px;border-radius:8px;font-family:inherit;font-size:13px;cursor:pointer;font-weight:600;border:1px solid transparent;transition:all 0.15s}
+.live-map-btn.cancel{background:rgba(255,255,255,0.05);color:#9AB5A4;border-color:rgba(255,255,255,0.1)}
+.live-map-btn.cancel:hover{background:rgba(255,255,255,0.1)}
+.live-map-btn.save{background:#D4A017;color:#0A3D2A;border-color:#D4A017}
+.live-map-btn.save:hover{background:#F4D88A}
+.live-map-msg{font-size:12px;margin-top:10px;text-align:center}
+.live-map-msg.err{color:#E24B4A}
+.live-map-msg.ok{color:#3DD68C}
+</style>
+
+
+<script id="live-panel-script">
+(function() {
+  const LIVE_PANEL_HTML = `
+<div class="live-panel-section" id="live-presence-section">
+  <div class="live-panel-header">
+    <div class="live-panel-title">
+      <span class="live-dot"></span>
+      <span>LIVE NOW · متصلون الآن</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="live-count-badge" id="live-count">–</span>
+      <button class="live-refresh-btn" id="live-refresh-btn" onclick="refreshLivePanel()">↻</button>
+    </div>
+  </div>
+  <div class="live-stats-row">
+    <div class="live-stat-box"><div class="live-stat-label">نشط</div><div class="live-stat-value green" id="live-active-count">–</div></div>
+    <div class="live-stat-box"><div class="live-stat-label">غير نشط</div><div class="live-stat-value amber" id="live-idle-count">–</div></div>
+    <div class="live-stat-box"><div class="live-stat-label">مجهول</div><div class="live-stat-value" id="live-unknown-count">–</div></div>
+  </div>
+  <div class="live-users-list" id="live-users-list">
+    <div class="live-empty"><span class="live-empty-icon">◌</span><div>جاري التحميل...</div></div>
+  </div>
+  <div class="live-last-updated" id="live-last-updated">—</div>
+</div>`;
+
+  const MODAL_HTML = `
+<div class="live-map-modal" id="live-map-modal">
+  <div class="live-map-box">
+    <h3 class="live-map-title">🏷️ ربط جهاز بموظف</h3>
+    <div class="live-map-sub" id="live-map-fp">–</div>
+    <label class="live-map-label">اسم الموظف</label>
+    <input type="text" class="live-map-input" id="live-map-user" placeholder="مثال: Azzam Shaqran AlHalfi" autocomplete="off">
+    <label class="live-map-label">كلمة سر Admin</label>
+    <input type="password" class="live-map-input live-map-secret" id="live-map-secret" placeholder="••••" autocomplete="new-password">
+    <div class="live-map-actions">
+      <button class="live-map-btn cancel" onclick="closeMapModal()">إلغاء</button>
+      <button class="live-map-btn save" onclick="submitMap()">💾 حفظ</button>
+    </div>
+    <div class="live-map-msg" id="live-map-msg"></div>
+  </div>
+</div>`;
+
+  const WEBHOOK = 'https://script.google.com/macros/s/AKfycbw4z6utqCyZdhxkvQao4NHKed2SBTJmqRVdpgjbwbMENMhrwc6AHbYVhl6Rezir7Blu/exec';
+  let livePanelTimer = null;
+  let currentMapFp = null;
+  let modalInjected = false;
+
+  function injectPanel() {
+    const body = document.getElementById('sec-body');
+    if (!body) return false;
+    if (document.getElementById('live-presence-section')) return true;
+    
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = LIVE_PANEL_HTML;
+    body.insertBefore(wrapper.firstElementChild, body.firstChild);
+    
+    if (!modalInjected && !document.getElementById('live-map-modal')) {
+      const modalWrap = document.createElement('div');
+      modalWrap.innerHTML = MODAL_HTML;
+      document.body.appendChild(modalWrap.firstElementChild);
+      modalInjected = true;
+    }
+    
+    refreshLivePanel();
+    if (livePanelTimer) clearInterval(livePanelTimer);
+    livePanelTimer = setInterval(refreshLivePanel, 30000);
+    return true;
+  }
+
+  function timeSince(iso) {
+    const diff = Math.max(0, (Date.now() - new Date(iso).getTime()) / 1000);
+    if (diff < 60) return Math.round(diff) + ' ث';
+    if (diff < 3600) return Math.round(diff / 60) + ' د';
+    return Math.round(diff / 3600) + ' س';
+  }
+
+  function formatDuration(sec) {
+    if (!sec || sec < 60) return Math.round(sec || 0) + ' ث';
+    if (sec < 3600) return Math.round(sec / 60) + ' د';
+    const h = Math.floor(sec / 3600);
+    const m = Math.round((sec % 3600) / 60);
+    return h + ' س ' + m + ' د';
+  }
+
+  function escapeHtml(s) {
+    return String(s || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  }
+  function escapeAttr(s) { return String(s || '').replace(/'/g, "\\'"); }
+
+  function renderUserCard(u) {
+    const now = Date.now();
+    const lastSeen = new Date(u.lastSeen).getTime();
+    const sessionStart = u.sessionStart ? new Date(u.sessionStart).getTime() : lastSeen;
+    const sinceActive = (now - lastSeen) / 1000;
+    const sessionSec = Math.max(0, (now - sessionStart) / 1000);
+    const isKnown = u.user && u.user !== '(unknown)' && u.user.length > 0;
+    const isIdle = sinceActive > 60;
+    const cardClass = isKnown ? (isIdle ? 'idle' : 'known') : 'unknown';
+
+    let statusHTML;
+    if (!isKnown) statusHTML = '<div class="live-user-status status-unknown"><span class="mini-dot"></span>مجهول</div>';
+    else if (isIdle) statusHTML = '<div class="live-user-status status-idle"><span class="mini-dot"></span>غير نشط</div>';
+    else statusHTML = '<div class="live-user-status status-active"><span class="mini-dot"></span>نشط</div>';
+
+    const nameHTML = isKnown
+      ? '<div class="live-user-name">' + escapeHtml(u.user) + '</div>'
+      : '<div class="live-user-name unknown-name">' + escapeHtml(u.fingerprint.slice(0,16)) + '</div>';
+
+    const subParts = [];
+    if (u.city && u.city !== 'unknown') subParts.push(escapeHtml(u.city));
+    if (u.device && u.device !== 'unknown') subParts.push(escapeHtml(u.device));
+    const subHTML = subParts.length ? '<div class="live-user-sub">' + subParts.join('<span class="dot-sep"></span>') + '</div>' : '';
+
+    const actionBtn = isKnown
+      ? '<button class="live-action-btn" onclick="openMapModal(\'' + u.fingerprint + '\',\'' + escapeAttr(u.user) + '\')">✏️ تعديل الاسم</button>'
+      : '<button class="live-action-btn primary" onclick="openMapModal(\'' + u.fingerprint + '\',\'\')">🏷️ ربط بموظف</button>';
+
+    return '<div class="live-user-card ' + cardClass + '">' +
+      '<div class="live-user-top"><div class="live-user-identity">' + nameHTML + subHTML + '</div>' + statusHTML + '</div>' +
+      '<div class="live-user-metrics">' +
+        '<div class="live-metric"><div class="live-metric-label">الجلسة</div><div class="live-metric-value duration">' + formatDuration(sessionSec) + '</div></div>' +
+        '<div class="live-metric"><div class="live-metric-label">التاب</div><div class="live-metric-value">' + escapeHtml((u.tab || 'main').slice(0,18)) + '</div></div>' +
+        '<div class="live-metric"><div class="live-metric-label">آخر نشاط</div><div class="live-metric-value">قبل ' + timeSince(u.lastSeen) + '</div></div>' +
+      '</div>' +
+      '<div class="live-user-actions">' + actionBtn + '</div>' +
+      '</div>';
+  }
+
+  window.refreshLivePanel = async function() {
+    const list = document.getElementById('live-users-list');
+    const btn = document.getElementById('live-refresh-btn');
+    if (!list) return;
+    if (btn) btn.classList.add('refreshing');
+    try {
+      const res = await fetch(WEBHOOK + '?action=live');
+      const data = await res.json();
+      const users = data.live || [];
+      const now = Date.now();
+      let active = 0, idle = 0, unknown = 0;
+      users.forEach(u => {
+        const sinceActive = (now - new Date(u.lastSeen).getTime()) / 1000;
+        const isKnown = u.user && u.user !== '(unknown)' && u.user.length > 0;
+        if (!isKnown) unknown++;
+        else if (sinceActive > 60) idle++;
+        else active++;
+      });
+      const countEl = document.getElementById('live-count');
+      const activeEl = document.getElementById('live-active-count');
+      const idleEl = document.getElementById('live-idle-count');
+      const unknownEl = document.getElementById('live-unknown-count');
+      if (countEl) countEl.textContent = users.length;
+      if (activeEl) activeEl.textContent = active;
+      if (idleEl) idleEl.textContent = idle;
+      if (unknownEl) unknownEl.textContent = unknown;
+      users.sort((a, b) => {
+        const ak = a.user && a.user !== '(unknown)' && a.user.length > 0;
+        const bk = b.user && b.user !== '(unknown)' && b.user.length > 0;
+        if (ak !== bk) return ak ? -1 : 1;
+        return new Date(b.lastSeen) - new Date(a.lastSeen);
+      });
+      if (users.length === 0) {
+        list.innerHTML = '<div class="live-empty"><span class="live-empty-icon">◌</span><div>لا يوجد متصلون الآن</div></div>';
+      } else {
+        list.innerHTML = users.map(renderUserCard).join('');
+      }
+      const updated = document.getElementById('live-last-updated');
+      if (updated) updated.textContent = 'آخر تحديث: ' + new Date().toLocaleTimeString('ar-SA');
+    } catch (e) {
+      list.innerHTML = '<div class="live-empty"><span class="live-empty-icon">⚠️</span><div>تعذّر التحميل</div></div>';
+    } finally {
+      if (btn) setTimeout(() => btn.classList.remove('refreshing'), 500);
+    }
+  };
+
+  window.openMapModal = function(fp, currentUser) {
+    currentMapFp = fp;
+    document.getElementById('live-map-fp').textContent = fp;
+    document.getElementById('live-map-user').value = currentUser || '';
+    document.getElementById('live-map-secret').value = '';
+    document.getElementById('live-map-msg').textContent = '';
+    document.getElementById('live-map-modal').classList.add('open');
+    setTimeout(() => document.getElementById('live-map-user').focus(), 100);
+  };
+
+  window.closeMapModal = function() {
+    const m = document.getElementById('live-map-modal');
+    if (m) m.classList.remove('open');
+  };
+
+  window.submitMap = async function() {
+    const user = document.getElementById('live-map-user').value.trim();
+    const secret = document.getElementById('live-map-secret').value.trim();
+    const msg = document.getElementById('live-map-msg');
+    if (!user) { msg.className = 'live-map-msg err'; msg.textContent = 'يرجى إدخال اسم الموظف'; return; }
+    if (!secret) { msg.className = 'live-map-msg err'; msg.textContent = 'يرجى إدخال كلمة السر'; return; }
+    msg.className = 'live-map-msg'; msg.textContent = 'جاري الحفظ...';
+    try {
+      const res = await fetch(WEBHOOK + '?action=map', {
+        method: 'POST',
+        body: JSON.stringify({ fingerprint: currentMapFp, user: user, secret: secret })
+      });
+      const data = await res.json();
+      if (data.status === 'ok') {
+        msg.className = 'live-map-msg ok'; msg.textContent = '✓ تم الحفظ بنجاح';
+        setTimeout(() => { closeMapModal(); refreshLivePanel(); }, 900);
+      } else {
+        msg.className = 'live-map-msg err';
+        msg.textContent = data.message === 'unauthorized' ? 'كلمة السر خاطئة' : ('خطأ: ' + (data.message || 'فشل'));
+      }
+    } catch (e) {
+      msg.className = 'live-map-msg err';
+      msg.textContent = 'خطأ في الاتصال';
+    }
+  };
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      const modal = document.getElementById('live-map-modal');
+      if (modal && modal.classList.contains('open')) closeMapModal();
+    }
+  });
+
+  // ═══ استراتيجية: نحقن على الزر مباشرة + polling احتياطي ═══
+  function tryInject() {
+    const body = document.getElementById('sec-body');
+    if (body && !document.getElementById('live-presence-section')) {
+      return injectPanel();
+    }
+    return false;
+  }
+  
+  function hookSecurityButton() {
+    const btn = document.getElementById('sec-btn');
+    if (!btn) {
+      setTimeout(hookSecurityButton, 300);
+      return;
+    }
+    // نضيف listener إضافي (لا يُلغي الأصلي)
+    btn.addEventListener('click', function() {
+      setTimeout(tryInject, 100);
+      setTimeout(tryInject, 400);
+      setTimeout(tryInject, 800);
+    }, false);
+    // محاولة أولية
+    setTimeout(tryInject, 500);
+  }
+  
+  // Polling fallback - كل 2 ثانية يفحص إذا sec-body مرئي ويحقن
+  function fallbackPoller() {
+    const body = document.getElementById('sec-body');
+    if (body && body.offsetParent !== null && !document.getElementById('live-presence-section')) {
+      tryInject();
+    }
+  }
+  setInterval(fallbackPoller, 2000);
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', hookSecurityButton);
+  } else {
+    hookSecurityButton();
+  }
+})();
 </script>
 </body>
 </html>
