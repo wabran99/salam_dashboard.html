@@ -12,7 +12,8 @@
 -->
 
 <!-- ═══ VERSION HISTORY ═══
-  v18.0     · 2026-04-27 · Multi-User Auth + User Section + Role-based Filtering [Step 2.3.ب]
+  v18.0     · 2026-04-27 · Multi-User Auth + Welcome Modal + Greetings + Header Logo [FINAL]
+  v18.0-2.3ب · 2026-04-27 · User Section + Role-based Filtering [Step 2.3.ب]
   v18.0-2.3أ · 2026-04-27 · Session Management + Splash Screen [Step 2.3.أ]
   v18.0-2.2 · 2026-04-27 · First-Login Password Change + Strength Meter [Step 2.2]
   v17.0     · 2026-04-21 · Behavior Intel + Live Presence Panel + Tracker
@@ -807,7 +808,7 @@
     <!-- Footer -->
     <div class="auth-footer">
       <div>© 2026 Salam Mobile · Retail MT · جميع الحقوق محفوظة</div>
-      <div class="auth-footer-version">v18.0 · Step 2.3.ب</div>
+      <div class="auth-footer-version">v18.0 · Final ✨</div>
     </div>
     
   </div>
@@ -933,7 +934,7 @@
     try {
       const { data, error } = await state.supabase
         .from('users')
-        .select('id, username, display_name, role, is_active, must_change_password, auth_user_id')
+        .select('id, username, display_name, role, is_active, must_change_password, has_seen_welcome, auth_user_id')
         .eq('is_active', true);
       
       if (error) throw error;
@@ -1314,7 +1315,8 @@
       username: user.username,
       userId: user.id,
       authUserId: user.auth_user_id,
-      isAdmin: false
+      isAdmin: false,
+      hasSeenWelcome: user.has_seen_welcome === true
     };
     
     // Save last-user for next time
@@ -1428,7 +1430,7 @@
         
         const { data: userRow, error: userErr } = await state.supabase
           .from('users')
-          .select('id, username, display_name, role, is_active, must_change_password, auth_user_id')
+          .select('id, username, display_name, role, is_active, must_change_password, has_seen_welcome, auth_user_id')
           .eq('auth_user_id', session.user.id)
           .single();
         
@@ -1503,7 +1505,7 @@
     try {
       const { data, error } = await state.supabase
         .from('users')
-        .select('id, username, display_name, role, is_active, must_change_password, auth_user_id')
+        .select('id, username, display_name, role, is_active, must_change_password, has_seen_welcome, auth_user_id')
         .eq('is_active', true);
       
       if (error) throw error;
@@ -1533,6 +1535,10 @@
     const splashLogo = $('splashLogo');
     if (splashLogo) splashLogo.src = LOGO_B64;
     $('authLogo').src = LOGO_B64;
+    
+    // v18.0: Inject logo into dashboard header too
+    const hdrLogo = document.getElementById('hdrLogoImg');
+    if (hdrLogo) hdrLogo.src = LOGO_B64;
     
     if (!initSupabase()) {
       $('authUserList').innerHTML = `<div class="auth-loading"><span style="color:#FF6B6B;">⚠ فشل تحميل Supabase</span></div>`;
@@ -1632,17 +1638,24 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 /* v15.1: SVG Logo replaces text */
 .logo-wrap{display:flex;align-items:center;gap:8px;justify-self:start}
 /* v16: Better logo — SVG leaf + Google Font text */
-.logo-leaf-only{width:32px;height:36px;flex-shrink:0}
-.logo-leaf-only path{fill:url(#leafGrad2)}
-.logo-text-name{
-  font-family:'Baloo 2',system-ui,sans-serif;
-  font-size:30px;
-  font-weight:800;
-  color:#F9FBFA;
-  letter-spacing:-0.5px;
-  line-height:1;
-  text-shadow:0 1px 2px rgba(0,0,0,0.2);
+.logo-leaf-only{width:32px;height:36px;flex-shrink:0;display:none}
+.logo-text-name{display:none}
+
+/* v18.0: Official Salam logo for header */
+.hdr-logo-img{
+  height:42px;
+  width:auto;
+  display:block;
+  filter:drop-shadow(0 2px 8px rgba(47,197,191,0.18));
+  transition:transform 0.3s ease;
 }
+.hdr-logo-img:hover{
+  transform:scale(1.04);
+}
+@media (max-width:768px){
+  .hdr-logo-img{height:34px}
+}
+.logo-text-name{display:none !important}
 
 /* v15.1: Centered Title */
 .hdr-mid{text-align:center;justify-self:center}
@@ -4008,28 +4021,8 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <!-- v16.2: Mobile Menu Button -->
     <button class="mobile-menu-btn" onclick="toggleMobileSidebar()" id="mobile-menu-btn" aria-label="Menu">☰</button>
     <div class="logo-wrap" style="justify-self:unset">
-    <!-- v16: SVG leaf only (clean vector) -->
-    <svg class="logo-leaf-only" viewBox="0 0 40 48" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="leafGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#00D316"/>
-          <stop offset="50%" stop-color="#00A71C"/>
-          <stop offset="100%" stop-color="#007A14"/>
-        </linearGradient>
-        <filter id="leafGlow2" x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur stdDeviation="0.8" result="blur"/>
-          <feMerge>
-            <feMergeNode in="blur"/>
-            <feMergeNode in="SourceGraphic"/>
-          </feMerge>
-        </filter>
-      </defs>
-      <g filter="url(#leafGlow2)">
-        <!-- Rounded leaf shape -->
-        <path d="M 6 40 Q 2 26 6 14 Q 12 2 24 2 Q 34 2 36 12 Q 38 22 34 32 Q 30 42 20 44 Q 10 46 6 42 Q 4 41 6 40 Z"/>
-      </g>
-    </svg>
-    <span class="logo-text-name">salam</span>
+    <!-- v18.0: Official Salam logo (PNG, set via JS) -->
+    <img class="hdr-logo-img" id="hdrLogoImg" alt="Salam" />
     </div>
   </div>
   <div class="hdr-mid">
@@ -4227,9 +4220,9 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 
 <div class="wrap">
   <div class="sidebar">
-    <div class="sb-section">
+    <div class="sb-section" id="sbViewsSection">
       <div class="sb-lbl">Views</div>
-      <button class="sb-item senior active" onclick="setView('all',this)">
+      <button class="sb-item senior active" onclick="setView('all',this)" id="sbItemEqla">
         <span class="sb-d"></span>
         <span class="sb-name">
           <span class="sb-name-main">Eqla N Alshammari</span>
@@ -4237,16 +4230,16 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
         </span>
         <span class="sb-cnt" id="cnt-all">—</span>
       </button>
-      <button class="sb-item" onclick="setView('Abdulwahab',this)">
+      <button class="sb-item" onclick="setView('Abdulwahab',this)" id="sbItemAbdulwahab">
         <span class="sb-d" style="background:#F6C94E"></span>Abdulwahab M Alshammari<span class="sb-cnt" id="cnt-aw">—</span>
       </button>
-      <button class="sb-item" onclick="setView('Ahmed',this)">
+      <button class="sb-item" onclick="setView('Ahmed',this)" id="sbItemAhmed">
         <span class="sb-d" style="background:#85B7EB"></span>Ahmed AlMutairi<span class="sb-cnt" id="cnt-am">—</span>
       </button>
-      <button class="sb-item" onclick="setView('Mohammed',this)">
+      <button class="sb-item" onclick="setView('Mohammed',this)" id="sbItemMohammed">
         <span class="sb-d" style="background:#5DCAA5"></span>Mohammed AlShehri<span class="sb-cnt" id="cnt-ms">—</span>
       </button>
-      <button class="sb-item" onclick="setView('Najwa D AlOmari',this)">
+      <button class="sb-item" onclick="setView('Najwa D AlOmari',this)" id="sbItemNajwa">
         <span class="sb-d" style="background:#ED93B1"></span>Najwa D AlOmari<span class="sb-cnt" id="cnt-na">—</span>
       </button>
     </div>
@@ -13329,5 +13322,404 @@ setInterval(loadData,5*60*1000);
   }
 })();
 </script>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     v18.0 Step 2.3.ج: What's New Modal + Welcome Toast
+     ═══════════════════════════════════════════════════════════════ -->
+<style>
+/* What's New Modal */
+#whatsNewBackdrop{
+  position:fixed;inset:0;z-index:9999998;
+  background:rgba(5,16,15,0.85);
+  backdrop-filter:blur(12px) saturate(140%);
+  -webkit-backdrop-filter:blur(12px) saturate(140%);
+  display:none;
+  align-items:center;justify-content:center;
+  font-family:'IBM Plex Sans Arabic','Tajawal',-apple-system,sans-serif;
+  opacity:0;
+  transition:opacity 0.4s cubic-bezier(0.19,1,0.22,1);
+  padding:20px;
+}
+#whatsNewBackdrop.is-open{
+  display:flex;
+  opacity:1;
+}
+#whatsNewBackdrop.is-closing{opacity:0}
+.wn-modal{
+  position:relative;
+  width:100%;max-width:520px;
+  background:linear-gradient(180deg,rgba(15,47,46,0.98) 0%,rgba(8,30,29,0.98) 100%);
+  border:1px solid rgba(212,175,55,0.28);
+  border-radius:24px;
+  padding:38px 32px 32px;
+  box-shadow:0 30px 80px -20px rgba(0,0,0,0.7),0 0 0 1px rgba(255,255,255,0.05) inset;
+  transform:scale(0.92) translateY(20px);
+  opacity:0;
+  transition:all 0.5s cubic-bezier(0.19,1,0.22,1);
+}
+#whatsNewBackdrop.is-open .wn-modal{
+  transform:scale(1) translateY(0);
+  opacity:1;
+}
+.wn-glow{
+  position:absolute;top:-1px;left:20%;right:20%;height:2px;
+  background:linear-gradient(90deg,transparent,#D4AF37,transparent);
+  border-radius:2px;
+}
+.wn-logo-wrap{
+  display:flex;justify-content:center;
+  margin-bottom:18px;
+}
+.wn-logo{
+  height:48px;width:auto;
+  filter:drop-shadow(0 4px 16px rgba(47,197,191,0.25));
+}
+.wn-version-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(212,175,55,0.12);
+  border:1px solid rgba(212,175,55,0.3);
+  border-radius:30px;
+  padding:5px 14px;
+  font-size:11px;
+  font-weight:700;
+  color:#D4AF37;
+  letter-spacing:0.5px;
+  margin:0 auto 18px;
+  width:fit-content;
+}
+.wn-title{
+  font-size:24px;
+  font-weight:800;
+  color:#F7F9F9;
+  text-align:center;
+  margin-bottom:8px;
+  letter-spacing:-0.3px;
+  line-height:1.3;
+}
+.wn-subtitle{
+  font-size:13px;
+  color:rgba(247,249,249,0.65);
+  text-align:center;
+  margin-bottom:28px;
+  line-height:1.6;
+}
+.wn-features{
+  display:flex;flex-direction:column;gap:14px;
+  margin-bottom:28px;
+}
+.wn-feature{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:14px 16px;
+  background:rgba(212,175,55,0.05);
+  border:1px solid rgba(212,175,55,0.12);
+  border-radius:14px;
+  transition:all 0.25s ease;
+}
+.wn-feature:hover{
+  background:rgba(212,175,55,0.09);
+  border-color:rgba(212,175,55,0.25);
+}
+.wn-feature-icon{
+  flex-shrink:0;
+  width:38px;height:38px;
+  background:linear-gradient(135deg,rgba(212,175,55,0.18) 0%,rgba(18,123,119,0.12) 100%);
+  border:1px solid rgba(212,175,55,0.25);
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;
+}
+.wn-feature-text{flex:1;min-width:0}
+.wn-feature-title{
+  font-size:13.5px;font-weight:700;color:#F7F9F9;
+  margin-bottom:3px;line-height:1.3;
+}
+.wn-feature-desc{
+  font-size:12px;color:rgba(247,249,249,0.65);
+  line-height:1.5;
+}
+.wn-cta{
+  width:100%;
+  padding:14px 20px;
+  background:linear-gradient(135deg,#D4AF37 0%,#A8871D 100%);
+  border:none;border-radius:14px;
+  color:#1a1a1a;
+  font-size:14px;font-weight:800;
+  font-family:inherit;
+  cursor:pointer;
+  letter-spacing:0.3px;
+  transition:all 0.25s ease;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  box-shadow:0 8px 24px -8px rgba(212,175,55,0.4);
+}
+.wn-cta:hover{
+  transform:translateY(-1px);
+  box-shadow:0 12px 32px -8px rgba(212,175,55,0.55);
+  background:linear-gradient(135deg,#E5BF42 0%,#B8951F 100%);
+}
+.wn-cta:active{
+  transform:translateY(0);
+  box-shadow:0 4px 12px -4px rgba(212,175,55,0.4);
+}
+
+/* Welcome Toast */
+#welcomeToast{
+  position:fixed;
+  top:80px;
+  left:50%;
+  transform:translateX(-50%) translateY(-30px);
+  z-index:9999996;
+  background:linear-gradient(135deg,rgba(15,47,46,0.97) 0%,rgba(8,30,29,0.97) 100%);
+  backdrop-filter:blur(16px) saturate(140%);
+  -webkit-backdrop-filter:blur(16px) saturate(140%);
+  border:1px solid rgba(212,175,55,0.35);
+  border-radius:16px;
+  padding:14px 22px;
+  display:flex;align-items:center;gap:12px;
+  font-family:'IBM Plex Sans Arabic','Tajawal',-apple-system,sans-serif;
+  color:#F7F9F9;
+  font-size:14px;font-weight:600;
+  box-shadow:0 16px 40px -12px rgba(0,0,0,0.5),0 0 0 1px rgba(212,175,55,0.08) inset;
+  opacity:0;
+  pointer-events:none;
+  transition:all 0.5s cubic-bezier(0.19,1,0.22,1);
+  max-width:90vw;
+}
+#welcomeToast.is-visible{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+#welcomeToast .toast-emoji{
+  font-size:22px;
+  flex-shrink:0;
+}
+#welcomeToast .toast-text{
+  white-space:nowrap;
+  letter-spacing:0.2px;
+}
+@media (max-width:768px){
+  #welcomeToast{
+    font-size:13px;
+    padding:12px 18px;
+    top:70px;
+  }
+  #welcomeToast .toast-text{white-space:normal}
+}
+</style>
+
+<!-- What's New Modal HTML -->
+<div id="whatsNewBackdrop">
+  <div class="wn-modal">
+    <div class="wn-glow"></div>
+    <div class="wn-logo-wrap">
+      <img class="wn-logo" id="wnLogo" alt="Salam" />
+    </div>
+    <div style="text-align:center"><div class="wn-version-badge">✨ v18.0 — جديد</div></div>
+    <div class="wn-title" id="wnTitle">أهلاً بك في النسخة الجديدة 🎉</div>
+    <div class="wn-subtitle">إليك أبرز التحديثات اللي حضّرناها لك:</div>
+    
+    <div class="wn-features">
+      <div class="wn-feature">
+        <div class="wn-feature-icon">🔐</div>
+        <div class="wn-feature-text">
+          <div class="wn-feature-title">نظام دخول آمن جديد</div>
+          <div class="wn-feature-desc">كل واحد عنده حسابه الخاص — بياناتك محميّة بكلمة سرّك</div>
+        </div>
+      </div>
+      <div class="wn-feature">
+        <div class="wn-feature-icon">🎯</div>
+        <div class="wn-feature-text">
+          <div class="wn-feature-title">لوحتك مخصّصة لك</div>
+          <div class="wn-feature-desc">تشوف بياناتك وموظفينك فقط — بدون تشتّت</div>
+        </div>
+      </div>
+      <div class="wn-feature">
+        <div class="wn-feature-icon">⚡</div>
+        <div class="wn-feature-text">
+          <div class="wn-feature-title">جلسة آمنة لمدّة 30 يوم</div>
+          <div class="wn-feature-desc">ما تحتاج تسجّل دخول كل مرّة — جلستك محفوظة بأمان</div>
+        </div>
+      </div>
+    </div>
+    
+    <button class="wn-cta" id="wnCtaBtn" type="button">
+      <span>هيّا نبدأ</span>
+      <span style="font-size:18px">✨</span>
+    </button>
+  </div>
+</div>
+
+<!-- Welcome Toast HTML -->
+<div id="welcomeToast">
+  <span class="toast-emoji" id="toastEmoji">👋</span>
+  <span class="toast-text" id="toastText">أهلاً بك</span>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// v18.0 Step 2.3.ج: What's New Modal + Welcome Toast logic
+// ═══════════════════════════════════════════════════════════════
+(function(){
+  'use strict';
+  
+  // Inject logo into What's New modal
+  function injectWNLogo(){
+    const wnLogo = document.getElementById('wnLogo');
+    const splashLogo = document.getElementById('splashLogo');
+    const authLogo = document.getElementById('authLogo');
+    const src = (splashLogo && splashLogo.src) || (authLogo && authLogo.src) || '';
+    if (wnLogo && src) wnLogo.src = src;
+  }
+  
+  // Time-based + dialect-based + role-based greetings
+  function pickGreeting(auth){
+    const hour = new Date().getHours();
+    const isAdmin = auth.isAdmin;
+    const name = (auth.displayName || '').split(' ')[0]; // first name only for warmth
+    
+    if (isAdmin) {
+      const adminGreetings = [
+        { emoji: '🛡️', text: 'يا هلا بالقائد' },
+        { emoji: '👑', text: 'المعلّم وصل' },
+        { emoji: '⚡', text: 'الأدمن داخل المهمّة' }
+      ];
+      return adminGreetings[Math.floor(Math.random() * adminGreetings.length)];
+    }
+    
+    let pool;
+    if (hour >= 5 && hour < 12) {
+      pool = [
+        { emoji: '🌅', text: `صبّحك الله بالخير، ${name}` },
+        { emoji: '☀️', text: `يا هلا والله، ${name}` },
+        { emoji: '🌞', text: `الله حيّوه، ${name}` },
+      ];
+    } else if (hour >= 12 && hour < 17) {
+      pool = [
+        { emoji: '👋', text: `يا هلا، ${name}` },
+        { emoji: '✨', text: `حيّاك الله، ${name}` },
+        { emoji: '🌟', text: `أهلاً ${name}` },
+      ];
+    } else if (hour >= 17 && hour < 22) {
+      pool = [
+        { emoji: '🌙', text: `مساك الله بالخير، ${name}` },
+        { emoji: '⭐', text: `يا هلا والله، ${name}` },
+        { emoji: '💫', text: `حيّاك الله، ${name}` },
+      ];
+    } else {
+      pool = [
+        { emoji: '🌙', text: `ساهر الليل، ${name}` },
+        { emoji: '⭐', text: `يا هلا، ${name}` },
+        { emoji: '✨', text: `الله حيّوه، ${name}` },
+      ];
+    }
+    
+    return pool[Math.floor(Math.random() * pool.length)];
+  }
+  
+  function showWelcomeToast(auth){
+    const toast = document.getElementById('welcomeToast');
+    const emoji = document.getElementById('toastEmoji');
+    const text = document.getElementById('toastText');
+    if (!toast || !emoji || !text) return;
+    
+    const greeting = pickGreeting(auth);
+    emoji.textContent = greeting.emoji;
+    text.textContent = greeting.text;
+    
+    setTimeout(() => toast.classList.add('is-visible'), 100);
+    setTimeout(() => toast.classList.remove('is-visible'), 4500);
+  }
+  
+  function showWhatsNew(auth, onClose){
+    const backdrop = document.getElementById('whatsNewBackdrop');
+    const titleEl = document.getElementById('wnTitle');
+    const ctaBtn = document.getElementById('wnCtaBtn');
+    if (!backdrop) { onClose && onClose(); return; }
+    
+    injectWNLogo();
+    
+    // Personalize title based on role
+    let title = 'أهلاً بك في النسخة الجديدة 🎉';
+    if (auth.isAdmin)                   title = 'يا هلا بالقائد 🛡️';
+    else if (auth.role === 'executive') title = `أهلاً بك، ${auth.displayName} 🌟`;
+    else if (auth.role === 'manager')   title = `يا هلا والله، ${auth.displayName} ✨`;
+    else if (auth.role === 'supervisor')title = `حيّاك الله، ${auth.displayName} 👋`;
+    titleEl.textContent = title;
+    
+    backdrop.classList.add('is-open');
+    
+    const closeHandler = async () => {
+      ctaBtn.removeEventListener('click', closeHandler);
+      
+      // Mark has_seen_welcome=true in DB (only for non-admin users)
+      if (!auth.isAdmin && window.__SALAM_SUPABASE__ && auth.userId) {
+        try {
+          await window.__SALAM_SUPABASE__
+            .from('users')
+            .update({ has_seen_welcome: true })
+            .eq('id', auth.userId);
+          console.log('[WN] has_seen_welcome flag updated');
+          if (window.__SALAM_AUTH__) window.__SALAM_AUTH__.hasSeenWelcome = true;
+        } catch (err) {
+          console.warn('[WN] Could not update flag (continuing anyway):', err);
+        }
+      }
+      
+      backdrop.classList.add('is-closing');
+      setTimeout(() => {
+        backdrop.classList.remove('is-open', 'is-closing');
+        if (onClose) onClose();
+      }, 400);
+    };
+    ctaBtn.addEventListener('click', closeHandler);
+  }
+  
+  // Hide Views section for supervisors
+  function applyRoleBasedSidebar(auth){
+    const viewsSection = document.getElementById('sbViewsSection');
+    if (!viewsSection) return;
+    
+    if (auth.isAdmin || auth.role === 'executive' || auth.role === 'manager') {
+      viewsSection.style.display = '';
+    } else {
+      viewsSection.style.display = 'none';
+      console.log('[Sidebar] Views section hidden for supervisor');
+    }
+  }
+  
+  function handleAuthReady(auth){
+    if (!auth) return;
+    
+    applyRoleBasedSidebar(auth);
+    
+    const shouldShowWN = !auth.isAdmin && auth.hasSeenWelcome === false;
+    
+    if (shouldShowWN) {
+      setTimeout(() => {
+        showWhatsNew(auth, () => {
+          setTimeout(() => showWelcomeToast(auth), 300);
+        });
+      }, 800);
+    } else {
+      setTimeout(() => showWelcomeToast(auth), 600);
+    }
+  }
+  
+  document.addEventListener('salam:auth:ready', e => handleAuthReady(e.detail));
+  
+  // Also handle admin (URL bypass) — handle DOMContentLoaded since admin doesn't fire auth:ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.__SALAM_AUTH__ && window.__SALAM_AUTH__.isAdmin) {
+        handleAuthReady(window.__SALAM_AUTH__);
+      }
+    });
+  } else {
+    if (window.__SALAM_AUTH__ && window.__SALAM_AUTH__.isAdmin) {
+      handleAuthReady(window.__SALAM_AUTH__);
+    }
+  }
+})();
+</script>
+
 </body>
 </html>
