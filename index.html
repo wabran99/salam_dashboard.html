@@ -7,13 +7,14 @@
    Designed & Developed by: Eng. Abdulwahab M Alshammari
    Internal Use Only — © 2026 All Rights Reserved
    Unauthorized copying, modification, or redistribution prohibited.
-   Built: v17.0 · April 2026 · Build ID: WAB-2026-04-21-INTEL
+   Built: v18.0 · April 2026 · Build ID: WAB-2026-04-27-USERS
  ═══════════════════════════════════════════════════════════════════
 -->
 
 <!-- ═══ VERSION HISTORY ═══
+  v18.0     · 2026-04-27 · Multi-User Auth System (Supabase) + Login UI [Step 2.1]
   v17.0     · 2026-04-21 · Behavior Intel + Live Presence Panel + Tracker
-  v16.9.10 · 2026-04-21 · Najwa name mapping fix + mk() function
+  v16.9.10  · 2026-04-21 · Najwa name mapping fix + mk() function
   v16.9.9  · 2026-04-20 · FORTRESS Security + Full Lockdown + PIN Gate
   v16.9.8  · 2026-04-20 · Mobile Blur fix + Most Improved + Fiber/5G columns
   v16.9.7  · earlier    · Security Panel (Admin-only)
@@ -24,435 +25,1088 @@
 
 <html lang="en">
 <head>
-<!-- ═══ FORTRESS GATE v17.0 · Behavior Intel + Full Lockdown ═══ -->
-<script>
-/* ════════════════════════════════════════════════════════════════
-   🚪 FORTRESS GATE v17.0 — Lockdown + Behavior Intel
-   Requires PIN entry before ANY dashboard access
-   ════════════════════════════════════════════════════════════════ */
+<!-- ═══════════════════════════════════════════════════════════════════
+   🔐 SALAM AUTH SYSTEM v18.0 — Step 2.1 (Login UI)
+   Multi-User Authentication via Supabase
+   Replaces: FORTRESS GATE v17.0
+   Build: WAB-2026-04-27-USERS
+   ═══════════════════════════════════════════════════════════════════ -->
 
+<!-- Supabase Client -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- Premium Fonts (Tajawal Arabic + Manrope English) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- ═══ AUTH STYLES ═══ -->
+<style>
+/* ─── Auth-only design tokens (scoped, won't affect dashboard) ──── */
+:root {
+  --auth-green-deepest: #051A0E;
+  --auth-green-darker: #0A3D1F;
+  --auth-green-deep: #0A5F5C;
+  --auth-green-mid: #127B77;
+  --auth-green-light: #1A9994;
+  --auth-green-glow: #2FC5BF;
+  
+  --auth-gold: #D4AF37;
+  --auth-gold-light: #E8C962;
+  --auth-gold-deep: #A8871D;
+  --auth-gold-glow: rgba(212, 175, 55, 0.4);
+  
+  --auth-text: #F7F9F9;
+  --auth-text-soft: rgba(247, 249, 249, 0.72);
+  --auth-text-muted: rgba(247, 249, 249, 0.45);
+  
+  --auth-glass-bg: rgba(15, 47, 46, 0.55);
+  --auth-glass-border: rgba(212, 175, 55, 0.18);
+  --auth-glass-highlight: rgba(247, 249, 249, 0.06);
+  
+  --auth-shadow-soft: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+  --auth-shadow-hard: 0 30px 80px -20px rgba(0, 0, 0, 0.75);
+  --auth-shadow-gold: 0 8px 30px -5px rgba(212, 175, 55, 0.35);
+  
+  --auth-danger: #E53935;
+  --auth-danger-glow: rgba(229, 57, 53, 0.4);
+  
+  --auth-ease-soft: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --auth-ease-expo: cubic-bezier(0.19, 1, 0.22, 1);
+  --auth-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   AUTH OVERLAY (covers entire viewport, on top of dashboard)
+   ═══════════════════════════════════════════════════════════════════ */
+#salamAuthOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Tajawal', -apple-system, sans-serif;
+  color: var(--auth-text);
+  background: var(--auth-green-deepest);
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Hide scrollbar on overlay */
+#salamAuthOverlay::-webkit-scrollbar { width: 0; }
+
+/* ─── Animated Background Layers ──── */
+.auth-bg-gradient {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: 
+    radial-gradient(ellipse at top right, rgba(18, 123, 119, 0.32) 0%, transparent 55%),
+    radial-gradient(ellipse at bottom left, rgba(212, 175, 55, 0.10) 0%, transparent 55%),
+    linear-gradient(180deg, var(--auth-green-deepest) 0%, #061514 100%);
+}
+
+.auth-bg-orbs {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.auth-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.5;
+  animation: authFloat 22s ease-in-out infinite;
+  will-change: transform;
+}
+
+.auth-orb-1 {
+  width: 520px;
+  height: 520px;
+  background: radial-gradient(circle, var(--auth-green-mid) 0%, transparent 70%);
+  top: -180px;
+  right: -120px;
+}
+
+.auth-orb-2 {
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, var(--auth-gold) 0%, transparent 70%);
+  bottom: -140px;
+  left: -120px;
+  opacity: 0.18;
+  animation-delay: -8s;
+}
+
+.auth-orb-3 {
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, var(--auth-green-glow) 0%, transparent 70%);
+  top: 38%;
+  left: 42%;
+  opacity: 0.22;
+  animation-delay: -14s;
+}
+
+@keyframes authFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(40px, -30px) scale(1.06); }
+  66%      { transform: translate(-30px, 25px) scale(0.94); }
+}
+
+/* Subtle grain texture for premium feel */
+.auth-bg-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.04;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   MAIN CONTAINER
+   ═══════════════════════════════════════════════════════════════════ */
+.auth-container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 460px;
+  padding: 40px 24px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  animation: authFadeUp 0.7s var(--auth-ease-expo) both;
+}
+
+@keyframes authFadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Brand / Logo Header ──── */
+.auth-brand {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.auth-logo {
+  width: 200px;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 6px 28px rgba(47, 197, 191, 0.18));
+  animation: authLogoGlow 4s ease-in-out infinite;
+}
+
+@keyframes authLogoGlow {
+  0%, 100% { filter: drop-shadow(0 6px 28px rgba(47, 197, 191, 0.18)); }
+  50%      { filter: drop-shadow(0 6px 36px rgba(47, 197, 191, 0.32)); }
+}
+
+.auth-brand-title {
+  font-family: 'Manrope', -apple-system, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--auth-text);
+  margin-top: 4px;
+}
+
+.auth-brand-subtitle {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--auth-text-muted);
+  letter-spacing: 0.3px;
+}
+
+.auth-brand-divider {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--auth-gold), transparent);
+  margin: 4px 0;
+  border-radius: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   GLASS CARD (the login form container)
+   ═══════════════════════════════════════════════════════════════════ */
+.auth-card {
+  width: 100%;
+  background: var(--auth-glass-bg);
+  backdrop-filter: blur(24px) saturate(140%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  border: 1px solid var(--auth-glass-border);
+  border-radius: 28px;
+  padding: 36px 28px;
+  box-shadow: var(--auth-shadow-hard);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Top highlight line on the card */
+.auth-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--auth-gold-glow), transparent);
+}
+
+/* Step container — only one visible at a time */
+.auth-step {
+  display: none;
+  animation: authStepIn 0.5s var(--auth-ease-expo) both;
+}
+
+.auth-step.active {
+  display: block;
+}
+
+@keyframes authStepIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ─── Step Header ──── */
+.auth-step-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.auth-step-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--auth-gold) 0%, var(--auth-gold-deep) 100%);
+  color: #1a1a1a;
+  font-weight: 800;
+  font-size: 14px;
+  flex-shrink: 0;
+  box-shadow: var(--auth-shadow-gold);
+}
+
+.auth-step-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--auth-text);
+}
+
+/* ─── Search Input ──── */
+.auth-input-group {
+  margin-bottom: 18px;
+}
+
+.auth-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 0 16px;
+  transition: all 0.3s var(--auth-ease-soft);
+}
+
+.auth-input-wrapper:focus-within {
+  border-color: var(--auth-gold);
+  box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.12);
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.auth-input-icon {
+  display: flex;
+  align-items: center;
+  color: var(--auth-text-muted);
+  margin-left: 10px;
+  flex-shrink: 0;
+}
+
+.auth-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 14px 0;
+  color: var(--auth-text);
+  font-size: 15px;
+  font-family: inherit;
+  width: 100%;
+}
+
+.auth-input::placeholder {
+  color: var(--auth-text-muted);
+  font-weight: 500;
+}
+
+/* ─── User List (Step 1) ──── */
+.auth-user-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 360px;
+  overflow-y: auto;
+  margin: 0 -8px;
+  padding: 0 8px;
+}
+
+.auth-user-list::-webkit-scrollbar { width: 4px; }
+.auth-user-list::-webkit-scrollbar-thumb { background: var(--auth-glass-border); border-radius: 4px; }
+
+.auth-user-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.25s var(--auth-ease-soft);
+  text-align: right;
+  width: 100%;
+}
+
+.auth-user-item:hover {
+  background: rgba(212, 175, 55, 0.08);
+  border-color: var(--auth-gold-glow);
+  transform: translateX(-4px);
+}
+
+.auth-user-item:active {
+  transform: translateX(-4px) scale(0.98);
+}
+
+.auth-user-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--auth-green-mid) 0%, var(--auth-green-deep) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--auth-text);
+  flex-shrink: 0;
+  border: 1.5px solid rgba(212, 175, 55, 0.25);
+  font-family: 'Manrope', sans-serif;
+}
+
+.auth-user-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.auth-user-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--auth-text);
+  font-family: 'Manrope', sans-serif;
+  letter-spacing: 0.2px;
+}
+
+.auth-user-meta {
+  font-size: 11px;
+  color: var(--auth-text-muted);
+  letter-spacing: 0.3px;
+}
+
+.auth-user-arrow {
+  color: var(--auth-text-muted);
+  transition: transform 0.25s var(--auth-ease-soft);
+  flex-shrink: 0;
+}
+
+.auth-user-item:hover .auth-user-arrow {
+  color: var(--auth-gold);
+  transform: translateX(-4px);
+}
+
+/* ─── Selected User Card (Step 2) ──── */
+.auth-selected {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  margin-bottom: 22px;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(18, 123, 119, 0.06) 100%);
+  border: 1px solid var(--auth-gold-glow);
+  border-radius: 16px;
+}
+
+.auth-selected .auth-user-avatar {
+  width: 50px;
+  height: 50px;
+  font-size: 17px;
+}
+
+.auth-selected-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--auth-text);
+  font-family: 'Manrope', sans-serif;
+}
+
+.auth-selected-meta {
+  font-size: 12px;
+  color: var(--auth-text-muted);
+  margin-top: 2px;
+}
+
+/* ─── Back Button ──── */
+.auth-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  color: var(--auth-text-soft);
+  padding: 6px 0;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s;
+  margin-bottom: 16px;
+  font-family: inherit;
+}
+
+.auth-back-btn:hover {
+  color: var(--auth-gold);
+}
+
+/* ─── Password Input (Step 2) ──── */
+.auth-password-wrapper {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.auth-password-toggle {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--auth-text-muted);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  z-index: 5;
+}
+
+.auth-password-toggle:hover { color: var(--auth-gold); }
+
+.auth-password-input {
+  padding-left: 44px !important;
+}
+
+/* ─── Primary Button (Login) ──── */
+.auth-btn-primary {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--auth-gold) 0%, var(--auth-gold-deep) 100%);
+  color: #1a1a1a;
+  font-size: 15px;
+  font-weight: 800;
+  font-family: 'Manrope', sans-serif;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.3s var(--auth-ease-soft);
+  box-shadow: var(--auth-shadow-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.auth-btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 36px -4px rgba(212, 175, 55, 0.5);
+}
+
+.auth-btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.auth-btn-primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* ─── Hint / Helper Text ──── */
+.auth-hint {
+  font-size: 12px;
+  color: var(--auth-text-muted);
+  text-align: center;
+  margin-top: 14px;
+  line-height: 1.6;
+}
+
+.auth-hint a, .auth-hint .auth-link {
+  color: var(--auth-gold);
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.auth-hint a:hover, .auth-hint .auth-link:hover {
+  text-decoration: underline;
+}
+
+/* ─── Error Message ──── */
+.auth-error {
+  display: none;
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(229, 57, 53, 0.10);
+  border: 1px solid var(--auth-danger-glow);
+  color: #FF6B6B;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+  animation: authShake 0.4s ease;
+}
+
+.auth-error.show { display: block; }
+
+@keyframes authShake {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-6px); }
+  75%      { transform: translateX(6px); }
+}
+
+/* ─── Footer ──── */
+.auth-footer {
+  text-align: center;
+  font-size: 11px;
+  color: var(--auth-text-muted);
+  letter-spacing: 0.3px;
+  margin-top: 8px;
+}
+
+.auth-footer-version {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 3px 10px;
+  background: rgba(212, 175, 55, 0.08);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  border-radius: 8px;
+  color: var(--auth-gold-deep);
+  font-size: 10px;
+  font-weight: 600;
+  font-family: 'Manrope', sans-serif;
+  letter-spacing: 0.5px;
+}
+
+/* ─── Loading State ──── */
+.auth-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 40px 0;
+  color: var(--auth-text-muted);
+  font-size: 13px;
+}
+
+.auth-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(212, 175, 55, 0.15);
+  border-top-color: var(--auth-gold);
+  border-radius: 50%;
+  animation: authSpin 0.8s linear infinite;
+}
+
+@keyframes authSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* ─── Mobile Responsive ──── */
+@media (max-width: 480px) {
+  .auth-container { padding: 24px 16px; gap: 24px; }
+  .auth-card { padding: 28px 20px; border-radius: 24px; }
+  .auth-logo { width: 160px; }
+  .auth-brand-title { font-size: 18px; }
+  .auth-step-title { font-size: 18px; }
+  .auth-user-list { max-height: 320px; }
+}
+
+@media (max-width: 360px) {
+  .auth-logo { width: 140px; }
+  .auth-card { padding: 24px 16px; }
+}
+</style>
+
+<!-- ═══ AUTH OVERLAY MARKUP ═══ -->
+<div id="salamAuthOverlay">
+  
+  <!-- Animated background -->
+  <div class="auth-bg-gradient"></div>
+  <div class="auth-bg-orbs">
+    <div class="auth-orb auth-orb-1"></div>
+    <div class="auth-orb auth-orb-2"></div>
+    <div class="auth-orb auth-orb-3"></div>
+  </div>
+  <div class="auth-bg-grain"></div>
+  
+  <!-- Main container -->
+  <div class="auth-container">
+    
+    <!-- Brand / Logo -->
+    <div class="auth-brand">
+      <img class="auth-logo" id="authLogo" alt="Salam" />
+      <div class="auth-brand-divider"></div>
+      <h1 class="auth-brand-title">DASHBOARD</h1>
+      <p class="auth-brand-subtitle">Salam Mobile · Retail MT</p>
+    </div>
+    
+    <!-- Glass Card -->
+    <div class="auth-card">
+      
+      <!-- ═══ STEP 1: Select User ═══ -->
+      <div class="auth-step active" id="authStep1">
+        
+        <div class="auth-step-header">
+          <span class="auth-step-badge">1</span>
+          <h2 class="auth-step-title">اختر اسمك</h2>
+        </div>
+        
+        <!-- Search input -->
+        <div class="auth-input-group">
+          <div class="auth-input-wrapper">
+            <span class="auth-input-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="m21 21-4.3-4.3"/>
+              </svg>
+            </span>
+            <input
+              type="text"
+              id="authUserSearch"
+              class="auth-input"
+              placeholder="ابحث بالاسم..."
+              autocomplete="off"
+              spellcheck="false"
+            />
+          </div>
+        </div>
+        
+        <!-- User list -->
+        <div class="auth-user-list" id="authUserList">
+          <div class="auth-loading">
+            <div class="auth-spinner"></div>
+            <span>جاري تحميل الحسابات...</span>
+          </div>
+        </div>
+        
+      </div>
+      
+      <!-- ═══ STEP 2: Password ═══ -->
+      <div class="auth-step" id="authStep2">
+        
+        <button class="auth-back-btn" id="authBackBtn" type="button">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="m15 18-6-6 6-6"/>
+          </svg>
+          <span>رجوع</span>
+        </button>
+        
+        <!-- Selected user display -->
+        <div class="auth-selected" id="authSelectedUser">
+          <div class="auth-user-avatar" id="authSelectedAvatar">–</div>
+          <div>
+            <div class="auth-selected-name" id="authSelectedName">—</div>
+            <div class="auth-selected-meta" id="authSelectedMeta">—</div>
+          </div>
+        </div>
+        
+        <div class="auth-step-header">
+          <span class="auth-step-badge">2</span>
+          <h2 class="auth-step-title">كلمة السرّ</h2>
+        </div>
+        
+        <!-- Password input -->
+        <div class="auth-input-group">
+          <div class="auth-input-wrapper auth-password-wrapper">
+            <button type="button" class="auth-password-toggle" id="authPwdToggle" aria-label="إظهار/إخفاء">
+              <svg id="authEyeShow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+              <svg id="authEyeHide" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;">
+                <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/>
+                <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/>
+                <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/>
+                <line x1="2" x2="22" y1="2" y2="22"/>
+              </svg>
+            </button>
+            <input
+              type="password"
+              id="authPasswordInput"
+              class="auth-input auth-password-input"
+              placeholder="••••••••"
+              autocomplete="current-password"
+            />
+          </div>
+        </div>
+        
+        <button class="auth-btn-primary" id="authLoginBtn" type="button">
+          <span id="authLoginBtnText">دخول</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </button>
+        
+        <div class="auth-error" id="authError"></div>
+        
+        <p class="auth-hint" id="authHintNormal">
+          نسيت كلمة السرّ؟ <span class="auth-link" id="authForgotLink">تواصل مع الإدارة</span>
+        </p>
+        
+      </div>
+      
+    </div>
+    
+    <!-- Footer -->
+    <div class="auth-footer">
+      <div>© 2026 Salam Mobile · Retail MT · جميع الحقوق محفوظة</div>
+      <div class="auth-footer-version">v18.0 · Step 2.1</div>
+    </div>
+    
+  </div>
+  
+</div>
+<!-- ═══ END AUTH OVERLAY MARKUP ═══ -->
+
+
+<!-- ═══ AUTH SCRIPT (Step 2.1: UI + Supabase connection only) ═══ -->
+<script>
 (function() {
   'use strict';
   
-  const GATE_CONFIG = {
-    PIN: '5577',
-    MAX_ATTEMPTS: 3,
-    LOCK_DURATION: 60 * 60 * 1000,  // 1 hour
-    SESSION_DURATION: 30 * 60 * 1000,  // 8 hours after successful login
-    TELEGRAM_BOT: '8294900462:AAFIZq_4PlvE6tC69Jy3I5XTQXzxbHrVjoY',
-    TELEGRAM_CHAT: '407207051'
+  // ════════════════════════════════════════════════════════════════════
+  // CONFIG
+  // ════════════════════════════════════════════════════════════════════
+  
+  const SUPABASE_URL = 'https://xyayxdwwqjkbwqlgvqek.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_b3JrdhDOSV7wCNJNwbHOSw_briOnbHi';
+  
+  // ════════════════════════════════════════════════════════════════════
+  // ADMIN BYPASS — preserve existing ?admin=WAB2026 link behavior
+  // ════════════════════════════════════════════════════════════════════
+  const urlParams = new URLSearchParams(window.location.search);
+  const adminToken = urlParams.get('admin');
+  
+  if (adminToken === 'WAB2026') {
+    // Admin link — skip auth entirely, dashboard loads directly
+    console.log('%c🛡️ Admin Mode Active', 'color:#D4AF37;font-weight:bold;font-size:14px;');
+    document.documentElement.style.setProperty('--admin-mode', '1');
+    window.__SALAM_AUTH__ = {
+      mode: 'admin',
+      role: 'admin',
+      displayName: 'Admin',
+      username: 'admin',
+      isAdmin: true
+    };
+    return; // Don't render auth overlay
+  }
+  
+  // ════════════════════════════════════════════════════════════════════
+  // LOGO (Base64 — Salam official logo)
+  // ════════════════════════════════════════════════════════════════════
+  const LOGO_B64 = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAE3AmIDASIAAhEBAxEB/8QAHQABAAEFAQEBAAAAAAAAAAAAAAkBAgYHCAUDBP/EAFkQAAIBAwIDBAMICg0KBAcAAAABAgMEEQUGByExCBJBURNhcQkiMjd1gZGzFBUYcnSVobGytBcjNDU4QlJWc3aSwdMWJDNDU4LC0eLwJWWUojZGYmNkk+T/xAAbAQEBAQADAQEAAAAAAAAAAAAAAQIDBQYEB//EADERAQEAAQMDAwMDAgUFAAAAAAABAgMRMQQSIQVBUQZCYRMiMtHwFCMzkbFScaHB4f/aAAwDAQACEQMRAD8A4yAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD3NpbbvNw3saFtFtOXd5dX5+zl4smWUxm9cerq4aWNzzu0eGfeFleTipRtK8otZTVNtNHRW2eGG3NLjTrXtrTvLmOH77LhFp55eLfPr48vIyl6Ro8Y92Ol2KXj+0Q5/kOk1fXdHHLtwlrzXUfVGlhdtPHdyPUpzpTcKkJQkusZLDRadNbl2JtzWqUlUsoW9X+LOly7r9n/LBpbfGw9V2/cSq06TuLOT95Omm/wDv8/txk+3pfUdHqfE8V93Qeu9P1d7b+3L8sOAB97uwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOjuDOgQ0XbMLqtiV1c5l3ufvY5eEs9Mv6eTOfdEt5XWrWtCPWVReLXJc3zXjyOrtPoxtLG3tYZxSpxgvmSWTpPW9a46Uwnu8n9U9VcNPDRl58v1yl8583LJZKayfOVRLODy8xeGt918peR+e6jSr0ZUq1ONSEliUZLKftRScz4zqrostnNp4WXeMXV7bvOWquInDn/SanoMF4yqUPF9OnP2/Tz8zU84yhNwnFxlF4aaw0zqaTyv++ZgvEHZNtrMPsyxiqN5Hqox+GvZ/wB/8/R9D6hbthq/7vWeifUtlmh1N8e1/q0kC+tSnRrTo1Y92pTk4yXk08MsO6e7l38wAAUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEu+hbV2zp2j2llZaBplC3oUYQp04WsMRikkvA/d9odDx+82nf+mh/yKxMsrOEPQOtvdH7GystZ2WrOzoWynb3ne9FTUE/fUeuFzOSSNY3eAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADK+E1ir7fFlBrPom6uPB465+bJ0e59eppjgDZp3l/ft57sVTSx0fXP5X9Bt2dTC68+mDzHrGVz1pj8Pzj6n6mZ9Z2/8ATJ/V9pzPhUqpdG37D5TqOSx0R83LB12Om8vlq2+Ivc5Pq/mPm5Mtci1y59TmmMcW1tXN5LHL5yjKNmtm5iw3iLtKnrNpK8tIKN5TTaXPEumfneDSs4yhOUJxcZReGmsNPyOmpS88I1vxQ2n9kKprNipekhD9spJZTSy8rxzzO56Dq9/8vN7b6d9a7LOm1r49r/6arAB273YAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJkrT9y0vvF+Y+z6HxtP3LS+8X5j7PoKzhxHE3ulv79bI/B7z9KicgHX/ulv79bI/B7z9KicgAx4AAGgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC+hTlWr06MWlKclFZ6ZbwEt2m9by4OWsrXZ9KrOPdqV5yl7Y55fnZmTeDztCoq20e1o4w4002vW+f95+yT5nk+oy79bLJ+M+o616jqtTU+bV0mWORa2UZxyPlmKrZRtFG/AscjUjkmMi5ySLJS8nj1lrk/Etb8DUxakV7z9ZZUSnCUJJOMlhp9A3gtcjknjhvHeXeNPcSdvR0m/VzbU5+hrSlJvm0nnz8Ob8/LHiYedAa/p1HVdMq2dZNqS5PvNc/m+j5zQ+pWk7G/rWlRtypScW3Fr8jO+6TX/Vw88x+k+geo/4rR/Tz/lj/AOX5wAfU78AAAvoUqtetChQpzq1aklCEIRblKTeEkl1bPT2dt3Vt27nsNuaFbO51G/qqlQpp4WcZbb8Ekm2/BJkjvZ+4B7U4W6bSu3b0tU3JUppXOpVo5cX4xop/Ajnx+E/F9EjNy87Tlxzw87L3Fjd1Kld1tJo7fsaqjKNbVano5yi3zxSinUTxzxJRT8zcO3+xBRUe/r2/qkpcv2uy09Rx/vTm8/2UdkJewrgb7JtbzXJ9XsR7SdPFLemuRn5yo0pL6EkYZuTsS7ioRqz2/vXTb7GXTp3dpOg35JuLmvnwvYdx4H0FO2/KKLiLwj4i7Am3ufa97bWyy1d0kq1u1nr6SDcY564lh+owUmSubehc0J0LijTrUpxanCcVKMl5NPqcsdoPsm6NrlG41/hrSo6RqySlPSsqFncdc+j5ftU34Je85JYjlyIb2cuFAfq1fTr/AEjU7nS9UtK1ne2tR0q9CtFxnTkuqaZ+UN8gB0t2VOzbW37Gju7e1Gva7Zzm1tU3Tqah68rDjS9aw5eDXUJbs0xw24a724iX7tNpaBdX8YS7tW4woW9HpnvVJYinhp93Pea6JnRe1OxLrFeNKrufe1nZ5WalCxtJVpJ46d+Tiuvj3Wdm6DpGmaHpdDS9H0+2sLG3ioUaFvTUIQXqSPQaXkVna33corsSbN7mHvLX3Pz9FRx9GP7zGdzdiK7hmptvfVKqscqV/ZOLz9/CT/RO1OQwQ7fyik4pcIt/8Nq+N0aFVpWkninfUH6W2n4L38fgt+UsP1HlcNNibk4ibmht7a1pTub105VZekqxpxp049ZSb8MtLlnm15ksmr6dY6tp1fTtTsre9s7iDp16Femp06kX1jKLTTXqZpHhhwGteG3H273Ztmfd25qOkXFCVpOTcrSs6tGSjFvrBqMsZ5ru458iluU8OZF2QeMLX+g0P8Yf9I+5B4w/7DQvxh/0kiqRR9AbX5Q76/pd1omu6hot8oK6sLqpa11B5j36cnGWH4rKZ+EyrjB8bW8fl6++vmYqRqXeJkrT9y0vvF+Y+z6HxtP3LS+8X5j7PoKmHEcTe6W/v1sj8HvP0qJyAdf+6W/v1sj8HvP0qJyADHgAAaDNOGvCzfnES69FtTb1zeUVJKpdzxTt6fPDbqSwuXXCy/JM3b2U+zVPeVC13pvqjOjt+fdq2Vj76FS9WfhT6ONJrmsc5Jpppc33Toul6do2m0NN0qxt7Kyt4KFGhQpqEKcV4JJJIuzHdbw4z2l2JNTrQhV3Rva2tm4++o6fauriX383Hl/umV/cSbN7mP8ALHX+95+ipY+ju/3nV2ByIdv5cT7q7Eeo0qc6m2N8W1xJRbjR1C0dLMvv4OXLp/FOd+J/CjfnDi69FurQa1vbyeKd5Sfpbep7KkeSfqeH6iWDCPw65pWna1pdxpmrWNvfWNxB061CvTU4Ti/Bp8im2U4qKHhfw+3RxI3J9odq2Mbm6jSdarOpNQp0qawu9KT6c2l4ttm1/uQeMP8AsND/ABh/0nUXBvgfb8LeMmua5oNac9u6tp0o0qFSScrSr6aEvReuGG+63lpLDbfN7zXQJLll+EdT7IPGFf6jQ/xh/wBJonW9OudI1m+0m8UVc2VxUt6yi8rvwk4yw/FZTJiX0a8SI7in8Z26vlq8+umFm/ds8rbulXevbg07Q7BQd3qN1StKCnLEfSVJqEcvwWWjea7IPGF/6jQvxh/0mquC/wAcWyv6wWH6xAlp8iLd90db7IPGFdaGhfjD/pNQ8SNkbi4fbprbb3PaRtr+nCNRKFRThOEukoyXVcn9DJcseBqzWuDWhbi45Q4k7ipU7+Nlp9C206ynHNOFWE5ydaafKTXeSiuieX17uKz5n5cV8J+zHxJ35Z0NUrW1Db2lVsuFfUlKNSpHzhSS7zT8HLuprmmzd2j9iHQoW0VrG+tSuK/8Z2tnClH5lJyf5TrnC8kV5Bdr71yHrnYi0SdrL7S751GhcJe9+y7SFWD9T7ri0aE4xdnbiHw3taup3VpS1jRaSzO/sG5KkvOpB++gvXhx9ZJuj51qdOrTlTqQjOEliUZLKa8n6gbWcVDYZdw14bb04i6n9g7S0K4vu7LFa4fvKFHp8OpLEVyecZ7z8EzrLiT2SLHWOMOnajt2VDS9pXrlV1S2pYg7aUefdorpieUsYSjh9eSOndoba0PaWg2+h7e02207T7aPdp0aMO6s+Mn5yfVt5bfNg7reI5C2l2I9Qq04Vd073t7aTinKhp9o6mH/AEk3H1/xTKZdiTZ3cxHeWvd/zdKjj6MHV2A0ibnb+XDe8+xRuG0pVa+1N32OpNLMLe+t5W835rvxck318Ec2b52ZujY+rvSd16Ld6VeYbUa0fezS8YTWYzXNc4tol3aMW4kbE21xB23W0Hc2m0by2mm6c3FekoTxyqU5dYyWXzXhldG06bZY8eUSIM+47cMtV4Vb8r7d1CbuLWcfTWF2otRuKLbw/vljDXg/U0YCRqXebwAAUAAAAAD2dk2n2buixt3Byi6nvnjPdXn9ODxjO+C9rCtuCvXlHLoU08+Wc/34OLWy7NO5Pi9S1v0el1M/if8AxuRPCSSwkUb9ZTOEWynjk+vqPLPx/t3u6+TS6Hzc+XXmWylyLG/Jmpi1IucufPmWt8y3OCjlg3JGpFW+ZbKRblFrefE3I1IucijZa2UbRqTw3INmt+LGhxjOOtW8cZxCuklj1S9vh9BsVvK6n5NWsqGo6fWs7iCnTqRw0/yP5mfR02f6ee7s/S+svR9Rjqe3F/7NBA+19Qla3te1k8yo1JU28Yy08HxO8fqEss3gAArtL3OfZFstO1vf13bqVzOt9r7Kckn3IJKVRx8m24r2R9Z2KsI0L2DvQ/c7aX6Lu9/7Nu/S46970r6/7vdN9ItYw96NpGtN+8deFmyLypYa9u20V9Sl3KlrbRlcVacvKSpp9x/fYMw31aatf7M1qx0K7VnqtxYV6VlcN49FWlTahL5pNMii3ttLde09Xq2W69F1DTbzv++dzTeJt88qfOM88+abBb523d9fddcG+/3ftjq2P5X2unj/AJme8PuMvDXfdSFvtzdljXu5/BtKzdCu/PFOolJ/NkipLqc506kalOcoTi04yi8NNdGmQ7b8plMrwaMC4wcV9ncL9Gd9uTUY/ZU4OVtp9BqVzcNeEY56ZxmTwl5nDexu1LxO2tsy5287qhq1TuRhY31+nUrWi6Nf/cWOney0/NcjTe49c1fcesV9Y1zUbnUL+4l3qtevUc5Sfz9F6lyXgkin7r4ZVx14iVeKHEO63VU0m10uE6caNKjR5ycIt92VSX8afPDeFySWORggBGpJJtG6OyTwifFHiAqupwmtu6RKFfUGlyrvPvKGcY98177x7qeMNpqSm0t6Npa07a2pQpUaUFCnCCxGMUsJJLwRqbsi7HhsjgfolCrThHUNTh9sryUVzcqq70Iv1xp9yPzM2+Ws4+fI2WVKkIQc5yUYpc22eXu/cGk7V23f7h1u6ja6dYUZVq9RptqK8ElzbfRJc22kiN3j5x73dxR1W4t43VfSdtKWLfS6NTuqcefvqzXw5NPp8FdEurZbbxHeut8b+E2jV529/v8A0JVYScJwo3KrOElyaahnDT8z6be40cLNwXMLbSt96JVrzeI0qlwqUpPySnhsioBE2y+UykZwmlKMk01lYeS9LJGh2eu0DunhjqNGwvK9xrG2ZSSrWFWrmVCPjKg5P3rSz73KTflnJI5tjW9N3FoNlrmj3cLvT72jGtQqweVKL/7+kEvnavUKSKlJCN1Elxg+NvePy9ffrEzFTKuMHxt7x+Xr79YmYqGcf4xMlafuWl94vzH2fQ+Np+5aX3i/MfZ9BTDiOJvdLf362R+D3n6VE5AOv/dLf362R+D3n6VE5ABjwG8ux9whXEzfctR1i37+2tFlGpexlF4uajz3KK9XLvS68lh/CTNGko/Ze2PDYnBbQNKq0ZUr+4oK9v1LHeVaqu84vHL3qaj/ALoMvPhsu3pU6NGFKlCNOEFiMYpJRS6JI+pU8HfW6NH2ZtS/3Lr93G106xpekqzfOT8IxivGTbSS8W0Uu0j2atSnSpyqVakYRisylJ4SNe61xx4SaRcToX2/9D9LCTjONG49M4tdU/R5wzgbjxx13fxS1avTq3dfTNvKTVtpdGpiHd54lVa+HJp+PJeC8XqcJ+6/hKztvjLwu3FdU7TSd96HWuar7tOjO5VOpN+SjPDb9iM8UoyScWmn5ENRvPs6dofcvDbUrXSdYurjVtqNxpztaku9O0jn4VFvpjPwOj8MAvdJ8pI8LyLjztB1aw13R7PWNKu6V3Y3lGNa3rU3mNSEllNHoIjUu83UfiRG8U/jO3V8tXn10yXJ+JEbxT+M7dXy1efXTL7J90fq4LfHHsn+sNh+sUyWiJEvwW+OPZP9YbD9YpktER7H3Li1tJ9eftLjQ3bN4rXXDbh9StNDufQbg1ucqFrUSy6FKKXpKq9a70VHycs+BDK7M44g8Y+G2w7iVrufddla3kUnK0p96tXjnpmnTTkvnSPD2t2j+Du4r6FjZ7xt7avJqMVfUaltGTfJYlUio/lIyry6ub24nc3lzWua03mVSrNzlJ+tvmz4jwm2XymUp1I1IKcJKUWspp5TT8S/wOOvc+eJ2oX7vuG2sXlS4haW/wBl6VKpJuVOmmozpJ/yVmLS8My8Fy7GXQLjd+VGl5CTSXN4DfI5P7enFzVNt2VlsDbl47W61Kg6+o16U8VKdBvEacfFd5qWXyeI48WDK7cNvb27QHCXZ+oS07V94W072DanQs6VS5cGvCTpxkov1Npn22Hx34V71v4afoe77R3tSfcp211CdvUqPygqiXefqWSLQA2vymXTTXLmV6HO/Yc4oX2/OHt1omt3NW51jb06dGdeo3KVa3mn6KUpPrJOE4v2JvqdEdQY3eeWh+23sK03dwZv9XjbxeqbdhK/tqqinJUlj00M/wAlwXefrgvIjfJjNYsqGpaVd6dcx71G6oTo1EvGMouL/IyH3VrOenard6fUl3p2tedGTxjLjJp/mHsk8ZWPygANgAAAAAbf4N2MrbRa9zUfOvPMV5LC/uwzUBvjYNNUdpafjk50Yzfr5L+5I+Lr8u3S2+XmvqnVuHR9s+6sgcvylrk8FrfsLW14HRzGPzuRdllrkWtlrfrNSNSLnItbyWt/OUcjUjcirfgUb5+Za3ktbNSNSLm8lrZa36y3ODcjci7JRvrzKZLfnWCyNSNacVtPnT1Ohf04ydOrT7s2o8otPxfryYSbh4gWkrva933Md+lFVOfkmm/yGnjuOmz7tOP0T0HqLrdJJecfAADndy6w7AHFKz0PVr3hzrd0qFDVKyuNLqTb7quO7idJvou9GMXHosxay3JI7mi8ohrpVKlKrCrSnKnUhJSjKLw4tdGn4M6x4D9rq90Wxt9D4lUbjVLenKNOlqlCKdxCHnVjlKajy5r3zXhJ9axf238O5ep52t6NpWuafU07WtNs9Ss6nKdvd0I1acvbGSaf0HkbE3/s3fGnxvdq7hsNUpuPecKVVKrT5ZxOm8Sg+fSSRk/eWSeYs2yjS26uzBwb1+tOv/kw9LrTWO9p1xOjFetQTcF/ZNQbw7EdBp1No72qwabxR1S2Usrw/bKeMf2PoOyB1Ludvwi54kcAuKWw4SuNV23WvbGL53umt3NJdeb7q70Vy6yikauJl2srovWaL469mvZXEShW1HTbelt7cGHKN3a0lGnXljkq0Evfc8e+WJcur6BN8pz5RuHrbM02Os7w0XR5puF9qFC2kk8ZU6kY/wB5+riFs3cOwt1XW2tzWErS/t3nzhVg892pTl/Gg8PD9TTw00v2cGsfsv7M73T7f2Of/UQItvjwlnt6dOjRhSpQjCnCKjGMVhRS5YR9fApHoVfQLJ4cde6N72qW9noGwLSu4/ZXe1G/gvGEZdyivY5Ko/bFHFh0j7ojn9nSwz0+0FDH/wC6v/fk5uFTGeAABoO2/c5N5XV5om4Nj3dXv0dOlC9sU3zjGo2qkV6lJRl7ZyOJDpj3OiFw+NGrVId/7HjoVVVMPl3nWo93K+aRYznwkAXQpIquhSRGqiS4wfG3vH5evv1iZiplXGD4294/L19+sTMVDOP8YmStP3LS+8X5j7PofG0/ctL7xfmPs+gphxHE3ulv79bI/B7z9KicgHX/ALpb+/WyPwe8/SonIAMeHv8ADfSqeu8RNtaJWSdPUNWtbWaaymqlaMHn6SXalFQgoxSSisIis7Nvd/Z72T3un24ofT3uRKqvgj2TnIfI4v8AdHd43Mbrb2xLeso28qUtSu4KTzJ95wpZ59F3anJ+L9R2gyPD3QZVlx7purnuPRrZ0vve/U/4u8UvmxzuACNgAA7o9zn3jW1HZeubLu605/ae4hc2iljEaNZy70F7JxlLn41Dq9dDhT3NxVP2Qd0Nf6NaVDve30qx+TJ3WueAzjzVH4kRvFP4zt1fLV59dMlyfiRG8U/jO3V8tXn10y+x90fq4LfHHsn+sNh+sUyWiJEvwW+OPZP9YbD9YpktER7H3LvEj+90Uv7ivxo0uwnUk7e10SlKnDwUp1avefzqMV/ukgJHp7oZ8fNv8iW/1lYheY5yAAab07ClSUO0bo8U+U7S6jL2ehk/7kSR+BG12F/4R+ifg139RMklRXHP5UfIjP7bF7VvO0nueE6kpU7ZWtGkmvgpW1Jtf2pSfzkmDIxe2P8AwlN4f01v+rUiNX+UaiAAadV+5uV6keIm57ZSapT0qFSUfOUasUn/AO5/Sd2eJwf7m98Zu5PkdfXQO8PEtYx5v9+ykuhENxC5b+3Ev/NLn62RLzLoRDcRPjA3F8q3X1siex9zwgAGwAAAAAOg9vVqdbQ7KrSlmEqKcX58jnw3PwzvpXW1renPu96inDC/kptJ/kPh6/Hu093mPqnRufTY5/F/5ZS5FrfkimfXkpk6iR4GQb+ko2i1vJTJqRuRXJTJa2WtmpGpFzZa3go2Wt8+pqRqRc36yyQbLc+0sjci59C1so2/EtbNSbNSFWKnTlCXNNYNF6jRlb6hcW8mpSpVZQbUe6m02unh7DebNU8RraVDctSp6PuxrQjNSTb7z6P2P1ezzPu6O7Wx6f6a1u3Vy0/mf8MbALqUJ1akadOEpzm1GMYrLk30SR9z2S0HUXZ+7J+s7lVvuDiJ9k6NpEu7UpadH3t3cLPSeV+1RfL/AOppv4PU6p3fwQ4b7i2F/kdLbVlp1lTj/mtayoxp1rafhOM8Zby8vvZzl5yXZju34iLqyu7qxuqd3ZXNa1uKbzCrRm4Ti/NNc0bW2j2kOMW21Tp0d3V9RoU1hUdSpxuM+2cl3/8A3H7+NPZu3/w+uq93ZafW1/QY5lC9soOc4R5f6WmvfRfPqsx9ZpQH7c3X2yu21qlLFLeezrW5WedxpVaVJpZ/2dRyz/bRvfh12kOFG9KtK1obgjpN/V7qja6pD7Hk5S6QU23CUsvGFJ+ojKA3Xt24qZZSTWU00XNJ9Tm7sBalu3UOE16txVL6vYW9/wBzSqt13sypdxOUYyfOUFJ8nzSzJLphdIEpjd40j2weGFtxB4W3l9a20Za9olKd3Y1EvfyjFZqUs+Uorkv5SRHRtXU/tLujStZ7spfYF7RucR6vuTUuXr5Evt+qbsq8amHB05KSfTGHkhwKknmxMhZV6N3a0rm3qRq0asIzpzi8qUWspr1NM++DSvY233T3rwS0qlVrd/UdEitMu4ttv9rSVOXPr3qfd5+fe8jdZKuPmOQ/dGNkXF7oWh78s6Pejp0pWV+11VOpJOlL2Kfej7akTiMmH3DpOn67ol5o2rWlK8sLylKjcUKizGcGsNEefaD7Nm69galcaptyyutd2xJucK1CDnWtV/JqxXPCz8NLHLngqS9t2vDQgAI2Hcnudex77S9s63vi/oypQ1ecLawjKOHKlScnOon/ACZSlhf0b80ad7PvZl3XvnVLfVN2WV1oO2Yd2pOVVdy4u117lOL5xTXWclyzyy84kH0TS9P0XSbTStLtadpZWlKNGhRpxxGnBLCSXzFY37r44fvXQpIquhSRI3USXGD4294/L19+sTMVMq4wfG3vH5evv1iZioZx/jEyVp+5aX3i/MfbwPz2E41LKhOLTjKnFp+awfofQUx4jib3S1f+M7Ifh9j3n6VE5AJPu01whocXNl0tOpXVOy1iwqutYXNSLlDL5ShPHPuyXj4NJ4fQ4k1Lsx8bLO9q20dmyu4weFWt72g6c15rM0/pSZUxsnitb7B1eG3997f16p8DTdTtryXLPKnVjN/okvNCcZ0o1INSjJJxfmiIjfG0Nx7I116HunTJ6bqMacaroTqQm+7LOHmDa548ySDso78o784M6Pdus56hp9NWF8pSTn6SmklJ4/lR7svnYTfzLPdtp8zjj3RvZl3XttA33a0Z1KFt3tPvHCDfo1JuVOcmuiz3o5fi4rq0jsdHlbp0PTNyaBe6HrNpC7sL2k6VejNcpRf9/iI1lLzPZD6DeHHfs3704dahc32l2lxr+2u85Uby3h3qtGHL3taCWU1nHeS7rxn3vwVo8izKXgBdThOpUjTpxlOcmlGMVltvokjors89mDc28tStda3raXGibag41JUqqcLm8XJqMY9YRfjJ4fkueULlI3R7nlsqvo3D7VN33tB06uu14wtnLOXb0u8lL1ZnKftSTOo0fm06ytdOsKFjZUIULa3pxpUaUFiMIRWFFLySR+pdBUxlk8rX4kRvFP4zt1fLV59dMlyfiRG8U/jO3V8tXn10y+x90fq4LfHHsn+sNh+sUyWiJEvwW+OPZP8AWGw/WKZLREex9yrI9fdDPj5t/kO3+srEhTI9fdDPj5t/kO3+srELzHOQADTeXYX/AIR+ifg139RMklRG12Fv4R+ifg139RMklRXHj/KkiMTtj/wlN4f01D9WpEnciMTtj/wlN4f01D9WpEa+5qMABp1R7m78Zu5PkdfXQO8PE4P9zd+M3cnyOvroHeHiWsY83+/aLZdCIbiJ8YG4vlW6+tkS8y6EQ3ET4wNxfKt19bInsfc8IABsAAAAADJ+HuurSNU9FVc/Q3ElF4fJPp0+jn6kYwDOWMym1cPUaGHUad08+K6IhVjUhGdOSlGSymvEOXzmqtnbzr6e42moTnWoSkkpPGY5ws5yuS5+ec+rnsqyv7W8pRq21eFSMllYfgdPrdNlp3xN4/OOv9K1ujz2ym89q/Tko8Frb8+Ra2cMjr9lzftLWyjbLc+s3Isi4tbZRvzKORZG5FzbZa3jkWt5KN4NSLIq3ko2UbKN8jUjUiucGC8VnGNK0i376cm0vNJPP6SM4yYZxVowemWddr38Kzinnway/wBFHP0/jUjtvRrJ1mG/9+GvDZ/Zm3/oHDrifaa3uTRbfUdPkvRSryoqpWsm+lakn4ro8c8N458nrAHYvf5YzKbVMTomqadrWk2uqaVd0byxuqaq0K9KalCpBrKaaP3kYfAHjxuzhPdq0t5fbPb1Wp37jTa0niPnKlL+JLxfg8c14ru7hHxv4fcSrSmtE1inbak45qaZeNUrmD8cRbxNc+sG1z8+RWd9v5NmSWTD92cL+Hm67md1uHZuiahc1ElK5qWkfTNLp+2Jd78pmCafQqN1smXLS1z2XOCFetKrLZ0qbl1VPUbqMV8yqYR7Oidn3g5pDi7bYOk1nFYTu4yuc+1VHLJtDCKjdOyPjbUaVvQhQoU4U6UIqMIQilGKXJJJdEfYo+RgPFvizsrhnpFS73Jq1JXXcboWFGSndXDx0jDPs99LEVnmwtsxeV2n+IFtw94QaxqXpox1G8pSstOp5XelWqJpSS8orMn977CLs2Lx84sa5xa3h9t9Sj9jWFspU9OsYyzG3ptrLb8Zywsv1JdEjXRDGXmtsdl7ixU4UcQ43936SpoWoxjb6pSgstQz72ql4yg23jxTkvEk00jULHVtMttT026pXdldUo1qFelJShUhJZjKLXVNMhzN/wDZg7RF/wAMnS21r9KrfbVnVbSg81bJybcpwT+FFt5ceXi1zynUs2u8SMlskmsNHi7Q3Tt/d2i0dZ23q1rqdjWXvatCfeSf8lrrGS8U8NeJ7efEnCyzJim4eG/D/cN7K+1zZW3tRu5LEri506lOrJeuTWX9Jftzh5sTbdz9l6Bs7QNLucY9Na2FOnU/tJZ/KZSC7nbPhakkip5e49e0jbmj3Gsa7qNtp9jbxc6tevNRjFJZ+d+pc2aG4N8e6vFXtB3ug6LSlbbWsdIr1aDqQxVu6qq0Y+llz97HEpKMcZS5vm8RJ3SeI6OKSKp8ikiNIkuMHxt7x+Xr79YmYqZVxg+NvePy9ffrEzFQY8RJ72Ud+W2/ODOi3P2Qquo6bRjYahGTXfjVpxSUml4SioyXtfkbaIr+z/xY1nhLvJavYxd1p10o0tSsnLCr003hrynHLcX62ujZI/wx4kbR4iaJT1PbGr0brMU6ts5JV7dtL3s4dU1nr09ZeWJe39tZkCifIqRyI6e37/CCr/Jdt/xHg9lDi5PhZv8AX2wqVZbe1VwoahTUlik8+9r4845ecPnFy6vB73b9/hB1/ku2/wCI59K48ZvjsmPsLu2vrKjeWlencW9aEalKrTkpRnFpNSTXJprnlH6F1I8+zD2kbzh3GjtfdkbjUNsOSVKpD31WxbfNxXLvU/Fx6rDa64O9tsbh0Xc2kUNX0DU7bUbGvFShWoVFJNNZw/J+p8wsy9suXqySaSMS17hpw9169lfazsjbl/dz+FXuNOpTqS9snHL+ky9eZRk3W4ysZ25sDY+2q7uNv7R0LS67/wBbaWFOnP8AtRSZkyWEGeRufceh7Y0avrGv6nbadY0IuU61aWEvUvN+pcyp+3Hy9hA564EccK3FnjVr1lplKpa7a03S27OFRYqXE3VgnWn5cuSj4LPi3joNdBsY5bj8SI3in8Z26vlq8+umS5PxIjeKfxnbq+Wrz66Y9l+6P1cFvjj2T/WGw/WKZLREiX4LfHHsn+sNh+sUyWiI9j7lWR6+6GfHzb/Idv8AWViQqXJZI9PdC3njzb/Idv8AWViF5jnMABpvLsLfwj9E/Brv6iZJKiNrsL/wj9E/Brv6iZJKiuOfypIjE7Y/8JTeH9NQ/VqRJ2yMTtjc+0nvD+mofq1IjX3NRgANOqPc3fjN3J8jr66B3h4nB/ubvxm7k+R19dA7w8S1jHm/37RbLoRDcRPjA3F8q3X1siXifQiH4hc9/bif/mlz9bInsfc8IABsAAAAAAAAPra3Fa2qxqUak4SjJS97Nx8/FNPo2vnZ8gEslm1Zjom/dSt6lOlqEadzSziVRruzXPry5PC8MGb6ZuTR7+pGnSvKaqyipKEnhvr9L5dPA0uDgz6fDN03V+hdNr+cZ238f0b+72ejTLco07ou59W0tQp0q7q0IyT9FU5rGMYXkv8Al7c5to+99NuoKN7/AJpVws5eY83jr9D+f1M+TPpcsePLznV+hdRoecZ3T8c/7MrbLWyylWp1YqVOcZL1MubOHazmOnuFnMGyjZRvJQshIrn1FGUyUyVrZc+hi3Euj6Tb3pO9j0VaMsY69Y4/KZM3kx7iF/8ADFf7+H6SOTRm2cff6bbOr09vmNXAA7J+iBdTnOlUjUpzlCcGpRlF4aa6NMtAG1tkdofi7tKFGhY7tuL2zpPP2NqMI3MZLGO73pLvpeqMkbW0nttbwowgtU2dot3JLE5UK9Sj3n5rPfwcpgu7HZi7G+7kue5j9jSl3/P7dPH0egPN1Dtu7mmv8w2NpND+mvKlX8yiclgi9kbq3p2oOMO5qNS3W4KOi29WDhOnpVuqLw/Ko+9Ui/WpI05f3l3f3lS8vrqvdXNV5qVq1RznN+bk+bPgAsxk4AAFAAB72yd5bp2Vqy1TauuXuk3XLvSoTxGolnCnB5jNc3ykmjoDavbQ39p9tChr2g6NrTj/AK6Lnb1JL14zHPsivYcwgM3GW7uyF25Kndw+GMc+f29//nMc3L21d8XlGdPQdr6LpTk+VSvOpczivV8BZ9qa9Ry0BudkZPv/AIgbz37fRvN3bhvNVqQ/0cKjUaVP1xpxShF8+qSPx7J3ZuLZW4KWvbX1Wtpmo0oyhGtTSeYyWHGUZJxkvU01lJ9UjxAF7Zts3D905xy/n1U/F1p/hD7pvjl/Pqp+LrT/AAjTwG52z4fq1fULzVtWvNV1Ct6e8vK87i4qd1R79ScnKUsJJLLbeEsH5QAofr0rUtR0m9he6VqF3YXUPg17atKlUj7JRaaPyAHLa+l9ozjXptlSs7ff19OnTj3YyuLehXqNeudSEpSfrbbP1fdOccv59VPxdaf4Rp4Ddntnw9/fm8dyb61+Wvbq1J6jqMqUaTrOjCn7yOcLEIpcsvwPAACySeIGRbH3xu7ZGoxv9qbgv9KrJ5kqNT9rqcse/pvMJr1ST8DHQCyXl1Dtftpb8sbeFHXtu6NrDj1q03O2qTXrx3o59kUvUZV93GvsbP7Gj9P3un2797jHXPoM5z4Y+c40Bd07I6j3P2099XttOjoO2tF0mUv9bVlO5nFer4Mc+1Neo0Dvzfm8N9X6vd27gvdVqx+BGrJRpw+9pxShH5kjGgQmEnlkGwt5bk2Lr613auq1dM1BUpUfS04wlmEsZi4zTi1lJ4a8EbB+6c45fz6qfi60/wAI08AvbN924X2nOOT/APnqp+LrT/CNT6nfXWp6ldalfVXWurutOvXqNJd+cpOUnhcllt9D8wBJI/Xo2o3uj6xZavptd0L2xuKdzbVVFS7lSElKMsNNPDSeGsG1l2m+OK6b6qfi20/wjTwBcZeW4funOOX8+6v4utP8I1xvTdW4N57gr6/ufVK2palXUYzrVElySwoqMUoxS8kkup4oB2yAACvb2RuvcGytxUdw7Y1B6fqdCMo066pQqd1Si4yXdmnHmm10NjfdOccv59VPxdaf4Rp4BO2c7NwvtOccn131U/F1p/hGqtb1TUNb1e71fVryreX95VlWuK9WWZVJyeW2fjAJJPIAArKOHXEDd/D3UrnUtn6xLS7q5o+grVFQpVe9DKljFSMkuaXQzn7pzjl/Pur+LrT/AAjTwCds52bfrdpfjdWt61Cpvis41YODcbG2hKOeri40008ePhnlzw1qKrUnVqSq1ZynUm3KUpPLk31bfiy0Akk4AAFAAAAAAAAAAAAAAAAfp0+/vNPrels7ipRn4918n7V0fUzDSt+ejoUqeo0KlWai1OpTSTbzy5Zw+XXoYMDOWGOXL5Op6HQ6n/Uxbo0/VtP1BL7FuqdRttd3PPl15fOvpXmfsb+f2GizIdH3dqthiFap9mUV/Fqv3y69JdfpyfNl0s+2vPdT9O5Sb6OW/wCL/VtHIMd0bd2l37p0qkpW1xN4UKi5N48JdPVzwZApKSymmn0eeR8+WGWPMdDr9Lq6F7dTHZcYlxPf/gdBf/kx/RkZZn1GHcUKsFp1pQcvfyrOaWPBR5/pI5NGfvj7PSZv1mDX4APve+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD0NL1nUdNa+xbiSinyhJtxxnLWOnP6fWeeBZuxnp46k7cpvGfaRvqhNqnqNu6Lwl6SnzjnxbXVflPL4ialaX11aQta0a0acJScoNNZk1y5ePvfyoxUHHNPGXePh0vS9DR1prac2oADkdiAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//Z';
+  
+  // ════════════════════════════════════════════════════════════════════
+  // STATE
+  // ════════════════════════════════════════════════════════════════════
+  const state = {
+    step: 1,
+    users: [],
+    filteredUsers: [],
+    selectedUser: null,
+    supabase: null
   };
   
-  // ══════════ STORAGE ══════════
-  function setCookie(key, val, days = 1) {
-    try {
-      const d = new Date();
-      d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
-      document.cookie = 'fg_' + key + '=' + encodeURIComponent(val) + ';expires=' + d.toUTCString() + ';path=/';
-    } catch(e) {}
+  // ════════════════════════════════════════════════════════════════════
+  // UTILS
+  // ════════════════════════════════════════════════════════════════════
+  function $(id) { return document.getElementById(id); }
+  
+  function getInitials(name) {
+    if (!name) return '–';
+    const parts = name.trim().split(/\s+/).filter(Boolean);
+    if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+    return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
   }
   
-  function getCookie(key) {
-    try {
-      const name = 'fg_' + key + '=';
-      const cookies = document.cookie.split(';');
-      for (let c of cookies) {
-        c = c.trim();
-        if (c.indexOf(name) === 0) return decodeURIComponent(c.substring(name.length));
-      }
-    } catch(e) {}
-    return null;
+  function roleLabel(role) {
+    return ''; // intentionally hidden from UI per Wabran's instruction
   }
   
-  // ══════════ DEVICE FINGERPRINT ══════════
-  function getFingerprint() {
-    const data = [
-      navigator.userAgent, navigator.language,
-      screen.width + 'x' + screen.height, screen.colorDepth,
-      new Date().getTimezoneOffset(), navigator.hardwareConcurrency || 0,
-      navigator.platform, navigator.vendor
-    ].join('|');
-    let hash = 0;
-    for (let i = 0; i < data.length; i++) {
-      hash = ((hash << 5) - hash) + data.charCodeAt(i);
-      hash = hash & hash;
+  function showError(msg) {
+    const err = $('authError');
+    err.textContent = msg;
+    err.classList.add('show');
+    setTimeout(() => err.classList.remove('show'), 5000);
+  }
+  
+  function hideError() {
+    $('authError').classList.remove('show');
+  }
+  
+  // ════════════════════════════════════════════════════════════════════
+  // SUPABASE INIT
+  // ════════════════════════════════════════════════════════════════════
+  function initSupabase() {
+    if (typeof window.supabase === 'undefined') {
+      console.error('[Auth] Supabase SDK not loaded');
+      return false;
     }
-    return 'fp_' + Math.abs(hash).toString(36);
-  }
-  
-  // ══════════ TELEGRAM ══════════
-  async function notify(message, priority = 'info') {
-    const icons = { high: '🚨', medium: '⚠️', info: 'ℹ️', success: '✅' };
-    const fp = getFingerprint();
-    const time = new Date().toLocaleString('ar-SA', { timeZone: 'Asia/Riyadh' });
-    const fullMsg = `${icons[priority]} *Salam Dashboard Gate*\n\n${message}\n\n━━━━━━━━━━━\n📍 ${time}\n🖥️ \`${fp}\``;
-    
-    try {
-      await fetch(`https://api.telegram.org/bot${GATE_CONFIG.TELEGRAM_BOT}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: GATE_CONFIG.TELEGRAM_CHAT,
-          text: fullMsg,
-          parse_mode: 'Markdown'
-        })
-      });
-    } catch (e) {}
-  }
-  
-  // ══════════ GATE CHECK ══════════
-  function hasValidSession() {
-    const sessionToken = getCookie('session');
-    const sessionExp = parseInt(getCookie('session_exp') || '0');
-    return sessionToken === getFingerprint() && Date.now() < sessionExp;
-  }
-  
-  function isLocked() {
-    const lockUntil = parseInt(getCookie('lock_until') || '0');
-    return Date.now() < lockUntil;
-  }
-  
-  function grantAccess() {
-    setCookie('session', getFingerprint(), 1);
-    setCookie('session_exp', String(Date.now() + GATE_CONFIG.SESSION_DURATION), 1);
-    setCookie('attempts', '0', 1);
-    startActivityTracking();
-  }
-  
-  // Extends session on user activity (sliding window)
-  let _activityTimeout = null;
-  function extendSession() {
-    if (hasValidSession()) {
-      setCookie('session_exp', String(Date.now() + GATE_CONFIG.SESSION_DURATION), 1);
-    }
-  }
-  
-  function startActivityTracking() {
-    // Throttle to avoid writing cookie on every event
-    const throttledExtend = () => {
-      if (_activityTimeout) return;
-      _activityTimeout = setTimeout(() => {
-        extendSession();
-        _activityTimeout = null;
-      }, 10000); // Check every 10 seconds max
-    };
-    
-    ['mousedown', 'keydown', 'scroll', 'touchstart'].forEach(evt => {
-      document.addEventListener(evt, throttledExtend, { passive: true });
+    state.supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: { persistSession: true, autoRefreshToken: true }
     });
+    console.log('[Auth] Supabase initialized');
+    return true;
   }
   
-  function recordFailedAttempt() {
-    const attempts = parseInt(getCookie('attempts') || '0') + 1;
-    setCookie('attempts', String(attempts), 1);
-    
-    if (attempts >= GATE_CONFIG.MAX_ATTEMPTS) {
-      setCookie('lock_until', String(Date.now() + GATE_CONFIG.LOCK_DURATION), 1);
-      setCookie('attempts', '0', 1);
-      return { locked: true, remaining: 0 };
-    }
-    return { locked: false, remaining: GATE_CONFIG.MAX_ATTEMPTS - attempts };
-  }
-  
-  // ══════════ UI: HIDE DASHBOARD IMMEDIATELY ══════════
-  function hideDashboard() {
-    // Create overlay that blocks everything
-    let style = document.getElementById('fg-hide-style');
-    if (!style) {
-      style = document.createElement('style');
-      style.id = 'fg-hide-style';
-      document.head.appendChild(style);
-    }
-    style.textContent = `
-      body > *:not(#fg-overlay):not(script):not(style):not(link) {
-        display: none !important;
-      }
-    `;
-  }
-  
-  function showDashboard() {
-    // Remove hiding style
-    const hideStyle = document.getElementById('fg-hide-style');
-    if (hideStyle) hideStyle.remove();
-    // Remove overlay
-    const overlay = document.getElementById('fg-overlay');
-    if (overlay) overlay.remove();
-    // Remove early hide if exists
-    const earlyStyle = document.getElementById('fg-early-hide');
-    if (earlyStyle) earlyStyle.remove();
-    // Force body visible
-    document.body.style.visibility = 'visible';
-    document.documentElement.style.visibility = 'visible';
-    // Force remove any remaining display:none from body
-    document.body.style.removeProperty('display');
-  }
-  
-  // ══════════ UI: GATE SCREEN ══════════
-  function showGate(lockInfo) {
-    hideDashboard();
-    
-    const existing = document.getElementById('fg-overlay');
-    if (existing) existing.remove();
-    
-    const overlay = document.createElement('div');
-    overlay.id = 'fg-overlay';
-    
-    if (lockInfo && lockInfo.locked) {
-      // Locked screen
-      const lockUntil = parseInt(getCookie('lock_until') || '0');
-      const minsLeft = Math.ceil((lockUntil - Date.now()) / 60000);
+  // ════════════════════════════════════════════════════════════════════
+  // LOAD USERS (display names only — RLS-friendly read)
+  // ════════════════════════════════════════════════════════════════════
+  async function loadUsers() {
+    try {
+      const { data, error } = await state.supabase
+        .from('users')
+        .select('id, username, display_name, role, is_active')
+        .eq('is_active', true)
+        .order('role', { ascending: true })
+        .order('created_at', { ascending: true });
       
-      overlay.innerHTML = `
-        <div style="position:fixed;inset:0;background:linear-gradient(180deg,#0A3D2A 0%,#0F5237 50%,#0A3D2A 100%);display:flex;align-items:center;justify-content:center;z-index:999999;font-family:'Tajawal',system-ui,sans-serif;direction:rtl">
-          <div style="text-align:center;padding:40px;max-width:440px">
-            <div style="font-size:80px;margin-bottom:16px">🔒</div>
-            <h1 style="color:#F09595;font-size:26px;font-weight:900;margin:0 0 12px">تم القفل مؤقتاً</h1>
-            <p style="color:#C0DD97;font-size:15px;line-height:1.7;margin:0 0 24px">تم تجاوز الحد المسموح من المحاولات.<br>المرجو المحاولة بعد <strong style="color:#F4D88A">${minsLeft} دقيقة</strong></p>
-            <div style="padding:16px;background:rgba(163,45,45,0.1);border:1px solid rgba(163,45,45,0.3);border-radius:12px;color:#F7C1C1;font-size:12px">
-              في حال كنت أنت صاحب الصلاحية، تواصل مع المدير لرفع الحظر
-            </div>
-            <div style="margin-top:30px;padding-top:20px;border-top:1px solid rgba(212,160,23,0.2);color:rgba(212,160,23,0.4);font-size:11px;letter-spacing:4px">S A L A M · S E C U R E</div>
-          </div>
+      if (error) throw error;
+      
+      // Sort: executive → manager → supervisor (hierarchy preserved internally)
+      const roleOrder = { executive: 1, manager: 2, supervisor: 3 };
+      data.sort((a, b) => (roleOrder[a.role] || 9) - (roleOrder[b.role] || 9));
+      
+      state.users = data || [];
+      state.filteredUsers = state.users.slice();
+      renderUserList();
+      
+      console.log(`[Auth] Loaded ${state.users.length} users`);
+    } catch (err) {
+      console.error('[Auth] Failed to load users:', err);
+      $('authUserList').innerHTML = `
+        <div class="auth-loading">
+          <span style="color:#FF6B6B;">⚠ تعذّر تحميل الحسابات</span>
+          <span style="font-size:11px;">${err.message || 'Unknown error'}</span>
         </div>
       `;
-      document.body.appendChild(overlay);
+    }
+  }
+  
+  // ════════════════════════════════════════════════════════════════════
+  // RENDER USER LIST
+  // ════════════════════════════════════════════════════════════════════
+  function renderUserList() {
+    const list = $('authUserList');
+    
+    if (state.filteredUsers.length === 0) {
+      list.innerHTML = `
+        <div class="auth-loading">
+          <span style="color:rgba(247,249,249,0.5);">لا توجد نتائج</span>
+        </div>
+      `;
       return;
     }
     
-    // Normal PIN screen - LUXURY DESIGN (compact & responsive)
-    overlay.innerHTML = `
-      <div style="position:fixed;inset:0;overflow-y:auto;overflow-x:hidden;z-index:999999;font-family:'Tajawal',system-ui,sans-serif;direction:rtl;background:radial-gradient(ellipse at top,#0F5237 0%,#0A3D2A 40%,#051F15 100%);display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box">
-        <div style="position:absolute;inset:0;pointer-events:none;overflow:hidden">
-          <div style="position:absolute;inset:0;background-image:radial-gradient(circle at 25% 25%,rgba(212,160,23,0.06) 0%,transparent 50%),radial-gradient(circle at 75% 75%,rgba(212,160,23,0.05) 0%,transparent 50%)"></div>
-          <div style="position:absolute;top:50%;left:50%;width:600px;height:600px;margin:-300px 0 0 -300px;border:1px solid rgba(212,160,23,0.06);border-radius:50%;animation:fgRotate 60s linear infinite"></div>
-          <div style="position:absolute;top:50%;left:50%;width:900px;height:900px;margin:-450px 0 0 -450px;border:1px solid rgba(212,160,23,0.04);border-radius:50%;animation:fgRotate 90s linear infinite reverse"></div>
-          <div style="position:absolute;top:20%;left:15%;width:4px;height:4px;background:#D4A017;border-radius:50%;box-shadow:0 0 20px #D4A017;animation:fgFloat 6s ease-in-out infinite"></div>
-          <div style="position:absolute;top:70%;left:82%;width:3px;height:3px;background:#F4D88A;border-radius:50%;box-shadow:0 0 15px #F4D88A;animation:fgFloat 8s ease-in-out infinite 1s"></div>
-          <div style="position:absolute;top:40%;left:85%;width:5px;height:5px;background:#D4A017;border-radius:50%;box-shadow:0 0 25px #D4A017;animation:fgFloat 7s ease-in-out infinite 2s"></div>
-          <div style="position:absolute;top:80%;left:18%;width:3px;height:3px;background:#F4D88A;border-radius:50%;box-shadow:0 0 15px #F4D88A;animation:fgFloat 9s ease-in-out infinite 3s"></div>
+    list.innerHTML = state.filteredUsers.map(u => `
+      <button class="auth-user-item" data-user-id="${u.id}" type="button">
+        <div class="auth-user-avatar">${getInitials(u.display_name)}</div>
+        <div class="auth-user-info">
+          <span class="auth-user-name">${u.display_name}</span>
         </div>
-        <div style="position:relative;z-index:10;width:100%;max-width:360px;margin:auto">
-          <div style="background:linear-gradient(180deg,rgba(15,82,55,0.85) 0%,rgba(10,61,42,0.9) 100%);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border:1px solid rgba(212,160,23,0.4);border-radius:24px;padding:38px 26px 26px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.08),0 0 40px rgba(212,160,23,0.1);position:relative">
-            <div style="position:absolute;top:-22px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#D4A017,#F4D88A,#D4A017);padding:3px;border-radius:50%;box-shadow:0 6px 20px rgba(212,160,23,0.5)">
-              <div style="width:44px;height:44px;background:#0A3D2A;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px">👑</div>
-            </div>
-            <div style="margin-top:14px;margin-bottom:6px">
-              <div style="display:inline-block;padding:7px 22px;background:linear-gradient(135deg,rgba(212,160,23,0.2),rgba(244,216,138,0.1));border:1px solid rgba(212,160,23,0.5);border-radius:30px;color:#F4D88A;font-size:11px;font-weight:700;letter-spacing:6px">S A L A M</div>
-            </div>
-            <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin:14px 0 14px">
-              <div style="width:40px;height:1px;background:linear-gradient(90deg,transparent,#D4A017,transparent)"></div>
-              <div style="width:6px;height:6px;background:#D4A017;border-radius:50%;box-shadow:0 0 8px #D4A017"></div>
-              <div style="width:40px;height:1px;background:linear-gradient(90deg,transparent,#D4A017,transparent)"></div>
-            </div>
-            <h1 style="color:#FFFFFF;font-size:20px;font-weight:900;margin:0 0 5px;letter-spacing:-0.3px">لوحة الأداء التنفيذية</h1>
-            <p style="color:#D4A017;font-size:10px;font-weight:500;margin:0 0 18px;letter-spacing:3px">P R E M I U M · A C C E S S</p>
-            <p style="color:#C0DD97;font-size:12px;margin:0 0 12px;font-weight:400">أدخل الرقم السري للدخول</p>
-            <div id="fg-dots" style="display:flex;justify-content:center;gap:12px;margin-bottom:20px">
-              ${[0,1,2,3].map(() => '<div class="fg-dot" style="width:16px;height:16px;border:2px solid #D4A017;border-radius:50%;background:transparent;transition:all 0.25s cubic-bezier(0.4,0,0.2,1)"></div>').join('')}
-            </div>
-            <div id="fg-keypad" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;max-width:260px;margin-left:auto;margin-right:auto">
-              ${[1,2,3,4,5,6,7,8,9,'',0,'←'].map(n => 
-                n === '' ? '<div></div>' : 
-                `<button class="fg-key" data-key="${n}" style="background:linear-gradient(180deg,rgba(212,160,23,0.15),rgba(212,160,23,0.08));border:1.5px solid rgba(212,160,23,0.4);color:#F4D88A;font-size:17px;font-weight:700;padding:12px 0;border-radius:11px;cursor:pointer;transition:all 0.2s cubic-bezier(0.4,0,0.2,1);font-family:inherit;box-shadow:inset 0 1px 0 rgba(255,255,255,0.08)">${n}</button>`
-              ).join('')}
-            </div>
-            <div id="fg-msg" style="color:#F09595;font-size:11px;min-height:16px;margin-top:4px;font-weight:500"></div>
-            <div style="margin-top:16px;padding-top:12px;border-top:1px solid rgba(212,160,23,0.15);display:flex;align-items:center;justify-content:center;gap:8px">
-              <div style="color:rgba(212,160,23,0.5);font-size:9px;letter-spacing:2px">SECURE GATE</div>
-              <div style="width:3px;height:3px;background:rgba(212,160,23,0.4);border-radius:50%"></div>
-              <div style="color:rgba(212,160,23,0.4);font-size:9px">v17.0</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
+        <span class="auth-user-arrow">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="m15 18-6-6 6-6"/>
+          </svg>
+        </span>
+      </button>
+    `).join('');
     
-    document.body.appendChild(overlay);
-    
-    let pin = '';
-    const updateDots = () => {
-      document.querySelectorAll('.fg-dot').forEach((dot, i) => {
-        if (i < pin.length) {
-          dot.classList.add('filled');
-        } else {
-          dot.classList.remove('filled');
-        }
-      });
-    };
-    
-    const shake = () => {
-      const box = overlay.querySelector('div[style*="backdrop-filter"]');
-      if (box) {
-        box.style.animation = 'fgShake 0.4s';
-        setTimeout(() => box.style.animation = '', 400);
-      }
-    };
-    
-    const checkPin = () => {
-      if (pin.length !== 4) return;
-      
-      if (pin === GATE_CONFIG.PIN) {
-        // Success
-        document.getElementById('fg-msg').style.color = '#9FE1CB';
-        document.getElementById('fg-msg').textContent = '✓ دخول ناجح · جاري التحميل...';
-        
-        document.querySelectorAll('.fg-dot').forEach(dot => {
-          dot.style.background = '#9FE1CB';
-          dot.style.borderColor = '#9FE1CB';
-        });
-        
-        grantAccess();
-        notify('✅ *دخول ناجح*\n\nتم فتح اللوحة بنجاح', 'success');
-        
-        setTimeout(() => {
-          showDashboard();
-          // Trigger any initialization that dashboard needs
-          if (window.loadData) {
-            try { window.loadData(); } catch(e) {}
-          }
-        }, 800);
-        
-      } else {
-        // Fail
-        const result = recordFailedAttempt();
-        shake();
-        
-        if (result.locked) {
-          notify('🚨 *تم القفل — محاولات اختراق*\n\n3 محاولات خاطئة متتالية\nالقفل مفعّل لمدة ساعة', 'high');
-          showGate({ locked: true });
-        } else {
-          document.getElementById('fg-msg').textContent = `✗ رقم خاطئ · متبقي ${result.remaining} محاولات`;
-          
-          if (result.remaining === 1) {
-            notify(`⚠️ *تحذير — محاولة أخيرة*\n\nسيتم القفل لمدة ساعة عند المحاولة التالية الخاطئة`, 'medium');
-          }
-          
-          pin = '';
-          updateDots();
-        }
-      }
-    };
-    
-    // Keypad clicks
-    document.querySelectorAll('.fg-key').forEach(btn => {
+    // Attach click handlers
+    list.querySelectorAll('.auth-user-item').forEach(btn => {
       btn.addEventListener('click', () => {
-        const key = btn.dataset.key;
-        if (key === '←') pin = pin.slice(0, -1);
-        else if (pin.length < 4) pin += key;
-        updateDots();
-        if (pin.length === 4) setTimeout(checkPin, 250);
-      });
-      
-      btn.addEventListener('mouseenter', () => {
-        btn.style.background = 'rgba(212,160,23,0.25)';
-        btn.style.borderColor = '#D4A017';
-      });
-      btn.addEventListener('mouseleave', () => {
-        btn.style.background = 'rgba(212,160,23,0.12)';
-        btn.style.borderColor = 'rgba(212,160,23,0.4)';
-      });
-      btn.addEventListener('mousedown', () => {
-        btn.style.transform = 'scale(0.95)';
-      });
-      btn.addEventListener('mouseup', () => {
-        btn.style.transform = 'scale(1)';
+        const id = btn.getAttribute('data-user-id');
+        const user = state.users.find(u => u.id === id);
+        if (user) selectUser(user);
       });
     });
+  }
+  
+  // ════════════════════════════════════════════════════════════════════
+  // SEARCH FILTER
+  // ════════════════════════════════════════════════════════════════════
+  function filterUsers(query) {
+    const q = (query || '').trim().toLowerCase();
+    if (!q) {
+      state.filteredUsers = state.users.slice();
+    } else {
+      state.filteredUsers = state.users.filter(u =>
+        (u.display_name || '').toLowerCase().includes(q) ||
+        (u.username || '').toLowerCase().includes(q)
+      );
+    }
+    renderUserList();
+  }
+  
+  // ════════════════════════════════════════════════════════════════════
+  // SELECT USER → STEP 2
+  // ════════════════════════════════════════════════════════════════════
+  function selectUser(user) {
+    state.selectedUser = user;
     
-    // Keyboard
-    const keyHandler = (e) => {
-      if (!document.getElementById('fg-overlay')) {
-        document.removeEventListener('keydown', keyHandler);
-        return;
-      }
-      if (e.key >= '0' && e.key <= '9' && pin.length < 4) {
-        pin += e.key;
-        updateDots();
-        if (pin.length === 4) setTimeout(checkPin, 250);
-      } else if (e.key === 'Backspace') {
-        pin = pin.slice(0, -1);
-        updateDots();
-      }
-    };
-    document.addEventListener('keydown', keyHandler);
+    // Populate Step 2 selected card
+    $('authSelectedAvatar').textContent = getInitials(user.display_name);
+    $('authSelectedName').textContent = user.display_name;
+    $('authSelectedMeta').textContent = ''; // hidden role label
     
-    // Luxury animations
-    if (!document.getElementById('fg-shake-style')) {
-      const style = document.createElement('style');
-      style.id = 'fg-shake-style';
-      style.textContent = `
-        @keyframes fgShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-12px)}40%{transform:translateX(12px)}60%{transform:translateX(-8px)}80%{transform:translateX(8px)}}
-        @keyframes fgRotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-        @keyframes fgFloat{0%,100%{transform:translateY(0) scale(1);opacity:0.6}50%{transform:translateY(-30px) scale(1.2);opacity:1}}
-        @keyframes fgGoldPulse{0%,100%{box-shadow:0 0 0 0 rgba(212,160,23,0.5)}50%{box-shadow:0 0 0 12px rgba(212,160,23,0)}}
-        .fg-key:hover{background:linear-gradient(180deg,rgba(212,160,23,0.35),rgba(212,160,23,0.2)) !important;border-color:#D4A017 !important;transform:translateY(-2px);box-shadow:inset 0 1px 0 rgba(255,255,255,0.15),0 8px 20px rgba(212,160,23,0.3) !important}
-        .fg-key:active{transform:translateY(0) scale(0.96) !important}
-        .fg-dot.filled{background:linear-gradient(135deg,#D4A017,#F4D88A) !important;border-color:#F4D88A !important;box-shadow:0 0 16px rgba(212,160,23,0.6),inset 0 1px 0 rgba(255,255,255,0.3) !important;transform:scale(1.15)}
+    goToStep(2);
+    
+    // Focus password after transition
+    setTimeout(() => $('authPasswordInput').focus(), 350);
+  }
+  
+  // ════════════════════════════════════════════════════════════════════
+  // STEP NAVIGATION
+  // ════════════════════════════════════════════════════════════════════
+  function goToStep(n) {
+    state.step = n;
+    document.querySelectorAll('.auth-step').forEach(s => s.classList.remove('active'));
+    $(`authStep${n}`).classList.add('active');
+    hideError();
+    
+    if (n === 1) {
+      // Reset password field when going back
+      $('authPasswordInput').value = '';
+      state.selectedUser = null;
+      setTimeout(() => $('authUserSearch').focus(), 250);
+    }
+  }
+  
+  // ════════════════════════════════════════════════════════════════════
+  // LOGIN HANDLER (Step 2.1: stub only — real auth in 2.2)
+  // ════════════════════════════════════════════════════════════════════
+  function handleLogin() {
+    const password = $('authPasswordInput').value;
+    
+    if (!password) {
+      showError('الرجاء إدخال كلمة السرّ');
+      return;
+    }
+    
+    if (password.length < 4) {
+      showError('كلمة السرّ قصيرة جدّاً');
+      return;
+    }
+    
+    // STUB: in Step 2.2 we'll call supabase.auth.signInWithPassword
+    showError('ℹ️ الواجهة جاهزة. منطق تسجيل الدخول سيُضاف في الخطوة 2.2');
+    console.log('[Auth] Login attempted for:', state.selectedUser?.display_name);
+  }
+  
+  // ════════════════════════════════════════════════════════════════════
+  // PASSWORD VISIBILITY TOGGLE
+  // ════════════════════════════════════════════════════════════════════
+  function togglePassword() {
+    const input = $('authPasswordInput');
+    const showIcon = $('authEyeShow');
+    const hideIcon = $('authEyeHide');
+    
+    if (input.type === 'password') {
+      input.type = 'text';
+      showIcon.style.display = 'none';
+      hideIcon.style.display = 'block';
+    } else {
+      input.type = 'password';
+      showIcon.style.display = 'block';
+      hideIcon.style.display = 'none';
+    }
+  }
+  
+  // ════════════════════════════════════════════════════════════════════
+  // INIT
+  // ════════════════════════════════════════════════════════════════════
+  function init() {
+    // Inject logo
+    $('authLogo').src = LOGO_B64;
+    
+    // Initialize Supabase
+    if (!initSupabase()) {
+      $('authUserList').innerHTML = `
+        <div class="auth-loading">
+          <span style="color:#FF6B6B;">⚠ فشل تحميل Supabase</span>
+        </div>
       `;
-      document.head.appendChild(style);
-    }
-  }
-  
-  // ══════════ MAIN ══════════
-  function checkGate() {
-    // Already authenticated?
-    if (hasValidSession()) {
-      console.log('[🚪 Gate] Valid session found');
-      // Start activity tracking for session extension
-      if (typeof startActivityTracking === 'function') startActivityTracking();
       return;
     }
     
-    // Hide immediately
-    hideDashboard();
+    // Load users from database
+    loadUsers();
     
-    // Locked?
-    if (isLocked()) {
-      showGate({ locked: true });
-      return;
-    }
+    // Wire up event listeners
+    $('authUserSearch').addEventListener('input', e => filterUsers(e.target.value));
+    $('authBackBtn').addEventListener('click', () => goToStep(1));
+    $('authLoginBtn').addEventListener('click', handleLogin);
+    $('authPwdToggle').addEventListener('click', togglePassword);
     
-    // Show PIN
-    notify(`ℹ️ *محاولة دخول جديدة*\n\nجهاز جديد يحاول الدخول للوحة`, 'info');
-    showGate();
-  }
-  
-  // Run IMMEDIATELY (before DOMContentLoaded if possible)
-  if (document.body) {
-    checkGate();
-  } else {
-    // Hide with CSS before body exists
-    const earlyStyle = document.createElement('style');
-    earlyStyle.id = 'fg-early-hide';
-    earlyStyle.textContent = 'body { visibility: hidden !important; }';
-    document.head.appendChild(earlyStyle);
-    
-    document.addEventListener('DOMContentLoaded', () => {
-      earlyStyle.remove();
-      checkGate();
+    $('authPasswordInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter') handleLogin();
     });
+    
+    $('authForgotLink').addEventListener('click', () => {
+      alert('للحصول على إعادة تعيين كلمة السرّ، تواصل مع الإدارة');
+    });
+    
+    // Focus search on load
+    setTimeout(() => $('authUserSearch').focus(), 600);
   }
   
-  // Expose API for logout / admin control
-  window.FortressGate = {
-    logout: () => {
-      setCookie('session', '', -1);
-      setCookie('session_exp', '0', -1);
-      location.reload();
-    },
-    isAuthenticated: hasValidSession,
-    notify: notify,
-    forceUnlock: () => {
-      setCookie('lock_until', '0', -1);
-      setCookie('attempts', '0', -1);
-      location.reload();
-    }
-  };
-  
+  // Wait for DOM and Supabase SDK
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 })();
-
 </script>
-<!-- ═══ END FORTRESS GATE ═══ -->
+<!-- ═══ END AUTH SYSTEM v18.0 ═══ -->
+
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -2791,7 +3445,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">Manual Daily Update ✨</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🔒 v17.0 · Security Panel + Live Intel</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🔒 v18.0 · Multi-User Auth + Security Panel</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -3109,7 +3763,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
       console.log('%c───────────────────────────────────────────────────',s3);
       console.log('%c© 2026 Eng. Abdulwahab M Alshammari',s3);
       console.log('%cRetail MT · Salam Mobile · All Rights Reserved',s3);
-      console.log('%cBuild: v17.0 · ID: WAB-2026-04-21-INTEL',s4);
+      console.log('%cBuild: v18.0 · ID: WAB-2026-04-27-USERS',s4);
       console.log('%c───────────────────────────────────────────────────',s3);
     }catch(e){}
   },500);
