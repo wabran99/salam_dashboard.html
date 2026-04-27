@@ -841,6 +841,27 @@
       displayName: 'Admin', username: 'admin',
       isAdmin: true
     };
+    // v18.0 FIX: Admin bypass must hide splash + auth overlay so dashboard renders
+    function __adminFinalize() {
+      try {
+        const splash = document.getElementById('salamSplash');
+        if (splash) {
+          splash.style.opacity = '0';
+          splash.style.pointerEvents = 'none';
+          setTimeout(function(){ splash.style.display = 'none'; }, 300);
+        }
+        const overlay = document.getElementById('salamAuthOverlay');
+        if (overlay) {
+          overlay.style.display = 'none';
+          overlay.classList.remove('is-visible');
+        }
+      } catch(e) { console.warn('Admin bypass UI fix:', e); }
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', __adminFinalize);
+    } else {
+      __adminFinalize();
+    }
     return;
   }
   
