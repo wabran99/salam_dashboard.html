@@ -12,7 +12,8 @@
 -->
 
 <!-- ═══ VERSION HISTORY ═══
-  v18.0     · 2026-04-27 · Multi-User Auth System (Supabase) + Login UI [Step 2.1]
+  v18.0     · 2026-04-27 · Multi-User Auth System (Supabase) + Session Management [Step 2.3.أ]
+  v18.0-2.2 · 2026-04-27 · First-Login Password Change + Strength Meter [Step 2.2]
   v17.0     · 2026-04-21 · Behavior Intel + Live Presence Panel + Tracker
   v16.9.10  · 2026-04-21 · Najwa name mapping fix + mk() function
   v16.9.9  · 2026-04-20 · FORTRESS Security + Full Lockdown + PIN Gate
@@ -86,7 +87,7 @@
   position: fixed;
   inset: 0;
   z-index: 999999;
-  display: flex;
+  display: none;  /* hidden by default — shown by JS based on session check */
   align-items: center;
   justify-content: center;
   font-family: 'Tajawal', -apple-system, sans-serif;
@@ -96,8 +97,77 @@
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  opacity: 0;
+  transition: opacity 0.45s var(--auth-ease-soft);
+}
+#salamAuthOverlay.is-visible {
+  display: flex;
+  opacity: 1;
+}
+#salamAuthOverlay.is-fading-out {
+  opacity: 0;
+  pointer-events: none;
 }
 #salamAuthOverlay::-webkit-scrollbar { width: 0; }
+
+/* ─── Splash Screen (initial loading) ──── */
+#salamSplash {
+  position: fixed;
+  inset: 0;
+  z-index: 9999999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  background: var(--auth-green-deepest);
+  font-family: 'Tajawal', -apple-system, sans-serif;
+  color: var(--auth-text);
+  transition: opacity 0.4s var(--auth-ease-soft);
+}
+#salamSplash.is-fading-out {
+  opacity: 0;
+  pointer-events: none;
+}
+.splash-bg-gradient {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse at top right, rgba(18, 123, 119, 0.32) 0%, transparent 55%),
+    radial-gradient(ellipse at bottom left, rgba(212, 175, 55, 0.10) 0%, transparent 55%),
+    linear-gradient(180deg, var(--auth-green-deepest) 0%, #061514 100%);
+}
+.splash-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.splash-logo {
+  width: 180px;
+  height: auto;
+  filter: drop-shadow(0 6px 28px rgba(47, 197, 191, 0.25));
+  animation: splashPulse 1.6s ease-in-out infinite;
+}
+@keyframes splashPulse {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50%      { transform: scale(1.04); opacity: 1; }
+}
+.splash-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(212, 175, 55, 0.18);
+  border-top-color: var(--auth-gold);
+  border-radius: 50%;
+  animation: authSpin 0.8s linear infinite;
+}
+.splash-text {
+  font-size: 13px;
+  color: var(--auth-text-muted);
+  letter-spacing: 0.4px;
+  font-weight: 500;
+}
 
 /* ─── Animated Background ──── */
 .auth-bg-gradient {
@@ -508,6 +578,16 @@
 }
 </style>
 
+<!-- ═══ SPLASH SCREEN (shown briefly while checking session) ═══ -->
+<div id="salamSplash">
+  <div class="splash-bg-gradient"></div>
+  <div class="splash-content">
+    <img class="splash-logo" id="splashLogo" alt="Salam" />
+    <div class="splash-spinner"></div>
+    <div class="splash-text">جاري التحقّق من الجلسة...</div>
+  </div>
+</div>
+
 <!-- ═══ AUTH OVERLAY MARKUP ═══ -->
 <div id="salamAuthOverlay">
   
@@ -726,7 +806,7 @@
     <!-- Footer -->
     <div class="auth-footer">
       <div>© 2026 Salam Mobile · Retail MT · جميع الحقوق محفوظة</div>
-      <div class="auth-footer-version">v18.0 · Step 2.2</div>
+      <div class="auth-footer-version">v18.0 · Step 2.3.أ</div>
     </div>
     
   </div>
@@ -1001,12 +1081,8 @@
         goToStep(3);
         setTimeout(() => $('authNewPwd').focus(), 350);
       } else {
-        // Normal login complete - dashboard entry comes in Step 2.3
-        showSuccess('authError', '✅ تمّ تسجيل الدخول بنجاح! (دخول اللوحة في الخطوة 2.3)');
-        // Re-purpose error element as success briefly
-        const err = $('authError');
-        err.style.cssText = 'background:rgba(76,175,80,0.10);border-color:rgba(76,175,80,0.4);color:#81C784;display:block;margin-top:14px;padding:12px 14px;border-radius:12px;border:1px solid;font-size:13px;font-weight:500;text-align:center;';
-        err.textContent = '✅ تمّ تسجيل الدخول بنجاح! (دخول اللوحة في الخطوة 2.3)';
+        // Normal login complete — enter the dashboard
+        enterDashboard(state.selectedUser);
       }
       
     } catch (err) {
@@ -1128,13 +1204,15 @@
       
       console.log('[Auth] must_change_password flag cleared');
       
-      // Show success
-      showSuccess('authStep3Success', '✅ تمّ حفظ كلمة السرّ بنجاح!');
+      // Update local user object
+      state.selectedUser.must_change_password = false;
       
-      // Note: actual dashboard entry happens in Step 2.3
+      // Show success briefly, then enter dashboard
+      showSuccess('authStep3Success', '✅ تمّ حفظ كلمة السرّ بنجاح! جاري الدخول...');
+      
       setTimeout(() => {
-        showSuccess('authStep3Success', '✅ تمّ! دخول اللوحة في الخطوة 2.3');
-      }, 1500);
+        enterDashboard(state.selectedUser);
+      }, 1200);
       
     } catch (err) {
       console.error('[Auth] Set password error:', err);
@@ -1166,21 +1244,294 @@
   }
   
   // ════════════════════════════════════════════════════════════════════
+  // SESSION MANAGEMENT (Step 2.3.أ)
+  // ════════════════════════════════════════════════════════════════════
+  
+  const LAST_USER_KEY = 'salam-dashboard-last-user';
+  
+  // Save last logged-in user for "welcome back" experience
+  function saveLastUser(user) {
+    try {
+      localStorage.setItem(LAST_USER_KEY, JSON.stringify({
+        id: user.id,
+        username: user.username,
+        display_name: user.display_name,
+        role: user.role,
+        savedAt: Date.now()
+      }));
+    } catch (e) {
+      console.warn('[Auth] Could not save last user:', e);
+    }
+  }
+  
+  function getLastUser() {
+    try {
+      const raw = localStorage.getItem(LAST_USER_KEY);
+      if (!raw) return null;
+      const obj = JSON.parse(raw);
+      // Expire after 90 days (well beyond 30-day session)
+      if (Date.now() - (obj.savedAt || 0) > 90 * 86400 * 1000) {
+        localStorage.removeItem(LAST_USER_KEY);
+        return null;
+      }
+      return obj;
+    } catch (e) {
+      return null;
+    }
+  }
+  
+  // Reveal the dashboard, hide overlays
+  function enterDashboard(user) {
+    console.log('[Auth] Entering dashboard as:', user?.display_name || user?.username);
+    
+    // Expose session info globally so dashboard scripts can use it later (Step 2.3.ب/ج)
+    window.__SALAM_AUTH__ = {
+      mode: 'user',
+      role: user.role,
+      displayName: user.display_name,
+      username: user.username,
+      userId: user.id,
+      authUserId: user.auth_user_id,
+      isAdmin: false
+    };
+    
+    // Save last-user for next time
+    saveLastUser(user);
+    
+    // Fade out overlays
+    const overlay = $('salamAuthOverlay');
+    const splash = $('salamSplash');
+    
+    if (splash) {
+      splash.classList.add('is-fading-out');
+      setTimeout(() => { splash.style.display = 'none'; }, 450);
+    }
+    if (overlay) {
+      overlay.classList.add('is-fading-out');
+      setTimeout(() => {
+        overlay.classList.remove('is-visible');
+        overlay.classList.remove('is-fading-out');
+        overlay.style.display = 'none';
+      }, 450);
+    }
+    
+    // Allow scrolling on body (overlay was blocking it)
+    document.body.style.overflow = '';
+    
+    // Notify dashboard that auth is complete (for Step 2.3.ب welcome message etc.)
+    document.dispatchEvent(new CustomEvent('salam:auth:ready', {
+      detail: window.__SALAM_AUTH__
+    }));
+  }
+  
+  // Show the auth overlay (with optional pre-selected user for "welcome back")
+  function showAuthOverlay(prefilledUser) {
+    const splash = $('salamSplash');
+    const overlay = $('salamAuthOverlay');
+    
+    // Prevent body scrolling while auth is shown
+    document.body.style.overflow = 'hidden';
+    
+    if (splash) {
+      splash.classList.add('is-fading-out');
+      setTimeout(() => { splash.style.display = 'none'; }, 450);
+    }
+    
+    // If we have a prefilled user → jump to Step 2 directly
+    if (prefilledUser) {
+      const match = state.users.find(u => u.id === prefilledUser.id || u.username === prefilledUser.username);
+      if (match) {
+        state.selectedUser = match;
+        $('authSelectedAvatar').textContent = getInitials(match.display_name);
+        $('authSelectedName').textContent = match.display_name;
+        $('authSelectedMeta').textContent = '';
+        $('authStep3Avatar').textContent = getInitials(match.display_name);
+        $('authStep3Name').textContent = match.display_name;
+        // Add a small "not you?" link in the selected card
+        showNotYouLink();
+        goToStep(2);
+        // After overlay shows, focus password
+        setTimeout(() => {
+          $('authPasswordInput').focus();
+        }, 500);
+      }
+    }
+    
+    // Show overlay with fade
+    overlay.style.display = 'flex';
+    requestAnimationFrame(() => {
+      overlay.classList.add('is-visible');
+    });
+  }
+  
+  // "Not you?" link — shown in Step 2 when user was prefilled
+  function showNotYouLink() {
+    let link = document.getElementById('authNotYouLink');
+    if (!link) {
+      const card = $('authSelectedUser');
+      if (!card) return;
+      link = document.createElement('button');
+      link.id = 'authNotYouLink';
+      link.type = 'button';
+      link.style.cssText = 'background:transparent;border:none;color:var(--auth-text-muted);font-size:11px;cursor:pointer;padding:4px 8px;text-decoration:underline;font-family:inherit;margin-top:4px;';
+      link.textContent = 'مش أنت؟ تسجيل دخول مختلف';
+      link.addEventListener('click', () => {
+        // Clear last user and go back to step 1
+        localStorage.removeItem(LAST_USER_KEY);
+        link.remove();
+        goToStep(1);
+      });
+      // Insert after selected card content
+      card.appendChild(link);
+    }
+  }
+  
+  function hideNotYouLink() {
+    const link = document.getElementById('authNotYouLink');
+    if (link) link.remove();
+  }
+  
+  // Check session on page load — decides: enter dashboard OR show login
+  async function checkSessionAndRoute() {
+    try {
+      const { data: { session }, error } = await state.supabase.auth.getSession();
+      
+      if (error) {
+        console.warn('[Auth] Session check error:', error);
+      }
+      
+      if (session && session.user) {
+        // We have a valid session — fetch user details and enter dashboard
+        console.log('[Auth] Active session found for:', session.user.email);
+        
+        const { data: userRow, error: userErr } = await state.supabase
+          .from('users')
+          .select('id, username, display_name, role, is_active, must_change_password, auth_user_id')
+          .eq('auth_user_id', session.user.id)
+          .single();
+        
+        if (userErr || !userRow) {
+          console.warn('[Auth] User row not found for session, signing out');
+          await state.supabase.auth.signOut();
+          showAuthOverlay(getLastUser());
+          return;
+        }
+        
+        if (!userRow.is_active) {
+          console.warn('[Auth] User account is inactive, signing out');
+          await state.supabase.auth.signOut();
+          showAuthOverlay(null);
+          return;
+        }
+        
+        if (userRow.must_change_password) {
+          // Session is valid but user still needs to set a new password
+          console.log('[Auth] Session valid but password change required');
+          state.selectedUser = userRow;
+          $('authStep3Avatar').textContent = getInitials(userRow.display_name);
+          $('authStep3Name').textContent = userRow.display_name;
+          
+          const splash = $('salamSplash');
+          if (splash) {
+            splash.classList.add('is-fading-out');
+            setTimeout(() => { splash.style.display = 'none'; }, 450);
+          }
+          document.body.style.overflow = 'hidden';
+          
+          const overlay = $('salamAuthOverlay');
+          overlay.style.display = 'flex';
+          requestAnimationFrame(() => overlay.classList.add('is-visible'));
+          goToStep(3);
+          setTimeout(() => $('authNewPwd').focus(), 500);
+          return;
+        }
+        
+        // All good — enter dashboard
+        enterDashboard(userRow);
+        return;
+      }
+      
+      // No active session — show login overlay
+      // If we have a "last user", prefill them (Step 2 directly)
+      const lastUser = getLastUser();
+      console.log('[Auth] No active session.', lastUser ? `Last user: ${lastUser.display_name}` : 'No last user.');
+      
+      // Make sure users are loaded before showing prefilled state
+      if (lastUser) {
+        // Wait for users list to load, then show prefilled
+        await loadUsersAsync();
+        showAuthOverlay(lastUser);
+      } else {
+        await loadUsersAsync();
+        showAuthOverlay(null);
+      }
+      
+    } catch (err) {
+      console.error('[Auth] Session check fatal error:', err);
+      // Fail-safe: show login screen
+      await loadUsersAsync();
+      showAuthOverlay(null);
+    }
+  }
+  
+  // Promise-wrapped loadUsers
+  async function loadUsersAsync() {
+    if (state.users.length > 0) return; // already loaded
+    
+    try {
+      const { data, error } = await state.supabase
+        .from('users')
+        .select('id, username, display_name, role, is_active, must_change_password, auth_user_id')
+        .eq('is_active', true);
+      
+      if (error) throw error;
+      
+      const roleOrder = { executive: 1, manager: 2, supervisor: 3 };
+      data.sort((a, b) => (roleOrder[a.role] || 9) - (roleOrder[b.role] || 9));
+      
+      state.users = data || [];
+      state.filteredUsers = state.users.slice();
+      renderUserList();
+      console.log(`[Auth] Loaded ${state.users.length} users`);
+    } catch (err) {
+      console.error('[Auth] Failed to load users:', err);
+      $('authUserList').innerHTML = `
+        <div class="auth-loading">
+          <span style="color:#FF6B6B;">⚠ تعذّر تحميل الحسابات</span>
+          <span style="font-size:11px;">${err.message || 'Unknown error'}</span>
+        </div>`;
+    }
+  }
+  
+  // ════════════════════════════════════════════════════════════════════
   // INIT
   // ════════════════════════════════════════════════════════════════════
   function init() {
+    // Inject logo into both splash and auth overlay
+    const splashLogo = $('splashLogo');
+    if (splashLogo) splashLogo.src = LOGO_B64;
     $('authLogo').src = LOGO_B64;
     
     if (!initSupabase()) {
       $('authUserList').innerHTML = `<div class="auth-loading"><span style="color:#FF6B6B;">⚠ فشل تحميل Supabase</span></div>`;
+      // Force show login overlay even on Supabase failure
+      const splash = $('salamSplash');
+      if (splash) splash.style.display = 'none';
+      const overlay = $('salamAuthOverlay');
+      overlay.style.display = 'flex';
+      overlay.classList.add('is-visible');
       return;
     }
     
-    loadUsers();
-    
-    // Wire events
-    $('authUserSearch').addEventListener('input', e => filterUsers(e.target.value));
-    $('authBackBtn').addEventListener('click', () => goToStep(1));
+    // Wire events (do this BEFORE checkSessionAndRoute so they're ready)
+    $('authUserSearch').addEventListener('input', e => {
+      hideNotYouLink();
+      filterUsers(e.target.value);
+    });
+    $('authBackBtn').addEventListener('click', () => {
+      hideNotYouLink();
+      goToStep(1);
+    });
     $('authLoginBtn').addEventListener('click', handleLogin);
     $('authPwdToggle').addEventListener('click', makeToggle('authPasswordInput', 'authEyeShow', 'authEyeHide'));
     $('authNewPwdToggle').addEventListener('click', makeToggle('authNewPwd', 'authNewEyeShow', 'authNewEyeHide'));
@@ -1200,7 +1551,17 @@
       alert('لإعادة تعيين كلمة السرّ، تواصل مع الإدارة');
     });
     
-    setTimeout(() => $('authUserSearch').focus(), 600);
+    // Listen for sign-out events to handle multi-tab consistency
+    state.supabase.auth.onAuthStateChange((event, session) => {
+      console.log('[Auth] State change:', event);
+      if (event === 'SIGNED_OUT') {
+        // Force reload to reset state cleanly
+        window.location.reload();
+      }
+    });
+    
+    // The big one: decide what to show based on session
+    checkSessionAndRoute();
   }
   
   if (document.readyState === 'loading') {
