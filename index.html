@@ -12,7 +12,8 @@
 -->
 
 <!-- ═══ VERSION HISTORY ═══
-  v18.0     · 2026-04-27 · Multi-User Auth System (Supabase) + Session Management [Step 2.3.أ]
+  v18.0     · 2026-04-27 · Multi-User Auth + User Section + Role-based Filtering [Step 2.3.ب]
+  v18.0-2.3أ · 2026-04-27 · Session Management + Splash Screen [Step 2.3.أ]
   v18.0-2.2 · 2026-04-27 · First-Login Password Change + Strength Meter [Step 2.2]
   v17.0     · 2026-04-21 · Behavior Intel + Live Presence Panel + Tracker
   v16.9.10  · 2026-04-21 · Najwa name mapping fix + mk() function
@@ -806,7 +807,7 @@
     <!-- Footer -->
     <div class="auth-footer">
       <div>© 2026 Salam Mobile · Retail MT · جميع الحقوق محفوظة</div>
-      <div class="auth-footer-version">v18.0 · Step 2.3.أ</div>
+      <div class="auth-footer-version">v18.0 · Step 2.3.ب</div>
     </div>
     
   </div>
@@ -919,6 +920,8 @@
         storageKey: 'salam-dashboard-auth-session'
       }
     });
+    // v18.0: Expose supabase client globally for logout etc.
+    window.__SALAM_SUPABASE__ = state.supabase;
     console.log('[Auth] Supabase initialized');
     return true;
   }
@@ -1647,6 +1650,159 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 .hdr-mid p{font-size:11px;color:var(--g7);text-align:center;margin-top:3px;font-weight:500}
 
 .hdr-r{display:flex;gap:8px;align-items:center;justify-self:end}
+
+/* ═══════════════════════════════════════════════════════════
+   v18.0: User Section (logged-in user info + dropdown)
+   ═══════════════════════════════════════════════════════════ */
+.user-section{
+  position:relative;
+  margin-right:8px;
+}
+.user-pill{
+  display:flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,rgba(212,175,55,0.10) 0%,rgba(18,123,119,0.08) 100%);
+  border:1px solid rgba(212,175,55,0.25);
+  border-radius:30px;
+  padding:5px 14px 5px 6px;
+  cursor:pointer;
+  transition:all 0.25s ease;
+  color:#F7F9F9;
+  font-family:inherit;
+}
+.user-pill:hover{
+  border-color:rgba(212,175,55,0.5);
+  background:linear-gradient(135deg,rgba(212,175,55,0.18) 0%,rgba(18,123,119,0.12) 100%);
+  transform:translateY(-1px);
+  box-shadow:0 4px 14px -4px rgba(212,175,55,0.3);
+}
+.user-pill.is-open{
+  border-color:rgba(212,175,55,0.6);
+  background:linear-gradient(135deg,rgba(212,175,55,0.22) 0%,rgba(18,123,119,0.16) 100%);
+}
+.user-avatar{
+  width:32px;height:32px;border-radius:50%;
+  background:linear-gradient(135deg,#127B77 0%,#0A5F5C 100%);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:12px;
+  color:#F7F9F9;flex-shrink:0;
+  border:1.5px solid rgba(212,175,55,0.3);
+  font-family:'Manrope',-apple-system,sans-serif;
+  letter-spacing:0.3px;
+}
+.user-avatar.is-admin{
+  background:linear-gradient(135deg,#D4AF37 0%,#A8871D 100%);
+  color:#1a1a1a;
+  border-color:rgba(247,249,249,0.4);
+}
+.user-avatar-lg{
+  width:48px;height:48px;font-size:16px;
+}
+.user-info{
+  display:flex;flex-direction:column;
+  align-items:flex-start;
+  min-width:0;line-height:1.2;
+}
+.user-name{
+  font-size:13px;font-weight:700;
+  color:#F7F9F9;
+  font-family:'Manrope',-apple-system,sans-serif;
+  letter-spacing:0.2px;
+  white-space:nowrap;
+}
+.user-role-badge{
+  font-size:10px;font-weight:600;
+  color:rgba(212,175,55,0.85);
+  letter-spacing:0.4px;
+  text-transform:uppercase;
+  display:flex;align-items:center;gap:3px;
+}
+.user-role-badge.is-admin{
+  color:#D4AF37;
+}
+.user-chevron{
+  color:rgba(247,249,249,0.5);
+  transition:transform 0.25s ease;
+  margin-left:2px;
+}
+.user-pill.is-open .user-chevron{
+  transform:rotate(180deg);
+}
+
+/* Dropdown menu */
+.user-menu{
+  position:absolute;
+  top:calc(100% + 8px);
+  left:0;
+  min-width:240px;
+  background:rgba(15,47,46,0.97);
+  backdrop-filter:blur(20px) saturate(140%);
+  -webkit-backdrop-filter:blur(20px) saturate(140%);
+  border:1px solid rgba(212,175,55,0.22);
+  border-radius:14px;
+  box-shadow:0 20px 50px -10px rgba(0,0,0,0.6);
+  padding:8px;
+  opacity:0;
+  pointer-events:none;
+  transform:translateY(-8px);
+  transition:all 0.25s cubic-bezier(0.19,1,0.22,1);
+  z-index:9999;
+}
+.user-menu.is-open{
+  opacity:1;
+  pointer-events:auto;
+  transform:translateY(0);
+}
+.user-menu-header{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 12px 14px;
+  border-bottom:1px solid rgba(212,175,55,0.12);
+  margin-bottom:8px;
+}
+.user-menu-name{
+  font-size:14px;font-weight:700;color:#F7F9F9;
+  font-family:'Manrope',-apple-system,sans-serif;
+  white-space:nowrap;
+}
+.user-menu-role{
+  font-size:11px;color:rgba(212,175,55,0.85);
+  margin-top:2px;letter-spacing:0.3px;
+}
+.user-menu-item{
+  display:flex;align-items:center;gap:10px;
+  width:100%;
+  padding:10px 12px;
+  background:transparent;
+  border:none;
+  border-radius:10px;
+  color:rgba(247,249,249,0.85);
+  font-size:13px;font-weight:500;
+  font-family:inherit;
+  cursor:pointer;
+  transition:all 0.2s ease;
+  text-align:right;
+}
+.user-menu-item:hover{
+  background:rgba(212,175,55,0.1);
+  color:#F7F9F9;
+}
+.user-menu-logout{
+  color:rgba(255,107,107,0.9);
+}
+.user-menu-logout:hover{
+  background:rgba(229,57,53,0.12);
+  color:#FF6B6B;
+}
+
+/* Mobile responsive */
+@media (max-width:768px){
+  .user-info{display:none}
+  .user-pill{padding:4px;border-radius:50%;}
+  .user-chevron{display:none}
+  .user-menu{
+    left:auto;
+    right:0;
+  }
+}
 .live{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--g7)}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--g6);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
@@ -3881,6 +4037,37 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <p id="hdr-sub">Loading...</p>
   </div>
   <div class="hdr-r">
+    <!-- v18.0: User Section (logged-in user info + dropdown menu) -->
+    <div class="user-section" id="userSection" style="display:none">
+      <button class="user-pill" id="userPill" type="button" aria-label="User menu">
+        <div class="user-avatar" id="userAvatar">--</div>
+        <div class="user-info">
+          <div class="user-name" id="userName">—</div>
+          <div class="user-role-badge" id="userRoleBadge">—</div>
+        </div>
+        <svg class="user-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="m6 9 6 6 6-6"/>
+        </svg>
+      </button>
+      <!-- Dropdown menu -->
+      <div class="user-menu" id="userMenu">
+        <div class="user-menu-header">
+          <div class="user-avatar user-avatar-lg" id="userAvatarLg">--</div>
+          <div>
+            <div class="user-menu-name" id="userMenuName">—</div>
+            <div class="user-menu-role" id="userMenuRole">—</div>
+          </div>
+        </div>
+        <button class="user-menu-item user-menu-logout" id="userLogoutBtn" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          <span>تسجيل خروج</span>
+        </button>
+      </div>
+    </div>
     <div class="live"><span class="dot"></span><span id="live-lbl">Live</span></div>
     <button class="btn btn-o" onclick="loadData()">↻ Refresh</button>
     <button class="btn btn-print" onclick="window.print()">🖨 Print</button>
@@ -4783,6 +4970,17 @@ async function loadData(){
     const [t1,t2]=await Promise.all([r1.text(),r2.text()]);
     DATA=parseCSV_UMM(t1);
     FTTH_DATA=parseCSV_FTTH(t2);
+    
+    // v18.0: Role-based filtering
+    // Supervisors see ONLY their own employees. Admin/Executive/Manager see everything.
+    if(window.__SALAM_AUTH__&&window.__SALAM_AUTH__.role==='supervisor'){
+      const myName=(window.__SALAM_AUTH__.displayName||'').trim().toLowerCase();
+      const beforeCount={data:DATA.length,ftth:FTTH_DATA.length};
+      DATA=DATA.filter(r=>(r.mgr||'').trim().toLowerCase()===myName);
+      FTTH_DATA=FTTH_DATA.filter(r=>(r.mgr||'').trim().toLowerCase()===myName);
+      console.log(`[Auth] Supervisor filter applied for "${window.__SALAM_AUTH__.displayName}": `+
+        `DATA ${beforeCount.data}→${DATA.length}, FTTH ${beforeCount.ftth}→${FTTH_DATA.length}`);
+    }
     // v16.9: Parse Browse Date if loaded
     if(r3&&r3.ok){
       try{
@@ -11385,7 +11583,144 @@ openPanel=function(name){
 };
 
 setInterval(loadData,5*60*1000);
-loadData();
+
+// v18.0: User Section + Auth integration
+(function(){
+  'use strict';
+  
+  const $ = id => document.getElementById(id);
+  
+  // Get initials from a name (e.g., "Ahmed AlMutairi" → "AA")
+  function getInitials(name){
+    if(!name) return '--';
+    const parts = name.trim().split(/\s+/).filter(Boolean);
+    if(parts.length === 0) return '--';
+    if(parts.length === 1) return parts[0].substring(0,2).toUpperCase();
+    return (parts[0][0] + parts[parts.length-1][0]).toUpperCase();
+  }
+  
+  // Translate role → Arabic label
+  function roleLabel(role, isAdmin){
+    if(isAdmin) return '🛡️ Admin';
+    switch(role){
+      case 'executive':  return 'Senior Manager';
+      case 'manager':    return 'Manager';
+      case 'supervisor': return 'Supervisor';
+      default:           return role || '—';
+    }
+  }
+  
+  // Populate User Section UI
+  function renderUserSection(auth){
+    if(!auth) return;
+    
+    const initials = getInitials(auth.displayName);
+    const role = roleLabel(auth.role, auth.isAdmin);
+    const name = auth.displayName || '—';
+    
+    // Top pill
+    $('userAvatar').textContent = initials;
+    $('userName').textContent = name;
+    $('userRoleBadge').textContent = role;
+    
+    // Dropdown
+    $('userAvatarLg').textContent = initials;
+    $('userMenuName').textContent = name;
+    $('userMenuRole').textContent = role;
+    
+    // Apply admin styling
+    if(auth.isAdmin){
+      $('userAvatar').classList.add('is-admin');
+      $('userAvatarLg').classList.add('is-admin');
+      $('userRoleBadge').classList.add('is-admin');
+    } else {
+      $('userAvatar').classList.remove('is-admin');
+      $('userAvatarLg').classList.remove('is-admin');
+      $('userRoleBadge').classList.remove('is-admin');
+    }
+    
+    // Hide logout button for Admin (URL-based, no Supabase session to sign out from)
+    const logoutBtn = $('userLogoutBtn');
+    if(auth.isAdmin){
+      logoutBtn.style.display = 'none';
+    } else {
+      logoutBtn.style.display = '';
+    }
+    
+    // Show the section
+    $('userSection').style.display = '';
+    
+    console.log(`[UserSection] Rendered for ${name} (${role})`);
+  }
+  
+  // Wire up dropdown toggle
+  function wireUserMenu(){
+    const pill = $('userPill');
+    const menu = $('userMenu');
+    if(!pill || !menu) return;
+    
+    pill.addEventListener('click', e => {
+      e.stopPropagation();
+      const isOpen = pill.classList.toggle('is-open');
+      menu.classList.toggle('is-open', isOpen);
+    });
+    
+    // Close when clicking outside
+    document.addEventListener('click', e => {
+      if(!pill.contains(e.target) && !menu.contains(e.target)){
+        pill.classList.remove('is-open');
+        menu.classList.remove('is-open');
+      }
+    });
+    
+    // Logout handler
+    $('userLogoutBtn').addEventListener('click', async e => {
+      e.stopPropagation();
+      if(!confirm('متأكّد تبي تسجّل الخروج؟')) return;
+      
+      try {
+        // Sign out from Supabase using the global client
+        if(window.__SALAM_SUPABASE__ && !window.__SALAM_AUTH__.isAdmin){
+          await window.__SALAM_SUPABASE__.auth.signOut();
+          console.log('[Logout] Signed out from Supabase');
+        }
+        
+        // Note: NOT removing salam-dashboard-last-user — keep for "welcome back" UX
+        // The onAuthStateChange listener will trigger a reload automatically
+      } catch(err) {
+        console.error('[Logout] Error:', err);
+        // Force reload as fallback
+        window.location.reload();
+      }
+    });
+  }
+  
+  // Initialize on DOM ready
+  function init(){
+    wireUserMenu();
+    
+    // If admin mode is already set (URL bypass happened before this script ran)
+    if(window.__SALAM_AUTH__ && window.__SALAM_AUTH__.isAdmin){
+      renderUserSection(window.__SALAM_AUTH__);
+      // Trigger data load now (admin doesn't get auth:ready event)
+      loadData();
+      return;
+    }
+    
+    // Otherwise, wait for auth:ready event
+    document.addEventListener('salam:auth:ready', e => {
+      renderUserSection(e.detail);
+      // NOW load data — with the auth context available, filtering will apply
+      loadData();
+    });
+  }
+  
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
 </script>
 
 <!-- ═══ FORTRESS SECURITY MODULE v17.0 ═══ -->
