@@ -1060,12 +1060,31 @@
       });
       
       if (error) {
-        // Map common errors to friendly Arabic messages
-        let msg = 'كلمة السرّ غير صحيحة';
-        if (error.message && error.message.toLowerCase().includes('invalid')) {
+        // Log full error for debugging
+        console.error('[Auth] Supabase error details:', {
+          message: error.message,
+          status: error.status,
+          name: error.name,
+          fullError: error
+        });
+        
+        // Map common errors to friendly Arabic messages, but always show the real error too
+        let msg;
+        const lowerMsg = (error.message || '').toLowerCase();
+        
+        if (lowerMsg.includes('invalid login') || lowerMsg.includes('invalid credentials')) {
           msg = 'كلمة السرّ غير صحيحة';
-        } else if (error.message && error.message.toLowerCase().includes('network')) {
+        } else if (lowerMsg.includes('email not confirmed')) {
+          msg = '⚠️ الإيميل غير مؤكّد — تواصل مع الإدارة';
+        } else if (lowerMsg.includes('user not found')) {
+          msg = '⚠️ الحساب غير موجود — تواصل مع الإدارة';
+        } else if (lowerMsg.includes('too many') || lowerMsg.includes('rate')) {
+          msg = '⚠️ محاولات كثيرة — انتظر شويّة وحاول مرّة ثانية';
+        } else if (lowerMsg.includes('network') || lowerMsg.includes('failed to fetch')) {
           msg = 'فشل الاتصال بالخادم. تحقّق من الإنترنت.';
+        } else if (error.message) {
+          // v18.0: show actual error message in debug-friendly format
+          msg = '⚠️ ' + error.message;
         } else {
           msg = 'تعذّر تسجيل الدخول. حاول مرّة أخرى.';
         }
@@ -4181,9 +4200,32 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 // ═══════════════════════════════════════════════════════
 // v16.9.3: Protection Layer — DevTools Detection + Signature
 // Developed by Eng. Abdulwahab M Alshammari · Retail MT · Salam Mobile
+// 
+// v18.0 update: ?debug=WAB2026 disables DevTools blocking for current session
 // ═══════════════════════════════════════════════════════
 (function(){
   'use strict';
+  
+  // ─── v18.0: Debug Mode Bypass (admin only) ───
+  // If URL contains ?debug=WAB2026, disable all DevTools blocking
+  // This allows Wabran to inspect issues without removing protection from regular users
+  const __urlParams = new URLSearchParams(window.location.search);
+  const __debugMode = __urlParams.get('debug') === 'WAB2026';
+  if (__debugMode) {
+    try {
+      sessionStorage.setItem('__SLM_DEBUG__', '1');
+      console.log('%c🔓 DEBUG MODE ACTIVE',
+        'background:#D4A017;color:#000;font-size:18px;font-weight:900;padding:8px 16px;border-radius:8px;');
+      console.log('%cAll DevTools protections disabled for this session.',
+        'color:#D4A017;font-size:13px;');
+      console.log('%cClose tab to end debug session.',
+        'color:#888;font-size:11px;');
+    } catch(_){}
+  }
+  const __isDebug = __debugMode || (function(){
+    try { return sessionStorage.getItem('__SLM_DEBUG__') === '1'; } catch(_){ return false; }
+  })();
+  
   // — Watermark: 5 hidden fingerprints in runtime —
   window.__SLM_FINGERPRINT__={
     author:'Eng. Abdulwahab M Alshammari',
@@ -4196,6 +4238,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   Object.freeze(window.__SLM_FINGERPRINT__);
   // — Disable right-click (except on input fields for usability) —
   document.addEventListener('contextmenu',function(e){
+    if (__isDebug) return; // v18.0: debug mode allows right-click
     const tag=(e.target.tagName||'').toLowerCase();
     if(tag!=='input'&&tag!=='textarea'){
       e.preventDefault();
@@ -4204,6 +4247,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   },false);
   // — Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U, Ctrl+S —
   document.addEventListener('keydown',function(e){
+    if (__isDebug) return; // v18.0: debug mode allows DevTools shortcuts
     // F12
     if(e.keyCode===123){e.preventDefault();return false;}
     // Ctrl+Shift+I (DevTools)
@@ -4343,9 +4387,11 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   }
 
   // — Aggressive DevTools detection — blur content when opened —
+  // v18.0: Skip entirely if debug mode is active
   let _devOpen=false;
   let _warnCount=0;
   function _blockContent(){
+    if(__isDebug)return; // v18.0: debug mode bypass
     if(!document.body)return;
     document.body.style.filter='blur(20px)';
     document.body.style.pointerEvents='none';
@@ -4372,6 +4418,8 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     const overlay=document.getElementById('_sec-overlay');
     if(overlay)overlay.style.display='none';
   }
+  // v18.0: Skip ALL detection in debug mode
+  if(!__isDebug){
   // Method 1: Size-based detection — v16.9.9: Smart device-aware
   // Mobile browsers (Safari/Chrome iOS) auto-hide/show address bar,
   // which causes innerHeight to fluctuate ~85px — this used to trigger
@@ -4418,6 +4466,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   setInterval(function(){
     try{console.debug(_element);console.clear();}catch(e){}
   },3000);
+  } // v18.0: end of !__isDebug bypass block
 
   // ═══════════════════════════════════════════════════════
   // v16.9.7: Security Panel — Admin Dashboard for Visitor Monitoring
