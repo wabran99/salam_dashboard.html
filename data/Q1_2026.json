@@ -1,1 +1,2936 @@
-
+{
+  "_meta": {
+    "version": "1.0",
+    "quarter": "Q1_2026",
+    "status": "closed",
+    "period": "January - February - March 2026",
+    "period_ar": "يناير - فبراير - مارس 2026",
+    "locked_at": "2026-04-30",
+    "locked_by": "wabran",
+    "data_source": "Metabase + Eqla Targets file",
+    "description": "Q1 2026 archive - immutable historical data"
+  },
+  "summary": {
+    "target": 14730,
+    "achieved": 9222,
+    "pct": 62.61,
+    "gap": 5508,
+    "status": "deficit"
+  },
+  "monthly_breakdown": {
+    "Jan": {
+      "target": 4700,
+      "achieved": 3547,
+      "pct": 75.47,
+      "gap": 1153,
+      "sales_count": 3547,
+      "active_employees": 57,
+      "employees_with_target": 65
+    },
+    "Feb": {
+      "target": 4956,
+      "achieved": 3093,
+      "pct": 62.41,
+      "gap": 1863,
+      "sales_count": 3093,
+      "active_employees": 63,
+      "employees_with_target": 64
+    },
+    "Mar": {
+      "target": 5074,
+      "achieved": 2582,
+      "pct": 50.89,
+      "gap": 2492,
+      "sales_count": 2582,
+      "active_employees": 60,
+      "employees_with_target": 52
+    }
+  },
+  "supervisors": [
+    {
+      "name_en": "Abdulwahab AlShammari",
+      "name_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 1055,
+          "achieved": 630,
+          "pct": 59.72,
+          "employees_count": 22
+        },
+        "Feb": {
+          "target": 2143,
+          "achieved": 919,
+          "pct": 42.88,
+          "employees_count": 32
+        },
+        "Mar": {
+          "target": 2019,
+          "achieved": 669,
+          "pct": 33.14,
+          "employees_count": 23
+        }
+      },
+      "total": {
+        "target": 5217,
+        "achieved": 2218,
+        "pct": 42.51,
+        "gap": 2999
+      }
+    },
+    {
+      "name_en": "Ahmed AlMutairi",
+      "name_ar": "أحمد المطيري",
+      "monthly": {
+        "Jan": {
+          "target": 950,
+          "achieved": 1030,
+          "pct": 108.42,
+          "employees_count": 12
+        },
+        "Feb": {
+          "target": 1605,
+          "achieved": 1351,
+          "pct": 84.17,
+          "employees_count": 18
+        },
+        "Mar": {
+          "target": 1100,
+          "achieved": 942,
+          "pct": 85.64,
+          "employees_count": 10
+        }
+      },
+      "total": {
+        "target": 3655,
+        "achieved": 3323,
+        "pct": 90.92,
+        "gap": 332
+      }
+    },
+    {
+      "name_en": "Mohammed AlShehri",
+      "name_ar": "محمد الشهري",
+      "monthly": {
+        "Jan": {
+          "target": 800,
+          "achieved": 553,
+          "pct": 69.12,
+          "employees_count": 7
+        },
+        "Feb": {
+          "target": 698,
+          "achieved": 502,
+          "pct": 71.92,
+          "employees_count": 7
+        },
+        "Mar": {
+          "target": 1335,
+          "achieved": 605,
+          "pct": 45.32,
+          "employees_count": 14
+        }
+      },
+      "total": {
+        "target": 2833,
+        "achieved": 1660,
+        "pct": 58.6,
+        "gap": 1173
+      }
+    },
+    {
+      "name_en": "Najwah AlOmari",
+      "name_ar": "نجوى العمري",
+      "monthly": {
+        "Jan": {
+          "target": 390,
+          "achieved": 71,
+          "pct": 18.21,
+          "employees_count": 7
+        },
+        "Feb": {
+          "target": 510,
+          "achieved": 150,
+          "pct": 29.41,
+          "employees_count": 7
+        },
+        "Mar": {
+          "target": 620,
+          "achieved": 134,
+          "pct": 21.61,
+          "employees_count": 5
+        }
+      },
+      "total": {
+        "target": 1520,
+        "achieved": 355,
+        "pct": 23.36,
+        "gap": 1165
+      }
+    },
+    {
+      "name_en": "Turki AlDawsari",
+      "name_ar": "تركي الدوسري",
+      "monthly": {
+        "Jan": {
+          "target": 1505,
+          "achieved": 1108,
+          "pct": 73.62,
+          "employees_count": 17
+        },
+        "Feb": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0,
+          "employees_count": 0
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0,
+          "employees_count": 0
+        }
+      },
+      "total": {
+        "target": 1505,
+        "achieved": 1108,
+        "pct": 73.62,
+        "gap": 397
+      }
+    }
+  ],
+  "employees": [
+    {
+      "user": "rtl_008147",
+      "name": "Marwan Al Amri",
+      "supervisor_en": "Mohammed AlShehri",
+      "supervisor_ar": "محمد الشهري",
+      "monthly": {
+        "Jan": {
+          "target": 0,
+          "achieved": 95,
+          "pct": 0
+        },
+        "Feb": {
+          "target": 0,
+          "achieved": 106,
+          "pct": 0
+        },
+        "Mar": {
+          "target": 85,
+          "achieved": 68,
+          "pct": 80.0
+        }
+      },
+      "total": {
+        "target": 85,
+        "achieved": 269,
+        "pct": 316.47,
+        "gap": -184
+      },
+      "status": "overachiever",
+      "is_stable": false,
+      "months_with_target": 1
+    },
+    {
+      "user": "mtl_010384",
+      "name": "Asayil Almasrahi",
+      "supervisor_en": "Ahmed AlMutairi",
+      "supervisor_ar": "أحمد المطيري",
+      "monthly": {
+        "Jan": {
+          "target": 250,
+          "achieved": 506,
+          "pct": 202.4
+        },
+        "Feb": {
+          "target": 300,
+          "achieved": 415,
+          "pct": 138.33
+        },
+        "Mar": {
+          "target": 180,
+          "achieved": 385,
+          "pct": 213.89
+        }
+      },
+      "total": {
+        "target": 730,
+        "achieved": 1306,
+        "pct": 178.9,
+        "gap": -576
+      },
+      "status": "overachiever",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "rtl_008092",
+      "name": "Rahaf Asiri",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 55,
+          "achieved": 43,
+          "pct": 78.18
+        },
+        "Feb": {
+          "target": 0,
+          "achieved": 42,
+          "pct": 0
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 55,
+        "achieved": 85,
+        "pct": 154.55,
+        "gap": -30
+      },
+      "status": "overachiever",
+      "is_stable": false,
+      "months_with_target": 1
+    },
+    {
+      "user": "rtl_008245",
+      "name": "Renad Alzahrani",
+      "supervisor_en": "Mohammed AlShehri",
+      "supervisor_ar": "محمد الشهري",
+      "monthly": {
+        "Jan": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        },
+        "Feb": {
+          "target": 0,
+          "achieved": 50,
+          "pct": 0
+        },
+        "Mar": {
+          "target": 80,
+          "achieved": 71,
+          "pct": 88.75
+        }
+      },
+      "total": {
+        "target": 80,
+        "achieved": 121,
+        "pct": 151.25,
+        "gap": -41
+      },
+      "status": "overachiever",
+      "is_stable": false,
+      "months_with_target": 1
+    },
+    {
+      "user": "mtl_010520",
+      "name": "Wiam Alnemran",
+      "supervisor_en": "Ahmed AlMutairi",
+      "supervisor_ar": "أحمد المطيري",
+      "monthly": {
+        "Jan": {
+          "target": 200,
+          "achieved": 225,
+          "pct": 112.5
+        },
+        "Feb": {
+          "target": 100,
+          "achieved": 174,
+          "pct": 174.0
+        },
+        "Mar": {
+          "target": 150,
+          "achieved": 176,
+          "pct": 117.33
+        }
+      },
+      "total": {
+        "target": 450,
+        "achieved": 575,
+        "pct": 127.78,
+        "gap": -125
+      },
+      "status": "overachiever",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "rtl_008203",
+      "name": "Mohammed Alshehri",
+      "supervisor_en": "Ahmed AlMutairi",
+      "supervisor_ar": "أحمد المطيري",
+      "monthly": {
+        "Jan": {
+          "target": 78,
+          "achieved": 111,
+          "pct": 142.31
+        },
+        "Feb": {
+          "target": 70,
+          "achieved": 86,
+          "pct": 122.86
+        },
+        "Mar": {
+          "target": 75,
+          "achieved": 77,
+          "pct": 102.67
+        }
+      },
+      "total": {
+        "target": 223,
+        "achieved": 274,
+        "pct": 122.87,
+        "gap": -51
+      },
+      "status": "overachiever",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "rtl_001013",
+      "name": "Yasmeen Albraidi",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 25,
+          "achieved": 46,
+          "pct": 184.0
+        },
+        "Feb": {
+          "target": 15,
+          "achieved": 1,
+          "pct": 6.67
+        },
+        "Mar": {
+          "target": 25,
+          "achieved": 27,
+          "pct": 108.0
+        }
+      },
+      "total": {
+        "target": 65,
+        "achieved": 74,
+        "pct": 113.85,
+        "gap": -9
+      },
+      "status": "overachiever",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "rtl_008134",
+      "name": "Nawaf A Alsharari",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 55,
+          "achieved": 53,
+          "pct": 96.36
+        },
+        "Feb": {
+          "target": 60,
+          "achieved": 58,
+          "pct": 96.67
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 6,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 115,
+        "achieved": 117,
+        "pct": 101.74,
+        "gap": -2
+      },
+      "status": "overachiever",
+      "is_stable": false,
+      "months_with_target": 2
+    },
+    {
+      "user": "mtl_010591",
+      "name": "Farah Alsalmi",
+      "supervisor_en": "Ahmed AlMutairi",
+      "supervisor_ar": "أحمد المطيري",
+      "monthly": {
+        "Jan": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        },
+        "Feb": {
+          "target": 0,
+          "achieved": 74,
+          "pct": 0
+        },
+        "Mar": {
+          "target": 170,
+          "achieved": 86,
+          "pct": 50.59
+        }
+      },
+      "total": {
+        "target": 170,
+        "achieved": 160,
+        "pct": 94.12,
+        "gap": 10
+      },
+      "status": "on_track",
+      "is_stable": false,
+      "months_with_target": 1
+    },
+    {
+      "user": "rtl_008204",
+      "name": "Khalid Alharbi",
+      "supervisor_en": "Ahmed AlMutairi",
+      "supervisor_ar": "أحمد المطيري",
+      "monthly": {
+        "Jan": {
+          "target": 78,
+          "achieved": 77,
+          "pct": 98.72
+        },
+        "Feb": {
+          "target": 70,
+          "achieved": 68,
+          "pct": 97.14
+        },
+        "Mar": {
+          "target": 70,
+          "achieved": 57,
+          "pct": 81.43
+        }
+      },
+      "total": {
+        "target": 218,
+        "achieved": 202,
+        "pct": 92.66,
+        "gap": 16
+      },
+      "status": "on_track",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "rtl_008230",
+      "name": "Rayan Al Abdulkader",
+      "supervisor_en": "Ahmed AlMutairi",
+      "supervisor_ar": "أحمد المطيري",
+      "monthly": {
+        "Jan": {
+          "target": 48,
+          "achieved": 62,
+          "pct": 129.17
+        },
+        "Feb": {
+          "target": 45,
+          "achieved": 40,
+          "pct": 88.89
+        },
+        "Mar": {
+          "target": 45,
+          "achieved": 24,
+          "pct": 53.33
+        }
+      },
+      "total": {
+        "target": 138,
+        "achieved": 126,
+        "pct": 91.3,
+        "gap": 12
+      },
+      "status": "on_track",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "rtl_001082",
+      "name": "Nader Nader",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 45,
+          "achieved": 30,
+          "pct": 66.67
+        },
+        "Feb": {
+          "target": 20,
+          "achieved": 34,
+          "pct": 170.0
+        },
+        "Mar": {
+          "target": 38,
+          "achieved": 25,
+          "pct": 65.79
+        }
+      },
+      "total": {
+        "target": 103,
+        "achieved": 89,
+        "pct": 86.41,
+        "gap": 14
+      },
+      "status": "on_track",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "rtl_006045",
+      "name": "Ahmed Alharbi",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 45,
+          "achieved": 42,
+          "pct": 93.33
+        },
+        "Feb": {
+          "target": 20,
+          "achieved": 29,
+          "pct": 145.0
+        },
+        "Mar": {
+          "target": 38,
+          "achieved": 18,
+          "pct": 47.37
+        }
+      },
+      "total": {
+        "target": 103,
+        "achieved": 89,
+        "pct": 86.41,
+        "gap": 14
+      },
+      "status": "on_track",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "mtl_010196",
+      "name": "Yazi Alanzi",
+      "supervisor_en": "Ahmed AlMutairi",
+      "supervisor_ar": "أحمد المطيري",
+      "monthly": {
+        "Jan": {
+          "target": 70,
+          "achieved": 62,
+          "pct": 88.57
+        },
+        "Feb": {
+          "target": 45,
+          "achieved": 46,
+          "pct": 102.22
+        },
+        "Mar": {
+          "target": 60,
+          "achieved": 43,
+          "pct": 71.67
+        }
+      },
+      "total": {
+        "target": 175,
+        "achieved": 151,
+        "pct": 86.29,
+        "gap": 24
+      },
+      "status": "on_track",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "rtl_003058",
+      "name": "Fawaz Saleh Alharbi",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 60,
+          "achieved": 29,
+          "pct": 48.33
+        },
+        "Feb": {
+          "target": 0,
+          "achieved": 17,
+          "pct": 0
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 1,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 60,
+        "achieved": 47,
+        "pct": 78.33,
+        "gap": 13
+      },
+      "status": "catching_up",
+      "is_stable": false,
+      "months_with_target": 1
+    },
+    {
+      "user": "rtl_008239",
+      "name": "Talal Alamri",
+      "supervisor_en": "Mohammed AlShehri",
+      "supervisor_ar": "محمد الشهري",
+      "monthly": {
+        "Jan": {
+          "target": 100,
+          "achieved": 55,
+          "pct": 55.0
+        },
+        "Feb": {
+          "target": 80,
+          "achieved": 86,
+          "pct": 107.5
+        },
+        "Mar": {
+          "target": 85,
+          "achieved": 65,
+          "pct": 76.47
+        }
+      },
+      "total": {
+        "target": 265,
+        "achieved": 206,
+        "pct": 77.74,
+        "gap": 59
+      },
+      "status": "catching_up",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "rtl_008148",
+      "name": "Nayaf Al Mutiri",
+      "supervisor_en": "Ahmed AlMutairi",
+      "supervisor_ar": "أحمد المطيري",
+      "monthly": {
+        "Jan": {
+          "target": 46,
+          "achieved": 38,
+          "pct": 82.61
+        },
+        "Feb": {
+          "target": 45,
+          "achieved": 39,
+          "pct": 86.67
+        },
+        "Mar": {
+          "target": 45,
+          "achieved": 26,
+          "pct": 57.78
+        }
+      },
+      "total": {
+        "target": 136,
+        "achieved": 103,
+        "pct": 75.74,
+        "gap": 33
+      },
+      "status": "catching_up",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "mtl_010487",
+      "name": "Fahad Alotaibi",
+      "supervisor_en": "Mohammed AlShehri",
+      "supervisor_ar": "محمد الشهري",
+      "monthly": {
+        "Jan": {
+          "target": 80,
+          "achieved": 74,
+          "pct": 92.5
+        },
+        "Feb": {
+          "target": 65,
+          "achieved": 77,
+          "pct": 118.46
+        },
+        "Mar": {
+          "target": 125,
+          "achieved": 44,
+          "pct": 35.2
+        }
+      },
+      "total": {
+        "target": 270,
+        "achieved": 195,
+        "pct": 72.22,
+        "gap": 75
+      },
+      "status": "catching_up",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "mtl_010441",
+      "name": "Mohammed Alharbi",
+      "supervisor_en": "Ahmed AlMutairi",
+      "supervisor_ar": "أحمد المطيري",
+      "monthly": {
+        "Jan": {
+          "target": 45,
+          "achieved": 49,
+          "pct": 108.89
+        },
+        "Feb": {
+          "target": 50,
+          "achieved": 46,
+          "pct": 92.0
+        },
+        "Mar": {
+          "target": 100,
+          "achieved": 44,
+          "pct": 44.0
+        }
+      },
+      "total": {
+        "target": 195,
+        "achieved": 139,
+        "pct": 71.28,
+        "gap": 56
+      },
+      "status": "catching_up",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "mtl_010599",
+      "name": "Basel Alharbi",
+      "supervisor_en": "Najwah AlOmari",
+      "supervisor_ar": "نجوى العمري",
+      "monthly": {
+        "Jan": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        },
+        "Feb": {
+          "target": 0,
+          "achieved": 21,
+          "pct": 0
+        },
+        "Mar": {
+          "target": 70,
+          "achieved": 26,
+          "pct": 37.14
+        }
+      },
+      "total": {
+        "target": 70,
+        "achieved": 47,
+        "pct": 67.14,
+        "gap": 23
+      },
+      "status": "catching_up",
+      "is_stable": false,
+      "months_with_target": 1
+    },
+    {
+      "user": "mtl_010515",
+      "name": "Nahla Hashim",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 40,
+          "achieved": 39,
+          "pct": 97.5
+        },
+        "Feb": {
+          "target": 35,
+          "achieved": 41,
+          "pct": 117.14
+        },
+        "Mar": {
+          "target": 100,
+          "achieved": 36,
+          "pct": 36.0
+        }
+      },
+      "total": {
+        "target": 175,
+        "achieved": 116,
+        "pct": 66.29,
+        "gap": 59
+      },
+      "status": "catching_up",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "rtl_001016",
+      "name": "Sabah Alfifi",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 55,
+          "achieved": 33,
+          "pct": 60.0
+        },
+        "Feb": {
+          "target": 0,
+          "achieved": 3,
+          "pct": 0
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 55,
+        "achieved": 36,
+        "pct": 65.45,
+        "gap": 19
+      },
+      "status": "catching_up",
+      "is_stable": false,
+      "months_with_target": 1
+    },
+    {
+      "user": "rtl_006040",
+      "name": "Wabran Alshammari",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 60,
+          "achieved": 42,
+          "pct": 70.0
+        },
+        "Feb": {
+          "target": 61,
+          "achieved": 39,
+          "pct": 63.93
+        },
+        "Mar": {
+          "target": 45,
+          "achieved": 24,
+          "pct": 53.33
+        }
+      },
+      "total": {
+        "target": 166,
+        "achieved": 105,
+        "pct": 63.25,
+        "gap": 61
+      },
+      "status": "catching_up",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "mtl_010600",
+      "name": "Azzam Shaqran Alhalfi",
+      "supervisor_en": "Najwah AlOmari",
+      "supervisor_ar": "نجوى العمري",
+      "monthly": {
+        "Jan": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        },
+        "Feb": {
+          "target": 0,
+          "achieved": 40,
+          "pct": 0
+        },
+        "Mar": {
+          "target": 130,
+          "achieved": 41,
+          "pct": 31.54
+        }
+      },
+      "total": {
+        "target": 130,
+        "achieved": 81,
+        "pct": 62.31,
+        "gap": 49
+      },
+      "status": "catching_up",
+      "is_stable": false,
+      "months_with_target": 1
+    },
+    {
+      "user": "rtl_006039",
+      "name": "Abdulsalam Alshammari",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 60,
+          "achieved": 35,
+          "pct": 58.33
+        },
+        "Feb": {
+          "target": 61,
+          "achieved": 36,
+          "pct": 59.02
+        },
+        "Mar": {
+          "target": 45,
+          "achieved": 32,
+          "pct": 71.11
+        }
+      },
+      "total": {
+        "target": 166,
+        "achieved": 103,
+        "pct": 62.05,
+        "gap": 63
+      },
+      "status": "catching_up",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "rtl_006042",
+      "name": "Amin Alsahafi",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 55,
+          "achieved": 47,
+          "pct": 85.45
+        },
+        "Feb": {
+          "target": 100,
+          "achieved": 50,
+          "pct": 50.0
+        },
+        "Mar": {
+          "target": 100,
+          "achieved": 60,
+          "pct": 60.0
+        }
+      },
+      "total": {
+        "target": 255,
+        "achieved": 157,
+        "pct": 61.57,
+        "gap": 98
+      },
+      "status": "catching_up",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "rtl_008135",
+      "name": "Khlood Z Alguaed",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 55,
+          "achieved": 39,
+          "pct": 70.91
+        },
+        "Feb": {
+          "target": 60,
+          "achieved": 26,
+          "pct": 43.33
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 1,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 115,
+        "achieved": 66,
+        "pct": 57.39,
+        "gap": 49
+      },
+      "status": "critical",
+      "is_stable": false,
+      "months_with_target": 2
+    },
+    {
+      "user": "rtl_008141",
+      "name": "Fatimah Almashikhi",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 55,
+          "achieved": 46,
+          "pct": 83.64
+        },
+        "Feb": {
+          "target": 100,
+          "achieved": 40,
+          "pct": 40.0
+        },
+        "Mar": {
+          "target": 100,
+          "achieved": 59,
+          "pct": 59.0
+        }
+      },
+      "total": {
+        "target": 255,
+        "achieved": 145,
+        "pct": 56.86,
+        "gap": 110
+      },
+      "status": "critical",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "mtl_010452",
+      "name": "Ali Alzahrani",
+      "supervisor_en": "Ahmed AlMutairi",
+      "supervisor_ar": "أحمد المطيري",
+      "monthly": {
+        "Jan": {
+          "target": 130,
+          "achieved": 104,
+          "pct": 80.0
+        },
+        "Feb": {
+          "target": 90,
+          "achieved": 54,
+          "pct": 60.0
+        },
+        "Mar": {
+          "target": 110,
+          "achieved": 21,
+          "pct": 19.09
+        }
+      },
+      "total": {
+        "target": 330,
+        "achieved": 179,
+        "pct": 54.24,
+        "gap": 151
+      },
+      "status": "critical",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "rtl_001025",
+      "name": "Amjad Alhammad",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 150,
+          "achieved": 103,
+          "pct": 68.67
+        },
+        "Feb": {
+          "target": 200,
+          "achieved": 86,
+          "pct": 43.0
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 350,
+        "achieved": 189,
+        "pct": 54.0,
+        "gap": 161
+      },
+      "status": "critical",
+      "is_stable": false,
+      "months_with_target": 2
+    },
+    {
+      "user": "rtl_008225",
+      "name": "Danah Alzahrani",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 150,
+          "achieved": 129,
+          "pct": 86.0
+        },
+        "Feb": {
+          "target": 200,
+          "achieved": 96,
+          "pct": 48.0
+        },
+        "Mar": {
+          "target": 250,
+          "achieved": 90,
+          "pct": 36.0
+        }
+      },
+      "total": {
+        "target": 600,
+        "achieved": 315,
+        "pct": 52.5,
+        "gap": 285
+      },
+      "status": "critical",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "mtl_010604",
+      "name": "Raghad Alotaibi",
+      "supervisor_en": "Ahmed AlMutairi",
+      "supervisor_ar": "أحمد المطيري",
+      "monthly": {
+        "Jan": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        },
+        "Feb": {
+          "target": 0,
+          "achieved": 43,
+          "pct": 0
+        },
+        "Mar": {
+          "target": 150,
+          "achieved": 33,
+          "pct": 22.0
+        }
+      },
+      "total": {
+        "target": 150,
+        "achieved": 76,
+        "pct": 50.67,
+        "gap": 74
+      },
+      "status": "critical",
+      "is_stable": false,
+      "months_with_target": 1
+    },
+    {
+      "user": "rtl_008234",
+      "name": "Mohammed Alshammari",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 150,
+          "achieved": 103,
+          "pct": 68.67
+        },
+        "Feb": {
+          "target": 200,
+          "achieved": 96,
+          "pct": 48.0
+        },
+        "Mar": {
+          "target": 250,
+          "achieved": 102,
+          "pct": 40.8
+        }
+      },
+      "total": {
+        "target": 600,
+        "achieved": 301,
+        "pct": 50.17,
+        "gap": 299
+      },
+      "status": "critical",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "mtl_010464",
+      "name": "Saleh Alrasdi",
+      "supervisor_en": "Ahmed AlMutairi",
+      "supervisor_ar": "أحمد المطيري",
+      "monthly": {
+        "Jan": {
+          "target": 40,
+          "achieved": 30,
+          "pct": 75.0
+        },
+        "Feb": {
+          "target": 100,
+          "achieved": 33,
+          "pct": 33.0
+        },
+        "Mar": {
+          "target": 30,
+          "achieved": 22,
+          "pct": 73.33
+        }
+      },
+      "total": {
+        "target": 170,
+        "achieved": 85,
+        "pct": 50.0,
+        "gap": 85
+      },
+      "status": "critical",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "rtl_008144",
+      "name": "Turki Alotaibi",
+      "supervisor_en": "Ahmed AlMutairi",
+      "supervisor_ar": "أحمد المطيري",
+      "monthly": {
+        "Jan": {
+          "target": 46,
+          "achieved": 29,
+          "pct": 63.04
+        },
+        "Feb": {
+          "target": 45,
+          "achieved": 20,
+          "pct": 44.44
+        },
+        "Mar": {
+          "target": 45,
+          "achieved": 18,
+          "pct": 40.0
+        }
+      },
+      "total": {
+        "target": 136,
+        "achieved": 67,
+        "pct": 49.26,
+        "gap": 69
+      },
+      "status": "critical",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "rtl_001010",
+      "name": "Mohammed Alanzi",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 25,
+          "achieved": 13,
+          "pct": 52.0
+        },
+        "Feb": {
+          "target": 15,
+          "achieved": 1,
+          "pct": 6.67
+        },
+        "Mar": {
+          "target": 25,
+          "achieved": 16,
+          "pct": 64.0
+        }
+      },
+      "total": {
+        "target": 65,
+        "achieved": 30,
+        "pct": 46.15,
+        "gap": 35
+      },
+      "status": "critical",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "rtl_006050",
+      "name": "Kaiebar Alsarhani",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 55,
+          "achieved": 35,
+          "pct": 63.64
+        },
+        "Feb": {
+          "target": 60,
+          "achieved": 16,
+          "pct": 26.67
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 1,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 115,
+        "achieved": 52,
+        "pct": 45.22,
+        "gap": 63
+      },
+      "status": "critical",
+      "is_stable": false,
+      "months_with_target": 2
+    },
+    {
+      "user": "rtl_004032",
+      "name": "Nawaf Almutairi",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 60,
+          "achieved": 40,
+          "pct": 66.67
+        },
+        "Feb": {
+          "target": 100,
+          "achieved": 45,
+          "pct": 45.0
+        },
+        "Mar": {
+          "target": 100,
+          "achieved": 32,
+          "pct": 32.0
+        }
+      },
+      "total": {
+        "target": 260,
+        "achieved": 117,
+        "pct": 45.0,
+        "gap": 143
+      },
+      "status": "critical",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "mtl_010366",
+      "name": "Abdullah Alshehri",
+      "supervisor_en": "Ahmed AlMutairi",
+      "supervisor_ar": "أحمد المطيري",
+      "monthly": {
+        "Jan": {
+          "target": 150,
+          "achieved": 106,
+          "pct": 70.67
+        },
+        "Feb": {
+          "target": 220,
+          "achieved": 89,
+          "pct": 40.45
+        },
+        "Mar": {
+          "target": 125,
+          "achieved": 27,
+          "pct": 21.6
+        }
+      },
+      "total": {
+        "target": 495,
+        "achieved": 222,
+        "pct": 44.85,
+        "gap": 273
+      },
+      "status": "critical",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "rtl_008061",
+      "name": "Sara Alanzi",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 45,
+          "achieved": 27,
+          "pct": 60.0
+        },
+        "Feb": {
+          "target": 40,
+          "achieved": 14,
+          "pct": 35.0
+        },
+        "Mar": {
+          "target": 40,
+          "achieved": 15,
+          "pct": 37.5
+        }
+      },
+      "total": {
+        "target": 125,
+        "achieved": 56,
+        "pct": 44.8,
+        "gap": 69
+      },
+      "status": "critical",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "rtl_008060",
+      "name": "Hind Alanzi",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 45,
+          "achieved": 20,
+          "pct": 44.44
+        },
+        "Feb": {
+          "target": 40,
+          "achieved": 18,
+          "pct": 45.0
+        },
+        "Mar": {
+          "target": 45,
+          "achieved": 20,
+          "pct": 44.44
+        }
+      },
+      "total": {
+        "target": 130,
+        "achieved": 58,
+        "pct": 44.62,
+        "gap": 72
+      },
+      "status": "critical",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "mtl_010463",
+      "name": "Alhoum Alanazi",
+      "supervisor_en": "Ahmed AlMutairi",
+      "supervisor_ar": "أحمد المطيري",
+      "monthly": {
+        "Jan": {
+          "target": 40,
+          "achieved": 30,
+          "pct": 75.0
+        },
+        "Feb": {
+          "target": 120,
+          "achieved": 28,
+          "pct": 23.33
+        },
+        "Mar": {
+          "target": 60,
+          "achieved": 38,
+          "pct": 63.33
+        }
+      },
+      "total": {
+        "target": 220,
+        "achieved": 96,
+        "pct": 43.64,
+        "gap": 124
+      },
+      "status": "critical",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "rtl_001020",
+      "name": "Abdullah Alshammari",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 150,
+          "achieved": 103,
+          "pct": 68.67
+        },
+        "Feb": {
+          "target": 100,
+          "achieved": 6,
+          "pct": 6.0
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 250,
+        "achieved": 109,
+        "pct": 43.6,
+        "gap": 141
+      },
+      "status": "critical",
+      "is_stable": false,
+      "months_with_target": 2
+    },
+    {
+      "user": "mtl_010374",
+      "name": "Abdullah Alshehri",
+      "supervisor_en": "Mohammed AlShehri",
+      "supervisor_ar": "محمد الشهري",
+      "monthly": {
+        "Jan": {
+          "target": 220,
+          "achieved": 156,
+          "pct": 70.91
+        },
+        "Feb": {
+          "target": 230,
+          "achieved": 74,
+          "pct": 32.17
+        },
+        "Mar": {
+          "target": 250,
+          "achieved": 75,
+          "pct": 30.0
+        }
+      },
+      "total": {
+        "target": 700,
+        "achieved": 305,
+        "pct": 43.57,
+        "gap": 395
+      },
+      "status": "critical",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "rtl_008151",
+      "name": "Omar Alanazi",
+      "supervisor_en": "Ahmed AlMutairi",
+      "supervisor_ar": "أحمد المطيري",
+      "monthly": {
+        "Jan": {
+          "target": 79,
+          "achieved": 46,
+          "pct": 58.23
+        },
+        "Feb": {
+          "target": 70,
+          "achieved": 36,
+          "pct": 51.43
+        },
+        "Mar": {
+          "target": 75,
+          "achieved": 14,
+          "pct": 18.67
+        }
+      },
+      "total": {
+        "target": 224,
+        "achieved": 96,
+        "pct": 42.86,
+        "gap": 128
+      },
+      "status": "critical",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "rtl_008074",
+      "name": "Masad Alanazi",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 55,
+          "achieved": 49,
+          "pct": 89.09
+        },
+        "Feb": {
+          "target": 100,
+          "achieved": 12,
+          "pct": 12.0
+        },
+        "Mar": {
+          "target": 100,
+          "achieved": 48,
+          "pct": 48.0
+        }
+      },
+      "total": {
+        "target": 255,
+        "achieved": 109,
+        "pct": 42.75,
+        "gap": 146
+      },
+      "status": "critical",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "mtl_010378",
+      "name": "Saud Alanzi",
+      "supervisor_en": "Mohammed AlShehri",
+      "supervisor_ar": "محمد الشهري",
+      "monthly": {
+        "Jan": {
+          "target": 90,
+          "achieved": 63,
+          "pct": 70.0
+        },
+        "Feb": {
+          "target": 98,
+          "achieved": 34,
+          "pct": 34.69
+        },
+        "Mar": {
+          "target": 120,
+          "achieved": 26,
+          "pct": 21.67
+        }
+      },
+      "total": {
+        "target": 308,
+        "achieved": 123,
+        "pct": 39.94,
+        "gap": 185
+      },
+      "status": "critical",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "rtl_008243",
+      "name": "Abdullah Altamimi",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 60,
+          "achieved": 4,
+          "pct": 6.67
+        },
+        "Feb": {
+          "target": 0,
+          "achieved": 25,
+          "pct": 0
+        },
+        "Mar": {
+          "target": 45,
+          "achieved": 10,
+          "pct": 22.22
+        }
+      },
+      "total": {
+        "target": 105,
+        "achieved": 39,
+        "pct": 37.14,
+        "gap": 66
+      },
+      "status": "critical",
+      "is_stable": false,
+      "months_with_target": 2
+    },
+    {
+      "user": "mtl_010558",
+      "name": "Abdullah Alghanem",
+      "supervisor_en": "Najwah AlOmari",
+      "supervisor_ar": "نجوى العمري",
+      "monthly": {
+        "Jan": {
+          "target": 50,
+          "achieved": 53,
+          "pct": 106.0
+        },
+        "Feb": {
+          "target": 200,
+          "achieved": 60,
+          "pct": 30.0
+        },
+        "Mar": {
+          "target": 200,
+          "achieved": 52,
+          "pct": 26.0
+        }
+      },
+      "total": {
+        "target": 450,
+        "achieved": 165,
+        "pct": 36.67,
+        "gap": 285
+      },
+      "status": "critical",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "mtl_010319",
+      "name": "Abdullah Alfaifi",
+      "supervisor_en": "Mohammed AlShehri",
+      "supervisor_ar": "محمد الشهري",
+      "monthly": {
+        "Jan": {
+          "target": 110,
+          "achieved": 72,
+          "pct": 65.45
+        },
+        "Feb": {
+          "target": 65,
+          "achieved": 41,
+          "pct": 63.08
+        },
+        "Mar": {
+          "target": 140,
+          "achieved": 0,
+          "pct": 0.0
+        }
+      },
+      "total": {
+        "target": 315,
+        "achieved": 113,
+        "pct": 35.87,
+        "gap": 202
+      },
+      "status": "critical",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "rtl_006052",
+      "name": "Abdulrahman Abuhelal",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 55,
+          "achieved": 18,
+          "pct": 32.73
+        },
+        "Feb": {
+          "target": 60,
+          "achieved": 18,
+          "pct": 30.0
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 5,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 115,
+        "achieved": 41,
+        "pct": 35.65,
+        "gap": 74
+      },
+      "status": "critical",
+      "is_stable": false,
+      "months_with_target": 2
+    },
+    {
+      "user": "rtl_008192",
+      "name": "Santaa Alharbi",
+      "supervisor_en": "Najwah AlOmari",
+      "supervisor_ar": "نجوى العمري",
+      "monthly": {
+        "Jan": {
+          "target": 30,
+          "achieved": 18,
+          "pct": 60.0
+        },
+        "Feb": {
+          "target": 30,
+          "achieved": 29,
+          "pct": 96.67
+        },
+        "Mar": {
+          "target": 120,
+          "achieved": 15,
+          "pct": 12.5
+        }
+      },
+      "total": {
+        "target": 180,
+        "achieved": 62,
+        "pct": 34.44,
+        "gap": 118
+      },
+      "status": "critical",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "rtl_003070",
+      "name": "Ammar Aldubaybi",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 60,
+          "achieved": 41,
+          "pct": 68.33
+        },
+        "Feb": {
+          "target": 100,
+          "achieved": 29,
+          "pct": 29.0
+        },
+        "Mar": {
+          "target": 100,
+          "achieved": 17,
+          "pct": 17.0
+        }
+      },
+      "total": {
+        "target": 260,
+        "achieved": 87,
+        "pct": 33.46,
+        "gap": 173
+      },
+      "status": "critical",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "rtl_008063",
+      "name": "Nouf Al Balawi",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 45,
+          "achieved": 18,
+          "pct": 40.0
+        },
+        "Feb": {
+          "target": 40,
+          "achieved": 10,
+          "pct": 25.0
+        },
+        "Mar": {
+          "target": 40,
+          "achieved": 8,
+          "pct": 20.0
+        }
+      },
+      "total": {
+        "target": 125,
+        "achieved": 36,
+        "pct": 28.8,
+        "gap": 89
+      },
+      "status": "critical",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "rtl_008227",
+      "name": "Faisal Aldobayan",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 60,
+          "achieved": 29,
+          "pct": 48.33
+        },
+        "Feb": {
+          "target": 100,
+          "achieved": 21,
+          "pct": 21.0
+        },
+        "Mar": {
+          "target": 100,
+          "achieved": 12,
+          "pct": 12.0
+        }
+      },
+      "total": {
+        "target": 260,
+        "achieved": 62,
+        "pct": 23.85,
+        "gap": 198
+      },
+      "status": "critical",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "rtl_006051",
+      "name": "Abdulrahman Alanazi",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 55,
+          "achieved": 13,
+          "pct": 23.64
+        },
+        "Feb": {
+          "target": 60,
+          "achieved": 10,
+          "pct": 16.67
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 1,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 115,
+        "achieved": 24,
+        "pct": 20.87,
+        "gap": 91
+      },
+      "status": "critical",
+      "is_stable": false,
+      "months_with_target": 2
+    },
+    {
+      "user": "rtl_001009",
+      "name": "Ameera Alzaid",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 0,
+          "achieved": 10,
+          "pct": 0
+        },
+        "Feb": {
+          "target": 61,
+          "achieved": 0,
+          "pct": 0.0
+        },
+        "Mar": {
+          "target": 45,
+          "achieved": 1,
+          "pct": 2.22
+        }
+      },
+      "total": {
+        "target": 106,
+        "achieved": 11,
+        "pct": 10.38,
+        "gap": 95
+      },
+      "status": "critical",
+      "is_stable": false,
+      "months_with_target": 2
+    },
+    {
+      "user": "rtl_008252",
+      "name": "Shuaa M Alowaimari",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        },
+        "Feb": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        },
+        "Mar": {
+          "target": 38,
+          "achieved": 2,
+          "pct": 5.26
+        }
+      },
+      "total": {
+        "target": 38,
+        "achieved": 2,
+        "pct": 5.26,
+        "gap": 36
+      },
+      "status": "critical",
+      "is_stable": false,
+      "months_with_target": 1
+    },
+    {
+      "user": "mtl_010543",
+      "name": "Abdullah Yousef",
+      "supervisor_en": "⚠️ Unmapped",
+      "supervisor_ar": "⚠️ Unmapped",
+      "monthly": {
+        "Jan": {
+          "target": 0,
+          "achieved": 125,
+          "pct": 0
+        },
+        "Feb": {
+          "target": 0,
+          "achieved": 63,
+          "pct": 0
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 42,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 0,
+        "achieved": 230,
+        "pct": 0,
+        "gap": -230
+      },
+      "status": "no_target",
+      "is_stable": false,
+      "months_with_target": 0
+    },
+    {
+      "user": "rtl_008248",
+      "name": "Meshal Alhamad",
+      "supervisor_en": "⚠️ Unmapped",
+      "supervisor_ar": "⚠️ Unmapped",
+      "monthly": {
+        "Jan": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        },
+        "Feb": {
+          "target": 0,
+          "achieved": 70,
+          "pct": 0
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 131,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 0,
+        "achieved": 201,
+        "pct": 0,
+        "gap": -201
+      },
+      "status": "no_target",
+      "is_stable": false,
+      "months_with_target": 0
+    },
+    {
+      "user": "mtl_010369",
+      "name": "Khalid Alqahtani",
+      "supervisor_en": "Mohammed AlShehri",
+      "supervisor_ar": "محمد الشهري",
+      "monthly": {
+        "Jan": {
+          "target": 0,
+          "achieved": 38,
+          "pct": 0
+        },
+        "Feb": {
+          "target": 0,
+          "achieved": 34,
+          "pct": 0
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 57,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 0,
+        "achieved": 129,
+        "pct": 0,
+        "gap": -129
+      },
+      "status": "no_target",
+      "is_stable": false,
+      "months_with_target": 0
+    },
+    {
+      "user": "mtl_010590",
+      "name": "Rola Almotiri",
+      "supervisor_en": "Ahmed AlMutairi",
+      "supervisor_ar": "أحمد المطيري",
+      "monthly": {
+        "Jan": {
+          "target": 0,
+          "achieved": 14,
+          "pct": 0
+        },
+        "Feb": {
+          "target": 0,
+          "achieved": 60,
+          "pct": 0
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 46,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 0,
+        "achieved": 120,
+        "pct": 0,
+        "gap": -120
+      },
+      "status": "no_target",
+      "is_stable": false,
+      "months_with_target": 0
+    },
+    {
+      "user": "mtl_010544",
+      "name": "Osama Alharthi",
+      "supervisor_en": "⚠️ Unmapped",
+      "supervisor_ar": "⚠️ Unmapped",
+      "monthly": {
+        "Jan": {
+          "target": 0,
+          "achieved": 9,
+          "pct": 0
+        },
+        "Feb": {
+          "target": 0,
+          "achieved": 19,
+          "pct": 0
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 38,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 0,
+        "achieved": 66,
+        "pct": 0,
+        "gap": -66
+      },
+      "status": "no_target",
+      "is_stable": false,
+      "months_with_target": 0
+    },
+    {
+      "user": "mtl_010572",
+      "name": "Fahad Alabdulrahman",
+      "supervisor_en": "⚠️ Unmapped",
+      "supervisor_ar": "⚠️ Unmapped",
+      "monthly": {
+        "Jan": {
+          "target": 0,
+          "achieved": 21,
+          "pct": 0
+        },
+        "Feb": {
+          "target": 0,
+          "achieved": 18,
+          "pct": 0
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 21,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 0,
+        "achieved": 60,
+        "pct": 0,
+        "gap": -60
+      },
+      "status": "no_target",
+      "is_stable": false,
+      "months_with_target": 0
+    },
+    {
+      "user": "mtl_010631",
+      "name": "Feryal Alanazi",
+      "supervisor_en": "Ahmed AlMutairi",
+      "supervisor_ar": "أحمد المطيري",
+      "monthly": {
+        "Jan": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        },
+        "Feb": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 4,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 0,
+        "achieved": 4,
+        "pct": 0,
+        "gap": -4
+      },
+      "status": "no_target",
+      "is_stable": false,
+      "months_with_target": 0
+    },
+    {
+      "user": "rtl_003046",
+      "name": "Hamoud Alshammari",
+      "supervisor_en": "⚠️ Unmapped",
+      "supervisor_ar": "⚠️ Unmapped",
+      "monthly": {
+        "Jan": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        },
+        "Feb": {
+          "target": 0,
+          "achieved": 1,
+          "pct": 0
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 0,
+        "achieved": 1,
+        "pct": 0,
+        "gap": -1
+      },
+      "status": "no_target",
+      "is_stable": false,
+      "months_with_target": 0
+    },
+    {
+      "user": "mtl_010456",
+      "name": "⚠️ غير معروف",
+      "supervisor_en": "Ahmed AlMutairi",
+      "supervisor_ar": "أحمد المطيري",
+      "monthly": {
+        "Jan": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        },
+        "Feb": {
+          "target": 75,
+          "achieved": 0,
+          "pct": 0.0
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 75,
+        "achieved": 0,
+        "pct": 0.0,
+        "gap": 75
+      },
+      "status": "critical",
+      "is_stable": false,
+      "months_with_target": 1
+    },
+    {
+      "user": "mtl_010477",
+      "name": "⚠️ غير معروف",
+      "supervisor_en": "Najwah AlOmari",
+      "supervisor_ar": "نجوى العمري",
+      "monthly": {
+        "Jan": {
+          "target": 110,
+          "achieved": 0,
+          "pct": 0.0
+        },
+        "Feb": {
+          "target": 100,
+          "achieved": 0,
+          "pct": 0.0
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 210,
+        "achieved": 0,
+        "pct": 0.0,
+        "gap": 210
+      },
+      "status": "critical",
+      "is_stable": false,
+      "months_with_target": 2
+    },
+    {
+      "user": "mtl_010482",
+      "name": "⚠️ غير معروف",
+      "supervisor_en": "Ahmed AlMutairi",
+      "supervisor_ar": "أحمد المطيري",
+      "monthly": {
+        "Jan": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        },
+        "Feb": {
+          "target": 75,
+          "achieved": 0,
+          "pct": 0.0
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 75,
+        "achieved": 0,
+        "pct": 0.0,
+        "gap": 75
+      },
+      "status": "critical",
+      "is_stable": false,
+      "months_with_target": 1
+    },
+    {
+      "user": "mtl_010509",
+      "name": "⚠️ غير معروف",
+      "supervisor_en": "Ahmed AlMutairi",
+      "supervisor_ar": "أحمد المطيري",
+      "monthly": {
+        "Jan": {
+          "target": 40,
+          "achieved": 0,
+          "pct": 0.0
+        },
+        "Feb": {
+          "target": 40,
+          "achieved": 0,
+          "pct": 0.0
+        },
+        "Mar": {
+          "target": 60,
+          "achieved": 0,
+          "pct": 0.0
+        }
+      },
+      "total": {
+        "target": 140,
+        "achieved": 0,
+        "pct": 0.0,
+        "gap": 140
+      },
+      "status": "critical",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "mtl_010512",
+      "name": "⚠️ غير معروف",
+      "supervisor_en": "Najwah AlOmari",
+      "supervisor_ar": "نجوى العمري",
+      "monthly": {
+        "Jan": {
+          "target": 80,
+          "achieved": 0,
+          "pct": 0.0
+        },
+        "Feb": {
+          "target": 60,
+          "achieved": 0,
+          "pct": 0.0
+        },
+        "Mar": {
+          "target": 100,
+          "achieved": 0,
+          "pct": 0.0
+        }
+      },
+      "total": {
+        "target": 240,
+        "achieved": 0,
+        "pct": 0.0,
+        "gap": 240
+      },
+      "status": "critical",
+      "is_stable": true,
+      "months_with_target": 3
+    },
+    {
+      "user": "mtl_010513",
+      "name": "⚠️ غير معروف",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        },
+        "Feb": {
+          "target": 20,
+          "achieved": 0,
+          "pct": 0.0
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 20,
+        "achieved": 0,
+        "pct": 0.0,
+        "gap": 20
+      },
+      "status": "critical",
+      "is_stable": false,
+      "months_with_target": 1
+    },
+    {
+      "user": "mtl_010514",
+      "name": "⚠️ غير معروف",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 30,
+          "achieved": 0,
+          "pct": 0.0
+        },
+        "Feb": {
+          "target": 20,
+          "achieved": 0,
+          "pct": 0.0
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 50,
+        "achieved": 0,
+        "pct": 0.0,
+        "gap": 50
+      },
+      "status": "critical",
+      "is_stable": false,
+      "months_with_target": 2
+    },
+    {
+      "user": "mtl_010540",
+      "name": "⚠️ غير معروف",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 40,
+          "achieved": 0,
+          "pct": 0.0
+        },
+        "Feb": {
+          "target": 35,
+          "achieved": 0,
+          "pct": 0.0
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 75,
+        "achieved": 0,
+        "pct": 0.0,
+        "gap": 75
+      },
+      "status": "critical",
+      "is_stable": false,
+      "months_with_target": 2
+    },
+    {
+      "user": "mtl_010553",
+      "name": "⚠️ غير معروف",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        },
+        "Feb": {
+          "target": 20,
+          "achieved": 0,
+          "pct": 0.0
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 20,
+        "achieved": 0,
+        "pct": 0.0,
+        "gap": 20
+      },
+      "status": "critical",
+      "is_stable": false,
+      "months_with_target": 1
+    },
+    {
+      "user": "mtl_010565",
+      "name": "⚠️ غير معروف",
+      "supervisor_en": "Ahmed AlMutairi",
+      "supervisor_ar": "أحمد المطيري",
+      "monthly": {
+        "Jan": {
+          "target": 45,
+          "achieved": 0,
+          "pct": 0.0
+        },
+        "Feb": {
+          "target": 45,
+          "achieved": 0,
+          "pct": 0.0
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 90,
+        "achieved": 0,
+        "pct": 0.0,
+        "gap": 90
+      },
+      "status": "critical",
+      "is_stable": false,
+      "months_with_target": 2
+    },
+    {
+      "user": "rtl_000012",
+      "name": "⚠️ غير معروف",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 45,
+          "achieved": 0,
+          "pct": 0.0
+        },
+        "Feb": {
+          "target": 20,
+          "achieved": 0,
+          "pct": 0.0
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 65,
+        "achieved": 0,
+        "pct": 0.0,
+        "gap": 65
+      },
+      "status": "critical",
+      "is_stable": false,
+      "months_with_target": 2
+    },
+    {
+      "user": "rtl_000013",
+      "name": "⚠️ غير معروف",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 45,
+          "achieved": 0,
+          "pct": 0.0
+        },
+        "Feb": {
+          "target": 20,
+          "achieved": 0,
+          "pct": 0.0
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 65,
+        "achieved": 0,
+        "pct": 0.0,
+        "gap": 65
+      },
+      "status": "critical",
+      "is_stable": false,
+      "months_with_target": 2
+    },
+    {
+      "user": "rtl_008178",
+      "name": "⚠️ غير معروف",
+      "supervisor_en": "Mohammed AlShehri",
+      "supervisor_ar": "محمد الشهري",
+      "monthly": {
+        "Jan": {
+          "target": 100,
+          "achieved": 0,
+          "pct": 0.0
+        },
+        "Feb": {
+          "target": 80,
+          "achieved": 0,
+          "pct": 0.0
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 180,
+        "achieved": 0,
+        "pct": 0.0,
+        "gap": 180
+      },
+      "status": "critical",
+      "is_stable": false,
+      "months_with_target": 2
+    },
+    {
+      "user": "rtl_008196",
+      "name": "⚠️ غير معروف",
+      "supervisor_en": "Mohammed AlShehri",
+      "supervisor_ar": "محمد الشهري",
+      "monthly": {
+        "Jan": {
+          "target": 100,
+          "achieved": 0,
+          "pct": 0.0
+        },
+        "Feb": {
+          "target": 80,
+          "achieved": 0,
+          "pct": 0.0
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 180,
+        "achieved": 0,
+        "pct": 0.0,
+        "gap": 180
+      },
+      "status": "critical",
+      "is_stable": false,
+      "months_with_target": 2
+    },
+    {
+      "user": "rtl_008240",
+      "name": "⚠️ غير معروف",
+      "supervisor_en": "Najwah AlOmari",
+      "supervisor_ar": "نجوى العمري",
+      "monthly": {
+        "Jan": {
+          "target": 30,
+          "achieved": 0,
+          "pct": 0.0
+        },
+        "Feb": {
+          "target": 40,
+          "achieved": 0,
+          "pct": 0.0
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 70,
+        "achieved": 0,
+        "pct": 0.0,
+        "gap": 70
+      },
+      "status": "critical",
+      "is_stable": false,
+      "months_with_target": 2
+    },
+    {
+      "user": "rtl_008241",
+      "name": "⚠️ غير معروف",
+      "supervisor_en": "Najwah AlOmari",
+      "supervisor_ar": "نجوى العمري",
+      "monthly": {
+        "Jan": {
+          "target": 30,
+          "achieved": 0,
+          "pct": 0.0
+        },
+        "Feb": {
+          "target": 30,
+          "achieved": 0,
+          "pct": 0.0
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 60,
+        "achieved": 0,
+        "pct": 0.0,
+        "gap": 60
+      },
+      "status": "critical",
+      "is_stable": false,
+      "months_with_target": 2
+    },
+    {
+      "user": "mtl_010574",
+      "name": "⚠️ غير معروف",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 30,
+          "achieved": 0,
+          "pct": 0.0
+        },
+        "Feb": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 30,
+        "achieved": 0,
+        "pct": 0.0,
+        "gap": 30
+      },
+      "status": "critical",
+      "is_stable": false,
+      "months_with_target": 1
+    },
+    {
+      "user": "mtl_010587",
+      "name": "⚠️ غير معروف",
+      "supervisor_en": "Turki AlDawsari",
+      "supervisor_ar": "تركي الدوسري",
+      "monthly": {
+        "Jan": {
+          "target": 50,
+          "achieved": 0,
+          "pct": 0.0
+        },
+        "Feb": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        },
+        "Mar": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        }
+      },
+      "total": {
+        "target": 50,
+        "achieved": 0,
+        "pct": 0.0,
+        "gap": 50
+      },
+      "status": "critical",
+      "is_stable": false,
+      "months_with_target": 1
+    },
+    {
+      "user": "rtl_008235",
+      "name": "⚠️ غير معروف",
+      "supervisor_en": "Abdulwahab AlShammari",
+      "supervisor_ar": "عبدالوهاب الشمري",
+      "monthly": {
+        "Jan": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        },
+        "Feb": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0
+        },
+        "Mar": {
+          "target": 250,
+          "achieved": 0,
+          "pct": 0.0
+        }
+      },
+      "total": {
+        "target": 250,
+        "achieved": 0,
+        "pct": 0.0,
+        "gap": 250
+      },
+      "status": "critical",
+      "is_stable": false,
+      "months_with_target": 1
+    }
+  ],
+  "stats": {
+    "total_employees": 85,
+    "stable_employees": 41,
+    "total_sales_count": 9222,
+    "total_supervisors": 5,
+    "status_distribution": {
+      "overachiever": 8,
+      "on_track": 6,
+      "catching_up": 12,
+      "critical": 51,
+      "no_target": 8
+    }
+  }
+}
