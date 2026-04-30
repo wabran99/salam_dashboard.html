@@ -7,11 +7,12 @@
    Designed & Developed by: Eng. Abdulwahab M Alshammari
    Internal Use Only — © 2026 All Rights Reserved
    Unauthorized copying, modification, or redistribution prohibited.
-   Built: v19.5 · April 2026 · Build ID: WAB-2026-04-30-COMPASS-LIVE
+   Built: v19.6 · April 2026 · Build ID: WAB-2026-04-30-DRONE-FLIGHT
  ═══════════════════════════════════════════════════════════════════
 -->
 
 <!-- ═══ VERSION HISTORY ═══
+  v19.6     · 2026-04-30 · 🚁 Stage 3 Drone Flight — Cinematic time travel (Session 4)
   v19.5     · 2026-04-30 · 🧭 Stage 2 Temporal Compass — Interactive + Magnetic Needle (Session 3)
   v19.4     · 2026-04-30 · 🎬 Stage 1 Cinematic integrated into open() directly (Session 2 final)
   v19.3     · 2026-04-30 · ⚠️ Failed: Stage 1 logic via override — race condition
@@ -5111,6 +5112,476 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   .tm-quarter.tm-q-active { animation: tm-quarter-appear 0.3s forwards !important; }
 }
 
+
+
+/* ═══════════════════════════════════════════════════════
+   STAGE 3 — DRONE FLIGHT (Session 4)
+   Duration: 4 seconds
+   ═══════════════════════════════════════════════════════ */
+
+#tmStage3 {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: none;
+  overflow: hidden;
+}
+
+#tmStage3.tm-stage-active {
+  display: block !important;
+}
+
+/* Sky gradient background */
+.tm-sky {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, 
+    #061A10 0%, 
+    #0A2E1C 30%, 
+    #0D3D26 70%, 
+    #163D24 100%);
+  z-index: 1;
+}
+
+/* Animated stars (more dynamic than Stage 1) */
+.tm-flight-stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.tm-flight-star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  animation: tm-star-flow 4s linear infinite;
+}
+
+@keyframes tm-star-flow {
+  0% { transform: translateX(100vw); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.6; }
+  100% { transform: translateX(-100px); opacity: 0; }
+}
+
+/* Top header bar */
+.tm-flight-header {
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 10;
+  opacity: 0;
+  animation: tm-fade-down 0.6s 0.2s var(--tm-ease-cinematic) forwards;
+}
+
+.tm-flight-title {
+  font-size: 13px;
+  color: var(--tm-gold);
+  letter-spacing: 4px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.tm-flight-sub {
+  font-size: 10px;
+  color: rgba(154, 205, 176, 0.7);
+  letter-spacing: 1px;
+}
+
+/* Timeline road (horizontal path) */
+.tm-road {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(212, 160, 23, 0.25);
+  z-index: 3;
+  transform: translateY(-50%);
+  opacity: 0;
+  animation: tm-road-fade 0.8s 0.4s var(--tm-ease-cinematic) forwards;
+}
+
+@keyframes tm-road-fade {
+  to { opacity: 1; }
+}
+
+/* Animated dashes on road */
+.tm-road-dashes {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--tm-gold) 0,
+    var(--tm-gold) 8px,
+    transparent 8px,
+    transparent 18px
+  );
+  z-index: 4;
+  transform: translateY(-50%);
+  opacity: 0;
+  animation: tm-road-fade 0.8s 0.6s var(--tm-ease-cinematic) forwards,
+             tm-road-flow 1.5s 0.6s linear infinite;
+}
+
+@keyframes tm-road-flow {
+  from { background-position: 0 0; }
+  to { background-position: -36px 0; }
+}
+
+/* Quarter stations on the timeline */
+.tm-station {
+  position: absolute;
+  top: 50%;
+  width: 90px;
+  text-align: center;
+  z-index: 5;
+  opacity: 0;
+  animation: tm-station-pop 0.5s var(--tm-ease-spring) forwards;
+}
+
+.tm-station-q1 { left: 8%; transform: translate(-50%, -50%); animation-delay: 0.7s; }
+.tm-station-q2 { left: 35%; transform: translate(-50%, -50%); animation-delay: 0.85s; }
+.tm-station-q3 { left: 65%; transform: translate(-50%, -50%); animation-delay: 1.0s; }
+.tm-station-q4 { left: 92%; transform: translate(-50%, -50%); animation-delay: 1.15s; }
+
+@keyframes tm-station-pop {
+  to { opacity: 1; }
+}
+
+/* Station dot (on the road) */
+.tm-station-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(212, 160, 23, 0.4);
+  margin: 0 auto;
+  position: relative;
+}
+
+.tm-station-dot.tm-st-active {
+  background: var(--tm-gold);
+  border-color: var(--tm-gold-light);
+  box-shadow: 0 0 12px var(--tm-gold-glow);
+  animation: tm-station-glow 1.5s infinite;
+}
+
+.tm-station-dot.tm-st-target {
+  background: #3DD68C;
+  border-color: #3DD68C;
+  box-shadow: 0 0 16px rgba(61, 214, 140, 0.5);
+  animation: tm-target-pulse 1s infinite;
+  width: 16px;
+  height: 16px;
+  margin-top: -2px;
+}
+
+@keyframes tm-station-glow {
+  0%, 100% { box-shadow: 0 0 12px var(--tm-gold-glow); }
+  50% { box-shadow: 0 0 20px var(--tm-gold), 0 0 30px var(--tm-gold-glow); }
+}
+
+@keyframes tm-target-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+/* Station label */
+.tm-station-label {
+  font-size: 9px;
+  color: rgba(154, 205, 176, 0.6);
+  margin-top: 18px;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+.tm-station-dot.tm-st-active + .tm-station-label {
+  color: var(--tm-gold);
+}
+
+.tm-station-dot.tm-st-target + .tm-station-label {
+  color: #3DD68C;
+  font-weight: 700;
+}
+
+/* "YOU ARE HERE" marker above active station */
+.tm-station-marker {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(212, 160, 23, 0.9);
+  color: #061A10;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.tm-station-marker::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid var(--tm-gold);
+}
+
+/* "TARGET" marker above destination */
+.tm-station-target-marker {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(61, 214, 140, 0.9);
+  color: #061A10;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.tm-station-target-marker::after {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid #3DD68C;
+}
+
+/* The Drone (SVG container) */
+.tm-drone {
+  position: absolute;
+  top: 50%;
+  left: 35%;
+  width: 60px;
+  height: 60px;
+  margin-left: -30px;
+  margin-top: -30px;
+  z-index: 8;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+  animation: tm-drone-fly 4s var(--tm-ease-cinematic) forwards,
+             tm-drone-bob 1s 0.5s ease-in-out infinite;
+}
+
+/* Drone propellers (rotating) */
+.tm-drone-prop {
+  transform-origin: center;
+  animation: tm-prop-spin 0.1s linear infinite;
+}
+
+@keyframes tm-prop-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes tm-drone-bob {
+  0%, 100% { margin-top: -30px; }
+  50% { margin-top: -34px; }
+}
+
+/* The actual flight path (computed dynamically with CSS variable) */
+@keyframes tm-drone-fly {
+  0% {
+    left: 35%;
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  10% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  90% {
+    left: var(--tm-target-x, 8%);
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    left: var(--tm-target-x, 8%);
+    opacity: 1;
+    transform: scale(1.4);
+  }
+}
+
+/* Speed lines behind drone */
+.tm-speed-lines {
+  position: absolute;
+  top: 50%;
+  left: 35%;
+  height: 60px;
+  width: 0;
+  margin-top: -30px;
+  pointer-events: none;
+  z-index: 7;
+  opacity: 0;
+  animation: tm-speed-show 4s var(--tm-ease-cinematic) forwards;
+}
+
+@keyframes tm-speed-show {
+  0%, 5% { opacity: 0; }
+  20%, 80% { opacity: 0.8; }
+  95%, 100% { opacity: 0; }
+}
+
+.tm-speed-line {
+  position: absolute;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, rgba(212, 160, 23, 0.6) 100%);
+  border-radius: 1px;
+}
+
+/* Status panel (top-right) */
+.tm-flight-status {
+  position: absolute;
+  top: 80px;
+  right: 30px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(212, 160, 23, 0.3);
+  border-radius: 10px;
+  padding: 12px 16px;
+  min-width: 180px;
+  z-index: 10;
+  opacity: 0;
+  animation: tm-status-slide 0.6s 0.5s var(--tm-ease-cinematic) forwards;
+  font-family: 'Courier New', monospace;
+}
+
+@keyframes tm-status-slide {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.tm-status-title {
+  font-size: 9px;
+  color: var(--tm-gold);
+  letter-spacing: 2px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.tm-status-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.tm-status-label {
+  color: rgba(154, 205, 176, 0.7);
+}
+
+.tm-status-value {
+  color: #fff;
+  font-weight: 700;
+}
+
+.tm-status-bar {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.tm-status-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--tm-gold), #3DD68C);
+  border-radius: 2px;
+  animation: tm-progress-fill 4s var(--tm-ease-cinematic) forwards;
+}
+
+@keyframes tm-progress-fill {
+  to { width: 100%; }
+}
+
+.tm-status-progress-text {
+  font-size: 9px;
+  color: rgba(154, 205, 176, 0.6);
+  text-align: center;
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+/* Landing burst (when drone arrives) */
+.tm-landing-burst {
+  position: absolute;
+  top: 50%;
+  left: var(--tm-target-x, 8%);
+  width: 60px;
+  height: 60px;
+  margin-left: -30px;
+  margin-top: -30px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(255, 255, 255, 0.9) 0%,
+    var(--tm-gold-light) 30%,
+    var(--tm-gold) 60%,
+    transparent 100%);
+  z-index: 6;
+  opacity: 0;
+  transform: scale(0);
+  animation: tm-landing 4s var(--tm-ease-cinematic) forwards;
+  pointer-events: none;
+}
+
+@keyframes tm-landing {
+  0%, 88% { opacity: 0; transform: scale(0); }
+  92% { opacity: 0.8; transform: scale(2); }
+  96% { opacity: 1; transform: scale(6); }
+  100% { opacity: 0; transform: scale(12); }
+}
+
+/* Camera shake when drone is near landing */
+@keyframes tm-camera-shake {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(-1px, -1px); }
+  50% { transform: translate(1px, -1px); }
+  75% { transform: translate(-1px, 1px); }
+}
+
+#tmStage3.tm-shake-active {
+  animation: tm-camera-shake 0.1s infinite;
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  .tm-flight-status {
+    top: 60px;
+    right: 15px;
+    min-width: 140px;
+    padding: 8px 12px;
+  }
+  .tm-station-label { font-size: 8px; }
+  .tm-flight-header { top: 60px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tm-drone { animation-duration: 1s !important; }
+  .tm-flight-star { animation: none !important; opacity: 0.4 !important; }
+  .tm-status-bar-fill { animation-duration: 1s !important; }
+}
+
 </style>
 
 </head>
@@ -5269,13 +5740,121 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     
   </div>
 
-  <!-- Stage 3: Drone Flight + Memory Lane -->
+  <!-- Stage 3: Drone Flight (Session 4) -->
   <div class="tm-stage" id="tmStage3" data-stage="3">
-    <!-- Drone content will be added in Session 4 -->
-    <div style="text-align:center;color:var(--tm-gold);">
-      <div style="font-size:11px;letter-spacing:3px;font-weight:700;">🚁 STAGE 3 · DRONE</div>
-      <div style="font-size:10px;color:#9ACDB0;margin-top:8px;">سيتم بناؤه في الجلسة القادمة</div>
+    
+    <!-- Sky background -->
+    <div class="tm-sky"></div>
+    
+    <!-- Animated stars (flowing right to left) -->
+    <div class="tm-flight-stars" id="tmFlightStars"></div>
+    
+    <!-- Top header -->
+    <div class="tm-flight-header">
+      <div class="tm-flight-title" id="tmFlightTitle">🚁 رحلة الزمن</div>
+      <div class="tm-flight-sub" id="tmFlightSub">الدرون يطير عبر الزمن...</div>
     </div>
+    
+    <!-- Status panel (top-right) -->
+    <div class="tm-flight-status">
+      <div class="tm-status-title">🚁 FLIGHT STATUS</div>
+      <div class="tm-status-row">
+        <span class="tm-status-label">Speed:</span>
+        <span class="tm-status-value" id="tmStatusSpeed">88 km/h</span>
+      </div>
+      <div class="tm-status-row">
+        <span class="tm-status-label">ETA:</span>
+        <span class="tm-status-value" id="tmStatusEta">3.2 sec</span>
+      </div>
+      <div class="tm-status-row">
+        <span class="tm-status-label">Distance:</span>
+        <span class="tm-status-value" id="tmStatusDistance">2.4 km</span>
+      </div>
+      <div class="tm-status-bar">
+        <div class="tm-status-bar-fill"></div>
+      </div>
+      <div class="tm-status-progress-text" id="tmStatusProgress">In progress...</div>
+    </div>
+    
+    <!-- The road (timeline) -->
+    <div class="tm-road"></div>
+    <div class="tm-road-dashes"></div>
+    
+    <!-- Stations on the timeline -->
+    <div class="tm-station tm-station-q1" data-quarter="Q1_2026">
+      <div class="tm-station-dot" id="tmStationQ1"></div>
+      <div class="tm-station-label">Q1 · 2026</div>
+    </div>
+    
+    <div class="tm-station tm-station-q2" data-quarter="Q2_2026">
+      <div class="tm-station-dot tm-st-active" id="tmStationQ2"></div>
+      <div class="tm-station-label">Q2 · 2026</div>
+      <div class="tm-station-marker">YOU ARE HERE</div>
+    </div>
+    
+    <div class="tm-station tm-station-q3" data-quarter="Q3_2026">
+      <div class="tm-station-dot" id="tmStationQ3"></div>
+      <div class="tm-station-label">Q3 · 2026</div>
+    </div>
+    
+    <div class="tm-station tm-station-q4" data-quarter="Q4_2026">
+      <div class="tm-station-dot" id="tmStationQ4"></div>
+      <div class="tm-station-label">Q4 · 2026</div>
+    </div>
+    
+    <!-- Speed lines (placeholder; filled by JS) -->
+    <div class="tm-speed-lines" id="tmSpeedLines"></div>
+    
+    <!-- Landing burst (visible when drone arrives) -->
+    <div class="tm-landing-burst"></div>
+    
+    <!-- The Drone (SVG) -->
+    <div class="tm-drone" id="tmDrone">
+      <svg width="60" height="60" viewBox="0 0 60 60">
+        <!-- Shadow -->
+        <ellipse cx="30" cy="52" rx="18" ry="2.5" fill="rgba(0,0,0,0.4)"/>
+        
+        <!-- Left propeller blur circle -->
+        <circle cx="14" cy="22" r="9" fill="rgba(255,255,255,0.08)" stroke="rgba(212,160,23,0.3)" stroke-width="0.5"/>
+        <!-- Left propeller blades (rotating) -->
+        <g class="tm-drone-prop" style="transform-origin:14px 22px;">
+          <rect x="5" y="21" width="18" height="2" fill="rgba(255,255,255,0.5)" rx="1"/>
+          <rect x="13" y="13" width="2" height="18" fill="rgba(255,255,255,0.4)" rx="1"/>
+        </g>
+        
+        <!-- Right propeller blur circle -->
+        <circle cx="46" cy="22" r="9" fill="rgba(255,255,255,0.08)" stroke="rgba(212,160,23,0.3)" stroke-width="0.5"/>
+        <!-- Right propeller blades (rotating) -->
+        <g class="tm-drone-prop" style="transform-origin:46px 22px;">
+          <rect x="37" y="21" width="18" height="2" fill="rgba(255,255,255,0.5)" rx="1"/>
+          <rect x="45" y="13" width="2" height="18" fill="rgba(255,255,255,0.4)" rx="1"/>
+        </g>
+        
+        <!-- Connecting arms -->
+        <line x1="14" y1="22" x2="22" y2="32" stroke="#D4A017" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="46" y1="22" x2="38" y2="32" stroke="#D4A017" stroke-width="1.5" stroke-linecap="round"/>
+        
+        <!-- Body -->
+        <rect x="20" y="30" width="20" height="14" rx="3" fill="#1A4A2A" stroke="#D4A017" stroke-width="2"/>
+        
+        <!-- Body details -->
+        <rect x="22" y="33" width="16" height="3" rx="1" fill="rgba(212,160,23,0.3)"/>
+        
+        <!-- Camera lens (front green light) -->
+        <circle cx="30" cy="40" r="2.5" fill="#3DD68C">
+          <animate attributeName="opacity" values="0.4;1;0.4" dur="0.8s" repeatCount="indefinite"/>
+        </circle>
+        
+        <!-- Side lights (red blinking) -->
+        <circle cx="22" cy="37" r="1" fill="#E24B4A">
+          <animate attributeName="opacity" values="0.2;1;0.2" dur="0.6s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="38" cy="37" r="1" fill="#E24B4A">
+          <animate attributeName="opacity" values="1;0.2;1" dur="0.6s" repeatCount="indefinite"/>
+        </circle>
+      </svg>
+    </div>
+    
   </div>
 
   <!-- Stage 4: Vault + Vintage Film -->
@@ -5619,6 +6198,240 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     },
     
     
+    // ═══ Quarter Position Map (where each station is on the timeline) ═══
+    _stationPositions: {
+      'Q1_2026': '8%',
+      'Q2_2026': '35%',
+      'Q3_2026': '65%',
+      'Q4_2026': '92%'
+    },
+    
+    
+    // ═══ Quarter Display Names ═══
+    _quarterNames: {
+      'Q1_2026': 'Q1 2026 · يناير-مارس',
+      'Q2_2026': 'Q2 2026 · أبريل-يونيو',
+      'Q3_2026': 'Q3 2026 · يوليو-سبتمبر',
+      'Q4_2026': 'Q4 2026 · أكتوبر-ديسمبر'
+    },
+    
+    
+    // ═══ Initialize Drone Flight (called when entering Stage 3) ═══
+    _initDroneFlight: function() {
+      const self = this;
+      const targetQuarter = this.selectedQuarter || 'Q1_2026';
+      const targetX = this._stationPositions[targetQuarter] || '8%';
+      
+      const stage3 = document.getElementById('tmStage3');
+      if (!stage3) return;
+      
+      // Set target X for CSS animations
+      stage3.style.setProperty('--tm-target-x', targetX);
+      
+      // Update header
+      const titleEl = document.getElementById('tmFlightTitle');
+      const subEl = document.getElementById('tmFlightSub');
+      if (titleEl) {
+        titleEl.textContent = '🚁 رحلة الزمن · في الطريق إلى ' + (this._quarterNames[targetQuarter] || targetQuarter);
+      }
+      if (subEl) {
+        subEl.textContent = 'الدرون يطير عبر الزمن · 4 ثواني للوصول';
+      }
+      
+      // Mark target station
+      this._markTargetStation(targetQuarter);
+      
+      // Generate flowing stars
+      this._generateFlightStars();
+      
+      // Generate speed lines
+      this._generateSpeedLines();
+      
+      // Animate status panel values
+      this._animateFlightStatus();
+      
+      // Camera shake near landing (last 0.5s)
+      setTimeout(function() {
+        stage3.classList.add('tm-shake-active');
+      }, 3300);
+      
+      // Auto-transition to Stage 4 at 4s
+      this._stage3Timer = setTimeout(function() {
+        stage3.classList.remove('tm-shake-active');
+        self.goToStage(4);
+      }, 4000);
+    },
+    
+    
+    // ═══ Mark target station (green pulse + TARGET label) ═══
+    _markTargetStation: function(quarterId) {
+      // Reset all stations first
+      document.querySelectorAll('.tm-station-dot').forEach(function(dot) {
+        if (!dot.classList.contains('tm-st-active')) {
+          dot.classList.remove('tm-st-target');
+        }
+      });
+      
+      // Find target station
+      const targetMap = {
+        'Q1_2026': 'tmStationQ1',
+        'Q2_2026': 'tmStationQ2',
+        'Q3_2026': 'tmStationQ3',
+        'Q4_2026': 'tmStationQ4'
+      };
+      
+      const targetId = targetMap[quarterId];
+      if (!targetId) return;
+      
+      const targetDot = document.getElementById(targetId);
+      if (!targetDot) return;
+      
+      // Don't override active station marker
+      if (targetDot.classList.contains('tm-st-active')) {
+        // Same as current — just visual feedback
+        return;
+      }
+      
+      targetDot.classList.add('tm-st-target');
+      
+      // Add TARGET label
+      const station = targetDot.closest('.tm-station');
+      if (station && !station.querySelector('.tm-station-target-marker')) {
+        const marker = document.createElement('div');
+        marker.className = 'tm-station-target-marker';
+        marker.textContent = 'TARGET';
+        station.appendChild(marker);
+      }
+    },
+    
+    
+    // ═══ Generate flowing background stars ═══
+    _generateFlightStars: function() {
+      const container = document.getElementById('tmFlightStars');
+      if (!container) return;
+      
+      container.innerHTML = '';
+      
+      for (let i = 0; i < 30; i++) {
+        const star = document.createElement('div');
+        star.className = 'tm-flight-star';
+        
+        // Random Y position
+        star.style.top = (Math.random() * 100) + '%';
+        
+        // Random size
+        const size = 1 + Math.random() * 2;
+        star.style.width = size + 'px';
+        star.style.height = size + 'px';
+        
+        // Random delay so they don't all flow together
+        star.style.animationDelay = (Math.random() * 4) + 's';
+        star.style.animationDuration = (3 + Math.random() * 2) + 's';
+        
+        container.appendChild(star);
+      }
+    },
+    
+    
+    // ═══ Generate speed lines behind drone ═══
+    _generateSpeedLines: function() {
+      const container = document.getElementById('tmSpeedLines');
+      if (!container) return;
+      
+      container.innerHTML = '';
+      
+      for (let i = 0; i < 6; i++) {
+        const line = document.createElement('div');
+        line.className = 'tm-speed-line';
+        
+        const yOffset = (i - 2.5) * 8;
+        line.style.top = 'calc(50% + ' + yOffset + 'px)';
+        line.style.right = (10 + Math.random() * 30) + 'px';
+        line.style.width = (40 + Math.random() * 60) + 'px';
+        
+        container.appendChild(line);
+      }
+      
+      // Make speed lines follow the drone
+      const drone = document.getElementById('tmDrone');
+      if (drone && container) {
+        // Sync speed lines position with drone via animation
+        container.style.left = '35%';
+        container.style.transition = 'left 4s var(--tm-ease-cinematic)';
+        const targetX = this._stationPositions[this.selectedQuarter] || '8%';
+        setTimeout(function() {
+          container.style.left = targetX;
+        }, 50);
+      }
+    },
+    
+    
+    // ═══ Animate status panel (Speed/ETA/Distance) ═══
+    _animateFlightStatus: function() {
+      const speedEl = document.getElementById('tmStatusSpeed');
+      const etaEl = document.getElementById('tmStatusEta');
+      const distEl = document.getElementById('tmStatusDistance');
+      const progressEl = document.getElementById('tmStatusProgress');
+      
+      let elapsed = 0;
+      const total = 4000; // 4 seconds
+      const startSpeed = 88;
+      const peakSpeed = 142;
+      const startDist = 2.4;
+      
+      const interval = setInterval(function() {
+        elapsed += 100;
+        
+        if (elapsed >= total) {
+          clearInterval(interval);
+          if (speedEl) speedEl.textContent = '0 km/h';
+          if (etaEl) etaEl.textContent = 'Arrived ✓';
+          if (distEl) distEl.textContent = '0.0 km';
+          if (progressEl) progressEl.textContent = 'Landing complete';
+          return;
+        }
+        
+        const ratio = elapsed / total;
+        
+        // Speed: accelerate then decelerate (bell curve-ish)
+        let speed;
+        if (ratio < 0.5) {
+          speed = startSpeed + (peakSpeed - startSpeed) * (ratio * 2);
+        } else {
+          speed = peakSpeed - (peakSpeed - 5) * ((ratio - 0.5) * 2);
+        }
+        
+        // ETA: countdown from 4s
+        const eta = ((total - elapsed) / 1000).toFixed(1);
+        
+        // Distance: linear decrease
+        const dist = (startDist * (1 - ratio)).toFixed(1);
+        
+        // Progress percentage
+        const pct = Math.round(ratio * 100);
+        
+        if (speedEl) speedEl.textContent = Math.round(speed) + ' km/h';
+        if (etaEl) etaEl.textContent = eta + ' sec';
+        if (distEl) distEl.textContent = dist + ' km';
+        if (progressEl) {
+          if (pct < 30) progressEl.textContent = '🚀 Taking off · ' + pct + '%';
+          else if (pct < 70) progressEl.textContent = '✈️ Cruising · ' + pct + '%';
+          else if (pct < 90) progressEl.textContent = '🎯 Approaching · ' + pct + '%';
+          else progressEl.textContent = '🛬 Landing · ' + pct + '%';
+        }
+      }, 100);
+      
+      // Save interval so we can clear it
+      this._statusInterval = interval;
+    },
+    
+    
+    // ═══ Hook: when entering Stage 3, initialize drone flight ═══
+    _onDroneEnter: function() {
+      this._initDroneFlight();
+    },
+    
+    
     // ═══ Close Time Machine ═══
     close: function() {
       if (!this.isOpen) return;
@@ -5628,6 +6441,17 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
         clearTimeout(this._stage1Timer);
         this._stage1Timer = null;
       }
+      if (this._stage3Timer) {
+        clearTimeout(this._stage3Timer);
+        this._stage3Timer = null;
+      }
+      if (this._statusInterval) {
+        clearInterval(this._statusInterval);
+        this._statusInterval = null;
+      }
+      // Remove camera shake if active
+      const stage3 = document.getElementById('tmStage3');
+      if (stage3) stage3.classList.remove('tm-shake-active');
       
       const overlay = document.getElementById('timeMachineOverlay');
       overlay.classList.remove('tm-active');
@@ -5807,7 +6631,10 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
           this._playSound('compass_spin');
           this._onCompassEnter();
           break;
-        case 3: this._playSound('drone_fly'); break;
+        case 3:
+          this._playSound('drone_fly');
+          this._onDroneEnter();
+          break;
         case 4: this._playSound('vault_open'); break;
       }
     }
@@ -5928,7 +6755,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">🕰️ آلة الزمن · الأرشيف الربعي</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🔒 v19.5 · Time Machine v1.4 + Compass Live</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🔒 v19.6 · Time Machine v1.5 + Drone Flight</div>
 </div>
 
 <!-- v14: Live Ticker -->
