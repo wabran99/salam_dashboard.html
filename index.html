@@ -7,11 +7,12 @@
    Designed & Developed by: Eng. Abdulwahab M Alshammari
    Internal Use Only — © 2026 All Rights Reserved
    Unauthorized copying, modification, or redistribution prohibited.
-   Built: v19.7 · April 2026 · Build ID: WAB-2026-04-30-VAULT-OPEN
+   Built: v19.8 · April 2026 · Build ID: WAB-2026-04-30-EMPLOYEES-LIST
  ═══════════════════════════════════════════════════════════════════
 -->
 
 <!-- ═══ VERSION HISTORY ═══
+  v19.8     · 2026-04-30 · 👥 Employees List + Daily Gap Calculator (Session 5.B)
   v19.7     · 2026-04-30 · 📦 Stage 4 Vault Opening — Sepia + Live Data (Session 5.A)
   v19.6     · 2026-04-30 · 🚁 Stage 3 Drone Flight — Cinematic time travel (Session 4)
   v19.5     · 2026-04-30 · 🧭 Stage 2 Temporal Compass — Interactive + Magnetic Needle (Session 3)
@@ -6107,6 +6108,481 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   .tm-rec-dot { animation: none !important; }
 }
 
+
+
+/* ═══════════════════════════════════════════════════════
+   STAGE 4 PART B — TABS + EMPLOYEES LIST (Session 5.B)
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── Tabs container (appears below vault after open) ────────────── */
+.tm-tabs-wrapper {
+  position: absolute;
+  top: 130px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 700px;
+  z-index: 14;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s var(--tm-ease-cinematic);
+}
+
+/* Show tabs after content is exposed (5s+) */
+#tmStage4.tm-vault-fully-open .tm-tabs-wrapper {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#tmStage4.tm-vault-fully-open .tm-vault-stage,
+#tmStage4.tm-vault-fully-open .tm-secret-weapon,
+#tmStage4.tm-vault-fully-open .tm-continue-prompt {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s var(--tm-ease-cinematic);
+}
+
+/* Tab buttons */
+.tm-tabs-bar {
+  display: flex;
+  gap: 4px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(212, 160, 23, 0.3);
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 14px;
+}
+
+.tm-tab-btn {
+  flex: 1;
+  padding: 9px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  color: rgba(232, 201, 98, 0.6);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s var(--tm-ease-fast);
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.tm-tab-btn:hover {
+  color: var(--tm-gold-light);
+  background: rgba(212, 160, 23, 0.08);
+}
+
+.tm-tab-btn.tm-tab-active {
+  background: linear-gradient(135deg, rgba(212, 160, 23, 0.35), rgba(212, 160, 23, 0.15));
+  color: var(--tm-gold-light);
+  box-shadow: 0 0 16px rgba(212, 160, 23, 0.3);
+}
+
+.tm-tab-count {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 1px 6px;
+  border-radius: 8px;
+  font-size: 9px;
+}
+
+/* Tab content panel */
+.tm-tab-panel {
+  display: none;
+  background: rgba(14, 8, 5, 0.7);
+  border: 1px solid rgba(212, 160, 23, 0.25);
+  border-radius: 10px;
+  padding: 14px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.tm-tab-panel.tm-tab-panel-active {
+  display: block;
+  animation: tm-tab-fade 0.3s var(--tm-ease-fast);
+}
+
+@keyframes tm-tab-fade {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Custom scrollbar (for tab panels) */
+.tm-tab-panel::-webkit-scrollbar {
+  width: 6px;
+}
+.tm-tab-panel::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+}
+.tm-tab-panel::-webkit-scrollbar-thumb {
+  background: rgba(212, 160, 23, 0.4);
+  border-radius: 3px;
+}
+.tm-tab-panel::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 160, 23, 0.6);
+}
+
+/* ─── Months Tab Rows ────────────────────────────────────────────── */
+.tm-month-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 80px 60px;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  background: rgba(212, 160, 23, 0.04);
+  border: 1px solid rgba(212, 160, 23, 0.15);
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.tm-month-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--tm-gold-light);
+  font-family: 'Courier New', monospace;
+  letter-spacing: 1px;
+}
+
+.tm-month-bar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.tm-month-bar {
+  height: 8px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.tm-month-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s var(--tm-ease-smooth);
+}
+
+.tm-month-numbers {
+  font-size: 10px;
+  color: rgba(232, 201, 98, 0.7);
+}
+
+.tm-month-achieved {
+  font-size: 13px;
+  font-weight: 900;
+  color: #fff;
+  text-align: right;
+  font-family: 'Courier New', monospace;
+}
+
+.tm-month-pct {
+  font-size: 12px;
+  font-weight: 900;
+  text-align: center;
+  font-family: 'Courier New', monospace;
+}
+
+/* ─── Supervisors Tab Rows ───────────────────────────────────────── */
+.tm-sup-row {
+  display: grid;
+  grid-template-columns: 30px 1fr 100px 70px;
+  gap: 12px;
+  align-items: center;
+  padding: 11px;
+  background: rgba(212, 160, 23, 0.04);
+  border: 1px solid rgba(212, 160, 23, 0.15);
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.tm-sup-rank {
+  font-size: 18px;
+  text-align: center;
+}
+
+.tm-sup-info {
+  text-align: right;
+}
+
+.tm-sup-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.tm-sup-name-en {
+  font-size: 9px;
+  color: rgba(232, 201, 98, 0.5);
+  margin-top: 1px;
+}
+
+.tm-sup-stats {
+  font-size: 10px;
+  color: rgba(232, 201, 98, 0.7);
+  font-family: 'Courier New', monospace;
+  text-align: center;
+}
+
+.tm-sup-pct {
+  font-size: 14px;
+  font-weight: 900;
+  text-align: center;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-family: 'Courier New', monospace;
+}
+
+/* ─── Status colors ──────────────────────────────────────────────── */
+.tm-status-overachiever {
+  color: #FFD700;
+  background: rgba(255, 215, 0, 0.1);
+}
+
+.tm-status-on-track {
+  color: #3DD68C;
+  background: rgba(61, 214, 140, 0.12);
+}
+
+.tm-status-catching-up {
+  color: #EF9F27;
+  background: rgba(239, 159, 39, 0.12);
+}
+
+.tm-status-critical {
+  color: #F08888;
+  background: rgba(226, 75, 74, 0.12);
+}
+
+/* Bar fills */
+.tm-bar-overachiever { background: linear-gradient(90deg, #FFD700, #FFA500); }
+.tm-bar-on-track { background: #3DD68C; }
+.tm-bar-catching-up { background: #EF9F27; }
+.tm-bar-critical { background: #E24B4A; }
+
+/* ─── Filter pills (above employee list) ─────────────────────────── */
+.tm-filter-pills {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.tm-filter-pill {
+  padding: 5px 11px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(212, 160, 23, 0.2);
+  border-radius: 14px;
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(232, 201, 98, 0.6);
+  cursor: pointer;
+  transition: all 0.2s var(--tm-ease-fast);
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.tm-filter-pill:hover {
+  border-color: var(--tm-gold);
+  color: var(--tm-gold-light);
+}
+
+.tm-filter-pill.tm-pill-active {
+  background: var(--tm-gold);
+  color: #061A10;
+  border-color: var(--tm-gold-light);
+}
+
+.tm-pill-count {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 1px 5px;
+  border-radius: 6px;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.tm-filter-pill.tm-pill-active .tm-pill-count {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* ─── Employees List (the heart of this session) ─────────────────── */
+.tm-employees-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 0 4px;
+}
+
+.tm-employees-count-text {
+  font-size: 10px;
+  color: var(--tm-gold);
+  font-style: italic;
+  font-family: 'Courier New', monospace;
+}
+
+.tm-employees-sort-hint {
+  font-size: 9px;
+  color: rgba(232, 201, 98, 0.4);
+  letter-spacing: 1px;
+}
+
+.tm-emp-row {
+  display: grid;
+  grid-template-columns: 24px 1fr 110px 90px;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 12px;
+  background: rgba(212, 160, 23, 0.04);
+  border: 1px solid rgba(212, 160, 23, 0.12);
+  border-radius: 8px;
+  margin-bottom: 6px;
+  transition: all 0.2s var(--tm-ease-fast);
+}
+
+.tm-emp-row:hover {
+  background: rgba(212, 160, 23, 0.08);
+  border-color: rgba(212, 160, 23, 0.3);
+  transform: translateX(2px);
+}
+
+.tm-emp-row.tm-emp-hidden {
+  display: none;
+}
+
+.tm-emp-rank {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(232, 201, 98, 0.5);
+  text-align: center;
+  font-family: 'Courier New', monospace;
+}
+
+.tm-emp-info {
+  min-width: 0;
+}
+
+.tm-emp-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tm-emp-meta {
+  font-size: 9px;
+  color: rgba(232, 201, 98, 0.5);
+  margin-top: 2px;
+  font-family: 'Courier New', monospace;
+}
+
+.tm-emp-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.tm-emp-bar {
+  height: 6px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.tm-emp-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.tm-emp-numbers {
+  font-size: 9px;
+  color: rgba(232, 201, 98, 0.7);
+  text-align: center;
+  font-family: 'Courier New', monospace;
+}
+
+.tm-emp-action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.tm-emp-pct {
+  font-size: 13px;
+  font-weight: 900;
+  font-family: 'Courier New', monospace;
+}
+
+.tm-emp-daily {
+  font-size: 9px;
+  color: var(--tm-gold-light);
+  white-space: nowrap;
+  font-weight: 700;
+  background: rgba(212, 160, 23, 0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(212, 160, 23, 0.3);
+}
+
+.tm-emp-daily-zero {
+  color: #3DD68C;
+  background: rgba(61, 214, 140, 0.1);
+  border-color: rgba(61, 214, 140, 0.3);
+}
+
+/* ─── Empty state ─────────────────────────────────────────────────── */
+.tm-empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: rgba(232, 201, 98, 0.4);
+}
+
+.tm-empty-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.tm-empty-text {
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+/* ─── Mobile adjustments ─────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .tm-tabs-wrapper { 
+    top: 110px; 
+    width: 95%; 
+  }
+  .tm-tab-btn { 
+    font-size: 10px; 
+    padding: 7px 8px; 
+  }
+  .tm-tab-count { display: none; }
+  .tm-emp-row {
+    grid-template-columns: 20px 1fr 80px 60px;
+    gap: 8px;
+    padding: 8px;
+  }
+  .tm-emp-name { font-size: 11px; }
+  .tm-emp-numbers { font-size: 8px; }
+  .tm-emp-pct { font-size: 11px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tm-emp-row { transition: none !important; }
+  .tm-tab-panel.tm-tab-panel-active { animation: none !important; }
+}
+
 </style>
 
 </head>
@@ -6477,7 +6953,76 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     
     <!-- Continue prompt -->
     <div class="tm-continue-prompt">
-      ⏏ EJECT للخروج · أو اضغط ESC
+      اضغط أي تاب للاستكشاف · أو ⏏ EJECT للخروج
+    </div>
+    
+    <!-- Tabs Wrapper (appears after vault fully opens) -->
+    <div class="tm-tabs-wrapper" id="tmTabsWrapper">
+      
+      <!-- Tabs bar -->
+      <div class="tm-tabs-bar">
+        <button class="tm-tab-btn tm-tab-active" data-tab="months">
+          📅 الشهور
+          <span class="tm-tab-count">3</span>
+        </button>
+        <button class="tm-tab-btn" data-tab="supervisors">
+          👔 المشرفون
+          <span class="tm-tab-count" id="tmTabCountSup">5</span>
+        </button>
+        <button class="tm-tab-btn" data-tab="employees">
+          👥 الموظفون المستمرون
+          <span class="tm-tab-count" id="tmTabCountEmp">—</span>
+        </button>
+      </div>
+      
+      <!-- Tab: Months -->
+      <div class="tm-tab-panel tm-tab-panel-active" data-panel="months" id="tmPanelMonths">
+        <!-- Filled by JS -->
+      </div>
+      
+      <!-- Tab: Supervisors -->
+      <div class="tm-tab-panel" data-panel="supervisors" id="tmPanelSupervisors">
+        <!-- Filled by JS -->
+      </div>
+      
+      <!-- Tab: Employees -->
+      <div class="tm-tab-panel" data-panel="employees" id="tmPanelEmployees">
+        
+        <!-- Filter pills -->
+        <div class="tm-filter-pills" id="tmFilterPills">
+          <button class="tm-filter-pill tm-pill-active" data-filter="all">
+            الكل <span class="tm-pill-count" id="tmCountAll">0</span>
+          </button>
+          <button class="tm-filter-pill" data-filter="critical">
+            🔴 حرج <span class="tm-pill-count" id="tmCountCritical">0</span>
+          </button>
+          <button class="tm-filter-pill" data-filter="catching_up">
+            🟡 فجوة <span class="tm-pill-count" id="tmCountCatchingUp">0</span>
+          </button>
+          <button class="tm-filter-pill" data-filter="on_track">
+            🟢 ماشي <span class="tm-pill-count" id="tmCountOnTrack">0</span>
+          </button>
+          <button class="tm-filter-pill" data-filter="overachiever">
+            🏆 متجاوز <span class="tm-pill-count" id="tmCountOverachiever">0</span>
+          </button>
+        </div>
+        
+        <!-- Info bar -->
+        <div class="tm-employees-info">
+          <div class="tm-employees-count-text" id="tmEmpInfoText">
+            جاري التحميل...
+          </div>
+          <div class="tm-employees-sort-hint">
+            ▼ مرتب من الأسوأ
+          </div>
+        </div>
+        
+        <!-- Employees container -->
+        <div id="tmEmployeesList">
+          <!-- Filled by JS -->
+        </div>
+      </div>
+      
     </div>
     
   </div>
@@ -7083,6 +7628,20 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
           frame.classList.add('tm-vault-opened');
         }
       }, 1900);
+      
+      // Initialize tabs (binds events)
+      this._initTabs();
+      
+      // After vault fully opens (5s), reveal tabs
+      this._stage4TabsTimer = setTimeout(function() {
+        const data = self.quarterData[quarterId];
+        if (data) {
+          self._renderMonthsTab(data);
+          self._renderSupervisorsTab(data);
+          self._renderEmployeesTab(data);
+        }
+        self._showTabs();
+      }, 5500);
     },
     
     
@@ -7192,6 +7751,306 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     },
     
     
+    // ═══ Configuration for gap calculation ═══
+    _gapConfig: {
+      monthsCompleted: 4,        // Q1 + April = 4 months done
+      monthsRemainingInYear: 8,  // May to December
+      workingDaysPerMonth: 26
+    },
+    
+    
+    // ═══ Calculate daily required for an employee (HEART) ═══
+    // This is the formula that will be ported to the live dashboard
+    calculateDailyGap: function(ytdTarget, ytdAchieved) {
+      const cfg = this._gapConfig;
+      
+      if (ytdTarget <= 0) return 0;
+      
+      // Project annual target: (target / months done) × 12
+      const annualTarget = (ytdTarget / cfg.monthsCompleted) * 12;
+      
+      // Still needed = annual - achieved
+      const stillNeeded = Math.max(0, annualTarget - ytdAchieved);
+      
+      // Monthly need
+      const monthlyNeeded = stillNeeded / cfg.monthsRemainingInYear;
+      
+      // Daily need (rounded to 1 decimal)
+      const dailyNeeded = monthlyNeeded / cfg.workingDaysPerMonth;
+      
+      return Math.round(dailyNeeded * 10) / 10;
+    },
+    
+    
+    // ═══ Trigger tabs visible after vault fully opens ═══
+    _showTabs: function() {
+      const stage4 = document.getElementById('tmStage4');
+      if (stage4) {
+        stage4.classList.add('tm-vault-fully-open');
+      }
+    },
+    
+    
+    // ═══ Initialize tabs and content (called from _initVault) ═══
+    _initTabs: function() {
+      const self = this;
+      
+      // Bind tab buttons
+      const tabBtns = document.querySelectorAll('.tm-tab-btn');
+      tabBtns.forEach(function(btn) {
+        if (btn._tmBound) return;
+        btn._tmBound = true;
+        
+        btn.addEventListener('click', function() {
+          const tabName = btn.getAttribute('data-tab');
+          self._switchTab(tabName);
+        });
+      });
+      
+      // Bind filter pills
+      const pills = document.querySelectorAll('.tm-filter-pill');
+      pills.forEach(function(pill) {
+        if (pill._tmBound) return;
+        pill._tmBound = true;
+        
+        pill.addEventListener('click', function() {
+          const filter = pill.getAttribute('data-filter');
+          self._filterEmployees(filter);
+        });
+      });
+    },
+    
+    
+    // ═══ Switch active tab ═══
+    _switchTab: function(tabName) {
+      // Buttons
+      document.querySelectorAll('.tm-tab-btn').forEach(function(b) {
+        b.classList.remove('tm-tab-active');
+        if (b.getAttribute('data-tab') === tabName) {
+          b.classList.add('tm-tab-active');
+        }
+      });
+      
+      // Panels
+      document.querySelectorAll('.tm-tab-panel').forEach(function(p) {
+        p.classList.remove('tm-tab-panel-active');
+        if (p.getAttribute('data-panel') === tabName) {
+          p.classList.add('tm-tab-panel-active');
+        }
+      });
+    },
+    
+    
+    // ═══ Render Months tab ═══
+    _renderMonthsTab: function(data) {
+      const panel = document.getElementById('tmPanelMonths');
+      if (!panel || !data.monthly_breakdown) return;
+      
+      const monthsAr = {
+        'Jan': 'يناير',
+        'Feb': 'فبراير',
+        'Mar': 'مارس'
+      };
+      
+      let html = '';
+      const months = ['Jan', 'Feb', 'Mar'];
+      
+      months.forEach(function(m) {
+        const md = data.monthly_breakdown[m];
+        if (!md) return;
+        
+        const pct = md.pct || 0;
+        let barClass = 'tm-bar-critical';
+        let pctClass = 'tm-status-critical';
+        
+        if (pct >= 100) { barClass = 'tm-bar-overachiever'; pctClass = 'tm-status-overachiever'; }
+        else if (pct >= 85) { barClass = 'tm-bar-on-track'; pctClass = 'tm-status-on-track'; }
+        else if (pct >= 60) { barClass = 'tm-bar-catching-up'; pctClass = 'tm-status-catching-up'; }
+        
+        const fillPct = Math.min(100, pct);
+        
+        html += '<div class="tm-month-row">' +
+          '<div class="tm-month-name">' + (monthsAr[m] || m) + '</div>' +
+          '<div class="tm-month-bar-container">' +
+            '<div class="tm-month-bar"><div class="tm-month-bar-fill ' + barClass + '" style="width:' + fillPct + '%"></div></div>' +
+            '<div class="tm-month-numbers">' + md.achieved.toLocaleString('en-US') + ' / ' + md.target.toLocaleString('en-US') + '</div>' +
+          '</div>' +
+          '<div class="tm-month-achieved">' + md.achieved.toLocaleString('en-US') + '</div>' +
+          '<div class="tm-month-pct ' + pctClass + '">' + pct + '%</div>' +
+        '</div>';
+      });
+      
+      panel.innerHTML = html;
+    },
+    
+    
+    // ═══ Render Supervisors tab ═══
+    _renderSupervisorsTab: function(data) {
+      const panel = document.getElementById('tmPanelSupervisors');
+      if (!panel || !data.supervisors) return;
+      
+      // Sort by pct descending
+      const sorted = data.supervisors.slice().sort(function(a, b) {
+        return (b.total.pct || 0) - (a.total.pct || 0);
+      });
+      
+      const medals = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣'];
+      
+      let html = '';
+      sorted.forEach(function(sup, idx) {
+        const pct = sup.total.pct || 0;
+        let pctClass = 'tm-status-critical';
+        if (pct >= 100) pctClass = 'tm-status-overachiever';
+        else if (pct >= 85) pctClass = 'tm-status-on-track';
+        else if (pct >= 60) pctClass = 'tm-status-catching-up';
+        
+        html += '<div class="tm-sup-row">' +
+          '<div class="tm-sup-rank">' + (medals[idx] || (idx+1)) + '</div>' +
+          '<div class="tm-sup-info">' +
+            '<div class="tm-sup-name">' + (sup.name_ar || sup.name_en || '?') + '</div>' +
+            '<div class="tm-sup-name-en">' + (sup.name_en || '') + '</div>' +
+          '</div>' +
+          '<div class="tm-sup-stats">' + sup.total.achieved.toLocaleString('en-US') + ' / ' + sup.total.target.toLocaleString('en-US') + '</div>' +
+          '<div class="tm-sup-pct ' + pctClass + '">' + pct.toFixed(1) + '%</div>' +
+        '</div>';
+      });
+      
+      panel.innerHTML = html;
+      
+      // Update count
+      const countEl = document.getElementById('tmTabCountSup');
+      if (countEl) countEl.textContent = sorted.length;
+    },
+    
+    
+    // ═══ Render Employees tab (THE CORE) ═══
+    _renderEmployeesTab: function(data) {
+      const panel = document.getElementById('tmEmployeesList');
+      if (!panel || !data.employees) return;
+      
+      // Filter: only stable employees (is_stable = true)
+      const stable = data.employees.filter(function(e) {
+        return e.is_stable === true && e.total && e.total.target > 0;
+      });
+      
+      // Sort: worst first (lowest pct first)
+      stable.sort(function(a, b) {
+        return (a.total.pct || 0) - (b.total.pct || 0);
+      });
+      
+      // Count by status
+      const counts = {
+        all: stable.length,
+        critical: 0,
+        catching_up: 0,
+        on_track: 0,
+        overachiever: 0
+      };
+      
+      stable.forEach(function(e) {
+        const pct = e.total.pct || 0;
+        if (pct >= 100) counts.overachiever++;
+        else if (pct >= 85) counts.on_track++;
+        else if (pct >= 60) counts.catching_up++;
+        else counts.critical++;
+      });
+      
+      // Update counts in pills + tab badge
+      document.getElementById('tmCountAll').textContent = counts.all;
+      document.getElementById('tmCountCritical').textContent = counts.critical;
+      document.getElementById('tmCountCatchingUp').textContent = counts.catching_up;
+      document.getElementById('tmCountOnTrack').textContent = counts.on_track;
+      document.getElementById('tmCountOverachiever').textContent = counts.overachiever;
+      
+      const tabBadge = document.getElementById('tmTabCountEmp');
+      if (tabBadge) tabBadge.textContent = counts.all;
+      
+      // Update info text
+      const infoText = document.getElementById('tmEmpInfoText');
+      if (infoText) {
+        infoText.textContent = counts.all + ' موظف مستمر · ' + counts.critical + ' حرج · ' + counts.overachiever + ' متجاوز';
+      }
+      
+      // Render employees
+      const self = this;
+      let html = '';
+      
+      stable.forEach(function(emp, idx) {
+        const pct = emp.total.pct || 0;
+        let statusKey = 'critical';
+        if (pct >= 100) statusKey = 'overachiever';
+        else if (pct >= 85) statusKey = 'on_track';
+        else if (pct >= 60) statusKey = 'catching_up';
+        
+        const statusEmoji = {
+          critical: '🔴',
+          catching_up: '🟡',
+          on_track: '🟢',
+          overachiever: '🏆'
+        }[statusKey];
+        
+        // Calculate daily need
+        const dailyNeed = self.calculateDailyGap(emp.total.target, emp.total.achieved);
+        const isPerfect = dailyNeed === 0;
+        
+        const fillPct = Math.min(100, pct);
+        
+        html += '<div class="tm-emp-row" data-status="' + statusKey + '">' +
+          '<div class="tm-emp-rank">' + (idx + 1) + '</div>' +
+          '<div class="tm-emp-info">' +
+            '<div class="tm-emp-name">' + statusEmoji + ' ' + (emp.name || 'Unknown') + '</div>' +
+            '<div class="tm-emp-meta">' + (emp.supervisor_ar || emp.supervisor_en || '') + ' · ' + (emp.user || '') + '</div>' +
+          '</div>' +
+          '<div class="tm-emp-progress">' +
+            '<div class="tm-emp-bar"><div class="tm-emp-bar-fill tm-bar-' + statusKey.replace('_', '-') + '" style="width:' + fillPct + '%"></div></div>' +
+            '<div class="tm-emp-numbers">' + emp.total.achieved + ' / ' + emp.total.target + '</div>' +
+          '</div>' +
+          '<div class="tm-emp-action">' +
+            '<div class="tm-emp-pct tm-status-' + statusKey.replace('_', '-') + '">' + pct.toFixed(0) + '%</div>' +
+            '<div class="tm-emp-daily ' + (isPerfect ? 'tm-emp-daily-zero' : '') + '">' +
+              (isPerfect ? '✓ ماشي' : '🎯 ' + dailyNeed + '/يوم') +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      });
+      
+      if (stable.length === 0) {
+        html = '<div class="tm-empty-state">' +
+          '<div class="tm-empty-icon">📭</div>' +
+          '<div class="tm-empty-text">لا يوجد موظفون مستمرون</div>' +
+        '</div>';
+      }
+      
+      panel.innerHTML = html;
+    },
+    
+    
+    // ═══ Filter employees by status ═══
+    _filterEmployees: function(filter) {
+      // Update active pill
+      document.querySelectorAll('.tm-filter-pill').forEach(function(p) {
+        p.classList.remove('tm-pill-active');
+        if (p.getAttribute('data-filter') === filter) {
+          p.classList.add('tm-pill-active');
+        }
+      });
+      
+      // Show/hide rows
+      const rows = document.querySelectorAll('.tm-emp-row');
+      rows.forEach(function(row) {
+        if (filter === 'all') {
+          row.classList.remove('tm-emp-hidden');
+        } else {
+          if (row.getAttribute('data-status') === filter) {
+            row.classList.remove('tm-emp-hidden');
+          } else {
+            row.classList.add('tm-emp-hidden');
+          }
+        }
+      });
+    },
+    
+    
     // ═══ Close Time Machine ═══
     close: function() {
       if (!this.isOpen) return;
@@ -7209,6 +8068,13 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
         clearTimeout(this._stage4Timer);
         this._stage4Timer = null;
       }
+      if (this._stage4TabsTimer) {
+        clearTimeout(this._stage4TabsTimer);
+        this._stage4TabsTimer = null;
+      }
+      // Reset tabs state
+      const stage4 = document.getElementById('tmStage4');
+      if (stage4) stage4.classList.remove('tm-vault-fully-open');
       if (this._statusInterval) {
         clearInterval(this._statusInterval);
         this._statusInterval = null;
@@ -7525,7 +8391,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">🕰️ آلة الزمن · الأرشيف الربعي</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🔒 v19.7 · Time Machine v1.6 + Vault Open</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🔒 v19.8 · Time Machine v1.7 + Gap Calculator</div>
 </div>
 
 <!-- v14: Live Ticker -->
