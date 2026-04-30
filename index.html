@@ -7,11 +7,12 @@
    Designed & Developed by: Eng. Abdulwahab M Alshammari
    Internal Use Only — © 2026 All Rights Reserved
    Unauthorized copying, modification, or redistribution prohibited.
-   Built: v19.4 · April 2026 · Build ID: WAB-2026-04-30-STAGE1-INTEGRATED
+   Built: v19.5 · April 2026 · Build ID: WAB-2026-04-30-COMPASS-LIVE
  ═══════════════════════════════════════════════════════════════════
 -->
 
 <!-- ═══ VERSION HISTORY ═══
+  v19.5     · 2026-04-30 · 🧭 Stage 2 Temporal Compass — Interactive + Magnetic Needle (Session 3)
   v19.4     · 2026-04-30 · 🎬 Stage 1 Cinematic integrated into open() directly (Session 2 final)
   v19.3     · 2026-04-30 · ⚠️ Failed: Stage 1 logic via override — race condition
   v19.1     · 2026-04-30 · ⏳ Time Machine fix — script loaded before button (Session 1.1)
@@ -4647,6 +4648,469 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   }
 }
 
+
+
+/* ═══════════════════════════════════════════════════════
+   STAGE 2 — TEMPORAL COMPASS (Session 3)
+   ═══════════════════════════════════════════════════════ */
+
+/* Stage 2 container */
+.tm-stage-2-active {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 20px;
+  overflow: hidden;
+}
+
+#tmStage2.tm-stage-active {
+  display: flex !important;
+}
+
+/* Header */
+.tm-compass-header {
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 10;
+  opacity: 0;
+  animation: tm-fade-down 0.8s 0.2s var(--tm-ease-cinematic) forwards;
+}
+
+.tm-compass-title {
+  font-size: 13px;
+  color: var(--tm-gold);
+  letter-spacing: 4px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.tm-compass-sub {
+  font-size: 11px;
+  color: rgba(154, 205, 176, 0.7);
+  letter-spacing: 1px;
+}
+
+@keyframes tm-fade-down {
+  from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* Compass main wrapper */
+.tm-compass-wrapper {
+  position: relative;
+  width: 380px;
+  height: 380px;
+  max-width: 90vw;
+  max-height: 70vh;
+}
+
+/* Compass outer ring */
+.tm-compass-ring {
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgba(212, 160, 23, 0.25);
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0);
+  animation: tm-ring-grow 0.8s 0.4s var(--tm-ease-spring) forwards;
+}
+
+.tm-compass-ring-inner {
+  position: absolute;
+  inset: 35px;
+  border: 1px dashed rgba(212, 160, 23, 0.15);
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0);
+  animation: tm-ring-grow 0.8s 0.6s var(--tm-ease-spring) forwards;
+}
+
+.tm-compass-ring-tertiary {
+  position: absolute;
+  inset: 65px;
+  border: 1px solid rgba(61, 214, 140, 0.1);
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0);
+  animation: tm-ring-grow 0.8s 0.8s var(--tm-ease-spring) forwards;
+}
+
+@keyframes tm-ring-grow {
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Compass directions (N/S/E/W markers) */
+.tm-compass-marker {
+  position: absolute;
+  font-size: 9px;
+  color: var(--tm-gold);
+  font-weight: 700;
+  letter-spacing: 1px;
+  opacity: 0;
+  animation: tm-marker-fade 0.5s 1.0s ease-out forwards;
+  z-index: 3;
+  pointer-events: none;
+}
+
+@keyframes tm-marker-fade {
+  to { opacity: 0.8; }
+}
+
+.tm-compass-marker.tm-m-n { top: 8px; left: 50%; transform: translateX(-50%); }
+.tm-compass-marker.tm-m-s { bottom: 8px; left: 50%; transform: translateX(-50%); }
+.tm-compass-marker.tm-m-e { right: 12px; top: 50%; transform: translateY(-50%); }
+.tm-compass-marker.tm-m-w { left: 12px; top: 50%; transform: translateY(-50%); }
+
+/* Quarter cards (positioned around the compass) */
+.tm-quarter {
+  position: absolute;
+  width: 140px;
+  padding: 11px;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s var(--tm-ease-fast);
+  z-index: 4;
+  opacity: 0;
+}
+
+.tm-quarter.tm-q-active {
+  background: linear-gradient(135deg, rgba(212, 160, 23, 0.25), rgba(212, 160, 23, 0.05));
+  border: 2px solid var(--tm-gold);
+  box-shadow: 0 0 24px rgba(212, 160, 23, 0.3);
+  animation: tm-quarter-appear 0.5s 1.2s var(--tm-ease-spring) forwards, 
+             tm-q-pulse-active 3s 1.7s infinite;
+}
+
+.tm-quarter.tm-q-closed {
+  background: linear-gradient(135deg, rgba(61, 214, 140, 0.18), rgba(61, 214, 140, 0.05));
+  border: 1px solid rgba(61, 214, 140, 0.5);
+  animation: tm-quarter-appear 0.5s 1.0s var(--tm-ease-spring) forwards;
+}
+
+.tm-quarter.tm-q-future {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  cursor: not-allowed;
+  animation: tm-quarter-appear 0.5s 1.4s var(--tm-ease-spring) forwards;
+}
+
+.tm-quarter.tm-q-future.tm-q-distant {
+  animation: tm-quarter-appear-faded 0.5s 1.6s var(--tm-ease-spring) forwards;
+  border-style: dashed;
+  cursor: not-allowed;
+}
+
+@keyframes tm-quarter-appear {
+  to { opacity: 1; }
+}
+
+@keyframes tm-quarter-appear-faded {
+  to { opacity: 0.4; }
+}
+
+@keyframes tm-q-pulse-active {
+  0%, 100% { box-shadow: 0 0 24px rgba(212, 160, 23, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(212, 160, 23, 0.5); }
+}
+
+/* Quarter positions */
+.tm-quarter.tm-q-top { top: 25px; left: 50%; transform: translateX(-50%); }
+.tm-quarter.tm-q-right { top: 50%; right: 8px; transform: translateY(-50%); }
+.tm-quarter.tm-q-bottom { bottom: 25px; left: 50%; transform: translateX(-50%); }
+.tm-quarter.tm-q-left { top: 50%; left: 8px; transform: translateY(-50%); }
+
+/* Quarter content */
+.tm-q-badge {
+  font-size: 9px;
+  letter-spacing: 1px;
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+
+.tm-q-active .tm-q-badge { color: #E8C962; }
+.tm-q-closed .tm-q-badge { color: #3DD68C; }
+.tm-q-future .tm-q-badge { color: #9ACDB0; }
+
+.tm-q-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  margin: 3px 0;
+}
+
+.tm-q-future .tm-q-title { color: #9ACDB0; }
+
+.tm-q-period {
+  font-size: 8px;
+  color: #9ACDB0;
+}
+
+.tm-q-active .tm-q-period { color: #E8C962; }
+
+.tm-q-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 10px;
+}
+
+.tm-q-stats-num { color: #9ACDB0; }
+.tm-q-stats-pct { font-weight: 700; }
+
+.tm-q-active .tm-q-stats-pct { color: #D4A017; }
+.tm-q-closed .tm-q-stats-pct { color: #EF9F27; }
+
+.tm-q-countdown {
+  font-size: 9px;
+  color: #5AB87A;
+  margin-top: 5px;
+}
+
+/* Hover (only for clickable quarters) */
+.tm-quarter.tm-q-active:hover,
+.tm-quarter.tm-q-closed:hover {
+  transform: translate(var(--tm-q-tx, 0), var(--tm-q-ty, 0)) scale(1.08);
+  z-index: 10;
+}
+
+.tm-quarter.tm-q-top:hover { --tm-q-tx: -50%; }
+.tm-quarter.tm-q-bottom:hover { --tm-q-tx: -50%; }
+.tm-quarter.tm-q-right:hover { --tm-q-ty: -50%; }
+.tm-quarter.tm-q-left:hover { --tm-q-ty: -50%; }
+
+/* Selected (when clicked, before transition) */
+.tm-quarter.tm-q-selected {
+  animation: tm-q-select 0.8s var(--tm-ease-cinematic) forwards !important;
+  z-index: 20 !important;
+}
+
+@keyframes tm-q-select {
+  0% { transform: var(--tm-q-original-transform, translate(0, 0)) scale(1); }
+  40% { 
+    transform: translate(-50%, -50%) scale(1.4);
+    box-shadow: 0 0 60px var(--tm-gold);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
+  }
+}
+
+/* Compass center (YOU ARE HERE) */
+.tm-compass-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 110px;
+  height: 110px;
+  background: radial-gradient(circle, #0D3D26 0%, #061A10 100%);
+  border: 3px solid var(--tm-gold);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 40px rgba(212, 160, 23, 0.4);
+  z-index: 6;
+  animation: tm-center-appear 0.6s 1.6s var(--tm-ease-spring) forwards;
+}
+
+@keyframes tm-center-appear {
+  to { transform: translate(-50%, -50%) scale(1); }
+}
+
+.tm-center-label {
+  font-size: 9px;
+  color: var(--tm-gold);
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.tm-center-month {
+  font-size: 18px;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
+  margin: 2px 0;
+}
+
+.tm-center-year {
+  font-size: 9px;
+  color: var(--tm-gold-light);
+}
+
+/* Compass needle (rotates on hover) */
+.tm-compass-needle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 130px;
+  height: 4px;
+  pointer-events: none;
+  transform-origin: 0 50%;
+  transform: translate(0, -50%) rotate(0deg);
+  z-index: 5;
+  opacity: 0;
+  animation: tm-needle-appear 0.8s 1.8s var(--tm-ease-cinematic) forwards;
+  transition: transform 0.8s var(--tm-ease-spring);
+}
+
+@keyframes tm-needle-appear {
+  to { opacity: 1; }
+}
+
+.tm-needle-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, rgba(212, 160, 23, 0.4) 0%, var(--tm-gold) 100%);
+  border-radius: 2px;
+  transform: translateY(-50%);
+  box-shadow: 0 0 8px var(--tm-gold-glow);
+}
+
+.tm-needle-tip {
+  position: absolute;
+  right: -2px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 10px solid var(--tm-gold);
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  filter: drop-shadow(0 0 6px var(--tm-gold-glow));
+}
+
+.tm-needle-pivot {
+  position: absolute;
+  left: -4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--tm-gold);
+  border: 2px solid #061A10;
+  box-shadow: 0 0 8px var(--tm-gold-glow);
+}
+
+/* Footer buttons */
+.tm-compass-footer {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  z-index: 10;
+  opacity: 0;
+  animation: tm-fade-up 0.6s 2.0s var(--tm-ease-cinematic) forwards;
+}
+
+@keyframes tm-fade-up {
+  from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+.tm-compass-btn {
+  padding: 10px 22px;
+  border-radius: 22px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: inherit;
+  transition: all 0.2s var(--tm-ease-fast);
+}
+
+.tm-compass-btn-back {
+  background: rgba(226, 75, 74, 0.18);
+  border: 1px solid rgba(226, 75, 74, 0.5);
+  color: #F08888;
+}
+
+.tm-compass-btn-back:hover {
+  background: rgba(226, 75, 74, 0.3);
+  transform: scale(1.05);
+}
+
+.tm-compass-btn-back .tm-pulse-dot {
+  width: 8px;
+  height: 8px;
+  background: #E24B4A;
+  border-radius: 50%;
+  animation: tm-dot-pulse 1.5s infinite;
+}
+
+@keyframes tm-dot-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.3); }
+}
+
+/* Hint text */
+.tm-compass-hint {
+  position: absolute;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  color: rgba(212, 160, 23, 0.5);
+  font-style: italic;
+  letter-spacing: 1px;
+  z-index: 5;
+  opacity: 0;
+  animation: tm-fade-up 0.6s 2.2s var(--tm-ease-cinematic) forwards;
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  .tm-compass-wrapper {
+    width: 320px;
+    height: 320px;
+  }
+  .tm-quarter {
+    width: 110px;
+    padding: 8px;
+  }
+  .tm-q-title { font-size: 12px; }
+  .tm-compass-center {
+    width: 90px;
+    height: 90px;
+  }
+  .tm-center-month { font-size: 15px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tm-compass-ring,
+  .tm-compass-ring-inner,
+  .tm-compass-ring-tertiary,
+  .tm-quarter,
+  .tm-compass-center,
+  .tm-compass-needle,
+  .tm-compass-header,
+  .tm-compass-footer,
+  .tm-compass-hint,
+  .tm-compass-marker {
+    animation-duration: 0.3s !important;
+  }
+  .tm-quarter.tm-q-active { animation: tm-quarter-appear 0.3s forwards !important; }
+}
+
 </style>
 
 </head>
@@ -4711,13 +5175,98 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     
   </div>
 
-  <!-- Stage 2: Temporal Compass -->
+  <!-- Stage 2: Temporal Compass (Session 3) -->
   <div class="tm-stage" id="tmStage2" data-stage="2">
-    <!-- Compass content will be added in Session 3 -->
-    <div style="text-align:center;color:var(--tm-gold);">
-      <div style="font-size:11px;letter-spacing:3px;font-weight:700;">🧭 STAGE 2 · COMPASS</div>
-      <div style="font-size:10px;color:#9ACDB0;margin-top:8px;">سيتم بناؤه في الجلسة القادمة</div>
+    
+    <!-- Header -->
+    <div class="tm-compass-header">
+      <div class="tm-compass-title">🧭 TEMPORAL COMPASS</div>
+      <div class="tm-compass-sub">اختر الزمن الذي تريد السفر إليه</div>
     </div>
+    
+    <!-- Main compass wrapper -->
+    <div class="tm-compass-wrapper" id="tmCompassWrapper">
+      
+      <!-- Compass rings -->
+      <div class="tm-compass-ring"></div>
+      <div class="tm-compass-ring-inner"></div>
+      <div class="tm-compass-ring-tertiary"></div>
+      
+      <!-- Direction markers -->
+      <div class="tm-compass-marker tm-m-n">N · ماضي</div>
+      <div class="tm-compass-marker tm-m-s">S · مستقبل</div>
+      <div class="tm-compass-marker tm-m-e">E</div>
+      <div class="tm-compass-marker tm-m-w">W</div>
+      
+      <!-- Needle (rotates with hover) -->
+      <div class="tm-compass-needle" id="tmCompassNeedle">
+        <div class="tm-needle-pivot"></div>
+        <div class="tm-needle-line"></div>
+        <div class="tm-needle-tip"></div>
+      </div>
+      
+      <!-- Quarter cards -->
+      
+      <!-- Q1 (TOP/NORTH = past closed quarter) -->
+      <div class="tm-quarter tm-q-closed tm-q-top" data-quarter="Q1_2026" data-direction="n">
+        <div class="tm-q-badge">📦 CLOSED</div>
+        <div class="tm-q-title">Q1 2026</div>
+        <div class="tm-q-period">يناير - فبراير - مارس</div>
+        <div class="tm-q-stats">
+          <span class="tm-q-stats-num">9,222</span>
+          <span class="tm-q-stats-pct">62.6%</span>
+        </div>
+      </div>
+      
+      <!-- Q2 (RIGHT/EAST = active live quarter) -->
+      <div class="tm-quarter tm-q-active tm-q-right" data-quarter="Q2_2026" data-direction="e">
+        <div class="tm-q-badge">🔴 LIVE NOW</div>
+        <div class="tm-q-title">Q2 2026</div>
+        <div class="tm-q-period">أبريل ✓ · مايو 🔄 · يونيو</div>
+        <div class="tm-q-stats">
+          <span class="tm-q-stats-num">جاري...</span>
+          <span class="tm-q-stats-pct">35%</span>
+        </div>
+      </div>
+      
+      <!-- Q3 (BOTTOM/SOUTH = upcoming) -->
+      <div class="tm-quarter tm-q-future tm-q-bottom" data-quarter="Q3_2026" data-direction="s">
+        <div class="tm-q-badge">⏳ COMING</div>
+        <div class="tm-q-title">Q3 2026</div>
+        <div class="tm-q-period">يوليو - أغسطس - سبتمبر</div>
+        <div class="tm-q-countdown" data-target="2026-07-01">يفتح بعد 62 يوم</div>
+      </div>
+      
+      <!-- Q4 (LEFT/WEST = distant future) -->
+      <div class="tm-quarter tm-q-future tm-q-distant tm-q-left" data-quarter="Q4_2026" data-direction="w">
+        <div class="tm-q-badge">🔒 SEALED</div>
+        <div class="tm-q-title">Q4 2026</div>
+        <div class="tm-q-period">أكتوبر - نوفمبر - ديسمبر</div>
+        <div class="tm-q-countdown" data-target="2026-10-01">المستقبل البعيد</div>
+      </div>
+      
+      <!-- Center: YOU ARE HERE -->
+      <div class="tm-compass-center">
+        <div class="tm-center-label">YOU ARE</div>
+        <div class="tm-center-month">HERE</div>
+        <div class="tm-center-year">مايو 2026</div>
+      </div>
+      
+    </div>
+    
+    <!-- Hint text -->
+    <div class="tm-compass-hint">
+      ← انقر على ربع للسفر إليه ←
+    </div>
+    
+    <!-- Footer buttons -->
+    <div class="tm-compass-footer">
+      <button class="tm-compass-btn tm-compass-btn-back" id="tmCompassBackBtn">
+        <span class="tm-pulse-dot"></span>
+        <span>الرجوع للحاضر · Live</span>
+      </button>
+    </div>
+    
   </div>
 
   <!-- Stage 3: Drone Flight + Memory Lane -->
@@ -4935,6 +5484,141 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     },
     
     
+    // ═══ Compass Direction Mapping ═══
+    _needleAngles: {
+      n: -90,   // North (Q1)
+      e: 0,     // East (Q2)
+      s: 90,    // South (Q3)
+      w: 180    // West (Q4)
+    },
+    
+    
+    // ═══ Initialize Compass (called when entering Stage 2) ═══
+    _initCompass: function() {
+      const self = this;
+      
+      // Bind quarter clicks
+      const quarters = document.querySelectorAll('.tm-quarter');
+      quarters.forEach(function(q) {
+        // Remove old listeners (in case re-entering Stage 2)
+        if (q._tmBound) return;
+        q._tmBound = true;
+        
+        // Hover: rotate needle toward this quarter
+        q.addEventListener('mouseenter', function() {
+          const direction = q.getAttribute('data-direction');
+          const angle = self._needleAngles[direction];
+          const needle = document.getElementById('tmCompassNeedle');
+          if (needle && angle !== undefined) {
+            needle.style.transform = 'translate(0, -50%) rotate(' + angle + 'deg)';
+          }
+        });
+        
+        // Click: handle selection
+        q.addEventListener('click', function() {
+          const isFuture = q.classList.contains('tm-q-future');
+          const quarterId = q.getAttribute('data-quarter');
+          
+          if (isFuture) {
+            self._showFutureQuarterMessage(q);
+            return;
+          }
+          
+          // Active or closed quarter — proceed to Stage 3
+          self._selectQuarter(q, quarterId);
+        });
+      });
+      
+      // Bind back button
+      const backBtn = document.getElementById('tmCompassBackBtn');
+      if (backBtn && !backBtn._tmBound) {
+        backBtn._tmBound = true;
+        backBtn.addEventListener('click', function() {
+          self.close();
+        });
+      }
+      
+      // Reset needle to default (East = Q2 = current)
+      setTimeout(function() {
+        const needle = document.getElementById('tmCompassNeedle');
+        if (needle) {
+          needle.style.transform = 'translate(0, -50%) rotate(0deg)';
+        }
+      }, 1900);
+      
+      // Update countdowns
+      this._updateCountdowns();
+    },
+    
+    
+    // ═══ Update Q3/Q4 countdown text ═══
+    _updateCountdowns: function() {
+      const countdowns = document.querySelectorAll('.tm-q-countdown[data-target]');
+      const now = new Date();
+      
+      countdowns.forEach(function(el) {
+        const target = new Date(el.getAttribute('data-target'));
+        const diffMs = target - now;
+        const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+        
+        if (diffDays > 60) {
+          el.textContent = '⏳ يفتح بعد ' + diffDays + ' يوم';
+        } else if (diffDays > 0) {
+          el.textContent = '⏰ بعد ' + diffDays + ' يوم فقط!';
+        } else {
+          el.textContent = '✅ متاح الآن';
+        }
+      });
+    },
+    
+    
+    // ═══ Show message for future quarters (lockable click) ═══
+    _showFutureQuarterMessage: function(qElement) {
+      // Brief shake animation
+      qElement.style.animation = 'none';
+      setTimeout(function() {
+        qElement.style.animation = '';
+      }, 10);
+      
+      // Visual feedback (subtle red glow briefly)
+      qElement.style.boxShadow = '0 0 20px rgba(226, 75, 74, 0.4)';
+      qElement.style.borderColor = 'rgba(226, 75, 74, 0.5)';
+      
+      setTimeout(function() {
+        qElement.style.boxShadow = '';
+        qElement.style.borderColor = '';
+      }, 800);
+    },
+    
+    
+    // ═══ Select Quarter (zoom + transition to Stage 3) ═══
+    _selectQuarter: function(qElement, quarterId) {
+      const self = this;
+      
+      // Disable all quarters during transition
+      document.querySelectorAll('.tm-quarter').forEach(function(q) {
+        q.style.pointerEvents = 'none';
+      });
+      
+      // Save selected quarter
+      this.selectedQuarter = quarterId;
+      
+      // Add selection animation
+      qElement.classList.add('tm-q-selected');
+      
+      // Transition to Stage 3 after animation completes
+      setTimeout(function() {
+        self.goToStage(3);
+      }, 800);
+    },
+    
+    
+    // ═══ Hook: when entering Stage 2, initialize compass ═══
+    _onCompassEnter: function() {
+      this._initCompass();
+    },
+    
+    
     // ═══ Close Time Machine ═══
     close: function() {
       if (!this.isOpen) return;
@@ -5117,9 +5801,12 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     },
     
     _onStageEnter: function(stageNumber) {
-      // Hooks for each stage entry — used in later sessions
+      // Hooks for each stage entry
       switch(stageNumber) {
-        case 2: this._playSound('compass_spin'); break;
+        case 2: 
+          this._playSound('compass_spin');
+          this._onCompassEnter();
+          break;
         case 3: this._playSound('drone_fly'); break;
         case 4: this._playSound('vault_open'); break;
       }
@@ -5241,7 +5928,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">🕰️ آلة الزمن · الأرشيف الربعي</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🔒 v19.4 · Time Machine v1.3 + Stage 1 Integrated</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🔒 v19.5 · Time Machine v1.4 + Compass Live</div>
 </div>
 
 <!-- v14: Live Ticker -->
