@@ -7,11 +7,12 @@
    Designed & Developed by: Eng. Abdulwahab M Alshammari
    Internal Use Only — © 2026 All Rights Reserved
    Unauthorized copying, modification, or redistribution prohibited.
-   Built: v19.6 · April 2026 · Build ID: WAB-2026-04-30-DRONE-FLIGHT
+   Built: v19.7 · April 2026 · Build ID: WAB-2026-04-30-VAULT-OPEN
  ═══════════════════════════════════════════════════════════════════
 -->
 
 <!-- ═══ VERSION HISTORY ═══
+  v19.7     · 2026-04-30 · 📦 Stage 4 Vault Opening — Sepia + Live Data (Session 5.A)
   v19.6     · 2026-04-30 · 🚁 Stage 3 Drone Flight — Cinematic time travel (Session 4)
   v19.5     · 2026-04-30 · 🧭 Stage 2 Temporal Compass — Interactive + Magnetic Needle (Session 3)
   v19.4     · 2026-04-30 · 🎬 Stage 1 Cinematic integrated into open() directly (Session 2 final)
@@ -5582,6 +5583,530 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   .tm-status-bar-fill { animation-duration: 1s !important; }
 }
 
+
+
+/* ═══════════════════════════════════════════════════════
+   STAGE 4 — VAULT OPEN + VINTAGE FILM (Session 5.A)
+   ═══════════════════════════════════════════════════════ */
+
+#tmStage4 {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: none;
+  overflow: hidden;
+  background: #1A1209;
+}
+
+#tmStage4.tm-stage-active {
+  display: block !important;
+}
+
+/* ─── Sepia Filter Layer (vintage tone) ──────────────────────────── */
+.tm-sepia-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg,
+    rgba(42, 31, 14, 0.4) 0%,
+    rgba(26, 18, 9, 0.3) 50%,
+    rgba(14, 8, 5, 0.5) 100%);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  animation: tm-sepia-fade 1s var(--tm-ease-cinematic) forwards;
+}
+
+@keyframes tm-sepia-fade {
+  to { opacity: 1; }
+}
+
+/* ─── Film Grain (static SVG noise pattern) ──────────────────────── */
+.tm-film-grain {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    repeating-radial-gradient(circle at 25% 30%, rgba(212, 160, 23, 0.03) 0, rgba(212, 160, 23, 0.03) 1px, transparent 1px, transparent 4px),
+    repeating-radial-gradient(circle at 75% 70%, rgba(232, 201, 98, 0.02) 0, rgba(232, 201, 98, 0.02) 1px, transparent 1px, transparent 5px),
+    repeating-linear-gradient(0deg, transparent 0, transparent 2px, rgba(0, 0, 0, 0.04) 2px, rgba(0, 0, 0, 0.04) 4px);
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0;
+  animation: tm-grain-fade 1.5s 0.3s var(--tm-ease-cinematic) forwards;
+}
+
+@keyframes tm-grain-fade {
+  to { opacity: 1; }
+}
+
+/* ─── Film scratches (vintage marks) ─────────────────────────────── */
+.tm-film-scratches {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+  opacity: 0;
+  animation: tm-grain-fade 1.5s 0.5s var(--tm-ease-cinematic) forwards;
+}
+
+.tm-scratch {
+  position: absolute;
+  background: linear-gradient(180deg, transparent 0%, rgba(212, 160, 23, 0.15) 50%, transparent 100%);
+}
+
+.tm-scratch-1 { top: 0; left: 12%; width: 1px; height: 100%; }
+.tm-scratch-2 { top: 0; left: 28%; width: 1px; height: 100%; opacity: 0.5; }
+.tm-scratch-3 { top: 0; right: 18%; width: 1px; height: 100%; opacity: 0.4; }
+.tm-scratch-4 { top: 0; right: 35%; width: 1px; height: 100%; opacity: 0.3; }
+
+/* ─── REC indicator (top-left) ───────────────────────────────────── */
+.tm-rec-indicator {
+  position: absolute;
+  top: 80px;
+  left: 30px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(212, 160, 23, 0.4);
+  border-radius: 4px;
+  z-index: 15;
+  font-family: 'Courier New', monospace;
+  opacity: 0;
+  animation: tm-rec-appear 0.5s 0.5s var(--tm-ease-cinematic) forwards;
+}
+
+@keyframes tm-rec-appear {
+  to { opacity: 1; }
+}
+
+.tm-rec-dot {
+  width: 10px;
+  height: 10px;
+  background: #E24B4A;
+  border-radius: 50%;
+  animation: tm-rec-blink 1.2s infinite;
+  box-shadow: 0 0 8px rgba(226, 75, 74, 0.6);
+}
+
+@keyframes tm-rec-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0.3; }
+}
+
+.tm-rec-text {
+  font-size: 10px;
+  color: var(--tm-gold);
+  letter-spacing: 2px;
+  font-weight: 700;
+}
+
+.tm-rec-meta {
+  font-size: 9px;
+  color: rgba(168, 135, 29, 0.8);
+  font-style: italic;
+}
+
+/* ─── Eject Button (top-right) ───────────────────────────────────── */
+.tm-eject-btn {
+  position: absolute;
+  top: 80px;
+  right: 30px;
+  padding: 8px 16px;
+  background: #E24B4A;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  cursor: pointer;
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Courier New', monospace;
+  opacity: 0;
+  animation: tm-eject-appear 0.5s 4.5s var(--tm-ease-cinematic) forwards;
+  transition: all 0.2s var(--tm-ease-fast);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+@keyframes tm-eject-appear {
+  to { opacity: 1; }
+}
+
+.tm-eject-btn:hover {
+  background: #C0392B;
+  transform: scale(1.05);
+}
+
+/* ─── Main Vault Container (center stage) ────────────────────────── */
+.tm-vault-stage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  text-align: center;
+}
+
+/* ─── The Vault (CSS-built safe) ─────────────────────────────────── */
+.tm-vault-frame {
+  position: relative;
+  width: 380px;
+  height: 280px;
+  margin: 0 auto;
+  opacity: 0;
+  transform: scale(0.6);
+  animation: tm-vault-emerge 1s 0.5s var(--tm-ease-spring) forwards,
+             tm-vault-shake 0.4s 1.5s ease-in-out;
+}
+
+@keyframes tm-vault-emerge {
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes tm-vault-shake {
+  0%, 100% { transform: scale(1) translate(0, 0); }
+  20% { transform: scale(1) translate(-3px, 1px); }
+  40% { transform: scale(1) translate(3px, -1px); }
+  60% { transform: scale(1) translate(-2px, 2px); }
+  80% { transform: scale(1) translate(2px, -2px); }
+}
+
+/* Vault outer body */
+.tm-vault-body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #2A1F0E 0%, #1A1209 50%, #0E0805 100%);
+  border: 4px solid var(--tm-gold);
+  border-radius: 12px;
+  box-shadow: 
+    0 0 40px rgba(212, 160, 23, 0.3),
+    inset 0 4px 0 rgba(232, 201, 98, 0.2),
+    inset 0 -10px 30px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+}
+
+/* Vault rivets (4 corners) */
+.tm-vault-rivet {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: radial-gradient(circle, var(--tm-gold) 30%, var(--tm-gold-deep) 70%);
+  border-radius: 50%;
+  box-shadow: 
+    inset 0 -1px 2px rgba(0, 0, 0, 0.5),
+    0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.tm-vault-rivet-tl { top: 12px; left: 12px; }
+.tm-vault-rivet-tr { top: 12px; right: 12px; }
+.tm-vault-rivet-bl { bottom: 12px; left: 12px; }
+.tm-vault-rivet-br { bottom: 12px; right: 12px; }
+
+/* Vault double doors (open animation) */
+.tm-vault-door {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(135deg, #2A1F0E 0%, #1A1209 100%);
+  border: 2px solid var(--tm-gold);
+  z-index: 5;
+  transform-origin: var(--tm-door-origin, center);
+  transition: transform 1.5s var(--tm-ease-cinematic);
+}
+
+.tm-vault-door-left {
+  left: 0;
+  border-right: 2px solid var(--tm-gold-light);
+  --tm-door-origin: left center;
+}
+
+.tm-vault-door-right {
+  right: 0;
+  border-left: 2px solid var(--tm-gold-light);
+  --tm-door-origin: right center;
+}
+
+/* Doors open animation (triggered after shake) */
+.tm-vault-frame.tm-vault-opened .tm-vault-door-left {
+  transform: perspective(800px) rotateY(-110deg);
+  box-shadow: 10px 0 30px rgba(0, 0, 0, 0.7);
+}
+
+.tm-vault-frame.tm-vault-opened .tm-vault-door-right {
+  transform: perspective(800px) rotateY(110deg);
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.7);
+}
+
+/* Center keyhole on doors (visible before opening) */
+.tm-vault-keyhole {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  border: 3px solid var(--tm-gold-light);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  z-index: 6;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.7);
+  transition: opacity 0.5s var(--tm-ease-fast);
+}
+
+.tm-vault-frame.tm-vault-opened .tm-vault-keyhole {
+  opacity: 0;
+}
+
+/* Vault interior (revealed when doors open) */
+.tm-vault-interior {
+  position: absolute;
+  inset: 8px;
+  background: radial-gradient(ellipse at center,
+    rgba(232, 201, 98, 0.15) 0%,
+    rgba(212, 160, 23, 0.08) 40%,
+    rgba(0, 0, 0, 0.4) 100%);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 0.8s 0.7s var(--tm-ease-cinematic);
+}
+
+.tm-vault-frame.tm-vault-opened .tm-vault-interior {
+  opacity: 1;
+}
+
+/* Inner glow effect */
+.tm-vault-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60%;
+  height: 80%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(232, 201, 98, 0.3) 30%,
+    transparent 70%);
+  filter: blur(20px);
+  z-index: 1;
+}
+
+/* ─── Stats inside vault (numbers) ───────────────────────────────── */
+.tm-vault-content {
+  position: relative;
+  text-align: center;
+  z-index: 5;
+  opacity: 0;
+  transform: scale(0.7);
+  transition: opacity 0.8s 1.5s var(--tm-ease-cinematic),
+              transform 0.8s 1.5s var(--tm-ease-spring);
+}
+
+.tm-vault-frame.tm-vault-opened .tm-vault-content {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.tm-vault-quarter-label {
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--tm-gold-deep);
+  font-weight: 700;
+  margin-bottom: 4px;
+  font-family: 'Courier New', monospace;
+}
+
+.tm-vault-big-number {
+  font-size: 38px;
+  font-weight: 900;
+  color: var(--tm-gold-light);
+  letter-spacing: -1px;
+  line-height: 1;
+  text-shadow: 
+    2px 2px 0 rgba(0, 0, 0, 0.5),
+    0 0 30px rgba(212, 160, 23, 0.4);
+}
+
+.tm-vault-target {
+  font-size: 11px;
+  color: var(--tm-gold-deep);
+  margin-top: 3px;
+  letter-spacing: 1px;
+}
+
+.tm-vault-pct {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 14px;
+  background: rgba(212, 160, 23, 0.15);
+  border: 1px solid rgba(212, 160, 23, 0.4);
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--tm-gold-light);
+  letter-spacing: 1px;
+}
+
+.tm-vault-tagline {
+  font-size: 10px;
+  color: rgba(232, 201, 98, 0.7);
+  font-style: italic;
+  margin-top: 12px;
+  letter-spacing: 1px;
+}
+
+/* ─── Vault title (above the vault) ──────────────────────────────── */
+.tm-vault-title {
+  position: relative;
+  margin-bottom: 30px;
+  text-align: center;
+  opacity: 0;
+  animation: tm-fade-down 0.6s 0.3s var(--tm-ease-cinematic) forwards;
+}
+
+.tm-vault-title-main {
+  font-size: 13px;
+  letter-spacing: 6px;
+  color: var(--tm-gold);
+  font-weight: 700;
+  font-family: 'Courier New', monospace;
+}
+
+.tm-vault-title-sub {
+  font-size: 10px;
+  color: rgba(168, 135, 29, 0.7);
+  margin-top: 4px;
+  letter-spacing: 2px;
+}
+
+/* ─── Secret Weapon Card (appears after vault content) ──────────── */
+.tm-secret-weapon {
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 380px;
+  background: linear-gradient(135deg,
+    rgba(212, 160, 23, 0.25) 0%,
+    rgba(212, 160, 23, 0.1) 100%);
+  border: 2px solid var(--tm-gold);
+  border-radius: 12px;
+  padding: 14px 18px;
+  z-index: 12;
+  opacity: 0;
+  transform: translateX(-50%) translateY(20px);
+  animation: tm-secret-appear 0.8s 3.5s var(--tm-ease-spring) forwards;
+  box-shadow: 0 0 40px rgba(212, 160, 23, 0.3);
+}
+
+@keyframes tm-secret-appear {
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.tm-secret-header {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--tm-gold);
+  font-weight: 700;
+  margin-bottom: 8px;
+  font-family: 'Courier New', monospace;
+}
+
+.tm-secret-body {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.tm-secret-icon {
+  font-size: 32px;
+  filter: drop-shadow(0 0 12px var(--tm-gold-glow));
+}
+
+.tm-secret-info {
+  flex: 1;
+  text-align: right;
+}
+
+.tm-secret-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--tm-gold-light);
+}
+
+.tm-secret-meta {
+  font-size: 9px;
+  color: rgba(168, 135, 29, 0.8);
+  margin-top: 2px;
+}
+
+.tm-secret-stats {
+  text-align: left;
+}
+
+.tm-secret-pct {
+  font-size: 22px;
+  font-weight: 900;
+  color: #3DD68C;
+  line-height: 1;
+}
+
+.tm-secret-numbers {
+  font-size: 9px;
+  color: rgba(168, 135, 29, 0.8);
+  margin-top: 2px;
+}
+
+/* ─── Continue prompt (bottom) ───────────────────────────────────── */
+.tm-continue-prompt {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  color: rgba(212, 160, 23, 0.6);
+  font-style: italic;
+  letter-spacing: 1px;
+  z-index: 12;
+  opacity: 0;
+  animation: tm-fade-up 0.6s 4.8s var(--tm-ease-cinematic) forwards;
+  font-family: 'Courier New', monospace;
+}
+
+/* ─── Mobile adjustments ─────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .tm-vault-frame { width: 320px; height: 240px; }
+  .tm-vault-big-number { font-size: 30px; }
+  .tm-secret-weapon { width: 90%; bottom: 80px; }
+  .tm-rec-indicator { top: 60px; left: 15px; padding: 4px 10px; }
+  .tm-eject-btn { top: 60px; right: 15px; padding: 6px 12px; font-size: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tm-vault-frame { animation-duration: 0.3s !important; }
+  .tm-sepia-overlay,
+  .tm-film-grain,
+  .tm-film-scratches { animation-duration: 0.3s !important; }
+  .tm-rec-dot { animation: none !important; }
+}
+
 </style>
 
 </head>
@@ -5857,13 +6382,104 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     
   </div>
 
-  <!-- Stage 4: Vault + Vintage Film -->
+  <!-- Stage 4: Vault + Vintage Film (Session 5.A) -->
   <div class="tm-stage" id="tmStage4" data-stage="4">
-    <!-- Vault content will be added in Session 5 -->
-    <div style="text-align:center;color:var(--tm-gold);">
-      <div style="font-size:11px;letter-spacing:3px;font-weight:700;">🗝️ STAGE 4 · VAULT</div>
-      <div style="font-size:10px;color:#9ACDB0;margin-top:8px;">سيتم بناؤه في الجلسة القادمة</div>
+    
+    <!-- Sepia overlay (vintage tone) -->
+    <div class="tm-sepia-overlay"></div>
+    
+    <!-- Film grain texture -->
+    <div class="tm-film-grain"></div>
+    
+    <!-- Film scratches -->
+    <div class="tm-film-scratches">
+      <div class="tm-scratch tm-scratch-1"></div>
+      <div class="tm-scratch tm-scratch-2"></div>
+      <div class="tm-scratch tm-scratch-3"></div>
+      <div class="tm-scratch tm-scratch-4"></div>
     </div>
+    
+    <!-- REC indicator (top-left) -->
+    <div class="tm-rec-indicator">
+      <div class="tm-rec-dot"></div>
+      <div>
+        <div class="tm-rec-text" id="tmRecText">REC · ARCHIVE.Q1.2026</div>
+        <div class="tm-rec-meta">FILM #001 · UNLOCKED</div>
+      </div>
+    </div>
+    
+    <!-- Eject Button (top-right) -->
+    <button class="tm-eject-btn" id="tmEjectBtn" aria-label="خروج من الأرشيف">
+      <span>⏏</span>
+      <span>EJECT</span>
+    </button>
+    
+    <!-- Main Vault Stage -->
+    <div class="tm-vault-stage">
+      
+      <!-- Vault title -->
+      <div class="tm-vault-title">
+        <div class="tm-vault-title-main" id="tmVaultTitle">[ Q1 · 2026 · ARCHIVED ]</div>
+        <div class="tm-vault-title-sub">يناير - فبراير - مارس · مغلق</div>
+      </div>
+      
+      <!-- The Vault Frame -->
+      <div class="tm-vault-frame" id="tmVaultFrame">
+        <div class="tm-vault-body">
+          
+          <!-- Rivets (corners) -->
+          <div class="tm-vault-rivet tm-vault-rivet-tl"></div>
+          <div class="tm-vault-rivet tm-vault-rivet-tr"></div>
+          <div class="tm-vault-rivet tm-vault-rivet-bl"></div>
+          <div class="tm-vault-rivet tm-vault-rivet-br"></div>
+          
+          <!-- Inner glow (revealed when opened) -->
+          <div class="tm-vault-glow"></div>
+          
+          <!-- Vault interior (revealed) -->
+          <div class="tm-vault-interior">
+            <div class="tm-vault-content" id="tmVaultContent">
+              <div class="tm-vault-quarter-label">[ Q1 2026 ]</div>
+              <div class="tm-vault-big-number" id="tmVaultBigNum">9,222</div>
+              <div class="tm-vault-target" id="tmVaultTarget">من 14,730 تارقت</div>
+              <div class="tm-vault-pct" id="tmVaultPct">62.6%</div>
+              <div class="tm-vault-tagline" id="tmVaultTagline">"اللحظة التي عشناها · 85 موظف · 5 مشرفين"</div>
+            </div>
+          </div>
+          
+          <!-- Doors (animated open) -->
+          <div class="tm-vault-door tm-vault-door-left"></div>
+          <div class="tm-vault-door tm-vault-door-right"></div>
+          
+          <!-- Keyhole (visible before opening) -->
+          <div class="tm-vault-keyhole">🔓</div>
+          
+        </div>
+      </div>
+      
+    </div>
+    
+    <!-- Secret Weapon Card -->
+    <div class="tm-secret-weapon">
+      <div class="tm-secret-header">🏆 SECRET WEAPON · سلاح سري</div>
+      <div class="tm-secret-body">
+        <div class="tm-secret-icon">🥇</div>
+        <div class="tm-secret-info">
+          <div class="tm-secret-name" id="tmSecretName">Asayil Almasrahi</div>
+          <div class="tm-secret-meta" id="tmSecretMeta">أحمد المطيري · mtl_010384</div>
+        </div>
+        <div class="tm-secret-stats">
+          <div class="tm-secret-pct" id="tmSecretPct">203%</div>
+          <div class="tm-secret-numbers" id="tmSecretNumbers">1,306 / 730</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Continue prompt -->
+    <div class="tm-continue-prompt">
+      ⏏ EJECT للخروج · أو اضغط ESC
+    </div>
+    
   </div>
 
 </div>
@@ -6432,6 +7048,150 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     },
     
     
+    // ═══ Initialize Vault (Stage 4 entry) ═══
+    _initVault: function() {
+      const self = this;
+      const quarterId = this.selectedQuarter || 'Q1_2026';
+      const data = this.quarterData[quarterId];
+      
+      if (!data) {
+        // Try to load if not yet
+        this.loadQuarterData(quarterId).then(function(d) {
+          self.quarterData[quarterId] = d;
+          self._populateVault(d, quarterId);
+        }).catch(function(err) {
+          console.error('⛔ Q data load error:', err);
+          self._populateVaultFallback(quarterId);
+        });
+      } else {
+        self._populateVault(data, quarterId);
+      }
+      
+      // Bind eject button
+      const ejectBtn = document.getElementById('tmEjectBtn');
+      if (ejectBtn && !ejectBtn._tmBound) {
+        ejectBtn._tmBound = true;
+        ejectBtn.addEventListener('click', function() {
+          self.close();
+        });
+      }
+      
+      // Trigger vault open animation after shake (1.9s after entry)
+      this._stage4Timer = setTimeout(function() {
+        const frame = document.getElementById('tmVaultFrame');
+        if (frame) {
+          frame.classList.add('tm-vault-opened');
+        }
+      }, 1900);
+    },
+    
+    
+    // ═══ Populate vault with real Q data ═══
+    _populateVault: function(data, quarterId) {
+      // Top REC text
+      const recText = document.getElementById('tmRecText');
+      if (recText) {
+        recText.textContent = 'REC · ARCHIVE.' + quarterId.replace('_', '.');
+      }
+      
+      // Vault title
+      const titleEl = document.getElementById('tmVaultTitle');
+      if (titleEl) {
+        titleEl.textContent = '[ ' + quarterId.replace('_', ' · ') + ' · ARCHIVED ]';
+      }
+      
+      // Big number (achieved)
+      const bigNum = document.getElementById('tmVaultBigNum');
+      if (bigNum && data.summary) {
+        bigNum.textContent = (data.summary.achieved || 0).toLocaleString('en-US');
+      }
+      
+      // Target line
+      const targetEl = document.getElementById('tmVaultTarget');
+      if (targetEl && data.summary) {
+        targetEl.textContent = 'من ' + (data.summary.target || 0).toLocaleString('en-US') + ' تارقت';
+      }
+      
+      // Percentage
+      const pctEl = document.getElementById('tmVaultPct');
+      if (pctEl && data.summary) {
+        pctEl.textContent = (data.summary.pct || 0) + '%';
+      }
+      
+      // Tagline
+      const taglineEl = document.getElementById('tmVaultTagline');
+      if (taglineEl && data.stats) {
+        const empCount = data.stats.total_employees || 0;
+        const supCount = data.stats.total_supervisors || 0;
+        taglineEl.textContent = '"اللحظة التي عشناها · ' + empCount + ' موظف · ' + supCount + ' مشرفين"';
+      }
+      
+      // Secret Weapon: find top performer
+      this._populateSecretWeapon(data);
+    },
+    
+    
+    // ═══ Populate "Secret Weapon" (top performer) ═══
+    _populateSecretWeapon: function(data) {
+      if (!data.employees || data.employees.length === 0) return;
+      
+      // Find employee with highest pct (must be overachiever, not zero target)
+      let topEmployee = null;
+      let topPct = 0;
+      
+      for (let i = 0; i < data.employees.length; i++) {
+        const emp = data.employees[i];
+        if (emp.total && emp.total.target > 0 && emp.total.pct > topPct) {
+          topPct = emp.total.pct;
+          topEmployee = emp;
+        }
+      }
+      
+      if (!topEmployee) return;
+      
+      const nameEl = document.getElementById('tmSecretName');
+      const metaEl = document.getElementById('tmSecretMeta');
+      const pctEl = document.getElementById('tmSecretPct');
+      const numsEl = document.getElementById('tmSecretNumbers');
+      
+      if (nameEl) nameEl.textContent = topEmployee.name || 'Unknown';
+      if (metaEl) {
+        metaEl.textContent = (topEmployee.supervisor_ar || topEmployee.supervisor_en || '?') + ' · ' + (topEmployee.user || '');
+      }
+      if (pctEl) pctEl.textContent = Math.round(topEmployee.total.pct) + '%';
+      if (numsEl) {
+        numsEl.textContent = topEmployee.total.achieved.toLocaleString('en-US') + ' / ' + topEmployee.total.target.toLocaleString('en-US');
+      }
+    },
+    
+    
+    // ═══ Fallback if data fails to load ═══
+    _populateVaultFallback: function(quarterId) {
+      const recText = document.getElementById('tmRecText');
+      if (recText) {
+        recText.textContent = 'REC · ' + quarterId.replace('_', '.');
+      }
+      
+      const bigNum = document.getElementById('tmVaultBigNum');
+      if (bigNum) bigNum.textContent = '— · —';
+      
+      const targetEl = document.getElementById('tmVaultTarget');
+      if (targetEl) targetEl.textContent = 'بيانات غير متوفرة';
+      
+      const pctEl = document.getElementById('tmVaultPct');
+      if (pctEl) pctEl.textContent = '—';
+      
+      const taglineEl = document.getElementById('tmVaultTagline');
+      if (taglineEl) taglineEl.textContent = '"البيانات لم تُحمّل بعد..."';
+    },
+    
+    
+    // ═══ Hook: when entering Stage 4, initialize vault ═══
+    _onVaultEnter: function() {
+      this._initVault();
+    },
+    
+    
     // ═══ Close Time Machine ═══
     close: function() {
       if (!this.isOpen) return;
@@ -6445,10 +7205,17 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
         clearTimeout(this._stage3Timer);
         this._stage3Timer = null;
       }
+      if (this._stage4Timer) {
+        clearTimeout(this._stage4Timer);
+        this._stage4Timer = null;
+      }
       if (this._statusInterval) {
         clearInterval(this._statusInterval);
         this._statusInterval = null;
       }
+      // Reset vault state
+      const vault = document.getElementById('tmVaultFrame');
+      if (vault) vault.classList.remove('tm-vault-opened');
       // Remove camera shake if active
       const stage3 = document.getElementById('tmStage3');
       if (stage3) stage3.classList.remove('tm-shake-active');
@@ -6635,7 +7402,10 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
           this._playSound('drone_fly');
           this._onDroneEnter();
           break;
-        case 4: this._playSound('vault_open'); break;
+        case 4:
+          this._playSound('vault_open');
+          this._onVaultEnter();
+          break;
       }
     }
   };
@@ -6755,7 +7525,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">🕰️ آلة الزمن · الأرشيف الربعي</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🔒 v19.6 · Time Machine v1.5 + Drone Flight</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🔒 v19.7 · Time Machine v1.6 + Vault Open</div>
 </div>
 
 <!-- v14: Live Ticker -->
