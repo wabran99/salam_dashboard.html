@@ -7,12 +7,13 @@
    Designed & Developed by: Eng. Abdulwahab M Alshammari
    Internal Use Only — © 2026 All Rights Reserved
    Unauthorized copying, modification, or redistribution prohibited.
-   Built: v19.3 · April 2026 · Build ID: WAB-2026-04-30-STAGE1-CINEMATIC
+   Built: v19.4 · April 2026 · Build ID: WAB-2026-04-30-STAGE1-INTEGRATED
  ═══════════════════════════════════════════════════════════════════
 -->
 
 <!-- ═══ VERSION HISTORY ═══
-  v19.3     · 2026-04-30 · 🎬 Stage 1 Cinematic Entry — Key + Vault + Burst (Session 2)
+  v19.4     · 2026-04-30 · 🎬 Stage 1 Cinematic integrated into open() directly (Session 2 final)
+  v19.3     · 2026-04-30 · ⚠️ Failed: Stage 1 logic via override — race condition
   v19.1     · 2026-04-30 · ⏳ Time Machine fix — script loaded before button (Session 1.1)
   v19.0     · 2026-04-30 · ⏳ Time Machine Module (Session 1 — Skeleton + Toolbar Entry)
   v18.0     · 2026-04-27 · Multi-User Auth + Welcome Modal + Greetings + Header Logo [FINAL]
@@ -4290,9 +4291,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 
 
 
-/* ═══════════════════════════════════════════════════════
-   STAGE 1 STYLES (Session 2 — Cinematic Entry)
-   ═══════════════════════════════════════════════════════ */
+/* ═══ STAGE 1 STYLES (Session 2 — Cinematic) ═══ */
 
 /* ─── Stage 1 Container ─────────────────────────────────────────── */
 .tm-stage-1 {
@@ -4802,7 +4801,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     },
     
     
-    // ═══ Open Time Machine ═══
+    // ═══ Open Time Machine — with Stage 1 Cinematic ═══
     open: function() {
       if (this.isOpen) return;
       
@@ -4814,22 +4813,125 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
       
       overlay.classList.add('tm-active');
       this.isOpen = true;
-      
-      // Lock body scroll
       document.body.style.overflow = 'hidden';
       
-      // Show loader
-      this._showLoader();
+      // Hide loader (cinematic replaces it)
+      this._hideLoader();
       
-      // Preload Q1 data
-      this.loadQuarterData('Q1_2026').then(() => {
-        this._hideLoader();
-        this.goToStage(2); // Skip to Compass (Stage 1 = Toolbar entry)
-      }).catch(err => {
-        this._showError(err.message);
+      // Preload Q1 data IN PARALLEL with cinematic
+      this.loadQuarterData('Q1_2026').catch(err => {
+        console.error('Q1 data load error:', err.message);
       });
       
+      // Check if user has seen Stage 1 in this session
+      let seenStage1 = false;
+      try {
+        seenStage1 = sessionStorage.getItem('tm_seen_stage1') === '1';
+      } catch(e) {}
+      
+      if (seenStage1) {
+        // Already seen — straight to compass
+        this.goToStage(2);
+      } else {
+        // First time — play cinematic
+        this._playStage1();
+      }
+      
       this._playSound('key_unlock');
+    },
+    
+    
+    // ═══ Stage 1 Cinematic ═══
+    _playStage1: function() {
+      const self = this;
+      
+      // Hide all stages
+      document.querySelectorAll('.tm-stage').forEach(s => {
+        s.classList.remove('tm-stage-active');
+      });
+      
+      // Show Stage 1
+      const stage1 = document.getElementById('tmStage1');
+      if (!stage1) {
+        console.error('⛔ Stage 1 not found, skipping to Stage 2');
+        this.goToStage(2);
+        return;
+      }
+      
+      stage1.classList.add('tm-stage-active');
+      this.currentStage = 1;
+      
+      // Generate particles
+      this._generateParticles();
+      
+      // Bind skip button (one-time)
+      const skipBtn = document.getElementById('tmStage1Skip');
+      if (skipBtn && !skipBtn._tmBound) {
+        skipBtn._tmBound = true;
+        skipBtn.addEventListener('click', function() {
+          self._endStage1();
+        });
+      }
+      
+      // Auto-transition after 5 seconds
+      this._stage1Timer = setTimeout(function() {
+        self._endStage1();
+      }, 5000);
+    },
+    
+    
+    // ═══ End Stage 1, go to Stage 2 ═══
+    _endStage1: function() {
+      if (this._stage1Timer) {
+        clearTimeout(this._stage1Timer);
+        this._stage1Timer = null;
+      }
+      
+      try {
+        sessionStorage.setItem('tm_seen_stage1', '1');
+      } catch(e) {}
+      
+      this.goToStage(2);
+    },
+    
+    
+    // ═══ Generate floating particles ═══
+    _generateParticles: function() {
+      const container = document.getElementById('tmStage1Particles');
+      if (!container) return;
+      
+      container.innerHTML = '';
+      
+      for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'tm-particle';
+        
+        const startX = Math.random() * 100;
+        particle.style.left = startX + '%';
+        particle.style.bottom = (Math.random() * 30) + '%';
+        
+        const size = 2 + Math.random() * 5;
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
+        
+        const drift = (Math.random() - 0.5) * 200;
+        particle.style.setProperty('--tm-x-drift', drift + 'px');
+        
+        const delay = Math.random() * 3;
+        const duration = 2 + Math.random() * 2;
+        particle.style.animation = 'tm-particle-rise ' + duration + 's ' + delay + 's ease-out forwards';
+        
+        container.appendChild(particle);
+      }
+    },
+    
+    
+    // ═══ Reset Stage 1 (for testing — call from console) ═══
+    resetStage1: function() {
+      try {
+        sessionStorage.removeItem('tm_seen_stage1');
+        console.log('🔄 Stage 1 will play again on next open');
+      } catch(e) {}
     },
     
     
@@ -4837,15 +4939,19 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     close: function() {
       if (!this.isOpen) return;
       
+      // Clear any active timers
+      if (this._stage1Timer) {
+        clearTimeout(this._stage1Timer);
+        this._stage1Timer = null;
+      }
+      
       const overlay = document.getElementById('timeMachineOverlay');
       overlay.classList.remove('tm-active');
       this.isOpen = false;
       this.currentStage = 0;
       
-      // Restore body scroll
       document.body.style.overflow = '';
       
-      // Hide all stages
       document.querySelectorAll('.tm-stage').forEach(s => {
         s.classList.remove('tm-stage-active');
       });
@@ -5135,7 +5241,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">🕰️ آلة الزمن · الأرشيف الربعي</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🔒 v19.3 · Time Machine v1.2 + Stage 1 Cinematic</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🔒 v19.4 · Time Machine v1.3 + Stage 1 Integrated</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -13719,174 +13825,7 @@ setInterval(loadData,5*60*1000);
 // ═══════════════════════════════════════════════════════════════
 // Salam Dashboard — Behavior Tracker v1
 // ═══════════════════════════════════════════════════════════════
-// حقن هذا الكود قبل 
-
-<!-- ═══ STAGE 1 LOGIC (Session 2) ═══ -->
-<script id="tm-stage1-logic">
-(function() {
-  'use strict';
-  
-  // Wait until TimeMachine is defined
-  if (typeof window.TimeMachine === 'undefined') {
-    console.error('⛔ TimeMachine not loaded — Stage 1 patch failed');
-    return;
-  }
-  
-  const TM = window.TimeMachine;
-  
-  // ═══ Override open() to include Stage 1 cinematic entry ═══
-  TM.open = function() {
-    if (this.isOpen) return;
-    
-    const overlay = document.getElementById('timeMachineOverlay');
-    if (!overlay) {
-      console.error('⛔ Time Machine overlay not found');
-      return;
-    }
-    
-    overlay.classList.add('tm-active');
-    this.isOpen = true;
-    document.body.style.overflow = 'hidden';
-    
-    // Hide loader (we don't need it for cinematic)
-    const loader = document.getElementById('tmLoader');
-    if (loader) loader.style.display = 'none';
-    
-    // Check if user has seen Stage 1 in this session
-    let skipStage1 = false;
-    try {
-      skipStage1 = sessionStorage.getItem('tm_seen_stage1') === '1';
-    } catch(e) {}
-    
-    // Preload Q1 data in parallel with animation
-    this.loadQuarterData('Q1_2026').catch(err => {
-      console.error('Q1 data load error:', err);
-    });
-    
-    if (skipStage1) {
-      // Already seen — go straight to compass
-      this.goToStage(2);
-    } else {
-      // First time — play cinematic
-      this._playStage1Cinematic();
-    }
-  };
-  
-  
-  // ═══ Stage 1 Cinematic Sequence ═══
-  TM._playStage1Cinematic = function() {
-    // Show Stage 1
-    document.querySelectorAll('.tm-stage').forEach(s => {
-      s.classList.remove('tm-stage-active');
-    });
-    
-    const stage1 = document.getElementById('tmStage1');
-    if (!stage1) return;
-    
-    stage1.classList.add('tm-stage-active');
-    this.currentStage = 1;
-    
-    // Generate particles
-    this._generateParticles();
-    
-    // Bind skip button
-    const skipBtn = document.getElementById('tmStage1Skip');
-    if (skipBtn) {
-      const skipHandler = () => {
-        skipBtn.removeEventListener('click', skipHandler);
-        this._endStage1();
-      };
-      skipBtn.addEventListener('click', skipHandler);
-    }
-    
-    // Auto-transition after 5 seconds
-    this._stage1Timer = setTimeout(() => {
-      this._endStage1();
-    }, 5000);
-  };
-  
-  
-  // ═══ End Stage 1, transition to Stage 2 ═══
-  TM._endStage1 = function() {
-    // Clear timer if skipping
-    if (this._stage1Timer) {
-      clearTimeout(this._stage1Timer);
-      this._stage1Timer = null;
-    }
-    
-    // Mark as seen in this session
-    try {
-      sessionStorage.setItem('tm_seen_stage1', '1');
-    } catch(e) {}
-    
-    // Transition to compass
-    this.goToStage(2);
-  };
-  
-  
-  // ═══ Generate floating particles ═══
-  TM._generateParticles = function() {
-    const container = document.getElementById('tmStage1Particles');
-    if (!container) return;
-    
-    // Clear existing
-    container.innerHTML = '';
-    
-    // Generate 50 particles
-    for (let i = 0; i < 50; i++) {
-      const particle = document.createElement('div');
-      particle.className = 'tm-particle';
-      
-      // Random horizontal position
-      const startX = Math.random() * 100;
-      particle.style.left = startX + '%';
-      
-      // Start from bottom
-      particle.style.bottom = (Math.random() * 30) + '%';
-      
-      // Random size variation
-      const size = 2 + Math.random() * 5;
-      particle.style.width = size + 'px';
-      particle.style.height = size + 'px';
-      
-      // Random horizontal drift
-      const drift = (Math.random() - 0.5) * 200;
-      particle.style.setProperty('--tm-x-drift', drift + 'px');
-      
-      // Random delay (spread across 3s)
-      const delay = Math.random() * 3;
-      particle.style.animation = `tm-particle-rise ${2 + Math.random() * 2}s ${delay}s ease-out forwards`;
-      
-      container.appendChild(particle);
-    }
-  };
-  
-  
-  // ═══ Reset stage1 seen flag (for testing) ═══
-  TM.resetStage1 = function() {
-    try {
-      sessionStorage.removeItem('tm_seen_stage1');
-      console.log('🔄 Stage 1 will play again on next open');
-    } catch(e) {}
-  };
-  
-  
-  // Override close to clear timers
-  const originalClose = TM.close.bind(TM);
-  TM.close = function() {
-    if (this._stage1Timer) {
-      clearTimeout(this._stage1Timer);
-      this._stage1Timer = null;
-    }
-    originalClose();
-  };
-  
-  console.log('🎬 Stage 1 cinematic loaded — duration: 5s');
-  
-})();
-</script>
-
-</body> في الداشبورد
+// حقن هذا الكود قبل </body> في الداشبورد
 // ═══════════════════════════════════════════════════════════════
 
 (function() {
