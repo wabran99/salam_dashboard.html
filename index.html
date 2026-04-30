@@ -7,11 +7,12 @@
    Designed & Developed by: Eng. Abdulwahab M Alshammari
    Internal Use Only — © 2026 All Rights Reserved
    Unauthorized copying, modification, or redistribution prohibited.
-   Built: v18.0 · April 2026 · Build ID: WAB-2026-04-27-USERS
+   Built: v19.0 · April 2026 · Build ID: WAB-2026-04-30-TIMEMACHINE
  ═══════════════════════════════════════════════════════════════════
 -->
 
 <!-- ═══ VERSION HISTORY ═══
+  v19.0     · 2026-04-30 · ⏳ Time Machine Module (Session 1 — Skeleton + Toolbar Entry)
   v18.0     · 2026-04-27 · Multi-User Auth + Welcome Modal + Greetings + Header Logo [FINAL]
   v18.0-2.3ب · 2026-04-27 · User Section + Role-based Filtering [Step 2.3.ب]
   v18.0-2.3أ · 2026-04-27 · Session Management + Splash Screen [Step 2.3.أ]
@@ -4131,8 +4132,13 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     🧮
     <span class="tool-icon-tooltip">Manual Daily Update ✨</span>
   </button>
+  <!-- v19.0: ⏳ Time Machine — Quarterly Archive System -->
+  <button class="tool-icon tool-icon-tm" onclick="if(window.TimeMachine)TimeMachine.open()">
+    🗝️
+    <span class="tool-icon-tooltip">🕰️ آلة الزمن · الأرشيف الربعي</span>
+  </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🔒 v18.0 · Multi-User Auth + Security Panel</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🔒 v19.0 · Time Machine + Multi-User Auth</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -12716,7 +12722,670 @@ setInterval(loadData,5*60*1000);
 // ═══════════════════════════════════════════════════════════════
 // Salam Dashboard — Behavior Tracker v1
 // ═══════════════════════════════════════════════════════════════
-// حقن هذا الكود قبل </body> في الداشبورد
+// حقن هذا الكود قبل 
+
+<!-- ═══════════════════════════════════════════════════════════════════
+   ⏳ TIME MACHINE MODULE — INSERTED BY SESSION 1 BUILD
+   ═══════════════════════════════════════════════════════════════════ -->
+
+<!-- ═══════════════════════════════════════════════════════════════════
+   ⏳ TIME MACHINE MODULE v1.0 — Quarterly Archive System
+   Designed: April 2026 by Eng. Abdulwahab M Alshammari
+   Co-built with: Hervé (AI Assistant)
+   
+   Stages:
+     1. Entry (🗝️ Key in Toolbar)
+     2. Temporal Compass (🧭)
+     3. Memory Lane + Drone Flight (🛣️🚁)
+     4. Vault & Vintage Film (🗝️🎞️)
+   
+   Data Source: /data/Q1_2026.json (static archive)
+   Status: Session 1 of 6 — Skeleton & Infrastructure
+   ═══════════════════════════════════════════════════════════════════ -->
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+   ⚙️ STEP 1.1 — CSS VARIABLES (place inside existing :root or after)
+   ═══════════════════════════════════════════════════════════════════ -->
+
+<style id="time-machine-styles">
+
+/* ─── Time Machine Color Palette ──────────────────────────────────── */
+:root {
+  /* Gold tones (Time Machine signature) */
+  --tm-gold: #D4A017;
+  --tm-gold-light: #E8C962;
+  --tm-gold-deep: #A8871D;
+  --tm-gold-glow: rgba(212, 160, 23, 0.4);
+  --tm-gold-soft: rgba(212, 160, 23, 0.15);
+
+  /* Sepia tones (Vintage Film mode) */
+  --tm-sepia-bg: #1A1209;
+  --tm-sepia-darker: #0E0805;
+  --tm-sepia-mid: #2A1F0E;
+  --tm-sepia-text: #E8C962;
+  --tm-sepia-muted: #A8871D;
+
+  /* State colors */
+  --tm-live-green: #3DD68C;
+  --tm-locked-red: #E24B4A;
+  --tm-future-gray: rgba(255, 255, 255, 0.15);
+
+  /* Animations easing */
+  --tm-ease-fast: cubic-bezier(0.4, 0, 0.2, 1);
+  --tm-ease-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --tm-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --tm-ease-cinematic: cubic-bezier(0.19, 1, 0.22, 1);
+
+  /* Z-Index hierarchy (above auth, below modals) */
+  --tm-z-toolbar-icon: 100;
+  --tm-z-overlay: 9000;
+  --tm-z-stage: 9100;
+  --tm-z-controls: 9200;
+}
+
+/* ─── Time Machine Overlay (covers full viewport) ────────────────── */
+#timeMachineOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--tm-z-overlay);
+  display: none;
+  background: radial-gradient(circle at center, #0D3D26 0%, #061A10 70%);
+  font-family: 'Tajawal', 'Segoe UI', system-ui, sans-serif;
+  color: #fff;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+#timeMachineOverlay.tm-active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── Stage Container (each stage is a separate layer) ──────────── */
+.tm-stage {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.6s var(--tm-ease-cinematic);
+  z-index: var(--tm-z-stage);
+}
+
+.tm-stage.tm-stage-active {
+  display: flex;
+  opacity: 1;
+}
+
+/* ─── Background Stars (cinematic atmosphere) ────────────────────── */
+.tm-stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.tm-star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  animation: tm-twinkle 3s infinite;
+}
+
+@keyframes tm-twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.3); }
+}
+
+/* ─── Universal Close Button (top-right) ─────────────────────────── */
+.tm-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(226, 75, 74, 0.15);
+  border: 1px solid rgba(226, 75, 74, 0.4);
+  color: #F08888;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s var(--tm-ease-fast);
+  z-index: var(--tm-z-controls);
+}
+
+.tm-close-btn:hover {
+  background: rgba(226, 75, 74, 0.3);
+  transform: rotate(90deg) scale(1.1);
+}
+
+/* ─── Sound Toggle (top-left) ────────────────────────────────────── */
+.tm-sound-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(212, 160, 23, 0.12);
+  border: 1px solid rgba(212, 160, 23, 0.3);
+  color: var(--tm-gold);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s var(--tm-ease-fast);
+  z-index: var(--tm-z-controls);
+}
+
+.tm-sound-btn:hover {
+  background: rgba(212, 160, 23, 0.25);
+}
+
+.tm-sound-btn.tm-muted {
+  opacity: 0.4;
+}
+
+/* ─── Loading Spinner (during data fetch) ────────────────────────── */
+.tm-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: var(--tm-z-controls);
+}
+
+.tm-loader-ring {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 16px;
+  border: 3px solid rgba(212, 160, 23, 0.2);
+  border-top-color: var(--tm-gold);
+  border-radius: 50%;
+  animation: tm-spin 1s linear infinite;
+}
+
+@keyframes tm-spin {
+  to { transform: rotate(360deg); }
+}
+
+.tm-loader-text {
+  font-size: 11px;
+  color: var(--tm-gold);
+  letter-spacing: 2px;
+  font-weight: 700;
+}
+
+/* ─── Error State ─────────────────────────────────────────────────── */
+.tm-error {
+  text-align: center;
+  padding: 30px;
+  color: #F08888;
+}
+
+.tm-error-icon {
+  font-size: 40px;
+  margin-bottom: 12px;
+}
+
+.tm-error-msg {
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* ─── Toolbar Key Icon (المرحلة 1 - placeholder) ─────────────────── */
+.tool-icon-tm {
+  position: relative;
+  background: linear-gradient(135deg, var(--tm-gold) 0%, var(--tm-gold-deep) 100%) !important;
+  border: 2px solid var(--tm-gold-light) !important;
+  box-shadow: 0 0 20px var(--tm-gold-glow), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  animation: tm-key-pulse 3s infinite;
+}
+
+@keyframes tm-key-pulse {
+  0%, 100% { box-shadow: 0 0 20px var(--tm-gold-glow), inset 0 1px 0 rgba(255, 255, 255, 0.2); }
+  50% { box-shadow: 0 0 30px var(--tm-gold-glow), 0 0 40px var(--tm-gold-glow), inset 0 1px 0 rgba(255, 255, 255, 0.2); }
+}
+
+.tool-icon-tm::after {
+  content: '!';
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 16px;
+  height: 16px;
+  background: #E24B4A;
+  border: 2px solid #061A10;
+  border-radius: 50%;
+  font-size: 9px;
+  font-weight: 900;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── Mobile Responsive (Time Machine adjusts for small screens) ─── */
+@media (max-width: 768px) {
+  .tm-close-btn,
+  .tm-sound-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+}
+
+/* ─── Reduced Motion (accessibility) ─────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .tm-stage,
+  .tm-star,
+  .tool-icon-tm {
+    animation: none !important;
+    transition: opacity 0.2s ease !important;
+  }
+}
+
+</style>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+   🏗️ STEP 1.2 — HTML STRUCTURE (skeleton — stages will be filled later)
+   ═══════════════════════════════════════════════════════════════════ -->
+
+<div id="timeMachineOverlay" aria-modal="true" role="dialog" aria-label="آلة الزمن">
+
+  <!-- Stars background -->
+  <div class="tm-stars" id="tmStars"></div>
+
+  <!-- Sound toggle (top-left) -->
+  <button class="tm-sound-btn" id="tmSoundBtn" aria-label="تفعيل/إطفاء الصوت" title="الصوت">
+    🔊
+  </button>
+
+  <!-- Close button (top-right) -->
+  <button class="tm-close-btn" id="tmCloseBtn" aria-label="إغلاق آلة الزمن" title="إغلاق">
+    ✕
+  </button>
+
+  <!-- Loader (initial state) -->
+  <div class="tm-loader" id="tmLoader">
+    <div class="tm-loader-ring"></div>
+    <div class="tm-loader-text">⏳ تجهيز آلة الزمن...</div>
+  </div>
+
+  <!-- Stage 1: Entry (handled in toolbar — this is empty placeholder) -->
+  <div class="tm-stage" id="tmStage1" data-stage="1">
+    <!-- Stage 1 content will be added in Session 2 -->
+  </div>
+
+  <!-- Stage 2: Temporal Compass -->
+  <div class="tm-stage" id="tmStage2" data-stage="2">
+    <!-- Compass content will be added in Session 3 -->
+    <div style="text-align:center;color:var(--tm-gold);">
+      <div style="font-size:11px;letter-spacing:3px;font-weight:700;">🧭 STAGE 2 · COMPASS</div>
+      <div style="font-size:10px;color:#9ACDB0;margin-top:8px;">سيتم بناؤه في الجلسة القادمة</div>
+    </div>
+  </div>
+
+  <!-- Stage 3: Drone Flight + Memory Lane -->
+  <div class="tm-stage" id="tmStage3" data-stage="3">
+    <!-- Drone content will be added in Session 4 -->
+    <div style="text-align:center;color:var(--tm-gold);">
+      <div style="font-size:11px;letter-spacing:3px;font-weight:700;">🚁 STAGE 3 · DRONE</div>
+      <div style="font-size:10px;color:#9ACDB0;margin-top:8px;">سيتم بناؤه في الجلسة القادمة</div>
+    </div>
+  </div>
+
+  <!-- Stage 4: Vault + Vintage Film -->
+  <div class="tm-stage" id="tmStage4" data-stage="4">
+    <!-- Vault content will be added in Session 5 -->
+    <div style="text-align:center;color:var(--tm-gold);">
+      <div style="font-size:11px;letter-spacing:3px;font-weight:700;">🗝️ STAGE 4 · VAULT</div>
+      <div style="font-size:10px;color:#9ACDB0;margin-top:8px;">سيتم بناؤه في الجلسة القادمة</div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+   🧠 STEP 1.3 — JAVASCRIPT CORE (Time Machine controller)
+   ═══════════════════════════════════════════════════════════════════ -->
+
+<script>
+(function() {
+  'use strict';
+
+  // ═══ Configuration ═══
+  const TM_CONFIG = {
+    version: '1.0',
+    dataPath: '/data/',
+    quartersAvailable: ['Q1_2026'],
+    quartersUpcoming: ['Q2_2026', 'Q3_2026', 'Q4_2026'],
+    
+    // Sound URLs (loaded from CDN — verified later)
+    sounds: {
+      enabled: true,
+      key_unlock: null,
+      compass_spin: null,
+      drone_fly: null,
+      vault_open: null,
+      film_reel: null,
+      eject: null
+    },
+    
+    // Stage durations (ms)
+    timing: {
+      stageTransition: 600,
+      droneFlightDuration: 3500,
+      vaultOpenDuration: 2000
+    }
+  };
+
+
+  // ═══ Time Machine Controller ═══
+  const TimeMachine = {
+    
+    // State
+    isOpen: false,
+    currentStage: 0,
+    selectedQuarter: null,
+    quarterData: {},
+    soundEnabled: true,
+    initialized: false,
+    
+    
+    // ═══ Initialize ═══
+    init: function() {
+      if (this.initialized) return;
+      
+      this._createStars();
+      this._bindEvents();
+      this._loadSoundPreference();
+      
+      this.initialized = true;
+      console.log('🕰️ Time Machine v' + TM_CONFIG.version + ' initialized');
+    },
+    
+    
+    // ═══ Open Time Machine ═══
+    open: function() {
+      if (this.isOpen) return;
+      
+      const overlay = document.getElementById('timeMachineOverlay');
+      if (!overlay) {
+        console.error('⛔ Time Machine overlay not found in DOM');
+        return;
+      }
+      
+      overlay.classList.add('tm-active');
+      this.isOpen = true;
+      
+      // Lock body scroll
+      document.body.style.overflow = 'hidden';
+      
+      // Show loader
+      this._showLoader();
+      
+      // Preload Q1 data
+      this.loadQuarterData('Q1_2026').then(() => {
+        this._hideLoader();
+        this.goToStage(2); // Skip to Compass (Stage 1 = Toolbar entry)
+      }).catch(err => {
+        this._showError(err.message);
+      });
+      
+      this._playSound('key_unlock');
+    },
+    
+    
+    // ═══ Close Time Machine ═══
+    close: function() {
+      if (!this.isOpen) return;
+      
+      const overlay = document.getElementById('timeMachineOverlay');
+      overlay.classList.remove('tm-active');
+      this.isOpen = false;
+      this.currentStage = 0;
+      
+      // Restore body scroll
+      document.body.style.overflow = '';
+      
+      // Hide all stages
+      document.querySelectorAll('.tm-stage').forEach(s => {
+        s.classList.remove('tm-stage-active');
+      });
+      
+      this._playSound('eject');
+    },
+    
+    
+    // ═══ Stage Navigation ═══
+    goToStage: function(stageNumber) {
+      if (stageNumber < 1 || stageNumber > 4) return;
+      
+      // Hide current stage
+      document.querySelectorAll('.tm-stage').forEach(s => {
+        s.classList.remove('tm-stage-active');
+      });
+      
+      // Show target stage (with delay for transition)
+      setTimeout(() => {
+        const target = document.getElementById('tmStage' + stageNumber);
+        if (target) {
+          target.classList.add('tm-stage-active');
+          this.currentStage = stageNumber;
+          this._onStageEnter(stageNumber);
+        }
+      }, 100);
+    },
+    
+    
+    // ═══ Load Quarter Data (from JSON) ═══
+    loadQuarterData: function(quarterId) {
+      // Check cache first
+      if (this.quarterData[quarterId]) {
+        return Promise.resolve(this.quarterData[quarterId]);
+      }
+      
+      const url = TM_CONFIG.dataPath + quarterId + '.json';
+      
+      return fetch(url)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('فشل تحميل بيانات ' + quarterId + ' (HTTP ' + response.status + ')');
+          }
+          return response.json();
+        })
+        .then(data => {
+          this.quarterData[quarterId] = data;
+          console.log('📦 Loaded ' + quarterId + ':', data._meta);
+          return data;
+        });
+    },
+    
+    
+    // ═══ Sound Management ═══
+    toggleSound: function() {
+      this.soundEnabled = !this.soundEnabled;
+      const btn = document.getElementById('tmSoundBtn');
+      
+      if (this.soundEnabled) {
+        btn.textContent = '🔊';
+        btn.classList.remove('tm-muted');
+      } else {
+        btn.textContent = '🔇';
+        btn.classList.add('tm-muted');
+      }
+      
+      // Save preference
+      try {
+        localStorage.setItem('tm_sound', this.soundEnabled ? '1' : '0');
+      } catch(e) {}
+    },
+    
+    _loadSoundPreference: function() {
+      try {
+        const saved = localStorage.getItem('tm_sound');
+        if (saved !== null) {
+          this.soundEnabled = (saved === '1');
+          if (!this.soundEnabled) {
+            const btn = document.getElementById('tmSoundBtn');
+            if (btn) {
+              btn.textContent = '🔇';
+              btn.classList.add('tm-muted');
+            }
+          }
+        }
+      } catch(e) {}
+    },
+    
+    _playSound: function(soundName) {
+      // Sound implementation will be added when audio files are wired up
+      // For now, this is a stub that logs intent
+      if (!this.soundEnabled) return;
+      
+      // TODO: Implement actual sound playback in Session 2+
+      console.log('🔊 [stub] Play sound:', soundName);
+    },
+    
+    
+    // ═══ Internal Helpers ═══
+    _createStars: function() {
+      const container = document.getElementById('tmStars');
+      if (!container) return;
+      
+      for (let i = 0; i < 50; i++) {
+        const star = document.createElement('div');
+        star.className = 'tm-star';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 3 + 's';
+        star.style.animationDuration = (2 + Math.random() * 3) + 's';
+        container.appendChild(star);
+      }
+    },
+    
+    _bindEvents: function() {
+      // Close button
+      const closeBtn = document.getElementById('tmCloseBtn');
+      if (closeBtn) {
+        closeBtn.addEventListener('click', () => this.close());
+      }
+      
+      // Sound toggle
+      const soundBtn = document.getElementById('tmSoundBtn');
+      if (soundBtn) {
+        soundBtn.addEventListener('click', () => this.toggleSound());
+      }
+      
+      // Escape key to close
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && this.isOpen) {
+          this.close();
+        }
+      });
+    },
+    
+    _showLoader: function() {
+      const loader = document.getElementById('tmLoader');
+      if (loader) loader.style.display = 'block';
+    },
+    
+    _hideLoader: function() {
+      const loader = document.getElementById('tmLoader');
+      if (loader) loader.style.display = 'none';
+    },
+    
+    _showError: function(message) {
+      this._hideLoader();
+      const overlay = document.getElementById('timeMachineOverlay');
+      if (!overlay) return;
+      
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'tm-error';
+      errorDiv.style.position = 'absolute';
+      errorDiv.style.top = '50%';
+      errorDiv.style.left = '50%';
+      errorDiv.style.transform = 'translate(-50%, -50%)';
+      errorDiv.innerHTML = `
+        <div class="tm-error-icon">⚠️</div>
+        <div class="tm-error-msg">${message}</div>
+        <button onclick="TimeMachine.close()" style="margin-top:16px;padding:8px 20px;background:rgba(226,75,74,0.2);border:1px solid #E24B4A;color:#F08888;border-radius:8px;cursor:pointer;font-size:11px;">إغلاق</button>
+      `;
+      overlay.appendChild(errorDiv);
+    },
+    
+    _onStageEnter: function(stageNumber) {
+      // Hooks for each stage entry — used in later sessions
+      switch(stageNumber) {
+        case 2: this._playSound('compass_spin'); break;
+        case 3: this._playSound('drone_fly'); break;
+        case 4: this._playSound('vault_open'); break;
+      }
+    }
+  };
+  
+  
+  // ═══ Expose globally + auto-init when DOM ready ═══
+  window.TimeMachine = TimeMachine;
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => TimeMachine.init());
+  } else {
+    TimeMachine.init();
+  }
+  
+})();
+</script>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+   📌 STEP 1.4 — TOOLBAR INTEGRATION (you'll add this manually)
+   ═══════════════════════════════════════════════════════════════════
+   
+   In your existing toolbar (search for `class="toolbar"` in your file),
+   add this button next to the other tool icons:
+   
+   <button class="tool-icon tool-icon-tm" onclick="TimeMachine.open()">
+     🗝️
+     <span class="tool-icon-tooltip">🕰️ آلة الزمن · الأرشيف</span>
+   </button>
+   
+   ═══════════════════════════════════════════════════════════════════ -->
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+   ✅ END OF SESSION 1 — Skeleton Complete
+   
+   What we built:
+   ✓ CSS Variables for Time Machine theme (gold + sepia)
+   ✓ Overlay structure with 4 stage placeholders
+   ✓ Universal close button + sound toggle
+   ✓ Loader & error states
+   ✓ JavaScript controller with stage navigation
+   ✓ JSON loading mechanism
+   ✓ Sound preference persistence (localStorage)
+   ✓ Keyboard shortcut (ESC to close)
+   ✓ Stars background animation
+   ✓ Reduced-motion accessibility support
+   ✓ Mobile responsive base
+   
+   Next session (Session 2): Stage 1 — The Golden Key Entry
+   ═══════════════════════════════════════════════════════════════════ -->
+
+
+</body> في الداشبورد
 // ═══════════════════════════════════════════════════════════════
 
 (function() {
