@@ -7,11 +7,12 @@
    Designed & Developed by: Eng. Abdulwahab M Alshammari
    Internal Use Only — © 2026 All Rights Reserved
    Unauthorized copying, modification, or redistribution prohibited.
-   Built: v19.1 · April 2026 · Build ID: WAB-2026-04-30-TIMEMACHINE-FIX
+   Built: v19.3 · April 2026 · Build ID: WAB-2026-04-30-STAGE1-CINEMATIC
  ═══════════════════════════════════════════════════════════════════
 -->
 
 <!-- ═══ VERSION HISTORY ═══
+  v19.3     · 2026-04-30 · 🎬 Stage 1 Cinematic Entry — Key + Vault + Burst (Session 2)
   v19.1     · 2026-04-30 · ⏳ Time Machine fix — script loaded before button (Session 1.1)
   v19.0     · 2026-04-30 · ⏳ Time Machine Module (Session 1 — Skeleton + Toolbar Entry)
   v18.0     · 2026-04-27 · Multi-User Auth + Welcome Modal + Greetings + Header Logo [FINAL]
@@ -4287,6 +4288,366 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   }
 }
 
+
+
+/* ═══════════════════════════════════════════════════════
+   STAGE 1 STYLES (Session 2 — Cinematic Entry)
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── Stage 1 Container ─────────────────────────────────────────── */
+.tm-stage-1 {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.tm-stage-1.tm-stage-active {
+  display: flex;
+}
+
+/* ─── Golden Mist Background ─────────────────────────────────────── */
+.tm-mist {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center,
+    rgba(212, 160, 23, 0.12) 0%,
+    rgba(212, 160, 23, 0.04) 30%,
+    transparent 70%);
+  opacity: 0;
+  animation: tm-mist-fade 5s var(--tm-ease-cinematic) forwards;
+  pointer-events: none;
+}
+
+@keyframes tm-mist-fade {
+  0% { opacity: 0; transform: scale(0.5); }
+  20% { opacity: 0.5; transform: scale(1); }
+  60% { opacity: 1; transform: scale(1.1); }
+  100% { opacity: 0.7; transform: scale(1.2); }
+}
+
+/* ─── Particles Container ────────────────────────────────────────── */
+.tm-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.tm-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--tm-gold);
+  border-radius: 50%;
+  box-shadow: 0 0 6px var(--tm-gold-glow);
+  opacity: 0;
+}
+
+@keyframes tm-particle-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0);
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(-20px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-300px) scale(0.3) translateX(var(--tm-x-drift, 0));
+  }
+}
+
+/* ─── The Key (Floating Element) ─────────────────────────────────── */
+.tm-key-flying {
+  position: absolute;
+  font-size: 32px;
+  z-index: 10;
+  filter: drop-shadow(0 0 20px var(--tm-gold-glow));
+  pointer-events: none;
+  
+  /* Start position: top-left (where toolbar key was) */
+  top: 80px;
+  left: 60px;
+  
+  opacity: 0;
+  animation: tm-key-flight 5s var(--tm-ease-cinematic) forwards;
+}
+
+@keyframes tm-key-flight {
+  /* Phase A: 0% to 30% — Key flies to center and grows */
+  0% {
+    opacity: 0;
+    top: 80px;
+    left: 60px;
+    transform: scale(0.5) rotate(0deg);
+  }
+  10% {
+    opacity: 1;
+    transform: scale(0.8) rotate(180deg);
+  }
+  30% {
+    opacity: 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(2.5) rotate(720deg);
+    filter: drop-shadow(0 0 40px var(--tm-gold-glow));
+  }
+  
+  /* Phase B: 30% to 60% — Key hovers, then descends to lock */
+  40% {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(2.5) rotate(720deg);
+  }
+  55% {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1.8) rotate(900deg);
+  }
+  60% {
+    top: 52%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1.5) rotate(1080deg);
+    filter: drop-shadow(0 0 30px var(--tm-gold-light));
+  }
+  
+  /* Phase C: 60% to 100% — Key disappears as vault opens */
+  70% {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1.2) rotate(1080deg);
+    opacity: 1;
+  }
+  85% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(0.8) rotate(1080deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0) rotate(1080deg);
+  }
+}
+
+/* ─── The Vault (appears in Phase B) ─────────────────────────────── */
+.tm-vault {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 220px;
+  height: 220px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #2A1F0E 0%, #1A1209 100%);
+  border: 3px solid var(--tm-gold);
+  box-shadow: 
+    0 0 60px var(--tm-gold-glow),
+    inset 0 2px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -10px 30px rgba(0, 0, 0, 0.5);
+  z-index: 5;
+  opacity: 0;
+  animation: tm-vault-appear 5s var(--tm-ease-cinematic) forwards;
+}
+
+@keyframes tm-vault-appear {
+  0%, 25% { opacity: 0; transform: translate(-50%, -50%) scale(0); }
+  
+  /* Phase B start: vault materializes */
+  35% { 
+    opacity: 0.6; 
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  45% { 
+    opacity: 1; 
+    transform: translate(-50%, -50%) scale(1);
+  }
+  
+  /* Phase B middle: vault shakes when key enters */
+  60% { 
+    transform: translate(-50%, -50%) scale(1) rotate(-2deg);
+  }
+  62% {
+    transform: translate(-50%, -50%) scale(1.05) rotate(2deg);
+  }
+  64% {
+    transform: translate(-50%, -50%) scale(1) rotate(-1deg);
+  }
+  66% {
+    transform: translate(-50%, -50%) scale(1.05) rotate(0deg);
+  }
+  
+  /* Phase C: vault opens */
+  75% { 
+    transform: translate(-50%, -50%) scale(1.3);
+    box-shadow: 
+      0 0 100px var(--tm-gold),
+      inset 0 2px 0 rgba(255, 255, 255, 0.3),
+      inset 0 -10px 30px rgba(0, 0, 0, 0.5);
+  }
+  90% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(2.5);
+    box-shadow: 0 0 200px var(--tm-gold);
+  }
+  100% { 
+    opacity: 0; 
+    transform: translate(-50%, -50%) scale(4);
+  }
+}
+
+/* ─── Vault Lock (the keyhole on the vault) ───────────────────────── */
+.tm-vault-lock {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  border: 3px solid var(--tm-gold-light);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.7);
+}
+
+.tm-vault-lock::before {
+  content: '🔒';
+  animation: tm-lock-toggle 5s var(--tm-ease-cinematic) forwards;
+}
+
+@keyframes tm-lock-toggle {
+  0%, 65% { content: '🔒'; }
+  66%, 100% { content: '🔓'; }
+}
+
+/* ─── Vault Light Burst (Phase C) ────────────────────────────────── */
+.tm-vault-burst {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: radial-gradient(circle, 
+    rgba(255, 255, 255, 0.9) 0%,
+    var(--tm-gold-light) 30%,
+    var(--tm-gold) 60%,
+    transparent 100%);
+  z-index: 6;
+  opacity: 0;
+  animation: tm-burst 5s var(--tm-ease-cinematic) forwards;
+  pointer-events: none;
+}
+
+@keyframes tm-burst {
+  0%, 70% { opacity: 0; transform: translate(-50%, -50%) scale(0); }
+  80% { 
+    opacity: 0.6; 
+    transform: translate(-50%, -50%) scale(2);
+  }
+  90% { 
+    opacity: 1; 
+    transform: translate(-50%, -50%) scale(8);
+  }
+  100% { 
+    opacity: 0; 
+    transform: translate(-50%, -50%) scale(20);
+  }
+}
+
+/* ─── Stage Title (top text) ─────────────────────────────────────── */
+.tm-stage1-title {
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 15;
+  opacity: 0;
+  animation: tm-title-fade 5s var(--tm-ease-cinematic) forwards;
+}
+
+.tm-stage1-title-main {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--tm-gold-light);
+  letter-spacing: 4px;
+  margin-bottom: 4px;
+  text-shadow: 0 0 20px var(--tm-gold-glow);
+}
+
+.tm-stage1-title-sub {
+  font-size: 11px;
+  color: rgba(232, 201, 98, 0.6);
+  letter-spacing: 6px;
+  font-weight: 400;
+}
+
+@keyframes tm-title-fade {
+  0% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+  20% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+  40% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  80% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(0); }
+}
+
+/* ─── Skip Button (appears at 2s) ────────────────────────────────── */
+.tm-skip-btn {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  padding: 8px 18px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(212, 160, 23, 0.3);
+  border-radius: 20px;
+  color: var(--tm-gold);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 0;
+  animation: tm-skip-appear 5s var(--tm-ease-cinematic) forwards;
+  font-family: inherit;
+  transition: all 0.2s var(--tm-ease-fast);
+}
+
+.tm-skip-btn:hover {
+  background: rgba(212, 160, 23, 0.2);
+  border-color: var(--tm-gold);
+  color: var(--tm-gold-light);
+  transform: scale(1.05);
+}
+
+@keyframes tm-skip-appear {
+  0%, 39% { opacity: 0; pointer-events: none; }
+  40% { opacity: 0.8; pointer-events: auto; }
+  100% { opacity: 0.8; pointer-events: auto; }
+}
+
+/* ─── Reduced Motion Override ────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .tm-key-flying,
+  .tm-vault,
+  .tm-vault-burst,
+  .tm-stage1-title,
+  .tm-skip-btn,
+  .tm-mist,
+  .tm-particle {
+    animation-duration: 0.5s !important;
+  }
+}
+
 </style>
 
 </head>
@@ -4317,9 +4678,38 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <div class="tm-loader-text">⏳ تجهيز آلة الزمن...</div>
   </div>
 
-  <!-- Stage 1: Entry (handled in toolbar — this is empty placeholder) -->
-  <div class="tm-stage" id="tmStage1" data-stage="1">
-    <!-- Stage 1 content will be added in Session 2 -->
+  <!-- Stage 1: Cinematic Entry (Session 2) -->
+  <div class="tm-stage tm-stage-1" id="tmStage1" data-stage="1">
+    
+    <!-- Golden mist background -->
+    <div class="tm-mist"></div>
+    
+    <!-- Particles container (filled by JS) -->
+    <div class="tm-particles" id="tmStage1Particles"></div>
+    
+    <!-- Stage title -->
+    <div class="tm-stage1-title">
+      <div class="tm-stage1-title-main">⏳ آلة الزمن</div>
+      <div class="tm-stage1-title-sub">TIME MACHINE</div>
+    </div>
+    
+    <!-- The Vault (appears mid-animation) -->
+    <div class="tm-vault">
+      <div class="tm-vault-lock"></div>
+    </div>
+    
+    <!-- Light burst (appears when vault opens) -->
+    <div class="tm-vault-burst"></div>
+    
+    <!-- The Flying Key -->
+    <div class="tm-key-flying">🗝️</div>
+    
+    <!-- Skip button (appears at 2s) -->
+    <button class="tm-skip-btn" id="tmStage1Skip" aria-label="تخطي المقدمة">
+      <span>تخطي</span>
+      <span style="font-size:14px;">⏭</span>
+    </button>
+    
   </div>
 
   <!-- Stage 2: Temporal Compass -->
@@ -4745,7 +5135,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">🕰️ آلة الزمن · الأرشيف الربعي</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🔒 v19.1 · Time Machine + Multi-User Auth</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🔒 v19.3 · Time Machine v1.2 + Stage 1 Cinematic</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -13329,7 +13719,174 @@ setInterval(loadData,5*60*1000);
 // ═══════════════════════════════════════════════════════════════
 // Salam Dashboard — Behavior Tracker v1
 // ═══════════════════════════════════════════════════════════════
-// حقن هذا الكود قبل </body> في الداشبورد
+// حقن هذا الكود قبل 
+
+<!-- ═══ STAGE 1 LOGIC (Session 2) ═══ -->
+<script id="tm-stage1-logic">
+(function() {
+  'use strict';
+  
+  // Wait until TimeMachine is defined
+  if (typeof window.TimeMachine === 'undefined') {
+    console.error('⛔ TimeMachine not loaded — Stage 1 patch failed');
+    return;
+  }
+  
+  const TM = window.TimeMachine;
+  
+  // ═══ Override open() to include Stage 1 cinematic entry ═══
+  TM.open = function() {
+    if (this.isOpen) return;
+    
+    const overlay = document.getElementById('timeMachineOverlay');
+    if (!overlay) {
+      console.error('⛔ Time Machine overlay not found');
+      return;
+    }
+    
+    overlay.classList.add('tm-active');
+    this.isOpen = true;
+    document.body.style.overflow = 'hidden';
+    
+    // Hide loader (we don't need it for cinematic)
+    const loader = document.getElementById('tmLoader');
+    if (loader) loader.style.display = 'none';
+    
+    // Check if user has seen Stage 1 in this session
+    let skipStage1 = false;
+    try {
+      skipStage1 = sessionStorage.getItem('tm_seen_stage1') === '1';
+    } catch(e) {}
+    
+    // Preload Q1 data in parallel with animation
+    this.loadQuarterData('Q1_2026').catch(err => {
+      console.error('Q1 data load error:', err);
+    });
+    
+    if (skipStage1) {
+      // Already seen — go straight to compass
+      this.goToStage(2);
+    } else {
+      // First time — play cinematic
+      this._playStage1Cinematic();
+    }
+  };
+  
+  
+  // ═══ Stage 1 Cinematic Sequence ═══
+  TM._playStage1Cinematic = function() {
+    // Show Stage 1
+    document.querySelectorAll('.tm-stage').forEach(s => {
+      s.classList.remove('tm-stage-active');
+    });
+    
+    const stage1 = document.getElementById('tmStage1');
+    if (!stage1) return;
+    
+    stage1.classList.add('tm-stage-active');
+    this.currentStage = 1;
+    
+    // Generate particles
+    this._generateParticles();
+    
+    // Bind skip button
+    const skipBtn = document.getElementById('tmStage1Skip');
+    if (skipBtn) {
+      const skipHandler = () => {
+        skipBtn.removeEventListener('click', skipHandler);
+        this._endStage1();
+      };
+      skipBtn.addEventListener('click', skipHandler);
+    }
+    
+    // Auto-transition after 5 seconds
+    this._stage1Timer = setTimeout(() => {
+      this._endStage1();
+    }, 5000);
+  };
+  
+  
+  // ═══ End Stage 1, transition to Stage 2 ═══
+  TM._endStage1 = function() {
+    // Clear timer if skipping
+    if (this._stage1Timer) {
+      clearTimeout(this._stage1Timer);
+      this._stage1Timer = null;
+    }
+    
+    // Mark as seen in this session
+    try {
+      sessionStorage.setItem('tm_seen_stage1', '1');
+    } catch(e) {}
+    
+    // Transition to compass
+    this.goToStage(2);
+  };
+  
+  
+  // ═══ Generate floating particles ═══
+  TM._generateParticles = function() {
+    const container = document.getElementById('tmStage1Particles');
+    if (!container) return;
+    
+    // Clear existing
+    container.innerHTML = '';
+    
+    // Generate 50 particles
+    for (let i = 0; i < 50; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'tm-particle';
+      
+      // Random horizontal position
+      const startX = Math.random() * 100;
+      particle.style.left = startX + '%';
+      
+      // Start from bottom
+      particle.style.bottom = (Math.random() * 30) + '%';
+      
+      // Random size variation
+      const size = 2 + Math.random() * 5;
+      particle.style.width = size + 'px';
+      particle.style.height = size + 'px';
+      
+      // Random horizontal drift
+      const drift = (Math.random() - 0.5) * 200;
+      particle.style.setProperty('--tm-x-drift', drift + 'px');
+      
+      // Random delay (spread across 3s)
+      const delay = Math.random() * 3;
+      particle.style.animation = `tm-particle-rise ${2 + Math.random() * 2}s ${delay}s ease-out forwards`;
+      
+      container.appendChild(particle);
+    }
+  };
+  
+  
+  // ═══ Reset stage1 seen flag (for testing) ═══
+  TM.resetStage1 = function() {
+    try {
+      sessionStorage.removeItem('tm_seen_stage1');
+      console.log('🔄 Stage 1 will play again on next open');
+    } catch(e) {}
+  };
+  
+  
+  // Override close to clear timers
+  const originalClose = TM.close.bind(TM);
+  TM.close = function() {
+    if (this._stage1Timer) {
+      clearTimeout(this._stage1Timer);
+      this._stage1Timer = null;
+    }
+    originalClose();
+  };
+  
+  console.log('🎬 Stage 1 cinematic loaded — duration: 5s');
+  
+})();
+</script>
+
+</body> في الداشبورد
 // ═══════════════════════════════════════════════════════════════
 
 (function() {
