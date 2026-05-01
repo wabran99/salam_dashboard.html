@@ -7,11 +7,12 @@
    Designed & Developed by: Eng. Abdulwahab M Alshammari
    Internal Use Only — © 2026 All Rights Reserved
    Unauthorized copying, modification, or redistribution prohibited.
-   Built: v19.12 · April 2026 · Build ID: WAB-2026-05-01-PIN-GATE-SECURE
+   Built: v19.12.1 · April 2026 · Build ID: WAB-2026-05-01-PIN-GATE-SECURE
  ═══════════════════════════════════════════════════════════════════
 -->
 
 <!-- ═══ VERSION HISTORY ═══
+  v19.12.1  · 2026-05-01 · 🔧 Fortress PIN Hash Function FIX (Session 9.B)
   v19.12    · 2026-05-01 · 🛡️ SECURE PIN Gate — Removed admin token, SHA-256 hashed (Session 9)
   v19.11.1  · 2026-05-01 · 🔧 Personal Gap Card FIX — Render after appendChild (Session 8.B)
   v19.11    · 2026-05-01 · 👤 Personal Gap Card on Employee Profile (Session 8)
@@ -8845,7 +8846,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">🕰️ آلة الزمن · الأرشيف الربعي</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🛡️ v19.12 · Secure PIN Gate + Removed admin token</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🛡️ v19.12.1 · Fortress PIN Hash Function FIX</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -16523,6 +16524,15 @@ setInterval(loadData,5*60*1000);
 (function() {
   'use strict';
   
+  // ══════════ HELPER: SHA-256 PIN HASHER ══════════
+  async function __sha256Fortress(str) {
+    const buf = new TextEncoder().encode(str);
+    const hash = await crypto.subtle.digest('SHA-256', buf);
+    return Array.from(new Uint8Array(hash))
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('');
+  }
+  
   // ══════════ CONFIG ══════════
   const FORTRESS_CONFIG = {
     PIN_HASH: '3b4bee7de5f1464e59301f5cab582e9ada969bb1964a64a8dfa392c071480337',  // SHA-256 (one-way, safe to expose)
@@ -16533,7 +16543,7 @@ setInterval(loadData,5*60*1000);
     MAX_PIN_ATTEMPTS: 3,
     LOCK_DURATION: 60 * 60 * 1000,  // 1 hour
     PANEL_IDLE_TIMEOUT: 10 * 60 * 1000,  // 10 min
-    VERSION: '19.12.0'
+    VERSION: '19.12.1'
   };
   
   // ══════════ STATE ══════════
