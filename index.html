@@ -7,11 +7,12 @@
    Designed & Developed by: Eng. Abdulwahab M Alshammari
    Internal Use Only — © 2026 All Rights Reserved
    Unauthorized copying, modification, or redistribution prohibited.
-   Built: v19.10.1 · April 2026 · Build ID: WAB-2026-05-01-GAP-COMPENSATION-FIXED
+   Built: v19.10.2 · April 2026 · Build ID: WAB-2026-05-01-SMART-MATCHING
  ═══════════════════════════════════════════════════════════════════
 -->
 
 <!-- ═══ VERSION HISTORY ═══
+  v19.10.2  · 2026-05-01 · 🔍 Smart Supervisor Matching — Najwa/Najwah fix (Session 7.C)
   v19.10.1  · 2026-05-01 · 🔧 Gap Calculator FIX — Compensation logic, not prediction (Session 7.B)
   v19.10    · 2026-05-01 · 🎯 Gap Calculator on Main Dashboard — Q1 + April integrated (Session 7)
   v19.9.2   · 2026-05-01 · 🔌 Apps Script Reconnected — New Deployment URL (Session 6.C)
@@ -8568,7 +8569,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">🕰️ آلة الزمن · الأرشيف الربعي</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🎯 v19.10.1 · Gap Calculator (Compensation Logic)</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🎯 v19.10.2 · Smart Name Matching</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -16219,7 +16220,7 @@ setInterval(loadData,5*60*1000);
     MAX_PIN_ATTEMPTS: 3,
     LOCK_DURATION: 60 * 60 * 1000,  // 1 hour
     PANEL_IDLE_TIMEOUT: 10 * 60 * 1000,  // 10 min
-    VERSION: '19.10.1'
+    VERSION: '19.10.2'
   };
   
   // ══════════ STATE ══════════
@@ -18169,6 +18170,22 @@ setInterval(loadData,5*60*1000);
   let _archiveCache = null;
   let _loadingPromise = null;
   
+  
+  // Smart matching: handles "Najwa D AlOmari" === "Najwah AlOmari"
+  function smartMatchSupervisor(dataName, jsonName) {
+    if (!dataName || !jsonName) return false;
+    var dataParts = dataName.toLowerCase().trim().split(/\s+/);
+    var jsonParts = jsonName.toLowerCase().trim().split(/\s+/);
+    if (dataParts.length === 0 || jsonParts.length === 0) return false;
+    var dataLast = dataParts[dataParts.length - 1];
+    var jsonLast = jsonParts[jsonParts.length - 1];
+    if (dataLast !== jsonLast) return false;
+    var dataFirst = dataParts[0];
+    var jsonFirst = jsonParts[0];
+    var minLen = Math.min(dataFirst.length, jsonFirst.length, 4);
+    return dataFirst.substring(0, minLen) === jsonFirst.substring(0, minLen);
+  }
+  
   const CONFIG = {
     monthsCompleted: 4,
     monthsRemainingInYear: 8,
@@ -18217,10 +18234,7 @@ setInterval(loadData,5*60*1000);
         ytdAchieved += archives.q1.summary.achieved || 0;
       } else if (scope === 'supervisor' && archives.q1.supervisors) {
         const sup = archives.q1.supervisors.find(function(s) {
-          return s.name_en && (
-            s.name_en.toLowerCase().indexOf(id.toLowerCase()) > -1 ||
-            id.toLowerCase().indexOf(s.name_en.toLowerCase()) > -1
-          );
+          return s.name_en && smartMatchSupervisor(id, s.name_en);
         });
         if (sup && sup.total) {
           ytdTarget += sup.total.target || 0;
@@ -18237,10 +18251,7 @@ setInterval(loadData,5*60*1000);
         ytdAchieved += archives.apr.summary.achieved || 0;
       } else if (scope === 'supervisor' && archives.apr.supervisors) {
         const sup = archives.apr.supervisors.find(function(s) {
-          return s.name_en && (
-            s.name_en.toLowerCase().indexOf(id.toLowerCase()) > -1 ||
-            id.toLowerCase().indexOf(s.name_en.toLowerCase()) > -1
-          );
+          return s.name_en && smartMatchSupervisor(id, s.name_en);
         });
         if (sup && sup.monthly && sup.monthly.Apr) {
           ytdTarget += sup.monthly.Apr.target || 0;
