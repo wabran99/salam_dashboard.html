@@ -7,11 +7,12 @@
    Designed & Developed by: Eng. Abdulwahab M Alshammari
    Internal Use Only — © 2026 All Rights Reserved
    Unauthorized copying, modification, or redistribution prohibited.
-   Built: v19.11.1 · April 2026 · Build ID: WAB-2026-05-01-EMPLOYEE-GAP-FIXED
+   Built: v19.12 · April 2026 · Build ID: WAB-2026-05-01-PIN-GATE-SECURE
  ═══════════════════════════════════════════════════════════════════
 -->
 
 <!-- ═══ VERSION HISTORY ═══
+  v19.12    · 2026-05-01 · 🛡️ SECURE PIN Gate — Removed admin token, SHA-256 hashed (Session 9)
   v19.11.1  · 2026-05-01 · 🔧 Personal Gap Card FIX — Render after appendChild (Session 8.B)
   v19.11    · 2026-05-01 · 👤 Personal Gap Card on Employee Profile (Session 8)
   v19.10.4  · 2026-05-01 · 🎨 Unified Card Layout — Same structure, dynamic numbers (Session 7.E)
@@ -847,40 +848,311 @@
   const SUPABASE_ANON_KEY = 'sb_publishable_b3JrdhDOSV7wCNJNwbHOSw_briOnbHi';
   
   // ════════════════════════════════════════════════════════════════════
-  // ADMIN BYPASS
+  // ADMIN MODE — Secure PIN Gate (v19.12)
+  // ════════════════════════════════════════════════════════════════════
+  // Activates only via ?mode=admin URL parameter
+  // PIN is NEVER stored in code (only SHA-256 hash)
+  // Rate-limited: 3 attempts → 30-min lockout
+  // Session storage only (cleared on browser close)
   // ════════════════════════════════════════════════════════════════════
   const urlParams = new URLSearchParams(window.location.search);
-  const adminToken = urlParams.get('admin');
+  const adminMode = urlParams.get('mode');
   
-  if (adminToken === 'WAB2026') {
-    console.log('%c🛡️ Admin Mode Active', 'color:#D4AF37;font-weight:bold;font-size:14px;');
-    window.__SALAM_AUTH__ = {
-      mode: 'admin', role: 'admin',
-      displayName: 'Admin', username: 'admin',
-      isAdmin: true
-    };
-    // v18.0 FIX: Admin bypass must hide splash + auth overlay so dashboard renders
-    function __adminFinalize() {
-      try {
-        const splash = document.getElementById('salamSplash');
-        if (splash) {
-          splash.style.opacity = '0';
-          splash.style.pointerEvents = 'none';
-          setTimeout(function(){ splash.style.display = 'none'; }, 300);
-        }
-        const overlay = document.getElementById('salamAuthOverlay');
-        if (overlay) {
-          overlay.style.display = 'none';
-          overlay.classList.remove('is-visible');
-        }
-      } catch(e) { console.warn('Admin bypass UI fix:', e); }
+  if (adminMode === 'admin') {
+    // Check if already authenticated this session
+    const existingSession = sessionStorage.getItem('__salam_admin_session__');
+    if (existingSession === '1') {
+      // Already verified — proceed silently
+      window.__SALAM_AUTH__ = {
+        mode: 'admin', role: 'admin',
+        displayName: 'Admin', username: 'admin',
+        isAdmin: true
+      };
+      function __adminFinalize_existing() {
+        try {
+          const splash = document.getElementById('salamSplash');
+          if (splash) {
+            splash.style.opacity = '0';
+            splash.style.pointerEvents = 'none';
+            setTimeout(function(){ splash.style.display = 'none'; }, 300);
+          }
+          const overlay = document.getElementById('salamAuthOverlay');
+          if (overlay) {
+            overlay.style.display = 'none';
+            overlay.classList.remove('is-visible');
+          }
+        } catch(e) {}
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', __adminFinalize_existing);
+      } else {
+        __adminFinalize_existing();
+      }
+      return;
     }
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', __adminFinalize);
-    } else {
-      __adminFinalize();
+    
+    // Check lockout status
+    const lockoutUntil = parseInt(localStorage.getItem('__salam_admin_lockout__') || '0', 10);
+    const now = Date.now();
+    if (lockoutUntil > now) {
+      const minutesLeft = Math.ceil((lockoutUntil - now) / 60000);
+      __renderAdminLockout(minutesLeft);
+      return;
     }
+    
+    // Show PIN Gate
+    __renderAdminPinGate();
     return;
+  }
+  
+  // ────────────────────────────────────────────────────────────────────
+  // PIN Gate UI Renderer
+  // ────────────────────────────────────────────────────────────────────
+  function __renderAdminPinGate() {
+    // Hash of authorized PIN (SHA-256)
+    // The actual PIN is NEVER in the code
+    const __H = '65ab749279c8fbe6d2305db2141ed892e39a80a6823946aaf272414392720ad6';
+    const __MAX_ATTEMPTS = 3;
+    const __LOCKOUT_MIN = 30;
+    
+    // Get current attempt count
+    let attempts = parseInt(sessionStorage.getItem('__salam_pin_attempts__') || '0', 10);
+    
+    // Build the gate UI
+    const gate = document.createElement('div');
+    gate.id = '__salam_pin_gate__';
+    gate.innerHTML = `
+      <style>
+        #__salam_pin_gate__ {
+          position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+          background: linear-gradient(135deg, #0A1F14 0%, #0F2D1C 50%, #143F26 100%);
+          z-index: 999999;
+          display: flex; align-items: center; justify-content: center;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        .pg-card {
+          background: rgba(0, 0, 0, 0.4);
+          border: 1px solid rgba(61, 214, 140, 0.3);
+          border-radius: 24px;
+          padding: 40px 50px;
+          width: 360px;
+          backdrop-filter: blur(20px);
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+          text-align: center;
+        }
+        .pg-icon {
+          font-size: 48px;
+          margin-bottom: 15px;
+        }
+        .pg-title {
+          color: #fff;
+          font-size: 20px;
+          font-weight: 700;
+          margin-bottom: 8px;
+          letter-spacing: 0.5px;
+        }
+        .pg-sub {
+          color: #5AB87A;
+          font-size: 13px;
+          margin-bottom: 30px;
+          letter-spacing: 1px;
+        }
+        .pg-pin-row {
+          display: flex; justify-content: center; gap: 10px;
+          margin: 20px 0 25px;
+        }
+        .pg-pin-input {
+          width: 50px; height: 60px;
+          background: rgba(255, 255, 255, 0.05);
+          border: 2px solid rgba(61, 214, 140, 0.4);
+          border-radius: 12px;
+          color: #fff;
+          font-size: 28px;
+          text-align: center;
+          font-weight: 700;
+          outline: none;
+          transition: all 0.2s;
+        }
+        .pg-pin-input:focus {
+          border-color: #3DD68C;
+          background: rgba(61, 214, 140, 0.1);
+          transform: scale(1.05);
+        }
+        .pg-pin-input.error {
+          border-color: #F08888;
+          background: rgba(240, 136, 136, 0.1);
+        }
+        .pg-status {
+          color: #888;
+          font-size: 12px;
+          min-height: 20px;
+          margin-top: 10px;
+        }
+        .pg-status.error {
+          color: #F08888;
+        }
+        .pg-attempts {
+          color: #D4A017;
+          font-size: 11px;
+          margin-top: 15px;
+        }
+        @keyframes pg-shake {
+          0%, 100% { transform: translateX(0); }
+          25% { transform: translateX(-10px); }
+          75% { transform: translateX(10px); }
+        }
+        .pg-shake {
+          animation: pg-shake 0.4s;
+        }
+      </style>
+      <div class="pg-card">
+        <div class="pg-icon">🔐</div>
+        <div class="pg-title">Admin Access Required</div>
+        <div class="pg-sub">ENTER PIN TO CONTINUE</div>
+        <div class="pg-pin-row" id="pg-row">
+          <input type="password" inputmode="numeric" maxlength="1" class="pg-pin-input" data-i="0">
+          <input type="password" inputmode="numeric" maxlength="1" class="pg-pin-input" data-i="1">
+          <input type="password" inputmode="numeric" maxlength="1" class="pg-pin-input" data-i="2">
+          <input type="password" inputmode="numeric" maxlength="1" class="pg-pin-input" data-i="3">
+        </div>
+        <div class="pg-status" id="pg-status">جاري التحقق...</div>
+        <div class="pg-attempts" id="pg-attempts"></div>
+      </div>
+    `;
+    document.body.appendChild(gate);
+    
+    // Hide splash
+    const splash = document.getElementById('salamSplash');
+    if (splash) splash.style.display = 'none';
+    
+    const inputs = gate.querySelectorAll('.pg-pin-input');
+    const statusEl = gate.querySelector('#pg-status');
+    const attemptsEl = gate.querySelector('#pg-attempts');
+    
+    statusEl.textContent = '';
+    if (attempts > 0) {
+      attemptsEl.textContent = 'محاولات متبقية: ' + (__MAX_ATTEMPTS - attempts);
+    }
+    
+    inputs[0].focus();
+    
+    // SHA-256 hash function
+    async function __sha256(str) {
+      const buf = new TextEncoder().encode(str);
+      const hash = await crypto.subtle.digest('SHA-256', buf);
+      return Array.from(new Uint8Array(hash))
+        .map(b => b.toString(16).padStart(2, '0'))
+        .join('');
+    }
+    
+    // Auto-advance and submit
+    inputs.forEach((input, idx) => {
+      input.addEventListener('input', async (e) => {
+        const val = e.target.value.replace(/[^0-9]/g, '');
+        e.target.value = val;
+        
+        if (val && idx < inputs.length - 1) {
+          inputs[idx + 1].focus();
+        }
+        
+        // Check if all filled
+        if (idx === inputs.length - 1 && val) {
+          const pin = Array.from(inputs).map(i => i.value).join('');
+          if (pin.length === 4) {
+            statusEl.textContent = 'جاري التحقق...';
+            statusEl.className = 'pg-status';
+            
+            // Add 1.5s delay (rate limiting)
+            await new Promise(r => setTimeout(r, 1500));
+            
+            const hash = await __sha256(pin);
+            
+            if (hash === __H) {
+              // SUCCESS
+              sessionStorage.setItem('__salam_admin_session__', '1');
+              sessionStorage.removeItem('__salam_pin_attempts__');
+              statusEl.textContent = '✓ تم التحقق';
+              statusEl.style.color = '#3DD68C';
+              setTimeout(() => location.reload(), 500);
+            } else {
+              // FAILURE
+              attempts++;
+              sessionStorage.setItem('__salam_pin_attempts__', String(attempts));
+              
+              inputs.forEach(i => i.classList.add('error'));
+              gate.querySelector('.pg-card').classList.add('pg-shake');
+              setTimeout(() => {
+                gate.querySelector('.pg-card').classList.remove('pg-shake');
+                inputs.forEach(i => { i.classList.remove('error'); i.value = ''; });
+                inputs[0].focus();
+              }, 600);
+              
+              if (attempts >= __MAX_ATTEMPTS) {
+                // LOCKOUT
+                const lockoutUntil = Date.now() + (__LOCKOUT_MIN * 60 * 1000);
+                localStorage.setItem('__salam_admin_lockout__', String(lockoutUntil));
+                sessionStorage.removeItem('__salam_pin_attempts__');
+                gate.remove();
+                __renderAdminLockout(__LOCKOUT_MIN);
+              } else {
+                statusEl.textContent = 'PIN غير صحيح';
+                statusEl.className = 'pg-status error';
+                attemptsEl.textContent = 'محاولات متبقية: ' + (__MAX_ATTEMPTS - attempts);
+              }
+            }
+          }
+        }
+      });
+      
+      // Backspace navigation
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && !e.target.value && idx > 0) {
+          inputs[idx - 1].focus();
+          inputs[idx - 1].value = '';
+        }
+      });
+    });
+  }
+  
+  // ────────────────────────────────────────────────────────────────────
+  // Lockout Screen
+  // ────────────────────────────────────────────────────────────────────
+  function __renderAdminLockout(minutesLeft) {
+    const screen = document.createElement('div');
+    screen.innerHTML = `
+      <style>
+        #__lockout__ {
+          position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+          background: linear-gradient(135deg, #1F0A0A 0%, #2D0F0F 50%, #3F1414 100%);
+          z-index: 999999;
+          display: flex; align-items: center; justify-content: center;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+        .lk-card {
+          background: rgba(0, 0, 0, 0.4);
+          border: 1px solid rgba(240, 136, 136, 0.3);
+          border-radius: 24px;
+          padding: 40px 50px;
+          width: 360px;
+          text-align: center;
+          backdrop-filter: blur(20px);
+        }
+      </style>
+      <div id="__lockout__">
+        <div class="lk-card">
+          <div style="font-size:48px;margin-bottom:15px">🚫</div>
+          <div style="color:#fff;font-size:20px;font-weight:700;margin-bottom:8px">Access Locked</div>
+          <div style="color:#F08888;font-size:13px;margin-bottom:20px;letter-spacing:1px">TOO MANY FAILED ATTEMPTS</div>
+          <div style="color:#fff;font-size:14px;line-height:1.7">
+            تم حظر الدخول مؤقتاً<br>
+            حاول مجدداً بعد <b style="color:#F6C94E">${minutesLeft}</b> دقيقة
+          </div>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(screen);
+    const splash = document.getElementById('salamSplash');
+    if (splash) splash.style.display = 'none';
   }
   
   // ════════════════════════════════════════════════════════════════════
@@ -8573,7 +8845,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">🕰️ آلة الزمن · الأرشيف الربعي</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🎯 v19.11.1 · Personal Gap Card FIX (timing)</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🛡️ v19.12 · Secure PIN Gate + Removed admin token</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -8731,7 +9003,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 <div id="branch-report"></div>
 <div id="wa-report"></div>
 
-<!-- v16.9.7: Security Panel — Admin-only (unlocked via ?admin=WAB2026) -->
+<!-- v19.12: Security Panel — Admin-only (unlocked via ?mode=admin + PIN) -->
 <style>
 #sec-btn{
   position:fixed;bottom:20px;left:20px;width:48px;height:48px;
@@ -8843,16 +9115,16 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 // v16.9.3: Protection Layer — DevTools Detection + Signature
 // Developed by Eng. Abdulwahab M Alshammari · Retail MT · Salam Mobile
 // 
-// v18.0 update: ?debug=WAB2026 disables DevTools blocking for current session
+// v19.12 update: DevTools blocking auto-disabled when admin session is active
 // ═══════════════════════════════════════════════════════
 (function(){
   'use strict';
   
   // ─── v18.0: Debug Mode Bypass (admin only) ───
-  // If URL contains ?debug=WAB2026, disable all DevTools blocking
+  // When admin session is active, DevTools blocking is disabled
   // This allows Wabran to inspect issues without removing protection from regular users
   const __urlParams = new URLSearchParams(window.location.search);
-  const __debugMode = __urlParams.get('debug') === 'WAB2026';
+  const __debugMode = sessionStorage.getItem('__salam_admin_session__') === '1';
   if (__debugMode) {
     try {
       sessionStorage.setItem('__SLM_DEBUG__', '1');
@@ -8923,13 +9195,12 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   // — Visitor tracking: log every session to Google Apps Script —
   // [CONFIG] Endpoint configured — logs every visitor to private Sheet
   const VISITOR_LOG_URL='https://script.google.com/macros/s/AKfycbzPBbGf80DmkUiIf3Wd-2m0KHwJW3tUfE8olZ0_87tFCAzDQ5KiNIMxIOOruidZ4uqd/exec';
-  // v16.9.7: Admin access — secret URL param unlocks Security Tab
-  // Format: ?admin=WAB2026 (case-sensitive)
-  const _ADMIN_KEY='WAB2026';
+  // v19.12: Admin access via PIN-gated session
+  // Activated through ?mode=admin → PIN gate → sessionStorage flag
   window.__IS_ADMIN__=false;
   try{
-    const urlParams=new URLSearchParams(window.location.search);
-    if(urlParams.get('admin')===_ADMIN_KEY){
+    // Check if admin session is active (set after successful PIN entry)
+    if(sessionStorage.getItem('__salam_admin_session__')==='1'){
       window.__IS_ADMIN__=true;
       // Persist for this session so it survives tab switches
       try{sessionStorage.setItem('_slm_admin','1');}catch(e){}
@@ -16244,7 +16515,7 @@ setInterval(loadData,5*60*1000);
    © 2026 Eng. Abdulwahab M Alshammari · Salam Mobile Retail MT
    
    CONFIG:
-   - PIN: 6165 (hashed for safety)
+   - PIN: [SHA-256 hashed]
    - Work Hours: 9 AM - 11 PM
    - Suspicion Threshold: 60 points
    ════════════════════════════════════════════════════════════════ */
@@ -16254,8 +16525,7 @@ setInterval(loadData,5*60*1000);
   
   // ══════════ CONFIG ══════════
   const FORTRESS_CONFIG = {
-    PIN_HASH: 'a7f3c2b4',  // hash محلي لـ 6165 (simple obfuscation)
-    PIN_REAL: '6165',
+    PIN_HASH: '3b4bee7de5f1464e59301f5cab582e9ada969bb1964a64a8dfa392c071480337',  // SHA-256 (one-way, safe to expose)
     WORK_START: 9,   // 9 AM
     WORK_END: 23,    // 11 PM
     SUSPICION_THRESHOLD: 60,
@@ -16263,7 +16533,7 @@ setInterval(loadData,5*60*1000);
     MAX_PIN_ATTEMPTS: 3,
     LOCK_DURATION: 60 * 60 * 1000,  // 1 hour
     PANEL_IDLE_TIMEOUT: 10 * 60 * 1000,  // 10 min
-    VERSION: '19.11.1'
+    VERSION: '19.12.0'
   };
   
   // ══════════ STATE ══════════
@@ -16632,10 +16902,11 @@ setInterval(loadData,5*60*1000);
       });
     };
     
-    const checkPin = () => {
+    const checkPin = async () => {
       if (pin.length !== 4) return;
       
-      if (pin === FORTRESS_CONFIG.PIN_REAL) {
+      const enteredHash = await __sha256Fortress(pin);
+      if (enteredHash === FORTRESS_CONFIG.PIN_HASH) {
         // Success
         document.getElementById('fs-pin-msg').style.color = '#9FE1CB';
         document.getElementById('fs-pin-msg').textContent = '✓ دخول ناجح';
