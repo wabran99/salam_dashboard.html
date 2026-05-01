@@ -7,11 +7,12 @@
    Designed & Developed by: Eng. Abdulwahab M Alshammari
    Internal Use Only — © 2026 All Rights Reserved
    Unauthorized copying, modification, or redistribution prohibited.
-   Built: v19.8 · April 2026 · Build ID: WAB-2026-04-30-EMPLOYEES-LIST
+   Built: v19.9 · April 2026 · Build ID: WAB-2026-05-01-SECURITY-HARDENING
  ═══════════════════════════════════════════════════════════════════
 -->
 
 <!-- ═══ VERSION HISTORY ═══
+  v19.9     · 2026-05-01 · 🛡️ Security Hardening — Telegram Removed (Session 6.A)
   v19.8     · 2026-04-30 · 👥 Employees List + Daily Gap Calculator (Session 5.B)
   v19.7     · 2026-04-30 · 📦 Stage 4 Vault Opening — Sepia + Live Data (Session 5.A)
   v19.6     · 2026-04-30 · 🚁 Stage 3 Drone Flight — Cinematic time travel (Session 4)
@@ -8391,7 +8392,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">🕰️ آلة الزمن · الأرشيف الربعي</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🔒 v19.8 · Time Machine v1.7 + Gap Calculator</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🛡️ v19.9 · Hardened Security · Telegram Removed</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -16005,7 +16006,6 @@ setInterval(loadData,5*60*1000);
    
    CONFIG:
    - PIN: 6165 (hashed for safety)
-   - Telegram Bot: @Salam_sec_bot
    - Work Hours: 9 AM - 11 PM
    - Suspicion Threshold: 60 points
    ════════════════════════════════════════════════════════════════ */
@@ -16017,8 +16017,6 @@ setInterval(loadData,5*60*1000);
   const FORTRESS_CONFIG = {
     PIN_HASH: 'a7f3c2b4',  // hash محلي لـ 6165 (simple obfuscation)
     PIN_REAL: '6165',
-    TELEGRAM_BOT: '8294900462:AAFIZq_4PlvE6tC69Jy3I5XTQXzxbHrVjoY',
-    TELEGRAM_CHAT: '407207051',
     WORK_START: 9,   // 9 AM
     WORK_END: 23,    // 11 PM
     SUSPICION_THRESHOLD: 60,
@@ -16026,7 +16024,7 @@ setInterval(loadData,5*60*1000);
     MAX_PIN_ATTEMPTS: 3,
     LOCK_DURATION: 60 * 60 * 1000,  // 1 hour
     PANEL_IDLE_TIMEOUT: 10 * 60 * 1000,  // 10 min
-    VERSION: '16.9.9'
+    VERSION: '19.9.0'
   };
   
   // ══════════ STATE ══════════
@@ -16101,28 +16099,16 @@ setInterval(loadData,5*60*1000);
     }
     return 'fp_' + Math.abs(hash).toString(36);
   }
-  
-  // ══════════ TELEGRAM ALERTS ══════════
+  // ══════════ TELEGRAM ALERTS - DISABLED ══════════
+  // Telegram integration removed in v19.9 for security.
+  // To re-enable, integrate via Apps Script (server-side only).
   async function sendTelegramAlert(message, priority = 'info') {
-    const icons = { high: '🚨', medium: '⚠️', info: 'ℹ️', success: '✅' };
-    const fullMsg = `${icons[priority]} *Salam Dashboard Security*\n\n${message}\n\n━━━━━━━━━━━\n📍 ${new Date().toLocaleString('ar-SA', {timeZone: 'Asia/Riyadh'})}\n🖥️ ${FS.fingerprint}\n📊 Session: ${FS.sessionId}`;
-    
-    try {
-      const url = `https://api.telegram.org/bot${FORTRESS_CONFIG.TELEGRAM_BOT}/sendMessage`;
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: FORTRESS_CONFIG.TELEGRAM_CHAT,
-          text: fullMsg,
-          parse_mode: 'Markdown'
-        })
-      });
-      return response.ok;
-    } catch (e) {
-      console.debug('[FS] Alert send failed');
-      return false;
+    // No-op: Telegram bot has been disabled.
+    // Internal logging only:
+    if (typeof window !== 'undefined' && window.__SALAM_DEV__) {
+      console.debug('[Telegram disabled]', priority, message);
     }
+    return { ok: false, disabled: true };
   }
   
   // ══════════ SUSPICION SCORING ══════════
@@ -16650,7 +16636,7 @@ setInterval(loadData,5*60*1000);
         description: 'تسجيل + تنبيهات · بدون فخاخ أو حظر',
         features: {
           tracking: true,
-          telegram: true,
+          telegram: false,
           traps: false,
           autoBlock: false,
           stealth: false
@@ -16664,7 +16650,7 @@ setInterval(loadData,5*60*1000);
         description: 'كل الميزات + فخاخ · بدون حظر تلقائي',
         features: {
           tracking: true,
-          telegram: true,
+          telegram: false,
           traps: true,
           autoBlock: false,
           stealth: false
@@ -16678,7 +16664,7 @@ setInterval(loadData,5*60*1000);
         description: 'الحماية الكاملة · فخاخ + حظر تلقائي',
         features: {
           tracking: true,
-          telegram: true,
+          telegram: false,
           traps: true,
           autoBlock: true,
           stealth: true
@@ -16771,9 +16757,6 @@ setInterval(loadData,5*60*1000);
           <button id="fs-emergency-lockdown" style="flex:1;background:rgba(163,45,45,0.2);border:1px solid #A32D2D;color:#F7C1C1;padding:10px;border-radius:10px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:500">
             🚨 تفعيل Lockdown فوراً
           </button>
-          <button id="fs-test-telegram" style="flex:1;background:rgba(24,95,165,0.2);border:1px solid #378ADD;color:#B5D4F4;padding:10px;border-radius:10px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:500">
-            📱 اختبار تيليقرام
-          </button>
         </div>
       `;
       
@@ -16806,28 +16789,6 @@ setInterval(loadData,5*60*1000);
           changeMode('lockdown');
         }
       });
-      
-      document.getElementById('fs-test-telegram').addEventListener('click', async () => {
-        const btn = document.getElementById('fs-test-telegram');
-        btn.textContent = '⏳ جارٍ الإرسال...';
-        btn.disabled = true;
-        
-        if (window.Fortress && window.Fortress.sendAlert) {
-          const success = await window.Fortress.sendAlert(
-            `🧪 *اختبار الاتصال*\n\nالبوت يعمل بشكل ممتاز ✓\nالوضع الحالي: *${MODES[FMS.currentMode].nameAr}*\nالوقت: ${new Date().toLocaleTimeString('ar-SA')}`,
-            'success'
-          );
-          btn.textContent = success ? '✅ تم الإرسال' : '❌ فشل الإرسال';
-        } else {
-          btn.textContent = '❌ البوت غير متاح';
-        }
-        
-        setTimeout(() => {
-          btn.textContent = '📱 اختبار تيليقرام';
-          btn.disabled = false;
-        }, 3000);
-      });
-      
       // Update UI to reflect current mode
       updateModeUI();
     }
