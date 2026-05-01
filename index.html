@@ -7,11 +7,12 @@
    Designed & Developed by: Eng. Abdulwahab M Alshammari
    Internal Use Only — © 2026 All Rights Reserved
    Unauthorized copying, modification, or redistribution prohibited.
-   Built: v19.10.2 · April 2026 · Build ID: WAB-2026-05-01-SMART-MATCHING
+   Built: v19.10.3 · April 2026 · Build ID: WAB-2026-05-01-FLEXIBLE-MATCHING
  ═══════════════════════════════════════════════════════════════════
 -->
 
 <!-- ═══ VERSION HISTORY ═══
+  v19.10.3  · 2026-05-01 · 🎯 Flexible Matching — Handles short + full names (Session 7.D)
   v19.10.2  · 2026-05-01 · 🔍 Smart Supervisor Matching — Najwa/Najwah fix (Session 7.C)
   v19.10.1  · 2026-05-01 · 🔧 Gap Calculator FIX — Compensation logic, not prediction (Session 7.B)
   v19.10    · 2026-05-01 · 🎯 Gap Calculator on Main Dashboard — Q1 + April integrated (Session 7)
@@ -8569,7 +8570,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">🕰️ آلة الزمن · الأرشيف الربعي</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🎯 v19.10.2 · Smart Name Matching</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🎯 v19.10.3 · Flexible Matching (single + full names)</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -16220,7 +16221,7 @@ setInterval(loadData,5*60*1000);
     MAX_PIN_ATTEMPTS: 3,
     LOCK_DURATION: 60 * 60 * 1000,  // 1 hour
     PANEL_IDLE_TIMEOUT: 10 * 60 * 1000,  // 10 min
-    VERSION: '19.10.2'
+    VERSION: '19.10.3'
   };
   
   // ══════════ STATE ══════════
@@ -18173,17 +18174,35 @@ setInterval(loadData,5*60*1000);
   
   // Smart matching: handles "Najwa D AlOmari" === "Najwah AlOmari"
   function smartMatchSupervisor(dataName, jsonName) {
+    // Flexible matching that handles:
+    // - Single word: "Abdulwahab" matches "Abdulwahab AlShammari"
+    // - Full name: "Najwa D AlOmari" matches "Najwah AlOmari"
+    // - Case variations: "AlShammari" matches "Alshammari"
     if (!dataName || !jsonName) return false;
+    
     var dataParts = dataName.toLowerCase().trim().split(/\s+/);
     var jsonParts = jsonName.toLowerCase().trim().split(/\s+/);
+    
     if (dataParts.length === 0 || jsonParts.length === 0) return false;
-    var dataLast = dataParts[dataParts.length - 1];
-    var jsonLast = jsonParts[jsonParts.length - 1];
-    if (dataLast !== jsonLast) return false;
+    
+    // Skip 'all' or invalid names
+    if (dataParts[0] === 'all' || jsonParts[0] === 'all') return false;
+    
+    // First name MUST match (first 4 chars handle Najwa/Najwah variations)
     var dataFirst = dataParts[0];
     var jsonFirst = jsonParts[0];
     var minLen = Math.min(dataFirst.length, jsonFirst.length, 4);
-    return dataFirst.substring(0, minLen) === jsonFirst.substring(0, minLen);
+    var firstMatches = dataFirst.substring(0, minLen) === jsonFirst.substring(0, minLen);
+    
+    if (!firstMatches) return false;
+    
+    // If data is single word, first name match is sufficient
+    if (dataParts.length === 1) return true;
+    
+    // For multi-word data, also verify last name
+    var dataLast = dataParts[dataParts.length - 1];
+    var jsonLast = jsonParts[jsonParts.length - 1];
+    return dataLast === jsonLast;
   }
   
   const CONFIG = {
