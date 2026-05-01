@@ -7,11 +7,12 @@
    Designed & Developed by: Eng. Abdulwahab M Alshammari
    Internal Use Only — © 2026 All Rights Reserved
    Unauthorized copying, modification, or redistribution prohibited.
-   Built: v19.10.4 · April 2026 · Build ID: WAB-2026-05-01-UNIFIED-CARD
+   Built: v19.11 · April 2026 · Build ID: WAB-2026-05-01-EMPLOYEE-GAP-CARD
  ═══════════════════════════════════════════════════════════════════
 -->
 
 <!-- ═══ VERSION HISTORY ═══
+  v19.11    · 2026-05-01 · 👤 Personal Gap Card on Employee Profile (Session 8)
   v19.10.4  · 2026-05-01 · 🎨 Unified Card Layout — Same structure, dynamic numbers (Session 7.E)
   v19.10.3  · 2026-05-01 · 🎯 Flexible Matching — Handles short + full names (Session 7.D)
   v19.10.2  · 2026-05-01 · 🔍 Smart Supervisor Matching — Najwa/Najwah fix (Session 7.C)
@@ -8571,7 +8572,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">🕰️ آلة الزمن · الأرشيف الربعي</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🎯 v19.10.4 · Unified Card Layout</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🎯 v19.11 · Personal Gap Card on Employee Profile</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -10645,6 +10646,37 @@ function renderTabOverview(e){
       <div style="background:rgba(55,138,221,0.08);border:1px solid rgba(55,138,221,0.2);border-radius:10px;padding:12px;text-align:center">
         <div style="font-size:9px;color:#5878A8;text-transform:uppercase;font-weight:700;margin-bottom:5px">FTTH+5G</div>
         <div style="font-size:24px;font-weight:800;color:#88D0F8">${ftthEmp?ftthEmp.total:0}</div>
+      </div>
+    </div>
+    <!-- ═══════════════════════════════════════════════════════
+         🎯 PERSONAL GAP CARD (Added in v19.11)
+         Same logic as main dashboard, but for THIS employee only
+         ═══════════════════════════════════════════════════════ -->
+    <div id="empPersonalGap_${e.user}" style="background:linear-gradient(135deg,#0A1F14 0%,#0F2D1C 50%,#143F26 100%);border:1px solid rgba(61,214,140,0.35);border-radius:12px;padding:16px;margin-bottom:12px;position:relative;overflow:hidden">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#1A9E52,#3DD68C,#1A9E52)"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <div style="font-size:11px;font-weight:700;color:#3DD68C;text-transform:uppercase;letter-spacing:1px">🎯 موقفك السنوي (تعويض الماضي)</div>
+        <div style="font-size:9px;color:#5AB87A;opacity:0.85" class="emp-gap-greeting">جاري الحساب...</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px" class="emp-gap-grid">
+        <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(61,214,140,0.45);border-radius:10px;padding:10px;text-align:center">
+          <div style="font-size:8.5px;color:#8CC9A0;text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-bottom:4px">يومي للتعويض</div>
+          <div style="font-size:22px;font-weight:900;color:#3DD68C;letter-spacing:-0.5px;line-height:1" class="emp-gap-daily">—</div>
+          <div style="font-size:9px;color:#A8CCAE;margin-top:3px">عملية/يوم</div>
+        </div>
+        <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(61,214,140,0.15);border-radius:10px;padding:10px;text-align:center">
+          <div style="font-size:8.5px;color:#8CC9A0;text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-bottom:4px">YTD الإنجاز</div>
+          <div style="font-size:22px;font-weight:900;color:#fff;letter-spacing:-0.5px;line-height:1" class="emp-gap-pct">—</div>
+          <div style="font-size:9px;color:#A8CCAE;margin-top:3px" class="emp-gap-pct-sub">—</div>
+        </div>
+        <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(61,214,140,0.15);border-radius:10px;padding:10px;text-align:center">
+          <div style="font-size:8.5px;color:#8CC9A0;text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-bottom:4px">معدل شهري</div>
+          <div style="font-size:22px;font-weight:900;color:#fff;letter-spacing:-0.5px;line-height:1" class="emp-gap-monthly">—</div>
+          <div style="font-size:9px;color:#A8CCAE;margin-top:3px">عملية/شهر</div>
+        </div>
+      </div>
+      <div style="margin-top:10px;padding:8px 10px;background:rgba(61,214,140,0.08);border-radius:8px;border-left:2px solid #3DD68C;font-size:10.5px;color:#B8E8C8;line-height:1.5" class="emp-gap-message">
+        <span class="emp-gap-icon">⏳</span> جاري حساب فجوتك من الأرشيف...
       </div>
     </div>
     <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:14px;text-align:center;margin-bottom:12px">
@@ -16222,7 +16254,7 @@ setInterval(loadData,5*60*1000);
     MAX_PIN_ATTEMPTS: 3,
     LOCK_DURATION: 60 * 60 * 1000,  // 1 hour
     PANEL_IDLE_TIMEOUT: 10 * 60 * 1000,  // 10 min
-    VERSION: '19.10.4'
+    VERSION: '19.11.0'
   };
   
   // ══════════ STATE ══════════
@@ -17624,7 +17656,15 @@ setInterval(loadData,5*60*1000);
       '</div>' +
       '<div class="live-user-actions">' + actionBtn + '</div>' +
       '</div>';
-  }
+  
+  
+  // v19.11: Render personal gap card after main card builds
+  setTimeout(function() {
+    if (window.GapCalculator && window.GapCalculator.renderForEmployee && u && u.user) {
+      window.GapCalculator.renderForEmployee(u.user, 'empPersonalGap_' + u.user);
+    }
+  }, 100);
+}
 
   window.refreshLivePanel = async function() {
     const list = document.getElementById('live-users-list');
@@ -18442,9 +18482,165 @@ setInterval(loadData,5*60*1000);
     }
   }
   
+    // Calculate personal gap for an employee
+  async function calculateForEmployee(userName) {
+    const archives = await loadArchives();
+    
+    let ytdTarget = 0;
+    let ytdAchieved = 0;
+    let monthsCompleted = 0;
+    let monthlyData = {};
+    
+    // Q1 - find the employee
+    if (archives.q1 && archives.q1.employees) {
+      const emp = archives.q1.employees.find(function(e) {
+        return e.user === userName;
+      });
+      if (emp && emp.total) {
+        ytdTarget += emp.total.target || 0;
+        ytdAchieved += emp.total.achieved || 0;
+        if (emp.monthly) {
+          monthlyData.Jan = emp.monthly.Jan || null;
+          monthlyData.Feb = emp.monthly.Feb || null;
+          monthlyData.Mar = emp.monthly.Mar || null;
+        }
+      }
+      monthsCompleted += 3;
+    }
+    
+    // April - find the employee
+    if (archives.apr && archives.apr.employees) {
+      const emp = archives.apr.employees.find(function(e) {
+        return e.user === userName;
+      });
+      if (emp && emp.monthly && emp.monthly.Apr) {
+        ytdTarget += emp.monthly.Apr.target || 0;
+        ytdAchieved += emp.monthly.Apr.achieved || 0;
+        monthlyData.Apr = emp.monthly.Apr;
+      }
+      monthsCompleted += 1;
+    }
+    
+    const ytdGap = Math.max(0, ytdTarget - ytdAchieved);
+    const ytdPct = ytdTarget > 0 ? (ytdAchieved / ytdTarget * 100) : 0;
+    const monthsRemaining = Math.max(0, 12 - monthsCompleted);
+    const workingDaysRemaining = monthsRemaining * 26;
+    const dailyToCompensate = workingDaysRemaining > 0 ? (ytdGap / workingDaysRemaining) : 0;
+    const monthlyToCompensate = monthsRemaining > 0 ? (ytdGap / monthsRemaining) : 0;
+    
+    let status = 'good';
+    let statusEmoji = '✨';
+    let statusMessage = '';
+    
+    if (ytdTarget === 0) {
+      status = 'good';
+      statusEmoji = '🆕';
+      statusMessage = 'لا يوجد بيانات أرشيفية كافية. ربما موظف جديد.';
+    } else if (ytdPct >= 100) {
+      status = 'excellent';
+      statusEmoji = '🚀';
+      statusMessage = 'تجاوزت الهدف! ' + (ytdAchieved - ytdTarget) + ' عملية فوق المطلوب.';
+    } else if (ytdPct >= 90) {
+      status = 'excellent';
+      statusEmoji = '🎯';
+      statusMessage = 'أداء ممتاز، الفجوة صغيرة وقابلة للتعويض.';
+    } else if (ytdPct >= 75) {
+      status = 'good';
+      statusEmoji = '✨';
+      statusMessage = 'في الطريق الصحيح. الفجوة: ' + ytdGap.toLocaleString() + ' عملية.';
+    } else if (ytdPct >= 50) {
+      status = 'warning';
+      statusEmoji = '⚡';
+      statusMessage = 'بحاجة تركيز. الفجوة: ' + ytdGap.toLocaleString() + ' عملية للتعويض.';
+    } else {
+      status = 'critical';
+      statusEmoji = '🔥';
+      statusMessage = 'الفجوة كبيرة: ' + ytdGap.toLocaleString() + ' عملية. خطة تعويض مطلوبة.';
+    }
+    
+    return {
+      user: userName,
+      monthsCompleted: monthsCompleted,
+      monthsRemaining: monthsRemaining,
+      ytdTarget: ytdTarget,
+      ytdAchieved: ytdAchieved,
+      ytdPct: Math.round(ytdPct * 10) / 10,
+      ytdGap: ytdGap,
+      dailyToCompensate: Math.round(dailyToCompensate * 10) / 10,
+      monthlyToCompensate: Math.round(monthlyToCompensate),
+      workingDaysRemaining: workingDaysRemaining,
+      status: status,
+      statusEmoji: statusEmoji,
+      statusMessage: statusMessage,
+      hasData: ytdTarget > 0,
+      monthly: monthlyData,
+    };
+  }
+  
+  // Render personal gap into employee card (already in DOM)
+  async function renderForEmployee(userName, containerId) {
+    try {
+      const result = await calculateForEmployee(userName);
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      
+      const dailyEl = container.querySelector('.emp-gap-daily');
+      const pctEl = container.querySelector('.emp-gap-pct');
+      const pctSubEl = container.querySelector('.emp-gap-pct-sub');
+      const monthlyEl = container.querySelector('.emp-gap-monthly');
+      const greetingEl = container.querySelector('.emp-gap-greeting');
+      const messageEl = container.querySelector('.emp-gap-message');
+      const iconEl = container.querySelector('.emp-gap-icon');
+      
+      if (!result.hasData) {
+        if (greetingEl) greetingEl.textContent = 'موظف جديد';
+        if (dailyEl) { dailyEl.textContent = '—'; dailyEl.style.color = '#888'; }
+        if (pctEl) { pctEl.textContent = '—'; }
+        if (pctSubEl) { pctSubEl.textContent = 'لا يوجد أرشيف'; }
+        if (monthlyEl) { monthlyEl.textContent = '—'; }
+        if (messageEl) {
+          messageEl.innerHTML = '<span>🆕</span> ' + result.statusMessage;
+        }
+        return;
+      }
+      
+      // Status colors
+      const statusColors = {
+        excellent: '#3DD68C',
+        good: '#7DE8A8',
+        warning: '#F6C94E',
+        critical: '#F08888'
+      };
+      const color = statusColors[result.status] || '#fff';
+      
+      if (greetingEl) greetingEl.textContent = result.monthsCompleted + ' أشهر مكتملة';
+      if (dailyEl) {
+        dailyEl.textContent = result.dailyToCompensate.toFixed(1);
+        dailyEl.style.color = color;
+      }
+      if (pctEl) {
+        pctEl.textContent = result.ytdPct + '%';
+        pctEl.style.color = color;
+      }
+      if (pctSubEl) {
+        pctSubEl.innerHTML = '<b>' + result.ytdAchieved.toLocaleString() + '</b> من ' + result.ytdTarget.toLocaleString();
+      }
+      if (monthlyEl) {
+        monthlyEl.textContent = result.monthlyToCompensate.toLocaleString();
+      }
+      if (messageEl) {
+        messageEl.innerHTML = '<span>' + result.statusEmoji + '</span> ' + result.statusMessage;
+      }
+    } catch (e) {
+      // Silent fail
+    }
+  }
+  
   window.GapCalculator = {
     calculate: calculate,
     render: render,
+    calculateForEmployee: calculateForEmployee,
+    renderForEmployee: renderForEmployee,
     loadArchives: loadArchives,
     _config: CONFIG,
   };
