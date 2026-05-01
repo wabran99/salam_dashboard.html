@@ -7,11 +7,12 @@
    Designed & Developed by: Eng. Abdulwahab M Alshammari
    Internal Use Only — © 2026 All Rights Reserved
    Unauthorized copying, modification, or redistribution prohibited.
-   Built: v19.9.1 · April 2026 · Build ID: WAB-2026-05-01-CSP-XFRAME-CONSOLE
+   Built: v19.9.2 · April 2026 · Build ID: WAB-2026-05-01-APPS-SCRIPT-RECONNECT
  ═══════════════════════════════════════════════════════════════════
 -->
 
 <!-- ═══ VERSION HISTORY ═══
+  v19.9.2   · 2026-05-01 · 🔌 Apps Script Reconnected — New Deployment URL (Session 6.C)
   v19.9.1   · 2026-05-01 · 🛡️ Full Security — CSP + X-Frame + Console Disabled (Session 6.B)
   v19.9     · 2026-05-01 · 🛡️ Security Hardening — Telegram Removed (Session 6.A)
   v19.8     · 2026-04-30 · 👥 Employees List + Daily Gap Calculator (Session 5.B)
@@ -8475,7 +8476,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">🕰️ آلة الزمن · الأرشيف الربعي</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🛡️ v19.9.1 · Hardened Security · CSP + Anti-Clickjack</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🛡️ v19.9.2 · Hardened Security · Apps Script Reconnected</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -8824,7 +8825,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   },500);
   // — Visitor tracking: log every session to Google Apps Script —
   // [CONFIG] Endpoint configured — logs every visitor to private Sheet
-  const VISITOR_LOG_URL='https://script.google.com/macros/s/AKfycbw4z6utqCyZdhxkvQao4NHKed2SBTJmqRVdpgjbwbMENMhrwc6AHbYVhl6Rezir7Blu/exec';
+  const VISITOR_LOG_URL='https://script.google.com/macros/s/AKfycbzPBbGf80DmkUiIf3Wd-2m0KHwJW3tUfE8olZ0_87tFCAzDQ5KiNIMxIOOruidZ4uqd/exec';
   // v16.9.7: Admin access — secret URL param unlocks Security Tab
   // Format: ?admin=WAB2026 (case-sensitive)
   const _ADMIN_KEY='WAB2026';
@@ -16107,7 +16108,7 @@ setInterval(loadData,5*60*1000);
     MAX_PIN_ATTEMPTS: 3,
     LOCK_DURATION: 60 * 60 * 1000,  // 1 hour
     PANEL_IDLE_TIMEOUT: 10 * 60 * 1000,  // 10 min
-    VERSION: '19.9.1'
+    VERSION: '19.9.2'
   };
   
   // ══════════ STATE ══════════
@@ -17026,7 +17027,7 @@ setInterval(loadData,5*60*1000);
   'use strict';
 
   const TRACKER_CONFIG = {
-    WEBHOOK_URL: 'https://script.google.com/macros/s/AKfycbw4z6utqCyZdhxkvQao4NHKed2SBTJmqRVdpgjbwbMENMhrwc6AHbYVhl6Rezir7Blu/exec',
+    WEBHOOK_URL: 'https://script.google.com/macros/s/AKfycbzPBbGf80DmkUiIf3Wd-2m0KHwJW3tUfE8olZ0_87tFCAzDQ5KiNIMxIOOruidZ4uqd/exec',
     HEARTBEAT_INTERVAL: 30 * 1000,
     IDLE_THRESHOLD: 60 * 1000,
     MIN_EVENT_GAP: 500,
@@ -17425,7 +17426,7 @@ setInterval(loadData,5*60*1000);
   </div>
 </div>`;
 
-  const WEBHOOK = 'https://script.google.com/macros/s/AKfycbw4z6utqCyZdhxkvQao4NHKed2SBTJmqRVdpgjbwbMENMhrwc6AHbYVhl6Rezir7Blu/exec';
+  const WEBHOOK = 'https://script.google.com/macros/s/AKfycbzPBbGf80DmkUiIf3Wd-2m0KHwJW3tUfE8olZ0_87tFCAzDQ5KiNIMxIOOruidZ4uqd/exec';
   let livePanelTimer = null;
   let currentMapFp = null;
   let modalInjected = false;
