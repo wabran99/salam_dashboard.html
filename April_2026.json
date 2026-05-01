@@ -1,0 +1,3575 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "period": "2026-04",
+    "period_ar": "أبريل 2026",
+    "period_en": "April 2026",
+    "generated_at": "2026-05-01T17:50:32.973166",
+    "generated_by": "wabran99 + Hervé",
+    "source_targets": "Eqla April Performance Report",
+    "source_achievements": "Metabase Total Export (April 2026)",
+    "eqla_official_target": 3140,
+    "note": "Final April archive. Combines Eqla targets/sales with Metabase detailed breakdown.",
+    "employee_count": 69,
+    "supervisor_count": 4
+  },
+  "summary": {
+    "period": "Apr 2026",
+    "period_ar": "أبريل 2026",
+    "employees_target_sum": 2964,
+    "eqla_official_target": 3140,
+    "achieved": 2873,
+    "pct": 96.93,
+    "gap": 91,
+    "status": "on_track",
+    "days_in_month": 30,
+    "daily_average": 95.77,
+    "top_performer": {
+      "user": "mtl_010384",
+      "name": "Asayil almasrahi",
+      "achieved": 285,
+      "target": 50,
+      "pct": 570.0
+    },
+    "employees_total": 69,
+    "employees_achieved": 20,
+    "employees_critical": 14
+  },
+  "monthly_breakdown": {
+    "Apr": {
+      "target": 2964,
+      "achieved": 2873,
+      "pct": 96.93,
+      "gap": 91,
+      "top_performer": "mtl_010384"
+    }
+  },
+  "supervisors": [
+    {
+      "name_en": "Ahmed AlMutairi",
+      "name_ar": "أحمد المطيري",
+      "manager_full": "Ahmed AlMutairi",
+      "employees_count": 13,
+      "monthly": {
+        "Apr": {
+          "target": 559,
+          "achieved": 935,
+          "pct": 167.26,
+          "gap": -376
+        }
+      },
+      "top_performer": {
+        "user": "mtl_010384",
+        "name": "Asayil almasrahi",
+        "pct": 570.0,
+        "achieved": 285,
+        "target": 50
+      }
+    },
+    {
+      "name_en": "Mohammed AlShehri",
+      "name_ar": "محمد الشهري",
+      "manager_full": "Mohammed AlShehri",
+      "employees_count": 17,
+      "monthly": {
+        "Apr": {
+          "target": 720,
+          "achieved": 679,
+          "pct": 94.31,
+          "gap": 41
+        }
+      },
+      "top_performer": {
+        "user": "mtl_010366",
+        "name": "Abdullah Al Shehri",
+        "pct": 175.0,
+        "achieved": 70,
+        "target": 40
+      }
+    },
+    {
+      "name_en": "Najwah AlOmari",
+      "name_ar": "نجوى العمري",
+      "manager_full": "Najwa D AlOmari",
+      "employees_count": 5,
+      "monthly": {
+        "Apr": {
+          "target": 220,
+          "achieved": 180,
+          "pct": 81.82,
+          "gap": 40
+        }
+      },
+      "top_performer": {
+        "user": "mtl_010599",
+        "name": "Basel AlHarbi",
+        "pct": 140.0,
+        "achieved": 42,
+        "target": 30
+      }
+    },
+    {
+      "name_en": "Abdulwahab Alshammari",
+      "name_ar": "عبدالوهاب الشمري",
+      "manager_full": "Abdulwahab M AlShammari",
+      "employees_count": 34,
+      "monthly": {
+        "Apr": {
+          "target": 1465,
+          "achieved": 1079,
+          "pct": 73.65,
+          "gap": 386
+        }
+      },
+      "top_performer": {
+        "user": "rtl_006042",
+        "name": "Amin Aali A AlSahafi",
+        "pct": 128.85,
+        "achieved": 67,
+        "target": 52
+      }
+    }
+  ],
+  "employees": [
+    {
+      "user": "mtl_010384",
+      "name": "Asayil almasrahi",
+      "manager_en": "Ahmed AlMutairi",
+      "manager_ar": "أحمد المطيري",
+      "supervisor_en": "Ahmed AlMutairi",
+      "branch": "Panda Al Nassem RYD",
+      "shop_code": "MPC018",
+      "operating_company": "Chessboard",
+      "source_type": "Roster",
+      "rank": 1,
+      "monthly": {
+        "Apr": {
+          "target": 50,
+          "achieved": 285,
+          "pct": 570.0,
+          "gap": -235,
+          "status": "achieved"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 26,
+          "prep": 233,
+          "total": 285
+        },
+        "metabase": {
+          "prepaid": 233,
+          "postpaid": 26,
+          "sim_activation": 228,
+          "mnp": 57,
+          "total": 285
+        },
+        "plans": {
+          "solo": 237,
+          "flex": 22,
+          "mbb": 11,
+          "visitor": 11
+        }
+      },
+      "activity": {
+        "active_days": 29,
+        "first_sale": "2026-04-01",
+        "last_sale": "2026-04-30",
+        "daily_avg": 9.5
+      }
+    },
+    {
+      "user": "mtl_010520",
+      "name": "Weam Nasser",
+      "manager_en": "Ahmed AlMutairi",
+      "manager_ar": "أحمد المطيري",
+      "supervisor_en": "Ahmed AlMutairi",
+      "branch": "Panda Al Nassem RYD",
+      "shop_code": "MPC018",
+      "operating_company": "Chessboard",
+      "source_type": "Inactive",
+      "rank": 2,
+      "monthly": {
+        "Apr": {
+          "target": 50,
+          "achieved": 240,
+          "pct": 480.0,
+          "gap": -190,
+          "status": "achieved"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 13,
+          "prep": 200,
+          "total": 240
+        },
+        "metabase": {
+          "prepaid": 200,
+          "postpaid": 13,
+          "sim_activation": 197,
+          "mnp": 43,
+          "total": 240
+        },
+        "plans": {
+          "solo": 179,
+          "flex": 38,
+          "mbb": 6,
+          "visitor": 6
+        }
+      },
+      "activity": {
+        "active_days": 28,
+        "first_sale": "2026-04-01",
+        "last_sale": "2026-04-30",
+        "daily_avg": 8.0
+      }
+    },
+    {
+      "user": "mtl_010366",
+      "name": "Abdullah Al Shehri",
+      "manager_en": "Mohammed AlShehri",
+      "manager_ar": "محمد الشهري",
+      "supervisor_en": "Mohammed AlShehri",
+      "branch": "LuLu Atyaf Mall RYD",
+      "shop_code": "MLC006",
+      "operating_company": "MINA",
+      "source_type": "Roster",
+      "rank": 13,
+      "monthly": {
+        "Apr": {
+          "target": 40,
+          "achieved": 70,
+          "pct": 175.0,
+          "gap": -30,
+          "status": "achieved"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 3,
+          "prep": 67,
+          "total": 70
+        },
+        "metabase": {
+          "prepaid": 0,
+          "postpaid": 0,
+          "sim_activation": 0,
+          "mnp": 0,
+          "total": 0
+        },
+        "plans": {
+          "solo": 0,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 0,
+        "first_sale": null,
+        "last_sale": null,
+        "daily_avg": 2.33
+      }
+    },
+    {
+      "user": "rtl_008203",
+      "name": "Mohammed Alshehri",
+      "manager_en": "Ahmed AlMutairi",
+      "manager_ar": "أحمد المطيري",
+      "supervisor_en": "Ahmed AlMutairi",
+      "branch": "Nahda FBO RYD",
+      "shop_code": "RKC013",
+      "operating_company": "Southwind",
+      "source_type": "Roster",
+      "rank": 12,
+      "monthly": {
+        "Apr": {
+          "target": 48,
+          "achieved": 82,
+          "pct": 170.83,
+          "gap": -34,
+          "status": "achieved"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 6,
+          "prep": 76,
+          "total": 82
+        },
+        "metabase": {
+          "prepaid": 76,
+          "postpaid": 6,
+          "sim_activation": 65,
+          "mnp": 17,
+          "total": 82
+        },
+        "plans": {
+          "solo": 79,
+          "flex": 1,
+          "mbb": 0,
+          "visitor": 1
+        }
+      },
+      "activity": {
+        "active_days": 21,
+        "first_sale": "2026-04-01",
+        "last_sale": "2026-04-30",
+        "daily_avg": 2.73
+      }
+    },
+    {
+      "user": "mtl_010599",
+      "name": "Basel AlHarbi",
+      "manager_en": "Najwa D AlOmari",
+      "manager_ar": "نجوى العمري",
+      "supervisor_en": "Najwah AlOmari",
+      "branch": "Nesto Buraidah",
+      "shop_code": "MNC013",
+      "operating_company": "Chessboard",
+      "source_type": "Auto-Mapped",
+      "rank": 32,
+      "monthly": {
+        "Apr": {
+          "target": 30,
+          "achieved": 42,
+          "pct": 140.0,
+          "gap": -12,
+          "status": "achieved"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 7,
+          "prep": 34,
+          "total": 42
+        },
+        "metabase": {
+          "prepaid": 13,
+          "postpaid": 2,
+          "sim_activation": 12,
+          "mnp": 3,
+          "total": 15
+        },
+        "plans": {
+          "solo": 14,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 7,
+        "first_sale": "2026-04-03",
+        "last_sale": "2026-04-13",
+        "daily_avg": 1.4
+      }
+    },
+    {
+      "user": "mtl_010591",
+      "name": "Farah Alsalmi",
+      "manager_en": "Ahmed AlMutairi",
+      "manager_ar": "أحمد المطيري",
+      "supervisor_en": "Ahmed AlMutairi",
+      "branch": "Panda Al Nassem RYD",
+      "shop_code": "MPC018",
+      "operating_company": "Chessboard",
+      "source_type": "Roster",
+      "rank": 64,
+      "monthly": {
+        "Apr": {
+          "target": 45,
+          "achieved": 62,
+          "pct": 137.78,
+          "gap": -17,
+          "status": "achieved"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 8,
+          "prep": 51,
+          "total": 62
+        },
+        "metabase": {
+          "prepaid": 51,
+          "postpaid": 8,
+          "sim_activation": 52,
+          "mnp": 10,
+          "total": 62
+        },
+        "plans": {
+          "solo": 57,
+          "flex": 2,
+          "mbb": 0,
+          "visitor": 2
+        }
+      },
+      "activity": {
+        "active_days": 17,
+        "first_sale": "2026-04-01",
+        "last_sale": "2026-04-26",
+        "daily_avg": 2.07
+      }
+    },
+    {
+      "user": "mtl_010487",
+      "name": "Fahad alotaibi",
+      "manager_en": "Mohammed AlShehri",
+      "manager_ar": "محمد الشهري",
+      "supervisor_en": "Mohammed AlShehri",
+      "branch": "LuLu Atyaf Mall RYD",
+      "shop_code": "MLC006",
+      "operating_company": "MINA",
+      "source_type": "Roster",
+      "rank": 5,
+      "monthly": {
+        "Apr": {
+          "target": 40,
+          "achieved": 55,
+          "pct": 137.5,
+          "gap": -15,
+          "status": "achieved"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 0,
+          "prep": 55,
+          "total": 55
+        },
+        "metabase": {
+          "prepaid": 0,
+          "postpaid": 0,
+          "sim_activation": 0,
+          "mnp": 0,
+          "total": 0
+        },
+        "plans": {
+          "solo": 0,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 0,
+        "first_sale": null,
+        "last_sale": null,
+        "daily_avg": 1.83
+      }
+    },
+    {
+      "user": "rtl_006042",
+      "name": "Amin Aali A AlSahafi",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Tabuk FBO",
+      "shop_code": "RBN011",
+      "operating_company": "Salam",
+      "source_type": "Roster",
+      "rank": 7,
+      "monthly": {
+        "Apr": {
+          "target": 52,
+          "achieved": 67,
+          "pct": 128.85,
+          "gap": -15,
+          "status": "achieved"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 15,
+          "prep": 52,
+          "total": 67
+        },
+        "metabase": {
+          "prepaid": 52,
+          "postpaid": 15,
+          "sim_activation": 41,
+          "mnp": 26,
+          "total": 67
+        },
+        "plans": {
+          "solo": 58,
+          "flex": 1,
+          "mbb": 1,
+          "visitor": 2
+        }
+      },
+      "activity": {
+        "active_days": 21,
+        "first_sale": "2026-04-01",
+        "last_sale": "2026-04-30",
+        "daily_avg": 2.23
+      }
+    },
+    {
+      "user": "mtl_010558",
+      "name": "Abdullah Hamad Al-Ghanayem",
+      "manager_en": "Najwa D AlOmari",
+      "manager_ar": "نجوى العمري",
+      "supervisor_en": "Najwah AlOmari",
+      "branch": "Lulu Onayzah",
+      "shop_code": "MLC010",
+      "operating_company": "MINA",
+      "source_type": "Roster",
+      "rank": 25,
+      "monthly": {
+        "Apr": {
+          "target": 50,
+          "achieved": 62,
+          "pct": 124.0,
+          "gap": -12,
+          "status": "achieved"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 1,
+          "prep": 60,
+          "total": 62
+        },
+        "metabase": {
+          "prepaid": 0,
+          "postpaid": 0,
+          "sim_activation": 0,
+          "mnp": 0,
+          "total": 0
+        },
+        "plans": {
+          "solo": 0,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 0,
+        "first_sale": null,
+        "last_sale": null,
+        "daily_avg": 2.07
+      }
+    },
+    {
+      "user": "rtl_008074",
+      "name": "Masad Falah S AlAnazi",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Tabuk FBO",
+      "shop_code": "RBN011",
+      "operating_company": "Salam",
+      "source_type": "Roster",
+      "rank": 10,
+      "monthly": {
+        "Apr": {
+          "target": 52,
+          "achieved": 64,
+          "pct": 123.08,
+          "gap": -12,
+          "status": "achieved"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 15,
+          "prep": 49,
+          "total": 64
+        },
+        "metabase": {
+          "prepaid": 49,
+          "postpaid": 15,
+          "sim_activation": 44,
+          "mnp": 20,
+          "total": 64
+        },
+        "plans": {
+          "solo": 56,
+          "flex": 4,
+          "mbb": 3,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 18,
+        "first_sale": "2026-04-01",
+        "last_sale": "2026-04-27",
+        "daily_avg": 2.13
+      }
+    },
+    {
+      "user": "mtl_010196",
+      "name": "Yazi Al-Anazi",
+      "manager_en": "Ahmed AlMutairi",
+      "manager_ar": "أحمد المطيري",
+      "supervisor_en": "Ahmed AlMutairi",
+      "branch": "Panda AL NATHEEM RYD",
+      "shop_code": "MPC012",
+      "operating_company": "MINA",
+      "source_type": "Roster",
+      "rank": 28,
+      "monthly": {
+        "Apr": {
+          "target": 40,
+          "achieved": 49,
+          "pct": 122.5,
+          "gap": -9,
+          "status": "achieved"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 5,
+          "prep": 44,
+          "total": 49
+        },
+        "metabase": {
+          "prepaid": 0,
+          "postpaid": 0,
+          "sim_activation": 0,
+          "mnp": 0,
+          "total": 0
+        },
+        "plans": {
+          "solo": 0,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 0,
+        "first_sale": null,
+        "last_sale": null,
+        "daily_avg": 1.63
+      }
+    },
+    {
+      "user": "mtl_010374",
+      "name": "Abdullah Al Shehri",
+      "manager_en": "Mohammed AlShehri",
+      "manager_ar": "محمد الشهري",
+      "supervisor_en": "Mohammed AlShehri",
+      "branch": "LuLu The Roof Al Yasmin",
+      "shop_code": "MLC007",
+      "operating_company": "MINA",
+      "source_type": "Roster",
+      "rank": 8,
+      "monthly": {
+        "Apr": {
+          "target": 80,
+          "achieved": 92,
+          "pct": 115.0,
+          "gap": -12,
+          "status": "achieved"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 2,
+          "prep": 86,
+          "total": 92
+        },
+        "metabase": {
+          "prepaid": 0,
+          "postpaid": 0,
+          "sim_activation": 0,
+          "mnp": 0,
+          "total": 0
+        },
+        "plans": {
+          "solo": 0,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 0,
+        "first_sale": null,
+        "last_sale": null,
+        "daily_avg": 3.07
+      }
+    },
+    {
+      "user": "mtl_010590",
+      "name": "Rola Almotiri",
+      "manager_en": "Ahmed AlMutairi",
+      "manager_ar": "أحمد المطيري",
+      "supervisor_en": "Ahmed AlMutairi",
+      "branch": "Lulu Khurais Exit thirty RYD",
+      "shop_code": "MLC011",
+      "operating_company": "Chessboard",
+      "source_type": "Auto-Mapped",
+      "rank": 31,
+      "monthly": {
+        "Apr": {
+          "target": 50,
+          "achieved": 57,
+          "pct": 114.0,
+          "gap": -7,
+          "status": "achieved"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 2,
+          "prep": 54,
+          "total": 57
+        },
+        "metabase": {
+          "prepaid": 54,
+          "postpaid": 2,
+          "sim_activation": 41,
+          "mnp": 16,
+          "total": 57
+        },
+        "plans": {
+          "solo": 51,
+          "flex": 2,
+          "mbb": 2,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 17,
+        "first_sale": "2026-04-01",
+        "last_sale": "2026-04-23",
+        "daily_avg": 1.9
+      }
+    },
+    {
+      "user": "rtl_008141",
+      "name": "Fatimah Ahmed AlMashikhi",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Tabuk FBO",
+      "shop_code": "RBN011",
+      "operating_company": "Salam",
+      "source_type": "Roster",
+      "rank": 26,
+      "monthly": {
+        "Apr": {
+          "target": 52,
+          "achieved": 58,
+          "pct": 111.54,
+          "gap": -6,
+          "status": "achieved"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 9,
+          "prep": 49,
+          "total": 58
+        },
+        "metabase": {
+          "prepaid": 49,
+          "postpaid": 9,
+          "sim_activation": 43,
+          "mnp": 15,
+          "total": 58
+        },
+        "plans": {
+          "solo": 50,
+          "flex": 2,
+          "mbb": 2,
+          "visitor": 2
+        }
+      },
+      "activity": {
+        "active_days": 19,
+        "first_sale": "2026-04-01",
+        "last_sale": "2026-04-30",
+        "daily_avg": 1.93
+      }
+    },
+    {
+      "user": "rtl_008147",
+      "name": "Marwan Al Amri",
+      "manager_en": "Mohammed AlShehri",
+      "manager_ar": "محمد الشهري",
+      "supervisor_en": "Mohammed AlShehri",
+      "branch": "Kiosk Riyadh Gallery Mall",
+      "shop_code": "RKC011",
+      "operating_company": "Southwind",
+      "source_type": "Auto-Mapped",
+      "rank": 23,
+      "monthly": {
+        "Apr": {
+          "target": 66,
+          "achieved": 71,
+          "pct": 107.58,
+          "gap": -5,
+          "status": "achieved"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 9,
+          "prep": 60,
+          "total": 71
+        },
+        "metabase": {
+          "prepaid": 60,
+          "postpaid": 9,
+          "sim_activation": 55,
+          "mnp": 16,
+          "total": 71
+        },
+        "plans": {
+          "solo": 66,
+          "flex": 0,
+          "mbb": 5,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 22,
+        "first_sale": "2026-04-05",
+        "last_sale": "2026-04-30",
+        "daily_avg": 2.37
+      }
+    },
+    {
+      "user": "rtl_004032",
+      "name": "Nawaf A Almutairi",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Unaiza FBO",
+      "shop_code": "RBC008",
+      "operating_company": "Salam",
+      "source_type": "Roster",
+      "rank": 15,
+      "monthly": {
+        "Apr": {
+          "target": 52,
+          "achieved": 55,
+          "pct": 105.77,
+          "gap": -3,
+          "status": "achieved"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 11,
+          "prep": 43,
+          "total": 55
+        },
+        "metabase": {
+          "prepaid": 43,
+          "postpaid": 11,
+          "sim_activation": 47,
+          "mnp": 8,
+          "total": 55
+        },
+        "plans": {
+          "solo": 46,
+          "flex": 1,
+          "mbb": 6,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 17,
+        "first_sale": "2026-04-01",
+        "last_sale": "2026-04-30",
+        "daily_avg": 1.83
+      }
+    },
+    {
+      "user": "rtl_008134",
+      "name": "Nawaf A Alsharari",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Sakaka FBO",
+      "shop_code": "RBN009",
+      "operating_company": "Salam",
+      "source_type": "Roster",
+      "rank": 14,
+      "monthly": {
+        "Apr": {
+          "target": 40,
+          "achieved": 42,
+          "pct": 105.0,
+          "gap": -2,
+          "status": "achieved"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 13,
+          "prep": 25,
+          "total": 42
+        },
+        "metabase": {
+          "prepaid": 25,
+          "postpaid": 13,
+          "sim_activation": 27,
+          "mnp": 15,
+          "total": 42
+        },
+        "plans": {
+          "solo": 38,
+          "flex": 2,
+          "mbb": 1,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 20,
+        "first_sale": "2026-04-01",
+        "last_sale": "2026-04-30",
+        "daily_avg": 1.4
+      }
+    },
+    {
+      "user": "mtl_010369",
+      "name": "Khalid Alqahtani",
+      "manager_en": "Mohammed AlShehri",
+      "manager_ar": "محمد الشهري",
+      "supervisor_en": "Mohammed AlShehri",
+      "branch": "Panda ABU BAKKAR ALMASIF",
+      "shop_code": "MPC014",
+      "operating_company": "MINA",
+      "source_type": "Auto-Mapped",
+      "rank": 11,
+      "monthly": {
+        "Apr": {
+          "target": 40,
+          "achieved": 42,
+          "pct": 105.0,
+          "gap": -2,
+          "status": "achieved"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 2,
+          "prep": 40,
+          "total": 42
+        },
+        "metabase": {
+          "prepaid": 0,
+          "postpaid": 0,
+          "sim_activation": 0,
+          "mnp": 0,
+          "total": 0
+        },
+        "plans": {
+          "solo": 0,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 0,
+        "first_sale": null,
+        "last_sale": null,
+        "daily_avg": 1.4
+      }
+    },
+    {
+      "user": "mtl_010452",
+      "name": "Ali Al-Zahrani",
+      "manager_en": "Ahmed AlMutairi",
+      "manager_ar": "أحمد المطيري",
+      "supervisor_en": "Ahmed AlMutairi",
+      "branch": "Panda Alshiekh Jaber RYD",
+      "shop_code": "MPC017",
+      "operating_company": "MINA",
+      "source_type": "Roster",
+      "rank": 21,
+      "monthly": {
+        "Apr": {
+          "target": 50,
+          "achieved": 50,
+          "pct": 100.0,
+          "gap": 0,
+          "status": "achieved"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 0,
+          "prep": 50,
+          "total": 50
+        },
+        "metabase": {
+          "prepaid": 0,
+          "postpaid": 0,
+          "sim_activation": 0,
+          "mnp": 0,
+          "total": 0
+        },
+        "plans": {
+          "solo": 0,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 0,
+        "first_sale": null,
+        "last_sale": null,
+        "daily_avg": 1.67
+      }
+    },
+    {
+      "user": "rtl_008204",
+      "name": "Khalid AlHarbi",
+      "manager_en": "Ahmed AlMutairi",
+      "manager_ar": "أحمد المطيري",
+      "supervisor_en": "Ahmed AlMutairi",
+      "branch": "Nahda FBO RYD",
+      "shop_code": "RKC013",
+      "operating_company": "Southwind",
+      "source_type": "Roster",
+      "rank": 20,
+      "monthly": {
+        "Apr": {
+          "target": 48,
+          "achieved": 48,
+          "pct": 100.0,
+          "gap": 0,
+          "status": "achieved"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 4,
+          "prep": 44,
+          "total": 48
+        },
+        "metabase": {
+          "prepaid": 44,
+          "postpaid": 4,
+          "sim_activation": 27,
+          "mnp": 21,
+          "total": 48
+        },
+        "plans": {
+          "solo": 47,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 20,
+        "first_sale": "2026-04-01",
+        "last_sale": "2026-04-28",
+        "daily_avg": 1.6
+      }
+    },
+    {
+      "user": "mtl_010463",
+      "name": "Al-Hum Al-Anazi",
+      "manager_en": "Mohammed AlShehri",
+      "manager_ar": "محمد الشهري",
+      "supervisor_en": "Mohammed AlShehri",
+      "branch": "AlHamra",
+      "shop_code": "MPC093",
+      "operating_company": "MINA",
+      "source_type": "Roster",
+      "rank": 9,
+      "monthly": {
+        "Apr": {
+          "target": 50,
+          "achieved": 49,
+          "pct": 98.0,
+          "gap": 1,
+          "status": "on_track"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 0,
+          "prep": 49,
+          "total": 49
+        },
+        "metabase": {
+          "prepaid": 0,
+          "postpaid": 0,
+          "sim_activation": 0,
+          "mnp": 0,
+          "total": 0
+        },
+        "plans": {
+          "solo": 0,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 0,
+        "first_sale": null,
+        "last_sale": null,
+        "daily_avg": 1.63
+      }
+    },
+    {
+      "user": "mtl_010600",
+      "name": "Azzam Shaqran AlHalfi",
+      "manager_en": "Najwa D AlOmari",
+      "manager_ar": "نجوى العمري",
+      "supervisor_en": "Najwah AlOmari",
+      "branch": "Panda Onaiza",
+      "shop_code": "MPC015",
+      "operating_company": "MINA",
+      "source_type": "Auto-Mapped",
+      "rank": 18,
+      "monthly": {
+        "Apr": {
+          "target": 50,
+          "achieved": 49,
+          "pct": 98.0,
+          "gap": 1,
+          "status": "on_track"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 4,
+          "prep": 44,
+          "total": 49
+        },
+        "metabase": {
+          "prepaid": 0,
+          "postpaid": 0,
+          "sim_activation": 0,
+          "mnp": 0,
+          "total": 0
+        },
+        "plans": {
+          "solo": 0,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 0,
+        "first_sale": null,
+        "last_sale": null,
+        "daily_avg": 1.63
+      }
+    },
+    {
+      "user": "rtl_008248",
+      "name": "Meshal Alhamad",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Khurais FBO",
+      "shop_code": "RBC007",
+      "operating_company": "Salam",
+      "source_type": "Roster",
+      "rank": 3,
+      "monthly": {
+        "Apr": {
+          "target": 130,
+          "achieved": 127,
+          "pct": 97.69,
+          "gap": 3,
+          "status": "on_track"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 19,
+          "prep": 108,
+          "total": 127
+        },
+        "metabase": {
+          "prepaid": 108,
+          "postpaid": 19,
+          "sim_activation": 101,
+          "mnp": 26,
+          "total": 127
+        },
+        "plans": {
+          "solo": 112,
+          "flex": 2,
+          "mbb": 2,
+          "visitor": 1
+        }
+      },
+      "activity": {
+        "active_days": 22,
+        "first_sale": "2026-04-01",
+        "last_sale": "2026-04-29",
+        "daily_avg": 4.23
+      }
+    },
+    {
+      "user": "rtl_008245",
+      "name": "Renad Alzahrani",
+      "manager_en": "Mohammed AlShehri",
+      "manager_ar": "محمد الشهري",
+      "supervisor_en": "Mohammed AlShehri",
+      "branch": "Kiosk Riyadh Gallery Mall",
+      "shop_code": "RKC011",
+      "operating_company": "Southwind",
+      "source_type": "Auto-Mapped",
+      "rank": 16,
+      "monthly": {
+        "Apr": {
+          "target": 67,
+          "achieved": 62,
+          "pct": 92.54,
+          "gap": 5,
+          "status": "on_track"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 7,
+          "prep": 55,
+          "total": 62
+        },
+        "metabase": {
+          "prepaid": 55,
+          "postpaid": 7,
+          "sim_activation": 53,
+          "mnp": 9,
+          "total": 62
+        },
+        "plans": {
+          "solo": 53,
+          "flex": 3,
+          "mbb": 2,
+          "visitor": 2
+        }
+      },
+      "activity": {
+        "active_days": 23,
+        "first_sale": "2026-04-01",
+        "last_sale": "2026-04-30",
+        "daily_avg": 2.07
+      }
+    },
+    {
+      "user": "rtl_008148",
+      "name": "Nayaf Almutairi",
+      "manager_en": "Mohammed AlShehri",
+      "manager_ar": "محمد الشهري",
+      "supervisor_en": "Mohammed AlShehri",
+      "branch": "Jada Avenue FBO RYD",
+      "shop_code": "RKC014",
+      "operating_company": "Southwind",
+      "source_type": "Roster",
+      "rank": 46,
+      "monthly": {
+        "Apr": {
+          "target": 34,
+          "achieved": 30,
+          "pct": 88.24,
+          "gap": 4,
+          "status": "on_track"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 3,
+          "prep": 27,
+          "total": 30
+        },
+        "metabase": {
+          "prepaid": 27,
+          "postpaid": 3,
+          "sim_activation": 21,
+          "mnp": 9,
+          "total": 30
+        },
+        "plans": {
+          "solo": 30,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 18,
+        "first_sale": "2026-04-02",
+        "last_sale": "2026-04-30",
+        "daily_avg": 1.0
+      }
+    },
+    {
+      "user": "rtl_001013",
+      "name": "Yasmeen Alburaidi",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Othaim Mall Arar",
+      "shop_code": "RKN008",
+      "operating_company": "Salam",
+      "source_type": "Roster",
+      "rank": 24,
+      "monthly": {
+        "Apr": {
+          "target": 40,
+          "achieved": 33,
+          "pct": 82.5,
+          "gap": 7,
+          "status": "on_track"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 1,
+          "prep": 32,
+          "total": 33
+        },
+        "metabase": {
+          "prepaid": 32,
+          "postpaid": 1,
+          "sim_activation": 24,
+          "mnp": 9,
+          "total": 33
+        },
+        "plans": {
+          "solo": 32,
+          "flex": 1,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 20,
+        "first_sale": "2026-04-02",
+        "last_sale": "2026-04-30",
+        "daily_avg": 1.1
+      }
+    },
+    {
+      "user": "rtl_008239",
+      "name": "Talal Alamri",
+      "manager_en": "Mohammed AlShehri",
+      "manager_ar": "محمد الشهري",
+      "supervisor_en": "Mohammed AlShehri",
+      "branch": "Kiosk Riyadh Gallery Mall",
+      "shop_code": "RKC011",
+      "operating_company": "Southwind",
+      "source_type": "Roster",
+      "rank": 19,
+      "monthly": {
+        "Apr": {
+          "target": 67,
+          "achieved": 55,
+          "pct": 82.09,
+          "gap": 12,
+          "status": "on_track"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 11,
+          "prep": 44,
+          "total": 55
+        },
+        "metabase": {
+          "prepaid": 44,
+          "postpaid": 11,
+          "sim_activation": 41,
+          "mnp": 14,
+          "total": 55
+        },
+        "plans": {
+          "solo": 54,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 19,
+        "first_sale": "2026-04-01",
+        "last_sale": "2026-04-30",
+        "daily_avg": 1.83
+      }
+    },
+    {
+      "user": "rtl_001025",
+      "name": "Amjad Mohammed H Alhammad",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Khurais FBO",
+      "shop_code": "RBC009",
+      "operating_company": "Salam",
+      "source_type": "Roster",
+      "rank": 4,
+      "monthly": {
+        "Apr": {
+          "target": 30,
+          "achieved": 23,
+          "pct": 76.67,
+          "gap": 7,
+          "status": "behind"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 6,
+          "prep": 17,
+          "total": 23
+        },
+        "metabase": {
+          "prepaid": 17,
+          "postpaid": 6,
+          "sim_activation": 17,
+          "mnp": 6,
+          "total": 23
+        },
+        "plans": {
+          "solo": 22,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 11,
+        "first_sale": "2026-04-10",
+        "last_sale": "2026-04-30",
+        "daily_avg": 0.77
+      }
+    },
+    {
+      "user": "mtl_010441",
+      "name": "Muhammad Al-Harbi",
+      "manager_en": "Mohammed AlShehri",
+      "manager_ar": "محمد الشهري",
+      "supervisor_en": "Mohammed AlShehri",
+      "branch": "Panda Al Yarmouk RYD",
+      "shop_code": "MPC016",
+      "operating_company": "MINA",
+      "source_type": "Roster",
+      "rank": 47,
+      "monthly": {
+        "Apr": {
+          "target": 50,
+          "achieved": 38,
+          "pct": 76.0,
+          "gap": 12,
+          "status": "behind"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 5,
+          "prep": 33,
+          "total": 38
+        },
+        "metabase": {
+          "prepaid": 0,
+          "postpaid": 0,
+          "sim_activation": 0,
+          "mnp": 0,
+          "total": 0
+        },
+        "plans": {
+          "solo": 0,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 0,
+        "first_sale": null,
+        "last_sale": null,
+        "daily_avg": 1.27
+      }
+    },
+    {
+      "user": "rtl_008230",
+      "name": "Turki Alotaibi",
+      "manager_en": "Mohammed AlShehri",
+      "manager_ar": "محمد الشهري",
+      "supervisor_en": "Mohammed AlShehri",
+      "branch": "Jada Avenue FBO RYD",
+      "shop_code": "RKC014",
+      "operating_company": "Southwind",
+      "source_type": "Roster",
+      "rank": 30,
+      "monthly": {
+        "Apr": {
+          "target": 33,
+          "achieved": 25,
+          "pct": 75.76,
+          "gap": 8,
+          "status": "behind"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 1,
+          "prep": 24,
+          "total": 25
+        },
+        "metabase": {
+          "prepaid": 24,
+          "postpaid": 1,
+          "sim_activation": 14,
+          "mnp": 11,
+          "total": 25
+        },
+        "plans": {
+          "solo": 23,
+          "flex": 1,
+          "mbb": 1,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 14,
+        "first_sale": "2026-04-01",
+        "last_sale": "2026-04-22",
+        "daily_avg": 0.83
+      }
+    },
+    {
+      "user": "rtl_008225",
+      "name": "Danah Alzahrani",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Khurais FBO",
+      "shop_code": "RBC007",
+      "operating_company": "Salam",
+      "source_type": "Roster",
+      "rank": 6,
+      "monthly": {
+        "Apr": {
+          "target": 130,
+          "achieved": 95,
+          "pct": 73.08,
+          "gap": 35,
+          "status": "behind"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 18,
+          "prep": 77,
+          "total": 95
+        },
+        "metabase": {
+          "prepaid": 77,
+          "postpaid": 18,
+          "sim_activation": 70,
+          "mnp": 25,
+          "total": 95
+        },
+        "plans": {
+          "solo": 80,
+          "flex": 7,
+          "mbb": 2,
+          "visitor": 3
+        }
+      },
+      "activity": {
+        "active_days": 22,
+        "first_sale": "2026-04-01",
+        "last_sale": "2026-04-30",
+        "daily_avg": 3.17
+      }
+    },
+    {
+      "user": "rtl_008252",
+      "name": "Shua'a Marzouq Alowaimari",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Bukhari st FBO",
+      "shop_code": "RBC006",
+      "operating_company": "Salam",
+      "source_type": "Auto-Mapped",
+      "rank": 40,
+      "monthly": {
+        "Apr": {
+          "target": 40,
+          "achieved": 29,
+          "pct": 72.5,
+          "gap": 11,
+          "status": "behind"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 10,
+          "prep": 19,
+          "total": 29
+        },
+        "metabase": {
+          "prepaid": 19,
+          "postpaid": 10,
+          "sim_activation": 25,
+          "mnp": 4,
+          "total": 29
+        },
+        "plans": {
+          "solo": 24,
+          "flex": 1,
+          "mbb": 0,
+          "visitor": 1
+        }
+      },
+      "activity": {
+        "active_days": 13,
+        "first_sale": "2026-04-01",
+        "last_sale": "2026-04-30",
+        "daily_avg": 0.97
+      }
+    },
+    {
+      "user": "rtl_008234",
+      "name": "Mohammed Ghllab alshammari",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Khurais FBO",
+      "shop_code": "RBC007",
+      "operating_company": "Salam",
+      "source_type": "Roster",
+      "rank": 4,
+      "monthly": {
+        "Apr": {
+          "target": 130,
+          "achieved": 94,
+          "pct": 72.31,
+          "gap": 36,
+          "status": "behind"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 21,
+          "prep": 73,
+          "total": 94
+        },
+        "metabase": {
+          "prepaid": 73,
+          "postpaid": 21,
+          "sim_activation": 71,
+          "mnp": 23,
+          "total": 94
+        },
+        "plans": {
+          "solo": 87,
+          "flex": 3,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 21,
+        "first_sale": "2026-04-01",
+        "last_sale": "2026-04-30",
+        "daily_avg": 3.13
+      }
+    },
+    {
+      "user": "rtl_001082",
+      "name": "NADER HAMDAN O ALHARBI",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Bukhari st FBO",
+      "shop_code": "RBC006",
+      "operating_company": "Salam",
+      "source_type": "Roster",
+      "rank": 25,
+      "monthly": {
+        "Apr": {
+          "target": 40,
+          "achieved": 28,
+          "pct": 70.0,
+          "gap": 12,
+          "status": "behind"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 1,
+          "prep": 26,
+          "total": 28
+        },
+        "metabase": {
+          "prepaid": 26,
+          "postpaid": 1,
+          "sim_activation": 21,
+          "mnp": 7,
+          "total": 28
+        },
+        "plans": {
+          "solo": 23,
+          "flex": 1,
+          "mbb": 3,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 15,
+        "first_sale": "2026-04-01",
+        "last_sale": "2026-04-30",
+        "daily_avg": 0.93
+      }
+    },
+    {
+      "user": "rtl_006040",
+      "name": "Wabran Eisi M AlShammari",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Hail FBO",
+      "shop_code": "RBN010",
+      "operating_company": "Salam",
+      "source_type": "Roster",
+      "rank": 17,
+      "monthly": {
+        "Apr": {
+          "target": 40,
+          "achieved": 28,
+          "pct": 70.0,
+          "gap": 12,
+          "status": "behind"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 4,
+          "prep": 24,
+          "total": 28
+        },
+        "metabase": {
+          "prepaid": 24,
+          "postpaid": 4,
+          "sim_activation": 23,
+          "mnp": 5,
+          "total": 28
+        },
+        "plans": {
+          "solo": 26,
+          "flex": 0,
+          "mbb": 2,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 12,
+        "first_sale": "2026-04-01",
+        "last_sale": "2026-04-30",
+        "daily_avg": 0.93
+      }
+    },
+    {
+      "user": "rtl_001020",
+      "name": "Abdullah Naif A Alshammri",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Khurais FBO",
+      "shop_code": "RBC008",
+      "operating_company": "Salam",
+      "source_type": "Roster",
+      "rank": 4,
+      "monthly": {
+        "Apr": {
+          "target": 30,
+          "achieved": 21,
+          "pct": 70.0,
+          "gap": 9,
+          "status": "behind"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 3,
+          "prep": 18,
+          "total": 21
+        },
+        "metabase": {
+          "prepaid": 18,
+          "postpaid": 3,
+          "sim_activation": 16,
+          "mnp": 5,
+          "total": 21
+        },
+        "plans": {
+          "solo": 20,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 8,
+        "first_sale": "2026-04-20",
+        "last_sale": "2026-04-29",
+        "daily_avg": 0.7
+      }
+    },
+    {
+      "user": "rtl_008061",
+      "name": "Sara AlAnzi",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Kiosk Tabuk Park Mall",
+      "shop_code": "RKN009",
+      "operating_company": "Southwind",
+      "source_type": "Roster",
+      "rank": 33,
+      "monthly": {
+        "Apr": {
+          "target": 33,
+          "achieved": 23,
+          "pct": 69.7,
+          "gap": 10,
+          "status": "behind"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 7,
+          "prep": 16,
+          "total": 23
+        },
+        "metabase": {
+          "prepaid": 16,
+          "postpaid": 7,
+          "sim_activation": 19,
+          "mnp": 4,
+          "total": 23
+        },
+        "plans": {
+          "solo": 21,
+          "flex": 1,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 18,
+        "first_sale": "2026-04-02",
+        "last_sale": "2026-04-30",
+        "daily_avg": 0.77
+      }
+    },
+    {
+      "user": "rtl_008227",
+      "name": "Faisal Aldobayan",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Unaiza FBO",
+      "shop_code": "RBC008",
+      "operating_company": "Salam",
+      "source_type": "Roster",
+      "rank": 27,
+      "monthly": {
+        "Apr": {
+          "target": 52,
+          "achieved": 35,
+          "pct": 67.31,
+          "gap": 17,
+          "status": "behind"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 6,
+          "prep": 28,
+          "total": 35
+        },
+        "metabase": {
+          "prepaid": 28,
+          "postpaid": 6,
+          "sim_activation": 24,
+          "mnp": 11,
+          "total": 35
+        },
+        "plans": {
+          "solo": 33,
+          "flex": 0,
+          "mbb": 2,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 18,
+        "first_sale": "2026-04-03",
+        "last_sale": "2026-04-30",
+        "daily_avg": 1.17
+      }
+    },
+    {
+      "user": "rtl_006039",
+      "name": "Abdulsalam Radhi W AlShammari",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Hail FBO",
+      "shop_code": "RBN010",
+      "operating_company": "Salam",
+      "source_type": "Roster",
+      "rank": 37,
+      "monthly": {
+        "Apr": {
+          "target": 40,
+          "achieved": 26,
+          "pct": 65.0,
+          "gap": 14,
+          "status": "behind"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 2,
+          "prep": 24,
+          "total": 26
+        },
+        "metabase": {
+          "prepaid": 24,
+          "postpaid": 2,
+          "sim_activation": 23,
+          "mnp": 3,
+          "total": 26
+        },
+        "plans": {
+          "solo": 22,
+          "flex": 0,
+          "mbb": 4,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 14,
+        "first_sale": "2026-04-01",
+        "last_sale": "2026-04-30",
+        "daily_avg": 0.87
+      }
+    },
+    {
+      "user": "rtl_001010",
+      "name": "Mohammed Alanzi",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Othaim Mall Arar",
+      "shop_code": "RKN008",
+      "operating_company": "Salam",
+      "source_type": "Roster",
+      "rank": 34,
+      "monthly": {
+        "Apr": {
+          "target": 40,
+          "achieved": 26,
+          "pct": 65.0,
+          "gap": 14,
+          "status": "behind"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 2,
+          "prep": 24,
+          "total": 26
+        },
+        "metabase": {
+          "prepaid": 24,
+          "postpaid": 2,
+          "sim_activation": 23,
+          "mnp": 3,
+          "total": 26
+        },
+        "plans": {
+          "solo": 23,
+          "flex": 0,
+          "mbb": 2,
+          "visitor": 1
+        }
+      },
+      "activity": {
+        "active_days": 16,
+        "first_sale": "2026-04-01",
+        "last_sale": "2026-04-30",
+        "daily_avg": 0.87
+      }
+    },
+    {
+      "user": "mtl_010515",
+      "name": "Nahla Hashem Alshammari",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Lulu Hail King Fahad Road",
+      "shop_code": "MLN008",
+      "operating_company": "Chessboard",
+      "source_type": "Roster",
+      "rank": 29,
+      "monthly": {
+        "Apr": {
+          "target": 45,
+          "achieved": 29,
+          "pct": 64.44,
+          "gap": 16,
+          "status": "behind"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 2,
+          "prep": 27,
+          "total": 29
+        },
+        "metabase": {
+          "prepaid": 27,
+          "postpaid": 2,
+          "sim_activation": 23,
+          "mnp": 6,
+          "total": 29
+        },
+        "plans": {
+          "solo": 24,
+          "flex": 2,
+          "mbb": 0,
+          "visitor": 3
+        }
+      },
+      "activity": {
+        "active_days": 17,
+        "first_sale": "2026-04-02",
+        "last_sale": "2026-04-26",
+        "daily_avg": 0.97
+      }
+    },
+    {
+      "user": "rtl_001009",
+      "name": "Ameera Rashid Alzaid",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Hail FBO",
+      "shop_code": "RBN010",
+      "operating_company": "Salam",
+      "source_type": "Roster",
+      "rank": 42,
+      "monthly": {
+        "Apr": {
+          "target": 40,
+          "achieved": 25,
+          "pct": 62.5,
+          "gap": 15,
+          "status": "behind"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 7,
+          "prep": 18,
+          "total": 25
+        },
+        "metabase": {
+          "prepaid": 18,
+          "postpaid": 7,
+          "sim_activation": 19,
+          "mnp": 6,
+          "total": 25
+        },
+        "plans": {
+          "solo": 24,
+          "flex": 0,
+          "mbb": 1,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 15,
+        "first_sale": "2026-04-01",
+        "last_sale": "2026-04-30",
+        "daily_avg": 0.83
+      }
+    },
+    {
+      "user": "mtl_010631",
+      "name": "FERYAL ALANAZI",
+      "manager_en": "Ahmed AlMutairi",
+      "manager_ar": "أحمد المطيري",
+      "supervisor_en": "Ahmed AlMutairi",
+      "branch": "Lulu Khurais Exit thirty RYD",
+      "shop_code": "MLC011",
+      "operating_company": "Chessboard",
+      "source_type": "Auto-Mapped",
+      "rank": 23,
+      "monthly": {
+        "Apr": {
+          "target": 45,
+          "achieved": 28,
+          "pct": 62.22,
+          "gap": 17,
+          "status": "behind"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 1,
+          "prep": 27,
+          "total": 28
+        },
+        "metabase": {
+          "prepaid": 27,
+          "postpaid": 1,
+          "sim_activation": 18,
+          "mnp": 10,
+          "total": 28
+        },
+        "plans": {
+          "solo": 26,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 1
+        }
+      },
+      "activity": {
+        "active_days": 13,
+        "first_sale": "2026-04-01",
+        "last_sale": "2026-04-15",
+        "daily_avg": 0.93
+      }
+    },
+    {
+      "user": "rtl_008060",
+      "name": "Hind AlAnzi",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Kiosk Tabuk Park Mall",
+      "shop_code": "RKN009",
+      "operating_company": "Southwind",
+      "source_type": "Roster",
+      "rank": 38,
+      "monthly": {
+        "Apr": {
+          "target": 33,
+          "achieved": 19,
+          "pct": 57.58,
+          "gap": 14,
+          "status": "behind"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 2,
+          "prep": 17,
+          "total": 19
+        },
+        "metabase": {
+          "prepaid": 17,
+          "postpaid": 2,
+          "sim_activation": 14,
+          "mnp": 5,
+          "total": 19
+        },
+        "plans": {
+          "solo": 19,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 13,
+        "first_sale": "2026-04-02",
+        "last_sale": "2026-04-30",
+        "daily_avg": 0.63
+      }
+    },
+    {
+      "user": "mtl_010378",
+      "name": "saud Alenzi",
+      "manager_en": "Mohammed AlShehri",
+      "manager_ar": "محمد الشهري",
+      "supervisor_en": "Mohammed AlShehri",
+      "branch": "Panda ALIA PLAZA RYD",
+      "shop_code": "MPC013",
+      "operating_company": "MINA",
+      "source_type": "Roster",
+      "rank": 39,
+      "monthly": {
+        "Apr": {
+          "target": 50,
+          "achieved": 28,
+          "pct": 56.0,
+          "gap": 22,
+          "status": "behind"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 0,
+          "prep": 28,
+          "total": 28
+        },
+        "metabase": {
+          "prepaid": 0,
+          "postpaid": 0,
+          "sim_activation": 0,
+          "mnp": 0,
+          "total": 0
+        },
+        "plans": {
+          "solo": 0,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 0,
+        "first_sale": null,
+        "last_sale": null,
+        "daily_avg": 0.93
+      }
+    },
+    {
+      "user": "rtl_006045",
+      "name": "Ahmed A Alharbi",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Bukhari st FBO",
+      "shop_code": "RBC006",
+      "operating_company": "Salam",
+      "source_type": "Roster",
+      "rank": 44,
+      "monthly": {
+        "Apr": {
+          "target": 40,
+          "achieved": 22,
+          "pct": 55.0,
+          "gap": 18,
+          "status": "behind"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 4,
+          "prep": 16,
+          "total": 22
+        },
+        "metabase": {
+          "prepaid": 16,
+          "postpaid": 4,
+          "sim_activation": 19,
+          "mnp": 3,
+          "total": 22
+        },
+        "plans": {
+          "solo": 18,
+          "flex": 1,
+          "mbb": 1,
+          "visitor": 1
+        }
+      },
+      "activity": {
+        "active_days": 15,
+        "first_sale": "2026-04-01",
+        "last_sale": "2026-04-30",
+        "daily_avg": 0.73
+      }
+    },
+    {
+      "user": "rtl_008144",
+      "name": "Rayan Alabdulkader",
+      "manager_en": "Mohammed AlShehri",
+      "manager_ar": "محمد الشهري",
+      "supervisor_en": "Mohammed AlShehri",
+      "branch": "Jada Avenue FBO RYD",
+      "shop_code": "RKC014",
+      "operating_company": "Southwind",
+      "source_type": "Roster",
+      "rank": 41,
+      "monthly": {
+        "Apr": {
+          "target": 33,
+          "achieved": 18,
+          "pct": 54.55,
+          "gap": 15,
+          "status": "behind"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 2,
+          "prep": 16,
+          "total": 18
+        },
+        "metabase": {
+          "prepaid": 16,
+          "postpaid": 2,
+          "sim_activation": 9,
+          "mnp": 9,
+          "total": 18
+        },
+        "plans": {
+          "solo": 18,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 14,
+        "first_sale": "2026-04-03",
+        "last_sale": "2026-04-30",
+        "daily_avg": 0.6
+      }
+    },
+    {
+      "user": "rtl_008151",
+      "name": "Omar Alenzi",
+      "manager_en": "Ahmed AlMutairi",
+      "manager_ar": "أحمد المطيري",
+      "supervisor_en": "Ahmed AlMutairi",
+      "branch": "Nahda FBO RYD",
+      "shop_code": "RKC013",
+      "operating_company": "Southwind",
+      "source_type": "Roster",
+      "rank": 43,
+      "monthly": {
+        "Apr": {
+          "target": 48,
+          "achieved": 26,
+          "pct": 54.17,
+          "gap": 22,
+          "status": "behind"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 4,
+          "prep": 22,
+          "total": 26
+        },
+        "metabase": {
+          "prepaid": 22,
+          "postpaid": 4,
+          "sim_activation": 20,
+          "mnp": 6,
+          "total": 26
+        },
+        "plans": {
+          "solo": 23,
+          "flex": 1,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 14,
+        "first_sale": "2026-04-01",
+        "last_sale": "2026-04-30",
+        "daily_avg": 0.87
+      }
+    },
+    {
+      "user": "rtl_003058",
+      "name": "Fawaz Saleh Alharbi",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Unaiza FBO",
+      "shop_code": "RBC008",
+      "operating_company": "Salam",
+      "source_type": "Roster",
+      "rank": 61,
+      "monthly": {
+        "Apr": {
+          "target": 25,
+          "achieved": 12,
+          "pct": 48.0,
+          "gap": 13,
+          "status": "critical"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 6,
+          "prep": 6,
+          "total": 12
+        },
+        "metabase": {
+          "prepaid": 6,
+          "postpaid": 6,
+          "sim_activation": 7,
+          "mnp": 5,
+          "total": 12
+        },
+        "plans": {
+          "solo": 12,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 8,
+        "first_sale": "2026-04-15",
+        "last_sale": "2026-04-30",
+        "daily_avg": 0.4
+      }
+    },
+    {
+      "user": "rtl_006052",
+      "name": "Abdulrahmana A Abuhelal",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Sakaka FBO",
+      "shop_code": "RBN009",
+      "operating_company": "Salam",
+      "source_type": "Roster",
+      "rank": 35,
+      "monthly": {
+        "Apr": {
+          "target": 40,
+          "achieved": 18,
+          "pct": 45.0,
+          "gap": 22,
+          "status": "critical"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 9,
+          "prep": 7,
+          "total": 18
+        },
+        "metabase": {
+          "prepaid": 7,
+          "postpaid": 9,
+          "sim_activation": 15,
+          "mnp": 3,
+          "total": 18
+        },
+        "plans": {
+          "solo": 18,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 12,
+        "first_sale": "2026-04-01",
+        "last_sale": "2026-04-28",
+        "daily_avg": 0.6
+      }
+    },
+    {
+      "user": "rtl_008243",
+      "name": "Abdullah E Altamimi",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Hail FBO",
+      "shop_code": "RBN010",
+      "operating_company": "Salam",
+      "source_type": "Roster",
+      "rank": 36,
+      "monthly": {
+        "Apr": {
+          "target": 40,
+          "achieved": 17,
+          "pct": 42.5,
+          "gap": 23,
+          "status": "critical"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 7,
+          "prep": 10,
+          "total": 17
+        },
+        "metabase": {
+          "prepaid": 10,
+          "postpaid": 7,
+          "sim_activation": 7,
+          "mnp": 10,
+          "total": 17
+        },
+        "plans": {
+          "solo": 16,
+          "flex": 0,
+          "mbb": 1,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 12,
+        "first_sale": "2026-04-02",
+        "last_sale": "2026-04-27",
+        "daily_avg": 0.57
+      }
+    },
+    {
+      "user": "rtl_006050",
+      "name": "Kaiebar AlSarhani",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Sakaka FBO",
+      "shop_code": "RBN009",
+      "operating_company": "Salam",
+      "source_type": "Roster",
+      "rank": 45,
+      "monthly": {
+        "Apr": {
+          "target": 40,
+          "achieved": 17,
+          "pct": 42.5,
+          "gap": 23,
+          "status": "critical"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 1,
+          "prep": 16,
+          "total": 17
+        },
+        "metabase": {
+          "prepaid": 16,
+          "postpaid": 1,
+          "sim_activation": 12,
+          "mnp": 5,
+          "total": 17
+        },
+        "plans": {
+          "solo": 17,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 12,
+        "first_sale": "2026-04-03",
+        "last_sale": "2026-04-30",
+        "daily_avg": 0.57
+      }
+    },
+    {
+      "user": "rtl_008135",
+      "name": "Khlood Z Alguaed",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Sakaka FBO",
+      "shop_code": "RBN009",
+      "operating_company": "Salam",
+      "source_type": "Roster",
+      "rank": 53,
+      "monthly": {
+        "Apr": {
+          "target": 40,
+          "achieved": 17,
+          "pct": 42.5,
+          "gap": 23,
+          "status": "critical"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 5,
+          "prep": 11,
+          "total": 17
+        },
+        "metabase": {
+          "prepaid": 11,
+          "postpaid": 5,
+          "sim_activation": 13,
+          "mnp": 4,
+          "total": 17
+        },
+        "plans": {
+          "solo": 13,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 3
+        }
+      },
+      "activity": {
+        "active_days": 8,
+        "first_sale": "2026-04-06",
+        "last_sale": "2026-04-24",
+        "daily_avg": 0.57
+      }
+    },
+    {
+      "user": "rtl_008063",
+      "name": "Nouf Al Balawi",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Kiosk Tabuk Park Mall",
+      "shop_code": "RKN009",
+      "operating_company": "Southwind",
+      "source_type": "Roster",
+      "rank": 56,
+      "monthly": {
+        "Apr": {
+          "target": 34,
+          "achieved": 14,
+          "pct": 41.18,
+          "gap": 20,
+          "status": "critical"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 1,
+          "prep": 13,
+          "total": 14
+        },
+        "metabase": {
+          "prepaid": 13,
+          "postpaid": 1,
+          "sim_activation": 11,
+          "mnp": 3,
+          "total": 14
+        },
+        "plans": {
+          "solo": 13,
+          "flex": 0,
+          "mbb": 1,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 10,
+        "first_sale": "2026-04-02",
+        "last_sale": "2026-04-30",
+        "daily_avg": 0.47
+      }
+    },
+    {
+      "user": "rtl_008192",
+      "name": "santa sahod alhrbi",
+      "manager_en": "Najwa D AlOmari",
+      "manager_ar": "نجوى العمري",
+      "supervisor_en": "Najwah AlOmari",
+      "branch": "Kiosk Othaim Onieza",
+      "shop_code": "RKC012",
+      "operating_company": "MINA",
+      "source_type": "Roster",
+      "rank": 40,
+      "monthly": {
+        "Apr": {
+          "target": 60,
+          "achieved": 23,
+          "pct": 38.33,
+          "gap": 37,
+          "status": "critical"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 5,
+          "prep": 18,
+          "total": 23
+        },
+        "metabase": {
+          "prepaid": 18,
+          "postpaid": 5,
+          "sim_activation": 17,
+          "mnp": 6,
+          "total": 23
+        },
+        "plans": {
+          "solo": 22,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 16,
+        "first_sale": "2026-04-01",
+        "last_sale": "2026-04-27",
+        "daily_avg": 0.77
+      }
+    },
+    {
+      "user": "mtl_010464",
+      "name": "Saleh Al-Rashidi",
+      "manager_en": "Mohammed AlShehri",
+      "manager_ar": "محمد الشهري",
+      "supervisor_en": "Mohammed AlShehri",
+      "branch": "Panda Qurtubah",
+      "shop_code": "MPC092",
+      "operating_company": "MINA",
+      "source_type": "Roster",
+      "rank": 51,
+      "monthly": {
+        "Apr": {
+          "target": 30,
+          "achieved": 10,
+          "pct": 33.33,
+          "gap": 20,
+          "status": "critical"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 0,
+          "prep": 10,
+          "total": 10
+        },
+        "metabase": {
+          "prepaid": 0,
+          "postpaid": 0,
+          "sim_activation": 0,
+          "mnp": 0,
+          "total": 0
+        },
+        "plans": {
+          "solo": 0,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 0,
+        "first_sale": null,
+        "last_sale": null,
+        "daily_avg": 0.33
+      }
+    },
+    {
+      "user": "rtl_006051",
+      "name": "Abdulrahman AlAnazi",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Sakaka FBO",
+      "shop_code": "RBN009",
+      "operating_company": "Salam",
+      "source_type": "Roster",
+      "rank": 52,
+      "monthly": {
+        "Apr": {
+          "target": 40,
+          "achieved": 8,
+          "pct": 20.0,
+          "gap": 32,
+          "status": "critical"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 2,
+          "prep": 6,
+          "total": 8
+        },
+        "metabase": {
+          "prepaid": 6,
+          "postpaid": 2,
+          "sim_activation": 7,
+          "mnp": 1,
+          "total": 8
+        },
+        "plans": {
+          "solo": 8,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 6,
+        "first_sale": "2026-04-01",
+        "last_sale": "2026-04-30",
+        "daily_avg": 0.27
+      }
+    },
+    {
+      "user": "mtl_010636",
+      "name": "RASHED ALMUTAIRI",
+      "manager_en": "Najwa D AlOmari",
+      "manager_ar": "نجوى العمري",
+      "supervisor_en": "Najwah AlOmari",
+      "branch": "Nesto Majmah",
+      "shop_code": "MNC009",
+      "operating_company": "Chessboard",
+      "source_type": "Auto-Mapped",
+      "rank": 55,
+      "monthly": {
+        "Apr": {
+          "target": 30,
+          "achieved": 4,
+          "pct": 13.33,
+          "gap": 26,
+          "status": "critical"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 0,
+          "prep": 4,
+          "total": 4
+        },
+        "metabase": {
+          "prepaid": 4,
+          "postpaid": 0,
+          "sim_activation": 2,
+          "mnp": 2,
+          "total": 4
+        },
+        "plans": {
+          "solo": 4,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 4,
+        "first_sale": "2026-04-01",
+        "last_sale": "2026-04-17",
+        "daily_avg": 0.13
+      }
+    },
+    {
+      "user": "rtl_001016",
+      "name": "Sabah Asaad Alfifi",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Tabuk FBO",
+      "shop_code": "RBN011",
+      "operating_company": "Salam",
+      "source_type": "Roster",
+      "rank": 59,
+      "monthly": {
+        "Apr": {
+          "target": 25,
+          "achieved": 3,
+          "pct": 12.0,
+          "gap": 22,
+          "status": "critical"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 2,
+          "prep": 1,
+          "total": 3
+        },
+        "metabase": {
+          "prepaid": 1,
+          "postpaid": 2,
+          "sim_activation": 2,
+          "mnp": 1,
+          "total": 3
+        },
+        "plans": {
+          "solo": 3,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 3,
+        "first_sale": "2026-04-26",
+        "last_sale": "2026-04-29",
+        "daily_avg": 0.1
+      }
+    },
+    {
+      "user": "mtl_010604",
+      "name": "Raghad alotaibi",
+      "manager_en": "Ahmed AlMutairi",
+      "manager_ar": "أحمد المطيري",
+      "supervisor_en": "Ahmed AlMutairi",
+      "branch": "Lulu Khurais Exit thirty RYD",
+      "shop_code": "MLC011",
+      "operating_company": "Chessboard",
+      "source_type": "Auto-Mapped",
+      "rank": 48,
+      "monthly": {
+        "Apr": {
+          "target": 45,
+          "achieved": 5,
+          "pct": 11.11,
+          "gap": 40,
+          "status": "critical"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 0,
+          "prep": 5,
+          "total": 5
+        },
+        "metabase": {
+          "prepaid": 5,
+          "postpaid": 0,
+          "sim_activation": 5,
+          "mnp": 0,
+          "total": 5
+        },
+        "plans": {
+          "solo": 5,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 1,
+        "first_sale": "2026-04-01",
+        "last_sale": "2026-04-01",
+        "daily_avg": 0.17
+      }
+    },
+    {
+      "user": "mtl_010319",
+      "name": "Abdullah Alfaifi",
+      "manager_en": "Mohammed AlShehri",
+      "manager_ar": "محمد الشهري",
+      "supervisor_en": "Mohammed AlShehri",
+      "branch": "Panda ABU BAKKAR ALMASIF",
+      "shop_code": "MPC014",
+      "operating_company": "MINA",
+      "source_type": "Roster",
+      "rank": 57,
+      "monthly": {
+        "Apr": {
+          "target": 40,
+          "achieved": 2,
+          "pct": 5.0,
+          "gap": 38,
+          "status": "critical"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 0,
+          "prep": 2,
+          "total": 2
+        },
+        "metabase": {
+          "prepaid": 0,
+          "postpaid": 0,
+          "sim_activation": 0,
+          "mnp": 0,
+          "total": 0
+        },
+        "plans": {
+          "solo": 0,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 0,
+        "first_sale": null,
+        "last_sale": null,
+        "daily_avg": 0.07
+      }
+    },
+    {
+      "user": "mtl_010544",
+      "name": "OSAMA ALHARTHI",
+      "manager_en": "Mohammed AlShehri",
+      "manager_ar": "محمد الشهري",
+      "supervisor_en": "Mohammed AlShehri",
+      "branch": "Panda Al Yarmouk RYD",
+      "shop_code": "MPC016",
+      "operating_company": "MINA",
+      "source_type": "Auto-Mapped",
+      "rank": 49,
+      "monthly": {
+        "Apr": {
+          "target": 0,
+          "achieved": 20,
+          "pct": 0,
+          "gap": -20,
+          "status": "no_target"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 13,
+          "prep": 7,
+          "total": 20
+        },
+        "metabase": {
+          "prepaid": 0,
+          "postpaid": 0,
+          "sim_activation": 0,
+          "mnp": 0,
+          "total": 0
+        },
+        "plans": {
+          "solo": 0,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 0,
+        "first_sale": null,
+        "last_sale": null,
+        "daily_avg": 0.67
+      }
+    },
+    {
+      "user": "mtl_010572",
+      "name": "FAHAD ALABDULRAHMAN",
+      "manager_en": "Mohammed AlShehri",
+      "manager_ar": "محمد الشهري",
+      "supervisor_en": "Mohammed AlShehri",
+      "branch": "Panda Qurtubah",
+      "shop_code": "MPC092",
+      "operating_company": "MINA",
+      "source_type": "Auto-Mapped",
+      "rank": 50,
+      "monthly": {
+        "Apr": {
+          "target": 0,
+          "achieved": 12,
+          "pct": 0,
+          "gap": -12,
+          "status": "no_target"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 2,
+          "prep": 10,
+          "total": 12
+        },
+        "metabase": {
+          "prepaid": 0,
+          "postpaid": 0,
+          "sim_activation": 0,
+          "mnp": 0,
+          "total": 0
+        },
+        "plans": {
+          "solo": 0,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 0,
+        "first_sale": null,
+        "last_sale": null,
+        "daily_avg": 0.4
+      }
+    },
+    {
+      "user": "mtl_010644",
+      "name": "User_Mapping_Master",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Lulu Tabuk Park Mall",
+      "shop_code": "MLN009",
+      "operating_company": "Chessboard",
+      "source_type": "Roster",
+      "rank": 62,
+      "monthly": {
+        "Apr": {
+          "target": 0,
+          "achieved": 3,
+          "pct": 0,
+          "gap": -3,
+          "status": "no_target"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 0,
+          "prep": 3,
+          "total": 3
+        },
+        "metabase": {
+          "prepaid": 3,
+          "postpaid": 0,
+          "sim_activation": 2,
+          "mnp": 1,
+          "total": 3
+        },
+        "plans": {
+          "solo": 3,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 2,
+        "first_sale": "2026-04-24",
+        "last_sale": "2026-04-27",
+        "daily_avg": 0.1
+      }
+    },
+    {
+      "user": "mtl_010543",
+      "name": "Abdullah Yousef",
+      "manager_en": "Ahmed AlMutairi",
+      "manager_ar": "أحمد المطيري",
+      "supervisor_en": "Ahmed AlMutairi",
+      "branch": "Lulu Khurais Exit thirty RYD",
+      "shop_code": "MLC011",
+      "operating_company": "Chessboard",
+      "source_type": "Auto-Mapped",
+      "rank": 54,
+      "monthly": {
+        "Apr": {
+          "target": 0,
+          "achieved": 3,
+          "pct": 0,
+          "gap": -3,
+          "status": "no_target"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 0,
+          "prep": 3,
+          "total": 3
+        },
+        "metabase": {
+          "prepaid": 3,
+          "postpaid": 0,
+          "sim_activation": 2,
+          "mnp": 1,
+          "total": 3
+        },
+        "plans": {
+          "solo": 3,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 1,
+        "first_sale": "2026-04-05",
+        "last_sale": "2026-04-05",
+        "daily_avg": 0.1
+      }
+    },
+    {
+      "user": "rtl_003046",
+      "name": "Hamoud Alshammari",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Khurais FBO",
+      "shop_code": "RBC010",
+      "operating_company": "Salam",
+      "source_type": "Roster",
+      "rank": 4,
+      "monthly": {
+        "Apr": {
+          "target": 0,
+          "achieved": 1,
+          "pct": 0,
+          "gap": -1,
+          "status": "no_target"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 0,
+          "prep": 1,
+          "total": 1
+        },
+        "metabase": {
+          "prepaid": 1,
+          "postpaid": 0,
+          "sim_activation": 0,
+          "mnp": 1,
+          "total": 1
+        },
+        "plans": {
+          "solo": 1,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 1,
+        "first_sale": "2026-04-10",
+        "last_sale": "2026-04-10",
+        "daily_avg": 0.03
+      }
+    },
+    {
+      "user": "rtl_008092",
+      "name": "Rahaf Asiri",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Tabuk FBO",
+      "shop_code": "RBN011",
+      "operating_company": "Salam",
+      "source_type": "Roster",
+      "rank": 58,
+      "monthly": {
+        "Apr": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0,
+          "gap": 0,
+          "status": "no_target"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 0,
+          "prep": 0,
+          "total": 0
+        },
+        "metabase": {
+          "prepaid": 0,
+          "postpaid": 0,
+          "sim_activation": 0,
+          "mnp": 0,
+          "total": 0
+        },
+        "plans": {
+          "solo": 0,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 0,
+        "first_sale": null,
+        "last_sale": null,
+        "daily_avg": 0.0
+      }
+    },
+    {
+      "user": "rtl_003070",
+      "name": "Amar Aldubaybi",
+      "manager_en": "Abdulwahab M AlShammari",
+      "manager_ar": "عبدالوهاب الشمري",
+      "supervisor_en": "Abdulwahab Alshammari",
+      "branch": "Unaiza FBO",
+      "shop_code": "RBC008",
+      "operating_company": "Salam",
+      "source_type": "Roster",
+      "rank": 60,
+      "monthly": {
+        "Apr": {
+          "target": 0,
+          "achieved": 0,
+          "pct": 0,
+          "gap": 0,
+          "status": "no_target"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 0,
+          "prep": 0,
+          "total": 0
+        },
+        "metabase": {
+          "prepaid": 0,
+          "postpaid": 0,
+          "sim_activation": 0,
+          "mnp": 0,
+          "total": 0
+        },
+        "plans": {
+          "solo": 0,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 0,
+        "first_sale": null,
+        "last_sale": null,
+        "daily_avg": 0.0
+      }
+    },
+    {
+      "user": "mtl_010509",
+      "name": "Habr Al-Shammari",
+      "manager_en": "Ahmed AlMutairi",
+      "manager_ar": "أحمد المطيري",
+      "supervisor_en": "Ahmed AlMutairi",
+      "branch": "Panda AL NATHEEM RYD",
+      "shop_code": "MPC012",
+      "operating_company": "MINA",
+      "source_type": "Roster",
+      "rank": 63,
+      "monthly": {
+        "Apr": {
+          "target": 40,
+          "achieved": 0,
+          "pct": 0.0,
+          "gap": 40,
+          "status": "critical"
+        }
+      },
+      "breakdown": {
+        "eqla": {
+          "post": 0,
+          "prep": 0,
+          "total": 0
+        },
+        "metabase": {
+          "prepaid": 0,
+          "postpaid": 0,
+          "sim_activation": 0,
+          "mnp": 0,
+          "total": 0
+        },
+        "plans": {
+          "solo": 0,
+          "flex": 0,
+          "mbb": 0,
+          "visitor": 0
+        }
+      },
+      "activity": {
+        "active_days": 0,
+        "first_sale": null,
+        "last_sale": null,
+        "daily_avg": 0.0
+      }
+    }
+  ],
+  "daily_breakdown": {
+    "2026-04-01": {
+      "total": 109,
+      "prepaid": 86,
+      "postpaid": 19,
+      "active_users": 31
+    },
+    "2026-04-02": {
+      "total": 75,
+      "prepaid": 63,
+      "postpaid": 11,
+      "active_users": 26
+    },
+    "2026-04-03": {
+      "total": 81,
+      "prepaid": 67,
+      "postpaid": 9,
+      "active_users": 20
+    },
+    "2026-04-04": {
+      "total": 90,
+      "prepaid": 77,
+      "postpaid": 13,
+      "active_users": 23
+    },
+    "2026-04-05": {
+      "total": 88,
+      "prepaid": 77,
+      "postpaid": 10,
+      "active_users": 25
+    },
+    "2026-04-06": {
+      "total": 92,
+      "prepaid": 75,
+      "postpaid": 13,
+      "active_users": 28
+    },
+    "2026-04-07": {
+      "total": 90,
+      "prepaid": 77,
+      "postpaid": 12,
+      "active_users": 29
+    },
+    "2026-04-08": {
+      "total": 67,
+      "prepaid": 54,
+      "postpaid": 11,
+      "active_users": 26
+    },
+    "2026-04-09": {
+      "total": 54,
+      "prepaid": 48,
+      "postpaid": 2,
+      "active_users": 18
+    },
+    "2026-04-10": {
+      "total": 62,
+      "prepaid": 52,
+      "postpaid": 10,
+      "active_users": 17
+    },
+    "2026-04-11": {
+      "total": 60,
+      "prepaid": 55,
+      "postpaid": 5,
+      "active_users": 22
+    },
+    "2026-04-12": {
+      "total": 73,
+      "prepaid": 62,
+      "postpaid": 8,
+      "active_users": 26
+    },
+    "2026-04-13": {
+      "total": 67,
+      "prepaid": 53,
+      "postpaid": 10,
+      "active_users": 26
+    },
+    "2026-04-14": {
+      "total": 67,
+      "prepaid": 55,
+      "postpaid": 9,
+      "active_users": 27
+    },
+    "2026-04-15": {
+      "total": 84,
+      "prepaid": 63,
+      "postpaid": 18,
+      "active_users": 30
+    },
+    "2026-04-16": {
+      "total": 63,
+      "prepaid": 49,
+      "postpaid": 13,
+      "active_users": 25
+    },
+    "2026-04-17": {
+      "total": 62,
+      "prepaid": 55,
+      "postpaid": 3,
+      "active_users": 18
+    },
+    "2026-04-18": {
+      "total": 83,
+      "prepaid": 74,
+      "postpaid": 8,
+      "active_users": 24
+    },
+    "2026-04-19": {
+      "total": 87,
+      "prepaid": 71,
+      "postpaid": 13,
+      "active_users": 24
+    },
+    "2026-04-20": {
+      "total": 75,
+      "prepaid": 57,
+      "postpaid": 10,
+      "active_users": 27
+    },
+    "2026-04-21": {
+      "total": 80,
+      "prepaid": 67,
+      "postpaid": 10,
+      "active_users": 26
+    },
+    "2026-04-22": {
+      "total": 79,
+      "prepaid": 62,
+      "postpaid": 17,
+      "active_users": 26
+    },
+    "2026-04-23": {
+      "total": 58,
+      "prepaid": 48,
+      "postpaid": 7,
+      "active_users": 22
+    },
+    "2026-04-24": {
+      "total": 55,
+      "prepaid": 45,
+      "postpaid": 8,
+      "active_users": 20
+    },
+    "2026-04-25": {
+      "total": 50,
+      "prepaid": 40,
+      "postpaid": 9,
+      "active_users": 21
+    },
+    "2026-04-26": {
+      "total": 88,
+      "prepaid": 72,
+      "postpaid": 14,
+      "active_users": 31
+    },
+    "2026-04-27": {
+      "total": 98,
+      "prepaid": 82,
+      "postpaid": 12,
+      "active_users": 30
+    },
+    "2026-04-28": {
+      "total": 19,
+      "prepaid": 17,
+      "postpaid": 2,
+      "active_users": 16
+    },
+    "2026-04-29": {
+      "total": 62,
+      "prepaid": 46,
+      "postpaid": 14,
+      "active_users": 22
+    },
+    "2026-04-30": {
+      "total": 100,
+      "prepaid": 83,
+      "postpaid": 15,
+      "active_users": 31
+    }
+  },
+  "stats": {
+    "total_metabase_operations": 2218,
+    "total_metabase_with_others": 2873,
+    "breakdown_metabase": {
+      "prepaid": 1832,
+      "postpaid": 315,
+      "sim_activation": 1689,
+      "mnp": 529
+    },
+    "breakdown_eqla": {
+      "post": 357,
+      "prep": 2438,
+      "total": 2873
+    }
+  }
+}
