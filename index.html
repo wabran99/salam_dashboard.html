@@ -7,11 +7,12 @@
    Designed & Developed by: Eng. Abdulwahab M Alshammari
    Internal Use Only — © 2026 All Rights Reserved
    Unauthorized copying, modification, or redistribution prohibited.
-   Built: v19.11 · April 2026 · Build ID: WAB-2026-05-01-EMPLOYEE-GAP-CARD
+   Built: v19.11.1 · April 2026 · Build ID: WAB-2026-05-01-EMPLOYEE-GAP-FIXED
  ═══════════════════════════════════════════════════════════════════
 -->
 
 <!-- ═══ VERSION HISTORY ═══
+  v19.11.1  · 2026-05-01 · 🔧 Personal Gap Card FIX — Render after appendChild (Session 8.B)
   v19.11    · 2026-05-01 · 👤 Personal Gap Card on Employee Profile (Session 8)
   v19.10.4  · 2026-05-01 · 🎨 Unified Card Layout — Same structure, dynamic numbers (Session 7.E)
   v19.10.3  · 2026-05-01 · 🎯 Flexible Matching — Handles short + full names (Session 7.D)
@@ -8572,7 +8573,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">🕰️ آلة الزمن · الأرشيف الربعي</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🎯 v19.11 · Personal Gap Card on Employee Profile</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🎯 v19.11.1 · Personal Gap Card FIX (timing)</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -10413,6 +10414,14 @@ function openModal(idx){
       <div class="tab-content" id="tab-meeting">${renderTabMeeting(e)}</div>
     </div>`;
   document.body.appendChild(modal);
+  
+  // v19.11 FIX: Render personal gap card after modal is in DOM
+  // (must run after appendChild so the container exists)
+  setTimeout(function() {
+    if (window.GapCalculator && window.GapCalculator.renderForEmployee && e && e.user) {
+      window.GapCalculator.renderForEmployee(e.user, 'empPersonalGap_' + e.user);
+    }
+  }, 50);
 }
 
 function switchTab(name,btn){
@@ -16254,7 +16263,7 @@ setInterval(loadData,5*60*1000);
     MAX_PIN_ATTEMPTS: 3,
     LOCK_DURATION: 60 * 60 * 1000,  // 1 hour
     PANEL_IDLE_TIMEOUT: 10 * 60 * 1000,  // 10 min
-    VERSION: '19.11.0'
+    VERSION: '19.11.1'
   };
   
   // ══════════ STATE ══════════
