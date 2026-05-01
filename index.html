@@ -7,11 +7,12 @@
    Designed & Developed by: Eng. Abdulwahab M Alshammari
    Internal Use Only — © 2026 All Rights Reserved
    Unauthorized copying, modification, or redistribution prohibited.
-   Built: v19.9 · April 2026 · Build ID: WAB-2026-05-01-SECURITY-HARDENING
+   Built: v19.9.1 · April 2026 · Build ID: WAB-2026-05-01-CSP-XFRAME-CONSOLE
  ═══════════════════════════════════════════════════════════════════
 -->
 
 <!-- ═══ VERSION HISTORY ═══
+  v19.9.1   · 2026-05-01 · 🛡️ Full Security — CSP + X-Frame + Console Disabled (Session 6.B)
   v19.9     · 2026-05-01 · 🛡️ Security Hardening — Telegram Removed (Session 6.A)
   v19.8     · 2026-04-30 · 👥 Employees List + Daily Gap Calculator (Session 5.B)
   v19.7     · 2026-04-30 · 📦 Stage 4 Vault Opening — Sepia + Live Data (Session 5.A)
@@ -1129,7 +1130,7 @@
       
       // Check must_change_password flag
       if (state.selectedUser.must_change_password) {
-        // Force password change
+
         console.log('[Auth] User must change password');
         goToStep(3);
         setTimeout(() => $('authNewPwd').focus(), 350);
@@ -1148,7 +1149,7 @@
   }
   
   // ════════════════════════════════════════════════════════════════════
-  // PASSWORD STRENGTH METER
+
   // ════════════════════════════════════════════════════════════════════
   function evaluateStrength(pwd) {
     if (!pwd) return { score: 0, label: '—' };
@@ -1205,7 +1206,7 @@
   }
   
   // ════════════════════════════════════════════════════════════════════
-  // SET NEW PASSWORD
+
   // ════════════════════════════════════════════════════════════════════
   async function handleSetNewPassword() {
     if (state.isLoading) return;
@@ -1240,7 +1241,7 @@
     hideMsg('authStep3Error');
     
     try {
-      // Step 1: Update password in Supabase Auth
+              // Step 1
       const { error: pwdError } = await state.supabase.auth.updateUser({
         password: newPwd
       });
@@ -1634,6 +1635,40 @@
 
 
 <meta charset="UTF-8">
+  <!-- ═══════════════════════════════════════════════════════════
+       🛡️ SECURITY HEADERS (Added in v19.9.1)
+       ═══════════════════════════════════════════════════════════ -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    font-src 'self' https://fonts.gstatic.com data:;
+    img-src 'self' data: https: blob:;
+    connect-src 'self' https://script.google.com https://*.googleusercontent.com https://*.supabase.co https://ipapi.co https://ipwho.is;
+    frame-ancestors 'none';
+    base-uri 'self';
+    form-action 'self';
+  ">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  
+  <!-- Frame Busting Fallback (in case headers are stripped) -->
+  <script>
+    (function frameBuster() {
+      try {
+        if (window.top !== window.self) {
+          // Site loaded inside an iframe - break out
+          window.top.location = window.self.location;
+        }
+      } catch (e) {
+        // Cross-origin block detected - definitely an attack
+        document.body && (document.body.innerHTML = '');
+        window.location = 'about:blank';
+      }
+    })();
+  </script>
+  
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="Eng. Abdulwahab M Alshammari">
 <meta name="copyright" content="© 2026 Eng. Abdulwahab M Alshammari — Retail MT, Salam Mobile">
@@ -6586,6 +6621,54 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 
 </style>
 
+
+  <!-- ═══════════════════════════════════════════════════════════
+       🔇 PRODUCTION CONSOLE GUARD (Added in v19.9.1)
+       Disables console.log/info/debug/warn in production.
+       Keeps console.error for critical errors.
+       Set window.__SALAM_DEV__ = true in DevTools to re-enable.
+       ═══════════════════════════════════════════════════════════ -->
+  <script>
+    (function(){
+      // Detect production: not localhost, not dev mode flag
+      const host = window.location.hostname;
+      const isDev = (
+        host === 'localhost' ||
+        host === '127.0.0.1' ||
+        host.startsWith('192.168.') ||
+        host.startsWith('10.') ||
+        host.endsWith('.local') ||
+        window.__SALAM_DEV__ === true
+      );
+      
+      if (!isDev) {
+        // Production: disable verbose console methods
+        const noop = function(){};
+        const originalError = console.error;
+        console.log = noop;
+        console.info = noop;
+        console.debug = noop;
+        console.warn = noop;
+        console.trace = noop;
+        console.dir = noop;
+        console.dirxml = noop;
+        console.table = noop;
+        // Keep console.error for genuine errors but reduce verbosity
+        console.error = function() {
+          // Only log first arg if it's an Error object
+          if (arguments[0] instanceof Error) {
+            originalError.call(console, arguments[0].message);
+          }
+        };
+      }
+      // Always allow toggling back via DevTools
+      window.__enableSalamDev = function() {
+        window.__SALAM_DEV__ = true;
+        location.reload();
+      };
+    })();
+  </script>
+  
 </head>
 <body>
 
@@ -8392,7 +8475,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">🕰️ آلة الزمن · الأرشيف الربعي</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🛡️ v19.9 · Hardened Security · Telegram Removed</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🛡️ v19.9.1 · Hardened Security · CSP + Anti-Clickjack</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -16024,7 +16107,7 @@ setInterval(loadData,5*60*1000);
     MAX_PIN_ATTEMPTS: 3,
     LOCK_DURATION: 60 * 60 * 1000,  // 1 hour
     PANEL_IDLE_TIMEOUT: 10 * 60 * 1000,  // 10 min
-    VERSION: '19.9.0'
+    VERSION: '19.9.1'
   };
   
   // ══════════ STATE ══════════
