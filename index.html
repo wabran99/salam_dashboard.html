@@ -7,11 +7,12 @@
    Designed & Developed by: Eng. Abdulwahab M Alshammari
    Internal Use Only — © 2026 All Rights Reserved
    Unauthorized copying, modification, or redistribution prohibited.
-   Built: v19.10.3 · April 2026 · Build ID: WAB-2026-05-01-FLEXIBLE-MATCHING
+   Built: v19.10.4 · April 2026 · Build ID: WAB-2026-05-01-UNIFIED-CARD
  ═══════════════════════════════════════════════════════════════════
 -->
 
 <!-- ═══ VERSION HISTORY ═══
+  v19.10.4  · 2026-05-01 · 🎨 Unified Card Layout — Same structure, dynamic numbers (Session 7.E)
   v19.10.3  · 2026-05-01 · 🎯 Flexible Matching — Handles short + full names (Session 7.D)
   v19.10.2  · 2026-05-01 · 🔍 Smart Supervisor Matching — Najwa/Najwah fix (Session 7.C)
   v19.10.1  · 2026-05-01 · 🔧 Gap Calculator FIX — Compensation logic, not prediction (Session 7.B)
@@ -8570,7 +8571,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">🕰️ آلة الزمن · الأرشيف الربعي</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🎯 v19.10.3 · Flexible Matching (single + full names)</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🎯 v19.10.4 · Unified Card Layout</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -16221,7 +16222,7 @@ setInterval(loadData,5*60*1000);
     MAX_PIN_ATTEMPTS: 3,
     LOCK_DURATION: 60 * 60 * 1000,  // 1 hour
     PANEL_IDLE_TIMEOUT: 10 * 60 * 1000,  // 10 min
-    VERSION: '19.10.3'
+    VERSION: '19.10.4'
   };
   
   // ══════════ STATE ══════════
@@ -18393,29 +18394,14 @@ setInterval(loadData,5*60*1000);
       
       const statusClass = 'gap-status-' + result.status;
       
-      // Determine supervisor card content
-      let supervisorCardHtml = '';
-      if (supervisorPct !== null) {
-        // Show supervisor's specific %
-        supervisorCardHtml = 
-          '<div class="gap-calc-item">' +
-            '<div class="gap-calc-item-label">إنجاز المشرف</div>' +
-            '<div class="gap-calc-item-value gap-status-' + 
-              (supervisorPct >= 90 ? 'excellent' : 
-               supervisorPct >= 75 ? 'good' : 
-               supervisorPct >= 50 ? 'warning' : 'critical') + 
-            '">' + supervisorPct + '%</div>' +
-            '<div class="gap-calc-item-sub">' + supervisorName.split(' ')[0] + '</div>' +
-          '</div>';
-      } else {
-        // Show overall organization stats
-        supervisorCardHtml = 
-          '<div class="gap-calc-item">' +
-            '<div class="gap-calc-item-label">معدل التعويض الشهري</div>' +
-            '<div class="gap-calc-item-value">' + result.monthlyToCompensate.toLocaleString() + '</div>' +
-            '<div class="gap-calc-item-sub">عملية/شهر · <b>' + result.monthsRemaining + '</b> أشهر متبقية</div>' +
-          '</div>';
-      }
+      // Same card structure for ALL views (overall + supervisor)
+      // Just the numbers change based on the active filter
+      const monthlyCardHtml = 
+        '<div class="gap-calc-item">' +
+          '<div class="gap-calc-item-label">معدل التعويض الشهري</div>' +
+          '<div class="gap-calc-item-value">' + result.monthlyToCompensate.toLocaleString() + '</div>' +
+          '<div class="gap-calc-item-sub">عملية/شهر · <b>' + result.monthsRemaining + '</b> أشهر متبقية</div>' +
+        '</div>';
       
       const html = 
         '<div class="gap-calc-card">' +
@@ -18438,7 +18424,7 @@ setInterval(loadData,5*60*1000);
               '<div class="gap-calc-item-value ' + statusClass + '">' + result.ytdPct + '%</div>' +
               '<div class="gap-calc-item-sub"><b>' + result.ytdAchieved.toLocaleString() + '</b> من ' + result.ytdTarget.toLocaleString() + '</div>' +
             '</div>' +
-            supervisorCardHtml +
+            monthlyCardHtml +
           '</div>' +
           '<div class="gap-calc-message">' +
             '<span class="gap-icon">⚠️</span>' +
