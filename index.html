@@ -7,12 +7,12 @@
    Designed & Developed by: Eng. Abdulwahab M Alshammari
    Internal Use Only — © 2026 All Rights Reserved
    Unauthorized copying, modification, or redistribution prohibited.
-   Built: v19.10 · April 2026 · Build ID: WAB-2026-05-01-GAP-CALCULATOR-MAIN
+   Built: v19.10 · April 2026 · Build ID: WAB-2026-05-01-GAP-CALCULATOR
  ═══════════════════════════════════════════════════════════════════
 -->
 
 <!-- ═══ VERSION HISTORY ═══
-  v19.10    · 2026-05-01 · 🎯 Gap Calculator on Main Dashboard — Annual daily gap (Session 7)
+  v19.10    · 2026-05-01 · 🎯 Gap Calculator on Main Dashboard — Q1 + April integrated (Session 7)
   v19.9.2   · 2026-05-01 · 🔌 Apps Script Reconnected — New Deployment URL (Session 6.C)
   v19.9.1   · 2026-05-01 · 🛡️ Full Security — CSP + X-Frame + Console Disabled (Session 6.B)
   v19.9     · 2026-05-01 · 🛡️ Security Hardening — Telegram Removed (Session 6.A)
@@ -3396,19 +3396,13 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 
 /* ═══════════════════════════════════════════════════════════
    🎯 GAP CALCULATOR CARD (Added in v19.10)
-   Philosophy: "أداة للموظف، مو عرض للإدارة"
-   Shows: How many ops/day each role needs to hit annual target
    ═══════════════════════════════════════════════════════════ */
-.gap-calc-section{
-  margin-bottom:20px;
-}
+.gap-calc-section{margin-bottom:20px;}
 .gap-calc-card{
   background:linear-gradient(135deg,#0A1F14 0%,#0F2D1C 50%,#143F26 100%);
   border:1px solid rgba(61,214,140,0.35);
-  border-radius:18px;
-  padding:24px 26px;
-  position:relative;
-  overflow:hidden;
+  border-radius:18px;padding:24px 26px;
+  position:relative;overflow:hidden;
 }
 .gap-calc-card::before{
   content:"";position:absolute;top:0;left:0;right:0;height:3px;
@@ -3428,9 +3422,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   text-transform:uppercase;letter-spacing:1.2px;
   display:flex;align-items:center;gap:8px;
 }
-.gap-calc-greeting{
-  font-size:11px;color:#5AB87A;opacity:0.85;
-}
+.gap-calc-greeting{font-size:11px;color:#5AB87A;opacity:0.85;}
 .gap-calc-grid{
   display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;
   position:relative;z-index:2;
@@ -3438,8 +3430,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 .gap-calc-item{
   background:rgba(0,0,0,0.25);
   border:1px solid rgba(61,214,140,0.15);
-  border-radius:12px;
-  padding:14px 16px;
+  border-radius:12px;padding:14px 16px;
   transition:all 0.2s;
 }
 .gap-calc-item:hover{
@@ -3460,8 +3451,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   letter-spacing:-1.5px;line-height:1;
 }
 .gap-calc-item.primary .gap-calc-item-value{
-  color:#3DD68C;
-  font-size:38px;
+  color:#3DD68C;font-size:38px;
 }
 .gap-calc-item-sub{
   font-size:11px;color:#A8CCAE;margin-top:6px;line-height:1.4;
@@ -3477,23 +3467,14 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 }
 .gap-calc-message b{color:#3DD68C;}
 .gap-calc-message .gap-icon{margin-left:6px;}
-
-/* Gap status colors */
 .gap-status-excellent{color:#3DD68C !important;}
 .gap-status-good{color:#7DE8A8 !important;}
 .gap-status-warning{color:#F6C94E !important;}
 .gap-status-critical{color:#F08888 !important;}
-
-/* Loading state */
 .gap-calc-loading{
-  text-align:center;padding:30px;
-  color:#5AB87A;font-size:13px;
+  text-align:center;padding:30px;color:#5AB87A;font-size:13px;
 }
-.gap-calc-loading::before{
-  content:"⏳ ";font-size:18px;
-}
-
-/* Mobile */
+.gap-calc-loading::before{content:"⏳ ";font-size:18px;}
 @media (max-width:768px){
   .gap-calc-grid{grid-template-columns:1fr;gap:10px;}
   .gap-calc-item-value{font-size:28px;}
@@ -8586,7 +8567,7 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
     <span class="tool-icon-tooltip">🕰️ آلة الزمن · الأرشيف الربعي</span>
   </button>
   <div style="flex:1"></div>
-  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🎯 v19.10 · Gap Calculator on Main Dashboard</div>
+  <div style="font-size:10px;color:#5AB87A;white-space:nowrap">🎯 v19.10 · Gap Calculator · Q1 + April Connected</div>
 </div>
 
 <!-- v14: Live Ticker -->
@@ -10121,31 +10102,18 @@ function renderView(view){
   renderSupBars(emps);
 
     
-    // ═══ v19.10: Update Gap Calculator ═══
+    // v19.10: Update Gap Calculator
     try {
       if (window.GapCalculator) {
-        // Determine user role and identifier
-        let userRole = 'all';
-        let identifier = '';
-        
-        // 'view' variable indicates current selection ('all' or supervisor name)
+        var userRole = 'all';
+        var identifier = '';
         if (typeof view === 'string' && view !== 'all') {
           userRole = 'supervisor';
           identifier = view;
         }
-        
-        // TODO: Future - detect logged-in user role for personalized employee view
-        
-        window.GapCalculator.render(
-          'gapCalculatorContainer',
-          userRole,
-          identifier,
-          DATA
-        );
+        window.GapCalculator.render('gapCalculatorContainer', userRole, identifier, DATA);
       }
-    } catch (e) {
-      // Silent fail - don't break renderView
-    }
+    } catch (e) {}
   
 }
 
@@ -17162,327 +17130,7 @@ setInterval(loadData,5*60*1000);
 // ═══════════════════════════════════════════════════════════════
 // Salam Dashboard — Behavior Tracker v1
 // ═══════════════════════════════════════════════════════════════
-// حقن هذا الكود قبل 
-<script>
-
-/* ═══════════════════════════════════════════════════════════
-   🎯 GAP CALCULATOR LOGIC (v19.10)
-   Loads Q1 + April archives, combines with current month,
-   calculates daily gap needed for each user role.
-   Philosophy: "Show me my number, not the company's number"
-   ═══════════════════════════════════════════════════════════ */
-window.GapCalculator = (function(){
-  'use strict';
-  
-  // Cache for archive data (loaded once per session)
-  let _archiveCache = null;
-  let _loadingPromise = null;
-  
-  // Configuration
-  const CONFIG = {
-    monthsCompleted: 4,           // Q1 (Jan-Mar) + April
-    monthsRemainingInYear: 8,     // May to December
-    workingDaysPerMonth: 26,
-    annualTargetMethod: 'extrapolate', // 'extrapolate' or 'fixed'
-  };
-  
-  /**
-   * Load archive data (Q1 + April) — cached
-   */
-  async function loadArchives() {
-    if (_archiveCache) return _archiveCache;
-    if (_loadingPromise) return _loadingPromise;
-    
-    _loadingPromise = (async () => {
-      try {
-        const [q1Resp, aprResp] = await Promise.all([
-          fetch('/data/Q1_2026.json').catch(() => null),
-          fetch('/data/April_2026.json').catch(() => null),
-        ]);
-        
-        const q1 = q1Resp && q1Resp.ok ? await q1Resp.json() : null;
-        const apr = aprResp && aprResp.ok ? await aprResp.json() : null;
-        
-        _archiveCache = { q1, apr };
-        return _archiveCache;
-      } catch (e) {
-        // Silent fail - return empty cache
-        _archiveCache = { q1: null, apr: null };
-        return _archiveCache;
-      }
-    })();
-    
-    return _loadingPromise;
-  }
-  
-  /**
-   * Calculate gap data for a given scope (all / supervisor / individual)
-   * @param {Object} options
-   * @param {string} options.scope - 'all' | 'supervisor' | 'employee'
-   * @param {string} options.identifier - manager name or user name
-   * @param {Array} options.currentMonthData - DATA from current month
-   * @returns {Object} gap calculation results
-   */
-  async function calculate(options = {}) {
-    const archives = await loadArchives();
-    const scope = options.scope || 'all';
-    const id = options.identifier || '';
-    const currentData = options.currentMonthData || [];
-    
-    // ═══ STEP 1: Get YTD figures ═══
-    let ytdTarget = 0;
-    let ytdAchieved = 0;
-    let monthsCompleted = 0;
-    
-    // From Q1 archive
-    if (archives.q1) {
-      if (scope === 'all') {
-        ytdTarget += archives.q1.summary.target || 0;
-        ytdAchieved += archives.q1.summary.achieved || 0;
-      } else if (scope === 'supervisor' && archives.q1.supervisors) {
-        const sup = archives.q1.supervisors.find(s => 
-          s.name_en && (s.name_en.toLowerCase().includes(id.toLowerCase()) ||
-                         id.toLowerCase().includes(s.name_en.toLowerCase()))
-        );
-        if (sup && sup.total) {
-          ytdTarget += sup.total.target || 0;
-          ytdAchieved += sup.total.achieved || 0;
-        }
-      } else if (scope === 'employee' && archives.q1.employees) {
-        const emp = archives.q1.employees.find(e => e.user === id);
-        if (emp && emp.total) {
-          ytdTarget += emp.total.target || 0;
-          ytdAchieved += emp.total.achieved || 0;
-        }
-      }
-      monthsCompleted += 3; // Q1 = 3 months
-    }
-    
-    // From April archive
-    if (archives.apr) {
-      if (scope === 'all') {
-        ytdTarget += archives.apr.summary.employees_target_sum || 0;
-        ytdAchieved += archives.apr.summary.achieved || 0;
-      } else if (scope === 'supervisor' && archives.apr.supervisors) {
-        const sup = archives.apr.supervisors.find(s => 
-          s.name_en && (s.name_en.toLowerCase().includes(id.toLowerCase()) ||
-                         id.toLowerCase().includes(s.name_en.toLowerCase()))
-        );
-        if (sup && sup.monthly && sup.monthly.Apr) {
-          ytdTarget += sup.monthly.Apr.target || 0;
-          ytdAchieved += sup.monthly.Apr.achieved || 0;
-        }
-      } else if (scope === 'employee' && archives.apr.employees) {
-        const emp = archives.apr.employees.find(e => e.user === id);
-        if (emp && emp.monthly && emp.monthly.Apr) {
-          ytdTarget += emp.monthly.Apr.target || 0;
-          ytdAchieved += emp.monthly.Apr.achieved || 0;
-        }
-      }
-      monthsCompleted += 1;
-    }
-    
-    // From current month (May or whatever the live month is)
-    let currentTarget = 0;
-    let currentAchieved = 0;
-    
-    if (Array.isArray(currentData) && currentData.length > 0) {
-      let filtered = currentData;
-      if (scope === 'supervisor') {
-        filtered = currentData.filter(e => 
-          e.mgr && e.mgr.toLowerCase().includes(id.toLowerCase())
-        );
-      } else if (scope === 'employee') {
-        filtered = currentData.filter(e => 
-          (e.user || '').toLowerCase() === id.toLowerCase()
-        );
-      }
-      
-      currentTarget = filtered.reduce((a, e) => a + (parseInt(e.target) || 0), 0);
-      currentAchieved = filtered.reduce((a, e) => a + (parseInt(e.sales) || 0), 0);
-    }
-    
-    ytdTarget += currentTarget;
-    ytdAchieved += currentAchieved;
-    if (currentTarget > 0 || currentAchieved > 0) {
-      monthsCompleted += 1;
-    }
-    
-    // ═══ STEP 2: Calculate forward-looking metrics ═══
-    
-    // Annual target (extrapolated from completed months)
-    let annualTarget = 0;
-    if (CONFIG.annualTargetMethod === 'extrapolate' && monthsCompleted > 0) {
-      const monthlyAverage = ytdTarget / monthsCompleted;
-      annualTarget = Math.round(monthlyAverage * 12);
-    }
-    
-    const monthsRemaining = Math.max(0, 12 - monthsCompleted);
-    const stillNeeded = Math.max(0, annualTarget - ytdAchieved);
-    const monthlyNeeded = monthsRemaining > 0 ? stillNeeded / monthsRemaining : 0;
-    const dailyNeeded = monthlyNeeded / CONFIG.workingDaysPerMonth;
-    
-    // YTD performance
-    const ytdPct = ytdTarget > 0 ? (ytdAchieved / ytdTarget * 100) : 0;
-    
-    // Status assessment
-    let status = 'good';
-    let statusEmoji = '✨';
-    let statusMessage = '';
-    
-    if (ytdPct >= 100) {
-      status = 'excellent';
-      statusEmoji = '🚀';
-      statusMessage = 'تجاوزت الهدف! استمر بنفس الإيقاع.';
-    } else if (ytdPct >= 90) {
-      status = 'excellent';
-      statusEmoji = '🎯';
-      statusMessage = 'أداء ممتاز! تحقيق الهدف وشيك.';
-    } else if (ytdPct >= 75) {
-      status = 'good';
-      statusEmoji = '✨';
-      statusMessage = 'في الطريق الصحيح، شوي وتطير.';
-    } else if (ytdPct >= 50) {
-      status = 'warning';
-      statusEmoji = '⚡';
-      statusMessage = 'يحتاج تركيز إضافي للأشهر القادمة.';
-    } else {
-      status = 'critical';
-      statusEmoji = '🔥';
-      statusMessage = 'يحتاج خطة عمل عاجلة لتعويض الفجوة.';
-    }
-    
-    return {
-      // Inputs
-      scope: scope,
-      identifier: id,
-      monthsCompleted: monthsCompleted,
-      monthsRemaining: monthsRemaining,
-      
-      // YTD
-      ytdTarget: ytdTarget,
-      ytdAchieved: ytdAchieved,
-      ytdPct: Math.round(ytdPct * 10) / 10,
-      ytdGap: Math.max(0, ytdTarget - ytdAchieved),
-      
-      // Annual projection
-      annualTarget: annualTarget,
-      stillNeeded: stillNeeded,
-      
-      // Forward
-      monthlyNeeded: Math.round(monthlyNeeded),
-      dailyNeeded: Math.round(dailyNeeded * 10) / 10,
-      workingDaysRemaining: monthsRemaining * CONFIG.workingDaysPerMonth,
-      
-      // Status
-      status: status,
-      statusEmoji: statusEmoji,
-      statusMessage: statusMessage,
-      
-      // Metadata
-      hasData: ytdTarget > 0,
-    };
-  }
-  
-  /**
-   * Render the gap calculator card into the DOM
-   * @param {string} containerId - Element ID to render into
-   * @param {string} userRole - 'all' | 'supervisor' | 'employee'  
-   * @param {string} identifier - manager name or user name
-   * @param {Array} currentData - Current month's DATA array
-   */
-  async function render(containerId, userRole, identifier, currentData) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-    
-    // Loading state
-    container.innerHTML = '<div class="gap-calc-loading">جاري حساب أرقامك...</div>';
-    
-    try {
-      const result = await calculate({
-        scope: userRole,
-        identifier: identifier,
-        currentMonthData: currentData,
-      });
-      
-      if (!result.hasData) {
-        container.innerHTML = '<div class="gap-calc-loading" style="color:#888">لا توجد بيانات كافية لحساب الفجوة</div>';
-        return;
-      }
-      
-      // Determine greeting based on role
-      let greeting = '';
-      if (userRole === 'all') {
-        greeting = 'الأداء العام للسنة';
-      } else if (userRole === 'supervisor') {
-        greeting = `موقف فريق ${identifier}`;
-      } else if (userRole === 'employee') {
-        greeting = `موقفك السنوي`;
-      }
-      
-      const statusClass = `gap-status-${result.status}`;
-      
-      container.innerHTML = `
-        <div class="gap-calc-card">
-          <div class="gap-calc-bg-num">${result.dailyNeeded.toFixed(0)}</div>
-          
-          <div class="gap-calc-header">
-            <div class="gap-calc-title">
-              <span>🎯</span>
-              <span>حاسبة الفجوة اليومية</span>
-            </div>
-            <div class="gap-calc-greeting">${greeting} · ${result.monthsCompleted} أشهر مكتملة</div>
-          </div>
-          
-          <div class="gap-calc-grid">
-            <div class="gap-calc-item primary">
-              <div class="gap-calc-item-label">رقمك اليومي</div>
-              <div class="gap-calc-item-value ${statusClass}">${result.dailyNeeded.toFixed(1)}</div>
-              <div class="gap-calc-item-sub">
-                عملية/يوم · <b>${result.workingDaysRemaining}</b> يوم عمل متبقي
-              </div>
-            </div>
-            
-            <div class="gap-calc-item">
-              <div class="gap-calc-item-label">YTD الإنجاز</div>
-              <div class="gap-calc-item-value ${statusClass}">${result.ytdPct}%</div>
-              <div class="gap-calc-item-sub">
-                <b>${result.ytdAchieved.toLocaleString()}</b> من ${result.ytdTarget.toLocaleString()}
-              </div>
-            </div>
-            
-            <div class="gap-calc-item">
-              <div class="gap-calc-item-label">المتبقي للسنة</div>
-              <div class="gap-calc-item-value">${result.stillNeeded.toLocaleString()}</div>
-              <div class="gap-calc-item-sub">
-                هدف سنوي: <b>${result.annualTarget.toLocaleString()}</b>
-              </div>
-            </div>
-          </div>
-          
-          <div class="gap-calc-message">
-            <span class="gap-icon">${result.statusEmoji}</span>
-            <b>${result.statusMessage}</b>
-            ${result.dailyNeeded > 0 ? `بمعدل ${result.dailyNeeded.toFixed(1)} عملية يومياً، تحقق هدف السنة في ${result.workingDaysRemaining} يوم.` : ''}
-          </div>
-        </div>
-      `;
-    } catch (e) {
-      container.innerHTML = '<div class="gap-calc-loading" style="color:#F08888">حدث خطأ في حساب الفجوة</div>';
-    }
-  }
-  
-  // Public API
-  return {
-    calculate: calculate,
-    render: render,
-    loadArchives: loadArchives,
-    _config: CONFIG,
-  };
-})();
-
-</script>
-</body> في الداشبورد
+// حقن هذا الكود قبل </body> في الداشبورد
 // ═══════════════════════════════════════════════════════════════
 
 (function() {
@@ -18505,6 +18153,259 @@ window.GapCalculator = (function(){
       handleAuthReady(window.__SALAM_AUTH__);
     }
   }
+})();
+</script>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   🎯 GAP CALCULATOR LOGIC (v19.10)
+   Loads Q1 + April archives, combines with current month,
+   calculates daily gap needed for each user role.
+   ═══════════════════════════════════════════════════════════ */
+(function(){
+  'use strict';
+  
+  let _archiveCache = null;
+  let _loadingPromise = null;
+  
+  const CONFIG = {
+    monthsCompleted: 4,
+    monthsRemainingInYear: 8,
+    workingDaysPerMonth: 26,
+  };
+  
+  async function loadArchives() {
+    if (_archiveCache) return _archiveCache;
+    if (_loadingPromise) return _loadingPromise;
+    
+    _loadingPromise = (async () => {
+      try {
+        const [q1Resp, aprResp] = await Promise.all([
+          fetch('/data/Q1_2026.json').catch(() => null),
+          fetch('/data/April_2026.json').catch(() => null),
+        ]);
+        
+        const q1 = q1Resp && q1Resp.ok ? await q1Resp.json() : null;
+        const apr = aprResp && aprResp.ok ? await aprResp.json() : null;
+        
+        _archiveCache = { q1: q1, apr: apr };
+        return _archiveCache;
+      } catch (e) {
+        _archiveCache = { q1: null, apr: null };
+        return _archiveCache;
+      }
+    })();
+    
+    return _loadingPromise;
+  }
+  
+  async function calculate(options) {
+    options = options || {};
+    const archives = await loadArchives();
+    const scope = options.scope || 'all';
+    const id = options.identifier || '';
+    const currentData = options.currentMonthData || [];
+    
+    let ytdTarget = 0;
+    let ytdAchieved = 0;
+    let monthsCompleted = 0;
+    
+    if (archives.q1) {
+      if (scope === 'all') {
+        ytdTarget += archives.q1.summary.target || 0;
+        ytdAchieved += archives.q1.summary.achieved || 0;
+      } else if (scope === 'supervisor' && archives.q1.supervisors) {
+        const sup = archives.q1.supervisors.find(function(s) {
+          return s.name_en && (
+            s.name_en.toLowerCase().indexOf(id.toLowerCase()) > -1 ||
+            id.toLowerCase().indexOf(s.name_en.toLowerCase()) > -1
+          );
+        });
+        if (sup && sup.total) {
+          ytdTarget += sup.total.target || 0;
+          ytdAchieved += sup.total.achieved || 0;
+        }
+      }
+      monthsCompleted += 3;
+    }
+    
+    if (archives.apr) {
+      if (scope === 'all') {
+        ytdTarget += archives.apr.summary.employees_target_sum || 0;
+        ytdAchieved += archives.apr.summary.achieved || 0;
+      } else if (scope === 'supervisor' && archives.apr.supervisors) {
+        const sup = archives.apr.supervisors.find(function(s) {
+          return s.name_en && (
+            s.name_en.toLowerCase().indexOf(id.toLowerCase()) > -1 ||
+            id.toLowerCase().indexOf(s.name_en.toLowerCase()) > -1
+          );
+        });
+        if (sup && sup.monthly && sup.monthly.Apr) {
+          ytdTarget += sup.monthly.Apr.target || 0;
+          ytdAchieved += sup.monthly.Apr.achieved || 0;
+        }
+      }
+      monthsCompleted += 1;
+    }
+    
+    let currentTarget = 0;
+    let currentAchieved = 0;
+    
+    if (Array.isArray(currentData) && currentData.length > 0) {
+      let filtered = currentData;
+      if (scope === 'supervisor') {
+        filtered = currentData.filter(function(e) {
+          return e.mgr && e.mgr.toLowerCase().indexOf(id.toLowerCase()) > -1;
+        });
+      }
+      
+      currentTarget = filtered.reduce(function(a, e) {
+        return a + (parseInt(e.target) || 0);
+      }, 0);
+      currentAchieved = filtered.reduce(function(a, e) {
+        return a + (parseInt(e.sales) || 0);
+      }, 0);
+    }
+    
+    ytdTarget += currentTarget;
+    ytdAchieved += currentAchieved;
+    if (currentTarget > 0 || currentAchieved > 0) {
+      monthsCompleted += 1;
+    }
+    
+    let annualTarget = 0;
+    if (monthsCompleted > 0) {
+      const monthlyAverage = ytdTarget / monthsCompleted;
+      annualTarget = Math.round(monthlyAverage * 12);
+    }
+    
+    const monthsRemaining = Math.max(0, 12 - monthsCompleted);
+    const stillNeeded = Math.max(0, annualTarget - ytdAchieved);
+    const monthlyNeeded = monthsRemaining > 0 ? stillNeeded / monthsRemaining : 0;
+    const dailyNeeded = monthlyNeeded / CONFIG.workingDaysPerMonth;
+    
+    const ytdPct = ytdTarget > 0 ? (ytdAchieved / ytdTarget * 100) : 0;
+    
+    let status = 'good';
+    let statusEmoji = '✨';
+    let statusMessage = '';
+    
+    if (ytdPct >= 100) {
+      status = 'excellent';
+      statusEmoji = '🚀';
+      statusMessage = 'تجاوزت الهدف! استمر بنفس الإيقاع.';
+    } else if (ytdPct >= 90) {
+      status = 'excellent';
+      statusEmoji = '🎯';
+      statusMessage = 'أداء ممتاز! تحقيق الهدف وشيك.';
+    } else if (ytdPct >= 75) {
+      status = 'good';
+      statusEmoji = '✨';
+      statusMessage = 'في الطريق الصحيح، شوي وتطير.';
+    } else if (ytdPct >= 50) {
+      status = 'warning';
+      statusEmoji = '⚡';
+      statusMessage = 'يحتاج تركيز إضافي للأشهر القادمة.';
+    } else {
+      status = 'critical';
+      statusEmoji = '🔥';
+      statusMessage = 'يحتاج خطة عمل عاجلة لتعويض الفجوة.';
+    }
+    
+    return {
+      scope: scope,
+      identifier: id,
+      monthsCompleted: monthsCompleted,
+      monthsRemaining: monthsRemaining,
+      ytdTarget: ytdTarget,
+      ytdAchieved: ytdAchieved,
+      ytdPct: Math.round(ytdPct * 10) / 10,
+      ytdGap: Math.max(0, ytdTarget - ytdAchieved),
+      annualTarget: annualTarget,
+      stillNeeded: stillNeeded,
+      monthlyNeeded: Math.round(monthlyNeeded),
+      dailyNeeded: Math.round(dailyNeeded * 10) / 10,
+      workingDaysRemaining: monthsRemaining * CONFIG.workingDaysPerMonth,
+      status: status,
+      statusEmoji: statusEmoji,
+      statusMessage: statusMessage,
+      hasData: ytdTarget > 0,
+    };
+  }
+  
+  async function render(containerId, userRole, identifier, currentData) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    
+    container.innerHTML = '<div class="gap-calc-loading">جاري حساب أرقامك...</div>';
+    
+    try {
+      const result = await calculate({
+        scope: userRole,
+        identifier: identifier,
+        currentMonthData: currentData,
+      });
+      
+      if (!result.hasData) {
+        container.innerHTML = '<div class="gap-calc-loading" style="color:#888">لا توجد بيانات كافية لحساب الفجوة</div>';
+        return;
+      }
+      
+      let greeting = '';
+      if (userRole === 'all') {
+        greeting = 'الأداء العام للسنة';
+      } else if (userRole === 'supervisor') {
+        greeting = 'موقف فريق ' + identifier;
+      }
+      
+      const statusClass = 'gap-status-' + result.status;
+      
+      const html = 
+        '<div class="gap-calc-card">' +
+          '<div class="gap-calc-bg-num">' + result.dailyNeeded.toFixed(0) + '</div>' +
+          '<div class="gap-calc-header">' +
+            '<div class="gap-calc-title">' +
+              '<span>🎯</span>' +
+              '<span>حاسبة الفجوة اليومية</span>' +
+            '</div>' +
+            '<div class="gap-calc-greeting">' + greeting + ' · ' + result.monthsCompleted + ' أشهر مكتملة</div>' +
+          '</div>' +
+          '<div class="gap-calc-grid">' +
+            '<div class="gap-calc-item primary">' +
+              '<div class="gap-calc-item-label">رقمك اليومي</div>' +
+              '<div class="gap-calc-item-value ' + statusClass + '">' + result.dailyNeeded.toFixed(1) + '</div>' +
+              '<div class="gap-calc-item-sub">عملية/يوم · <b>' + result.workingDaysRemaining + '</b> يوم عمل متبقي</div>' +
+            '</div>' +
+            '<div class="gap-calc-item">' +
+              '<div class="gap-calc-item-label">YTD الإنجاز</div>' +
+              '<div class="gap-calc-item-value ' + statusClass + '">' + result.ytdPct + '%</div>' +
+              '<div class="gap-calc-item-sub"><b>' + result.ytdAchieved.toLocaleString() + '</b> من ' + result.ytdTarget.toLocaleString() + '</div>' +
+            '</div>' +
+            '<div class="gap-calc-item">' +
+              '<div class="gap-calc-item-label">المتبقي للسنة</div>' +
+              '<div class="gap-calc-item-value">' + result.stillNeeded.toLocaleString() + '</div>' +
+              '<div class="gap-calc-item-sub">هدف سنوي: <b>' + result.annualTarget.toLocaleString() + '</b></div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="gap-calc-message">' +
+            '<span class="gap-icon">' + result.statusEmoji + '</span>' +
+            '<b>' + result.statusMessage + '</b> ' +
+            (result.dailyNeeded > 0 ? 'بمعدل ' + result.dailyNeeded.toFixed(1) + ' عملية يومياً، تحقق هدف السنة في ' + result.workingDaysRemaining + ' يوم.' : '') +
+          '</div>' +
+        '</div>';
+      
+      container.innerHTML = html;
+    } catch (e) {
+      container.innerHTML = '<div class="gap-calc-loading" style="color:#F08888">حدث خطأ في حساب الفجوة</div>';
+    }
+  }
+  
+  window.GapCalculator = {
+    calculate: calculate,
+    render: render,
+    loadArchives: loadArchives,
+    _config: CONFIG,
+  };
 })();
 </script>
 
