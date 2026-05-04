@@ -4359,9 +4359,109 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 .sec-t::after{content:'';flex:1;height:1px;background:var(--border)}
 
 .filter-row{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
-.pill{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:500;border:1px solid var(--border);background:var(--card);color:#A8D8B8;cursor:pointer;transition:all .15s}
+.pill{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:500;border:1px solid var(--border);background:var(--card);color:#A8D8B8;cursor:pointer;transition:all .15s;position:relative}
 .pill:hover{border-color:var(--border2);color:#fff}
 .pill.on{background:var(--g5);color:#fff;border-color:var(--g5);font-weight:600}
+
+/* ─── Branch Tooltip ─── */
+.branch-tooltip{
+  position:absolute;
+  bottom:calc(100% + 8px);
+  left:50%;
+  transform:translateX(-50%) translateY(4px);
+  background:linear-gradient(135deg,#0A2818 0%,#0E3622 60%,#15422C 100%);
+  border:1px solid rgba(61,214,140,0.35);
+  border-radius:10px;
+  padding:10px 12px;
+  min-width:180px;
+  z-index:1000;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 0.18s ease, transform 0.18s ease;
+  box-shadow:0 8px 24px rgba(0,0,0,0.4),0 0 0 1px rgba(61,214,140,0.1);
+  text-align:right;
+  white-space:nowrap;
+  cursor:default;
+}
+.branch-tooltip::before{
+  content:"";
+  position:absolute;
+  top:100%;
+  left:50%;
+  transform:translateX(-50%);
+  border-left:6px solid transparent;
+  border-right:6px solid transparent;
+  border-top:6px solid rgba(61,214,140,0.35);
+}
+.branch-tooltip::after{
+  content:"";
+  position:absolute;
+  top:100%;
+  left:50%;
+  transform:translateX(-50%) translateY(-1px);
+  border-left:5px solid transparent;
+  border-right:5px solid transparent;
+  border-top:5px solid #0E3622;
+}
+.pill:hover .branch-tooltip,
+.pill.show-tooltip .branch-tooltip{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+.bt-title{
+  font-size:12px;
+  font-weight:800;
+  color:#5DE8A8;
+  margin-bottom:8px;
+  padding-bottom:6px;
+  border-bottom:1px solid rgba(61,214,140,0.15);
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.bt-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:11px;
+  margin-bottom:4px;
+  color:#C8E8D0;
+  gap:12px;
+}
+.bt-row:last-child{margin-bottom:0;}
+.bt-label{color:#8ABCA0;display:flex;align-items:center;gap:5px;font-weight:500}
+.bt-value{font-weight:700;font-variant-numeric:tabular-nums;}
+.bt-bar-wrap{
+  margin-top:8px;
+  height:5px;
+  background:rgba(255,255,255,0.06);
+  border-radius:3px;
+  overflow:hidden;
+}
+.bt-bar-fill{
+  height:100%;
+  border-radius:3px;
+  transition:width 0.3s ease;
+}
+.bt-pct-excellent{color:#5DE8A8;}
+.bt-pct-good{color:#A8E08A;}
+.bt-pct-warning{color:#F4D88A;}
+.bt-pct-bad{color:#F4A88A;}
+.bt-pct-critical{color:#F08888;}
+.bt-bar-fill.bt-bar-excellent{background:linear-gradient(90deg,#3DD68C,#5DE8A8);}
+.bt-bar-fill.bt-bar-good{background:linear-gradient(90deg,#8AC890,#A8E08A);}
+.bt-bar-fill.bt-bar-warning{background:linear-gradient(90deg,#D8B868,#F4D88A);}
+.bt-bar-fill.bt-bar-bad{background:linear-gradient(90deg,#D88868,#F4A88A);}
+.bt-bar-fill.bt-bar-critical{background:linear-gradient(90deg,#C85858,#F08888);}
+@media (max-width:768px){
+  .branch-tooltip{
+    min-width:160px;
+    padding:8px 10px;
+  }
+  .bt-title{font-size:11px;}
+  .bt-row{font-size:10px;}
+}
+/* ─── End Branch Tooltip ─── */
 
 /* ── TABLE ── */
 .table-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
@@ -10570,8 +10670,27 @@ function renderView(view){
     <!-- TABLE -->
     <div class="sec-t">Employee Leaderboard</div>
     <div class="filter-row" id="fpills">
-      <button class="pill on" onclick="doFilter('all',this)">All branches</button>
-      ${branches.map(b=>`<button class="pill" onclick="doFilter('${b.replace(/'/g,"\\'")}',this)">${b}</button>`).join('')}
+      ${(()=>{
+        // Compute "All branches" totals
+        const allCount=emps.length;
+        const allSales=emps.reduce((a,e)=>a+(e.sales||0),0);
+        const allTarget=emps.reduce((a,e)=>a+(e.target||0),0);
+        const allPct=allTarget>0?Math.round(allSales/allTarget*100):0;
+        const allCls=allPct>=90?'excellent':allPct>=75?'good':allPct>=50?'warning':allPct>=25?'bad':'critical';
+        const allBarPct=Math.min(allPct,100);
+        return `<button class="pill on" onclick="doFilter('all',this)">All branches${buildBranchTooltip('All branches',allCount,allSales,allTarget,allPct,allCls,allBarPct)}</button>`;
+      })()}
+      ${branches.map(b=>{
+        const brEmps=emps.filter(e=>e.branch===b);
+        const brCount=brEmps.length;
+        const brSales=brEmps.reduce((a,e)=>a+(e.sales||0),0);
+        const brTarget=brEmps.reduce((a,e)=>a+(e.target||0),0);
+        const brPct=brTarget>0?Math.round(brSales/brTarget*100):0;
+        const brCls=brPct>=90?'excellent':brPct>=75?'good':brPct>=50?'warning':brPct>=25?'bad':'critical';
+        const brBarPct=Math.min(brPct,100);
+        const safeB=b.replace(/'/g,"\\'");
+        return `<button class="pill" onclick="doFilter('${safeB}',this)">${b}${buildBranchTooltip(b,brCount,brSales,brTarget,brPct,brCls,brBarPct)}</button>`;
+      }).join('')}
     </div>
     <div class="table-card">
       <div class="tbl-hdr">
@@ -10627,6 +10746,33 @@ function renderView(view){
       }
     } catch (e) {}
   
+}
+
+// ═══════════════════════════════════════════════════════════
+// Branch Tooltip Builder — Shows on hover for each branch pill
+// ═══════════════════════════════════════════════════════════
+function buildBranchTooltip(branchName,count,sales,target,pct,cls,barPct){
+  // Status emoji based on performance
+  const emoji=pct>=90?'🟢':pct>=75?'🟢':pct>=50?'🟡':pct>=25?'🟠':'🔴';
+  const safeName=String(branchName).replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return `<span class="branch-tooltip">
+    <div class="bt-title">📍 ${safeName}</div>
+    <div class="bt-row">
+      <span class="bt-label">👥 الموظفين</span>
+      <span class="bt-value">${count}</span>
+    </div>
+    <div class="bt-row">
+      <span class="bt-label">📊 المبيعات</span>
+      <span class="bt-value">${sales.toLocaleString()} / ${target.toLocaleString()}</span>
+    </div>
+    <div class="bt-row">
+      <span class="bt-label">🎯 التحقيق ${emoji}</span>
+      <span class="bt-value bt-pct-${cls}">${pct}%</span>
+    </div>
+    <div class="bt-bar-wrap">
+      <div class="bt-bar-fill bt-bar-${cls}" style="width:${barPct}%"></div>
+    </div>
+  </span>`;
 }
 
 // ═══════════════════════════════════════════════════════════
