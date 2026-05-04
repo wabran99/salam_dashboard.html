@@ -3762,6 +3762,102 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
 }
 /* ═══════════════════════════════════════════════════════════ */
 
+/* ─── Daily Sales Section (Home page) ─── */
+.daily-sales-section{margin-bottom:20px;}
+.daily-sales-card{
+  background:linear-gradient(135deg,#0A2818 0%,#0E3622 60%,#15422C 100%);
+  border:1px solid rgba(61,214,140,0.25);
+  border-radius:16px;
+  padding:20px 22px;
+  position:relative;
+  overflow:hidden;
+}
+.daily-sales-card::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,#3DD68C 0%,#5DE8A8 50%,#3DD68C 100%);
+}
+.daily-sales-header{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:16px;flex-wrap:wrap;gap:8px;
+}
+.daily-sales-title{
+  display:flex;align-items:center;gap:8px;
+  font-size:15px;font-weight:800;color:#3DD68C;
+  text-transform:uppercase;letter-spacing:1px;
+}
+.daily-sales-title span:first-child{font-size:20px;}
+.daily-sales-month{
+  font-size:11px;color:#5AB87A;opacity:0.85;
+  font-weight:600;
+}
+.daily-sales-grid{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:8px;
+}
+.daily-sales-cell{
+  background:rgba(61,214,140,0.06);
+  border:1px solid rgba(61,214,140,0.15);
+  border-radius:10px;
+  padding:10px 6px;
+  text-align:center;
+  transition:transform 0.15s,background 0.15s,border-color 0.15s;
+  min-height:60px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+.daily-sales-cell:hover{
+  transform:translateY(-2px);
+  background:rgba(61,214,140,0.12);
+  border-color:rgba(61,214,140,0.4);
+}
+.daily-sales-cell.empty-cell{
+  background:transparent;
+  border:1px dashed rgba(255,255,255,0.05);
+  opacity:0.3;
+}
+.daily-sales-cell.future-cell{
+  background:rgba(255,255,255,0.02);
+  border:1px dashed rgba(255,255,255,0.08);
+  opacity:0.4;
+}
+.daily-sales-cell.zero-cell{
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.05);
+}
+.daily-sales-day{
+  font-size:11px;color:#7DC3A0;
+  font-weight:600;margin-bottom:4px;
+}
+.daily-sales-count{
+  font-size:18px;font-weight:800;
+  color:#5DE8A8;font-variant-numeric:tabular-nums;
+}
+.daily-sales-cell.zero-cell .daily-sales-count{
+  color:#666;font-size:14px;
+}
+.daily-sales-cell.future-cell .daily-sales-count{
+  color:#444;font-size:14px;
+}
+.daily-sales-loading{
+  text-align:center;padding:30px;color:#5AB87A;font-size:13px;
+}
+.daily-sales-loading::before{content:"⏳ ";font-size:18px;}
+@media (max-width:768px){
+  .daily-sales-grid{grid-template-columns:repeat(5,1fr);gap:6px;}
+  .daily-sales-cell{padding:8px 4px;min-height:50px;}
+  .daily-sales-day{font-size:10px;}
+  .daily-sales-count{font-size:15px;}
+}
+@media (max-width:480px){
+  .daily-sales-grid{grid-template-columns:repeat(4,1fr);}
+}
+/* ─── End Daily Sales Section ─── */
+
+/* ═══════════════════════════════════════════════════════════ */
+
 /* ── KPI CARDS ── */
 .kpi-section{margin-bottom:20px}
 /* Equal 2-col grid for all rows */
@@ -10038,9 +10134,9 @@ function renderView(view){
       <div class="sres" id="sres"></div>
     </div>
 
-    <!-- KPIs Row 1: Sales + Achievement -->
-    <div class="gap-calc-section">
-        <div id="gapCalculatorContainer"></div>
+    <!-- Daily Sales for current month - Replaces Gap Calculator on home page -->
+    <div class="daily-sales-section">
+        <div id="dailySalesContainer"></div>
       </div>
       
       <div class="kpi-section">
@@ -10389,10 +10485,110 @@ function renderView(view){
           userRole = 'supervisor';
           identifier = view;
         }
-        window.GapCalculator.render('gapCalculatorContainer', userRole, identifier, DATA);
+        // Hidden from home page - kept for use in other pages (employee cards)
+        // window.GapCalculator.render('gapCalculatorContainer', userRole, identifier, DATA);
+      }
+      
+      // Render daily sales for current month
+      if (typeof renderDailySales === 'function') {
+        renderDailySales();
       }
     } catch (e) {}
   
+}
+
+// ═══════════════════════════════════════════════════════════
+// Daily Sales for current month — Replaces Gap Calculator on home
+// ═══════════════════════════════════════════════════════════
+function renderDailySales(){
+  const container=document.getElementById('dailySalesContainer');
+  if(!container)return;
+  
+  try{
+    // Filter employees by current view (all/supervisor)
+    let emps=DATA||[];
+    if(CUR && CUR!=='all'){
+      emps=emps.filter(e=>e.supervisor===CUR);
+    }
+    
+    // Aggregate daily sales across all employees
+    const dailyTotals={};
+    if(typeof hasBrowseData==='function' && hasBrowseData()){
+      emps.forEach(e=>{
+        const empDaily=getEmpDailySales(e);
+        Object.entries(empDaily).forEach(([iso,count])=>{
+          dailyTotals[iso]=(dailyTotals[iso]||0)+count;
+        });
+      });
+    }
+    
+    // Get current month info
+    const d=new Date(DATA_DATE);
+    if(isNaN(d)){
+      container.innerHTML='<div class="daily-sales-loading">في انتظار بيانات التاريخ...</div>';
+      return;
+    }
+    
+    const year=d.getFullYear();
+    const month=d.getMonth();
+    const today=d.getDate();
+    const daysInMonth=new Date(year,month+1,0).getDate();
+    const firstDayOfWeek=new Date(year,month,1).getDay();// 0=Sun
+    const monthNamesAR=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+    const monthNameAR=monthNamesAR[month];
+    
+    // Build cells
+    let cellsHtml='';
+    
+    // Empty cells before day 1
+    for(let i=0;i<firstDayOfWeek;i++){
+      cellsHtml+='<div class="daily-sales-cell empty-cell"></div>';
+    }
+    
+    // Days of the month
+    for(let day=1;day<=daysInMonth;day++){
+      const iso=`${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+      const sales=dailyTotals[iso]||0;
+      
+      let cellClass='daily-sales-cell';
+      let displayCount=sales;
+      
+      if(day>today){
+        cellClass+=' future-cell';
+        displayCount='—';
+      }else if(sales===0){
+        cellClass+=' zero-cell';
+        displayCount=0;
+      }
+      
+      cellsHtml+=`
+        <div class="${cellClass}">
+          <div class="daily-sales-day">${day} ${monthNameAR}</div>
+          <div class="daily-sales-count">${displayCount}</div>
+        </div>
+      `;
+    }
+    
+    const viewLabel=CUR==='all'?'كل الموظفين':`فريق ${CUR}`;
+    
+    container.innerHTML=`
+      <div class="daily-sales-card">
+        <div class="daily-sales-header">
+          <div class="daily-sales-title">
+            <span>📅</span>
+            <span>المبيعات اليومية</span>
+          </div>
+          <div class="daily-sales-month">${monthNameAR} ${year} · ${viewLabel}</div>
+        </div>
+        <div class="daily-sales-grid">
+          ${cellsHtml}
+        </div>
+      </div>
+    `;
+  }catch(err){
+    console.error('renderDailySales error:',err);
+    container.innerHTML='<div class="daily-sales-loading" style="color:#F08888">حدث خطأ في تحميل البيانات</div>';
+  }
 }
 
 function renderTop5(sorted){
