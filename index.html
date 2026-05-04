@@ -10772,34 +10772,22 @@ function renderDailySales(){
     let html='';
     
     if(CUR==='all' || !CUR){
-      // Block 1: All employees
-      html+=buildBlock(
-        'dsb_all','','📊',
+      // Show all employees in a single block
+      html=buildBlock(
+        'dsb_main','','📊',
         'كل الموظفين',
         'الإجمالي العام',
         allEmps,
         allEmps.length
       );
-      
-      // Block 2-5: Each supervisor
-      sups.forEach(s=>{
-        const supEmps=allEmps.filter(e=>e.mgr && e.mgr.toLowerCase().includes(s.key.toLowerCase()));
-        if(supEmps.length===0)return;
-        const blockId='dsb_'+s.key.replace(/\s+/g,'_');
-        html+=buildBlock(
-          blockId,s.cls,s.icon,
-          s.full,
-          'فريق المشرف',
-          supEmps,
-          supEmps.length
-        );
-      });
     }else{
-      // Single supervisor view
+      // Single supervisor view - filter and show one block
       const sup=sups.find(s=>s.key===CUR);
       const supEmps=allEmps.filter(e=>e.mgr && e.mgr.toLowerCase().includes((sup?sup.key:CUR).toLowerCase()));
-      html+=buildBlock(
-        'dsb_current',sup?sup.cls:'','📊',
+      html=buildBlock(
+        'dsb_main',
+        sup?sup.cls:'',
+        sup?sup.icon:'👤',
         sup?sup.full:`فريق ${CUR}`,
         'فريق المشرف',
         supEmps,
