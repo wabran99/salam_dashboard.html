@@ -10153,43 +10153,56 @@ function parseCSV_BROWSE(txt){
     return -1;
   };
   const colUser  = findCol('username','user name','user');
-  // v16.9.1: Prioritize ActivationDateTime (combined field) over separate date/time
-  const colActDT = findCol('activationdatetime','activation datetime','activation date time','activation_datetime');
+  // v17: Prioritize Sales Date (primary source) over ActivationDateTime (fallback)
+  // Reason: ActivationDateTime sometimes has missing/null values that cause records to be dropped
+  // Sales Date is more reliable in the source sheet
   const colDate  = findCol('sales date','date','browse date','created');
   const colTime  = findCol('sales time','time','hour');
+  const colActDT = findCol('activationdatetime','activation datetime','activation date time','activation_datetime');
   const colType  = findCol('linetype','line type','type','product');
   const colIccid = findCol('iccid','sim','msisdn');
-  // Decide which source to use
-  const useActDT = colActDT>=0;
-  if(colUser<0||(colActDT<0&&colDate<0)){
+  // v17: Use Sales Date as primary, ActivationDateTime as fallback only
+  const usePrimaryDate = colDate >= 0;
+  if(colUser<0||(colDate<0&&colActDT<0)){
     console.warn('Browse Date: missing required columns. Headers:',hdrs);
     return[];
   }
-  console.log(`✓ Browse Date source: ${useActDT?'ActivationDateTime (combined)':'Sales Date + Sales Time (separate)'}`);
-  return lines.slice(1).map(l=>{
+  console.log(`✓ Browse Date source: ${usePrimaryDate?'Sales Date (primary) + Sales Time':'ActivationDateTime (fallback)'}`);
+  let droppedCount = 0;
+  const result = lines.slice(1).map(l=>{
     const c=splitLine(l);
     const user=(c[colUser]||'').replace(/"/g,'').trim().toLowerCase();
     const lineType=colType>=0?(c[colType]||'').replace(/"/g,'').trim().toLowerCase():'';
     const iccid=colIccid>=0?(c[colIccid]||'').replace(/"/g,'').trim():'';
-    // v16.9.1: Extract date AND hour from the right source
+    // v17: Try Sales Date first; if empty/invalid, fallback to ActivationDateTime
     let d,hour;
-    if(useActDT){
-      // ActivationDateTime contains both date AND time — parse together
-      const rawDT=(c[colActDT]||'').replace(/"/g,'').trim();
-      if(!rawDT)return null;
-      d=parseSmartDateTime(rawDT);
-      if(!d)return null;
-      hour=d.getHours();  // Real hour from ActivationDateTime
-    }else{
-      // Fallback: separate date + time columns
+    if(usePrimaryDate){
       const rawDate=(c[colDate]||'').replace(/"/g,'').trim();
       const rawTime=colTime>=0?(c[colTime]||'').replace(/"/g,'').trim():'';
-      if(!user||!rawDate)return null;
-      d=parseSmartDate(rawDate);
-      if(!d)return null;
-      hour=parseSmartHour(rawTime);
+      if(rawDate){
+        d=parseSmartDate(rawDate);
+        if(d){
+          hour=parseSmartHour(rawTime);
+        }
+      }
+      // Fallback: if Sales Date couldn't be parsed, try ActivationDateTime
+      if(!d && colActDT>=0){
+        const rawDT=(c[colActDT]||'').replace(/"/g,'').trim();
+        if(rawDT){
+          d=parseSmartDateTime(rawDT);
+          if(d)hour=d.getHours();
+        }
+      }
+      if(!d){droppedCount++;return null;}
+    }else{
+      // Last resort: only ActivationDateTime available
+      const rawDT=(c[colActDT]||'').replace(/"/g,'').trim();
+      if(!rawDT){droppedCount++;return null;}
+      d=parseSmartDateTime(rawDT);
+      if(!d){droppedCount++;return null;}
+      hour=d.getHours();
     }
-    if(!user)return null;
+    if(!user){droppedCount++;return null;}
     return{
       user,
       date:d.toLocaleDateString(),
@@ -10205,6 +10218,11 @@ function parseCSV_BROWSE(txt){
       weekOfMonth:Math.ceil(d.getDate()/7)
     };
   }).filter(Boolean);
+  if(droppedCount>0){
+    console.warn(`⚠️ Browse Date: ${droppedCount} rows dropped (missing user or unparseable date in both Sales Date and ActivationDateTime)`);
+  }
+  console.log(`✓ Browse Date: ${result.length} rows parsed successfully`);
+  return result;
 }
 
 // v16.9.1: Parse combined date+time string (ActivationDateTime)
@@ -10843,6 +10861,8 @@ function renderDailySales(){
       const dailyTotals=aggregateDaily(empList);
       
       // Calculate stats
+      // monthTotal = sum of daily transactions in current month from BROWSE_DATA
+      // Now reads from Sales Date (more reliable) — should match TOTAL SALES
       let monthTotal=0,activeDays=0,bestDay=0,bestDayDate='';
       Object.entries(dailyTotals).forEach(([iso,count])=>{
         if(iso.startsWith(`${year}-${String(month+1).padStart(2,'0')}`)){
