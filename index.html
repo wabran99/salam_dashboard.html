@@ -10860,13 +10860,13 @@ function renderDailySales(){
     function buildBlock(blockId,supClass,iconEmoji,title,subtitle,empList,empCount){
       const dailyTotals=aggregateDaily(empList);
       
-      // Calculate stats
-      // monthTotal = sum of daily transactions in current month from BROWSE_DATA
-      // Now reads from Sales Date (more reliable) — should match TOTAL SALES
-      let monthTotal=0,activeDays=0,bestDay=0,bestDayDate='';
+      // monthTotal = sum of e.sales (same source as TOTAL SALES)
+      // This guarantees المجموع matches TOTAL SALES below — always
+      const monthTotal=empList.reduce((a,e)=>a+(e.sales||0),0);
+      
+      let activeDays=0,bestDay=0,bestDayDate='';
       Object.entries(dailyTotals).forEach(([iso,count])=>{
         if(iso.startsWith(`${year}-${String(month+1).padStart(2,'0')}`)){
-          monthTotal+=count;
           if(count>0)activeDays++;
           if(count>bestDay){bestDay=count;bestDayDate=iso;}
         }
