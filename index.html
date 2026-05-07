@@ -10963,24 +10963,24 @@ function renderDailySales(){
     let html='';
     
     if(CUR==='all' || !CUR){
-      // Show all employees in a single block
+      // Show all employees — unified title and color
       html=buildBlock(
         'dsb_main','','📊',
-        'كل الموظفين',
-        'الإجمالي العام',
+        'Daily Sales',
+        '',
         allEmps,
         allEmps.length
       );
     }else{
-      // Single supervisor view - filter and show one block
+      // Single supervisor view — same unified title and color
       const sup=sups.find(s=>s.key===CUR);
       const supEmps=allEmps.filter(e=>e.mgr && e.mgr.toLowerCase().includes((sup?sup.key:CUR).toLowerCase()));
       html=buildBlock(
         'dsb_main',
-        sup?sup.cls:'',
-        sup?sup.icon:'👤',
-        sup?sup.full:`فريق ${CUR}`,
-        'فريق المشرف',
+        '',
+        '📊',
+        'Daily Sales',
+        '',
         supEmps,
         supEmps.length
       );
