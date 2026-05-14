@@ -3776,11 +3776,53 @@ html[data-theme="dark"] .tbl-row.r3 .t-rank{color:#E89856;}
 }
 
 /* ═══ Compatibility additions ═══ */
-html, html body{
+html, html body, html[data-theme="light"] body{
   background: #f5f6f4 !important;
+  background-color: #f5f6f4 !important;
+  background-image: none !important;
   color: #0d1f17 !important;
   font-family: 'IBM Plex Sans Arabic','Lato',sans-serif !important;
 }
+
+/* CRITICAL: Kill any background bleeding from app-shell, page, content */
+.app-shell, .page, #content, .content, .wrap{
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+/* Make sure NEWS TICKER respects light theme (default green is for dark) */
+html[data-theme="light"] .ticker{
+  background: #ffffff !important;
+  border-top: 1px solid #e3e7e3 !important;
+  border-bottom: 1px solid #e3e7e3 !important;
+  color: #0d1f17 !important;
+}
+html[data-theme="light"] .ticker::before{
+  background: linear-gradient(90deg, #f5f6f4 0%, transparent 100%) !important;
+}
+html[data-theme="light"] .ticker::after{
+  background: linear-gradient(270deg, #f5f6f4 0%, transparent 100%) !important;
+}
+html[data-theme="light"] .ticker-item{ color: #0d1f17 !important; }
+html[data-theme="light"] .ticker-item.salam{ color: #00693E !important; }
+html[data-theme="light"] .ticker-item.gold{ color: #9A7A2C !important; }
+html[data-theme="light"] .ticker-item.sblue{ color: #3B82F6 !important; }
+html[data-theme="light"] .ticker-item.red{ color: #DC2626 !important; }
+
+/* Make app-shell full width — not constrained to 1400px in this clean build */
+.app-shell{
+  max-width: 1400px !important;
+  margin: 0 auto !important;
+  padding: 0 32px !important;
+}
+@media (max-width: 768px){
+  .app-shell{ padding: 0 14px !important; }
+}
+
+/* Force body to fill viewport with cream */
+html{ background: #f5f6f4 !important; }
+body{ background: #f5f6f4 !important; min-height: 100vh; }
 
 /* Loading/empty states */
 .loading{ text-align:center; padding:60px 20px; }
