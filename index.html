@@ -3836,19 +3836,11 @@ html[data-theme="dark"] .tbl-row.r3 .t-rank{color:#E89856;}
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    Hide OLD duplicated elements (replaced by new design above)
-   We keep them in DOM for JS compatibility, but hide them visually
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
-/* Hide old header (.hdr) - replaced by new .topbar */
 .hdr{ display:none !important; }
-
-/* Hide old toolbar - replaced by new .header-icons */
 .toolbar{ display:none !important; }
-
-/* Hide old ticker - replaced by new .ticker */
 .ticker-wrap{ display:none !important; }
-
-/* Hide old version badge if it exists outside new layout */
 .version-old, [class*="version-old"]{ display:none !important; }
 
 /* Hide old sidebar structure since we're replacing with new */
@@ -3860,11 +3852,8 @@ html[data-theme="dark"] .tbl-row.r3 .t-rank{color:#E89856;}
   .wrap > .content{ padding:0 16px !important; }
 }
 
-/* Ensure Time Machine overlay is on top of everything */
+/* Time Machine overlay on top */
 #timeMachineOverlay{ z-index:9999 !important; }
-
-/* Body background: use new theme variable */
-body{ background: var(--bg) !important; color: var(--text) !important; }
 
 
 
@@ -6682,6 +6671,156 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
   .mk{padding:14px 16px}
   .mk-val{font-size:32px}
 }
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   🎯 v20.0 FINAL OVERRIDES — Force new theme to win cascade
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Force body to use new theme background (overrides old --g1) */
+html body{
+  background: var(--bg) !important;
+  color: var(--text) !important;
+  font-family: 'IBM Plex Sans Arabic','Lato',sans-serif !important;
+}
+
+/* Force the wrap (main container) to be transparent */
+.wrap{
+  background: transparent !important;
+}
+
+/* Force content area to use new background */
+.wrap > .content{
+  background: transparent !important;
+  color: var(--text) !important;
+}
+
+/* Old KPI cards background fix */
+.mk{
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+}
+
+/* Old labels readable in light mode */
+.mk-lbl{ color: var(--text-2) !important; }
+.mk-val{ color: var(--text) !important; }
+.mk-sub{ color: var(--text-3) !important; }
+
+/* Old sections backgrounds */
+.kpi-section, .daily-sales-section, .search-wrap,
+.top5-section, .ftth-section, .supcards-section,
+.charts-section, .leaderboard-section{
+  background: transparent !important;
+}
+
+/* Old search box */
+.search-wrap{
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+}
+.sinp{
+  background: transparent !important;
+  color: var(--text) !important;
+}
+
+/* Old tables/leaderboard */
+.tbl-row, .tbl-cols{
+  background: var(--surface) !important;
+  color: var(--text) !important;
+}
+
+/* Old supervisor cards */
+.sup-card{
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+}
+
+/* Old podium */
+.podium-wrap, .podium-card{
+  background: var(--surface) !important;
+  color: var(--text) !important;
+}
+
+/* Old branch tooltips/sections */
+.br-section, .top5-row, .top-slim-row{
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+
+/* Old loading state */
+.loading{
+  background: transparent !important;
+  color: var(--text) !important;
+}
+
+/* Old empty state */
+.empty{
+  background: var(--surface) !important;
+  color: var(--text) !important;
+}
+
+/* DARK MODE adjustments for old elements */
+html[data-theme="dark"] .mk,
+html[data-theme="dark"] .sup-card,
+html[data-theme="dark"] .podium-wrap,
+html[data-theme="dark"] .podium-card,
+html[data-theme="dark"] .tbl-row,
+html[data-theme="dark"] .tbl-cols,
+html[data-theme="dark"] .br-section,
+html[data-theme="dark"] .top5-row,
+html[data-theme="dark"] .top-slim-row,
+html[data-theme="dark"] .empty,
+html[data-theme="dark"] .search-wrap{
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+}
+
+/* Make sure old colors of percentage/numbers are visible */
+.mk-val, .mk-bg-num{
+  font-weight: 800 !important;
+}
+
+/* The mysterious leaderboard greens — force readable text */
+.lb-table, .tbl-row > div, .tbl-cols > div{
+  color: var(--text) !important;
+}
+
+/* Tabs/Pills */
+.pill{
+  background: var(--surface-2) !important;
+  color: var(--text-2) !important;
+  border: 1px solid var(--border) !important;
+}
+.pill.on{
+  background: var(--salam) !important;
+  color: white !important;
+}
+
+/* News ticker visibility */
+.ticker{
+  background: var(--surface-3) !important;
+  color: var(--text) !important;
+  border-top: 1px solid var(--border) !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+
+/* Topbar adjustments */
+.topbar{
+  background: var(--surface) !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+
+/* Page wrapper */
+.app-shell{
+  background: var(--bg) !important;
+}
+.page{
+  background: var(--bg) !important;
+}
+
 </style>
 
 <!-- ═══════════════════════════════════════════════════════════════════
