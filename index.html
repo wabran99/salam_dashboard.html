@@ -6696,11 +6696,37 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
    ═══════════════════════════════════════════════════════════════════ */
 
 /* Force body to use new theme background (overrides old --g1) */
-html body{
+html, html body{
   background: var(--bg) !important;
   color: var(--text) !important;
   font-family: 'IBM Plex Sans Arabic','Lato',sans-serif !important;
 }
+
+/* Kill any old gradient on body's ::before / ::after pseudo-elements */
+body::before, body::after,
+html::before, html::after{
+  background: var(--bg) !important;
+  background-image: none !important;
+  display: none !important;
+}
+
+/* Kill old wrappers that have green backgrounds */
+.wrap-bg, .page-bg, .app-bg,
+.main-bg, .body-bg{
+  background: var(--bg) !important;
+  background-image: none !important;
+}
+
+/* Ensure no element bleeds green background */
+.app-shell, .topbar, .ticker, body > div{
+  background-color: transparent !important;
+}
+
+/* Re-apply specific backgrounds where needed */
+.topbar{ background: var(--surface) !important; }
+.ticker{ background: var(--surface-3) !important; }
+.sidebar{ background: var(--surface) !important; }
+html[data-theme="dark"] .sidebar{ background: rgba(34,38,46,0.6) !important; }
 
 /* Force the wrap (main container) to be transparent */
 .wrap{
