@@ -11471,7 +11471,7 @@ html[data-theme="dark"] .search-wrap{
   </div>
   <div class="version-badge">
     <span class="version-dot"></span>
-    v20.0 · New Design Phase 2+3
+    v20.0 · Full Redesign (Phase 4)
   </div>
 </div>
 
@@ -12707,222 +12707,276 @@ function renderView(view){
   const maxBr=ftthBranchSorted[0]?ftthBranchSorted[0][1].t:1;
 
   document.getElementById('content').innerHTML=`
+
+    <!-- ═══ 1. SEARCH ═══ -->
     <div class="search-wrap">
-      <span class="sicon">🔍</span>
+      <svg class="sicon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="width:20px;height:20px"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
       <input class="sinp" id="sinp" placeholder="Search by name, username or branch..." oninput="doSearch(this.value)" autocomplete="off">
       <div class="sres" id="sres"></div>
     </div>
 
-    <!-- Daily Sales for current month - Replaces Gap Calculator on home page -->
-    <div class="daily-sales-section">
-        <div id="dailySalesContainer"></div>
-      </div>
-      
-      <div class="kpi-section">
-      <div class="kpi-row1">
-        <div class="mk mk-sales">
-          <div class="mk-bg-num">${tS}</div>
-          <div class="mk-header"><div><div class="mk-lbl">Total Sales · Data as of ${DATA_DATE}</div></div><div class="mk-icon">📊</div></div>
-          <div class="mk-val">${tS}</div>
-          <div class="mk-sub">of <b style="color:#A8E8C8">${tT}</b> target · <b style="color:${pc(tP)}">${tP}%</b> achieved</div>
-          <div class="mk-segs">${makeSegs(tP,'on-g')}</div>
+    <!-- ═══ 2. DAILY SALES ═══ -->
+    <div class="daily-card">
+      <div class="daily-hdr">
+        <div class="daily-title">
+          <div class="daily-title-icon">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="width:18px;height:18px"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          </div>
+          <span>Daily Sales</span>
         </div>
-        <div class="mk mk-ach">
-          <div class="mk-bg-num">${tP}</div>
-          <div class="mk-header"><div><div class="mk-lbl">Achievement</div></div><div class="mk-icon">🎯</div></div>
-          <div class="mk-val" style="color:${pc(tP)}">${tP}%</div>
-          <div class="mk-sub"><b style="color:#F08888">${remaining}</b> remaining · <b style="color:#7DE8A8">${active}</b> active of ${emps.length}</div>
-          <div class="mk-segs">${makeSegs(tP,'on-t')}</div>
-        </div>
+        <div class="daily-info">${emps.length} موظف · ${DATA_DATE}</div>
       </div>
+      <div id="dailySalesContainer"></div>
+    </div>
 
-      <!-- v14.1: KPIs Row 2: 4 Cards — Top Performer + Team + Best Branch% + Top Branch Sales -->
-      <div class="kpi-row2">
-        <div class="mk mk-top mk-compact">
-          <div class="mk-bg-num">★</div>
-          <div class="mk-header" style="margin-bottom:4px">
-            <div><div class="mk-lbl">🏆 Top Performer</div></div>
-            <div class="mk-icon">👑</div>
+    <!-- ═══ 3. KPI SECTION ═══ -->
+    <!-- Row 1: Total Sales + Achievement -->
+    <div class="kpi-row1">
+      <div class="mk mk-sales">
+        <div class="mk-bg-num">${tS}</div>
+        <div class="mk-header">
+          <div><div class="mk-lbl">Total Sales · Data as of ${DATA_DATE}</div></div>
+          <div class="mk-icon">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="width:18px;height:18px"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
           </div>
-          <div class="mk-compact-name">${top?top.name.split(' ').slice(0,2).join(' '):'—'}</div>
-          <div class="mk-compact-sub">${top?top.branch.replace(' FBO',''):'—'}</div>
-          <div class="mk-compact-score">
-            <div class="mk-compact-score-n">${top?top.pct:0}%</div>
-            <div class="mk-compact-score-l">· ${top?top.sales:0} sales</div>
-          </div>
-          <div class="mk-segs" style="margin-top:10px">${makeSegs(top?top.pct:0,'on-gold')}</div>
         </div>
-        <div class="mk mk-team mk-compact">
-          <div class="mk-bg-num">${emps.length}</div>
-          <div class="mk-header" style="margin-bottom:8px"><div><div class="mk-lbl">👥 Team</div></div><div class="mk-icon">👥</div></div>
-          <div style="font-size:30px;font-weight:900;color:#A8CCEE;letter-spacing:-1px;line-height:1">${active}</div>
-          <div style="font-size:10px;color:#5888A8;margin-top:3px;margin-bottom:10px;line-height:1.4">active of <b style="color:#A8CCEE">${emps.length}</b> · <b style="color:#F08888">${emps.length-active}</b> inactive</div>
-          <div class="mk-segs">${makeSegs(Math.round(active/Math.max(1,emps.length)*100),'on-b')}</div>
-        </div>
-        <div class="mk mk-brbest mk-compact">
-          <div class="mk-bg-num">🏅</div>
-          <div class="mk-header" style="margin-bottom:4px">
-            <div><div class="mk-lbl">🏆 Best Branch %</div></div>
-            <div class="mk-icon">🏅</div>
-          </div>
-          <div class="mk-compact-name">${bestBrPct?bestBrPct.name.replace(' FBO','').replace('Kiosk ','K.'):'—'}</div>
-          <div class="mk-compact-sub">${bestBrPct?mgrShort(bestBrPct.sup)+' · '+bestBrPct.count+' agents':''}</div>
-          <div class="mk-compact-score">
-            <div class="mk-compact-score-n">${bestBrPct?bestBrPct.pct:0}%</div>
-            <div class="mk-compact-score-l">· ${bestBrPct?bestBrPct.sales+'/'+bestBrPct.target:''}</div>
-          </div>
-          <div class="mk-segs" style="margin-top:10px">${makeSegs(bestBrPct?bestBrPct.pct:0,'on-gold')}</div>
-        </div>
-        <div class="mk mk-brsales mk-compact">
-          <div class="mk-bg-num">💰</div>
-          <div class="mk-header" style="margin-bottom:4px">
-            <div><div class="mk-lbl">💰 Top Branch Sales</div></div>
-            <div class="mk-icon">🏪</div>
-          </div>
-          <div class="mk-compact-name">${topBrSales?topBrSales.name.replace(' FBO','').replace('Kiosk ','K.'):'—'}</div>
-          <div class="mk-compact-sub">${topBrSales?mgrShort(topBrSales.sup)+' · '+topBrSales.count+' agents':''}</div>
-          <div class="mk-compact-score">
-            <div class="mk-compact-score-n">${topBrSales?topBrSales.sales:0}</div>
-            <div class="mk-compact-score-l">· ${topBrSales?topBrSales.pct+'%':''}</div>
-          </div>
-          <div class="mk-segs" style="margin-top:10px">${makeSegs(topBrSales?topBrSales.pct:0,'on-g')}</div>
-        </div>
+        <div class="mk-val">${tS}</div>
+        <div class="mk-sub">of <b style="color:var(--salam-2)">${tT}</b> target · <b style="color:${pc(tP)}">${tP}%</b> achieved</div>
+        <div class="mk-segs" id="segs1">${makeSegs(tP,'on-g')}</div>
       </div>
-
-      <!-- KPIs Row 3: POST + PREP -->
-      <div class="kpi-row3">
-        <div class="mk mk-post">
-          <div class="mk-bg-num">${tPOST}</div>
-          <div class="mk-header"><div><div class="mk-lbl">Postpaid Sales</div></div><div class="mk-icon">📱</div></div>
-          <div class="mk-val">${tPOST}</div>
-          <div class="mk-sub">Target: <b style="color:#A8CCEE">${postTgt}</b> (45% of ${tT}) · <b style="color:${pc(postPct)}">${postPct}%</b> achieved</div>
-          <div class="mk-segs">${makeSegs(postPct,'on-b')}</div>
+      <div class="mk mk-ach">
+        <div class="mk-bg-num">${tP}</div>
+        <div class="mk-header">
+          <div><div class="mk-lbl">Achievement</div></div>
+          <div class="mk-icon">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="width:18px;height:18px"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          </div>
         </div>
-        <div class="mk mk-prep">
-          <div class="mk-bg-num">${tPREP}</div>
-          <div class="mk-header"><div><div class="mk-lbl">Prepaid Sales</div></div><div class="mk-icon">💳</div></div>
-          <div class="mk-val">${tPREP}</div>
-          <div class="mk-sub">Target: <b style="color:#D8A8F0">${prepTgt}</b> (55% of ${tT}) · <b style="color:${pc(prepPct)}">${prepPct}%</b> achieved</div>
-          <div class="mk-segs">${makeSegs(prepPct,'on-p')}</div>
-        </div>
+        <div class="mk-val" style="color:${pc(tP)}">${tP}%</div>
+        <div class="mk-sub"><b style="color:var(--red)">${remaining}</b> remaining · <b style="color:var(--salam-2)">${active}</b> active of ${emps.length}</div>
+        <div class="mk-segs" id="segs2">${makeSegs(tP,'on-t')}</div>
       </div>
+    </div>
 
-      <!-- Goal Gap Card — full width -->
-      <div class="mk mk-gap" style="margin-top:12px">
+    <!-- Row 2: Top Performer + Team + Best Branch% + Top Branch Sales -->
+    <div class="kpi-row2">
+      <div class="mk mk-top mk-compact">
+        <div class="mk-bg-num">★</div>
+        <div class="mk-header" style="margin-bottom:4px">
+          <div><div class="mk-lbl">Top Performer</div></div>
+          <div class="mk-icon">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="width:18px;height:18px"><path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.539 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.539-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+          </div>
+        </div>
+        <div class="mk-compact-name">${top?top.name.split(' ').slice(0,2).join(' '):'—'}</div>
+        <div class="mk-compact-sub">${top?top.branch.replace(' FBO',''):'—'}</div>
+        <div class="mk-compact-score">
+          <div class="mk-compact-score-n" style="color:var(--gold)">${top?top.pct:0}%</div>
+          <div class="mk-compact-score-l">· ${top?top.sales:0} sales</div>
+        </div>
+        <div class="mk-segs" style="margin-top:10px" id="segs3">${makeSegs(top?top.pct:0,'on-gold')}</div>
+      </div>
+      <div class="mk mk-team mk-compact">
+        <div class="mk-bg-num">${emps.length}</div>
         <div class="mk-header" style="margin-bottom:8px">
-          <div><div class="mk-lbl">📅 Goal Gap — Monthly Target Tracker</div></div>
-          <div class="mk-icon">⏱️</div>
-        </div>
-        <div class="gap-grid">
-          <div class="gap-item">
-            <div class="gap-val">${daysLeft}</div>
-            <div class="gap-lbl">Days Left</div>
-          </div>
-          <div class="gap-item">
-            <div class="gap-val" style="color:${pc(100-Math.min(100,Math.round(remaining/Math.max(1,tT)*100)))}">${remaining}</div>
-            <div class="gap-lbl">Sales Remaining</div>
-          </div>
-          <div class="gap-item">
-            <div class="gap-val" style="color:#F6C94E">${dailyNeeded}</div>
-            <div class="gap-lbl">Sales/Day Needed</div>
+          <div><div class="mk-lbl">Team</div></div>
+          <div class="mk-icon">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="width:18px;height:18px"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
           </div>
         </div>
-        <div style="text-align:center;margin-top:10px">
-          <span class="gap-status" style="background:${gapStatus.color}22;border:1px solid ${gapStatus.color}44;color:${gapStatus.color}">
-            ${gapStatus.emoji} ${gapStatus.label}
-          </span>
-        </div>
-        <div class="mk-segs" style="margin-top:12px">${makeSegs(tP,'on-g')}</div>
+        <div style="font-size:30px;font-weight:900;color:var(--sblue);letter-spacing:-1px;line-height:1">${active}</div>
+        <div style="font-size:10px;color:var(--text-3);margin-top:3px;margin-bottom:10px;line-height:1.4">active of <b style="color:var(--sblue)">${emps.length}</b> · <b style="color:var(--red)">${emps.length-active}</b> inactive</div>
+        <div class="mk-segs" id="segs4">${makeSegs(Math.round(active/Math.max(1,emps.length)*100),'on-sblue')}</div>
       </div>
-
-      <!-- v16: Team Goal Card -->
-      <div class="team-goal-card">
-        <div class="team-goal-title">🎪 Team Goal · This Month</div>
-        <div class="team-goal-metrics">
-          <div class="team-goal-metric">
-            <div class="team-goal-v">${tS}</div>
-            <div class="team-goal-l">Team Sales</div>
-          </div>
-          <div class="team-goal-metric">
-            <div class="team-goal-v">${tT}</div>
-            <div class="team-goal-l">Target</div>
-          </div>
-          <div class="team-goal-metric">
-            <div class="team-goal-v" style="color:${tP>=100?'#5DD88C':'#F6C94E'}">${tP}%</div>
-            <div class="team-goal-l">Progress</div>
-          </div>
-          <div class="team-goal-metric">
-            <div class="team-goal-v" style="color:#85B7EB">${active}/${emps.length}</div>
-            <div class="team-goal-l">Active Team</div>
+      <div class="mk mk-brbest mk-compact">
+        <div class="mk-bg-num">🏅</div>
+        <div class="mk-header" style="margin-bottom:4px">
+          <div><div class="mk-lbl">Best Branch %</div></div>
+          <div class="mk-icon">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="width:18px;height:18px"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
           </div>
         </div>
-        <div class="team-goal-progress">
-          <div class="team-goal-progress-fill" style="width:${Math.min(100,tP)}%"></div>
+        <div class="mk-compact-name">${bestBrPct?bestBrPct.name.replace(' FBO','').replace('Kiosk ','K.'):'—'}</div>
+        <div class="mk-compact-sub">${bestBrPct?mgrShort(bestBrPct.sup)+' · '+bestBrPct.count+' agents':''}</div>
+        <div class="mk-compact-score">
+          <div class="mk-compact-score-n" style="color:var(--gold)">${bestBrPct?bestBrPct.pct:0}%</div>
+          <div class="mk-compact-score-l">· ${bestBrPct?bestBrPct.sales+'/'+bestBrPct.target:''}</div>
         </div>
-        <div class="team-goal-footer">
-          <span>🎯 <b>${remaining>0?remaining+' sales to goal':'Goal reached!'}</b></span>
-          <span style="color:${tP>=75?'#5DD88C':tP>=50?'#F6C94E':'#F08888'}">
-            ${tP>=100?'🏆 GOAL REACHED!':tP>=75?'🚀 Almost there!':tP>=50?'⚡ Keep pushing':'💪 Need more effort'}
-          </span>
+        <div class="mk-segs" style="margin-top:10px" id="segs5">${makeSegs(bestBrPct?bestBrPct.pct:0,'on-gold')}</div>
+      </div>
+      <div class="mk mk-brsales mk-compact">
+        <div class="mk-bg-num">$</div>
+        <div class="mk-header" style="margin-bottom:4px">
+          <div><div class="mk-lbl">Top Branch Sales</div></div>
+          <div class="mk-icon">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="width:18px;height:18px"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+          </div>
         </div>
+        <div class="mk-compact-name">${topBrSales?topBrSales.name.replace(' FBO','').replace('Kiosk ','K.'):'—'}</div>
+        <div class="mk-compact-sub">${topBrSales?mgrShort(topBrSales.sup)+' · '+topBrSales.count+' agents':''}</div>
+        <div class="mk-compact-score">
+          <div class="mk-compact-score-n" style="color:var(--salam-2)">${topBrSales?topBrSales.sales:0}</div>
+          <div class="mk-compact-score-l">· ${topBrSales?topBrSales.pct+'%':''}</div>
+        </div>
+        <div class="mk-segs" style="margin-top:10px" id="segs6">${makeSegs(topBrSales?topBrSales.pct:0,'on-g')}</div>
       </div>
     </div>
 
-    <!-- TOP 5 PODIUM -->
-    <div class="top5-section">
-      <div class="sec-t">Top 10 Performers · All Branches</div>
-      ${renderTop5(sorted)}
+    <!-- Row 3: Postpaid + Prepaid -->
+    <div class="kpi-row3">
+      <div class="mk mk-post">
+        <div class="mk-bg-num">${tPOST}</div>
+        <div class="mk-header">
+          <div><div class="mk-lbl">Postpaid Sales</div></div>
+          <div class="mk-icon">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="width:18px;height:18px"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+          </div>
+        </div>
+        <div class="mk-val">${tPOST}</div>
+        <div class="mk-sub">Target: <b style="color:var(--blue)">${postTgt}</b> (45% of ${tT}) · <b style="color:${pc(postPct)}">${postPct}%</b> achieved</div>
+        <div class="mk-segs" id="segs7">${makeSegs(postPct,'on-b')}</div>
+      </div>
+      <div class="mk mk-prep">
+        <div class="mk-bg-num">${tPREP}</div>
+        <div class="mk-header">
+          <div><div class="mk-lbl">Prepaid Sales</div></div>
+          <div class="mk-icon">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="width:18px;height:18px"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+          </div>
+        </div>
+        <div class="mk-val">${tPREP}</div>
+        <div class="mk-sub">Target: <b style="color:var(--purple)">${prepTgt}</b> (55% of ${tT}) · <b style="color:${pc(prepPct)}">${prepPct}%</b> achieved</div>
+        <div class="mk-segs" id="segs8">${makeSegs(prepPct,'on-p')}</div>
+      </div>
     </div>
 
-    <!-- TOP 5 POSTPAID -->
-    <div class="top5-section">
-      <div class="sec-t" style="color:#6AAAD8">Top 5 · Postpaid Sales</div>
-      ${renderTop5Post(sorted)}
+    <!-- ═══ 4. GOAL GAP CARD ═══ -->
+    <div class="mk mk-gap gap-card" style="margin-top:12px">
+      <div class="mk-header" style="margin-bottom:8px">
+        <div><div class="mk-lbl">Goal Gap — Monthly Target Tracker</div></div>
+        <div class="mk-icon">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="width:18px;height:18px"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2"/></svg>
+        </div>
+      </div>
+      <div class="gap-grid">
+        <div class="gap-item">
+          <div class="gap-val">${daysLeft}</div>
+          <div class="gap-lbl">Days Left</div>
+        </div>
+        <div class="gap-item">
+          <div class="gap-val" style="color:${pc(100-Math.min(100,Math.round(remaining/Math.max(1,tT)*100)))}">${remaining}</div>
+          <div class="gap-lbl">Sales Remaining</div>
+        </div>
+        <div class="gap-item">
+          <div class="gap-val" style="color:var(--gold)">${dailyNeeded}</div>
+          <div class="gap-lbl">Sales/Day Needed</div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:10px">
+        <span class="gap-status gap-status-${tP>=75?'green':tP>=40?'amber':'red'}">
+          ${gapStatus.label}
+        </span>
+      </div>
+      <div class="mk-segs" style="margin-top:14px" id="segs9">${makeSegs(tP,'on-g')}</div>
     </div>
 
+    <!-- ═══ 4b. TEAM GOAL CARD ═══ -->
+    <div class="team-goal-card">
+      <div class="team-goal-title">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="width:16px;height:16px;vertical-align:middle;margin-left:6px"><path stroke-linecap="round" stroke-linejoin="round" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"/></svg>
+        Team Goal · This Month
+      </div>
+      <div class="team-goal-metrics">
+        <div class="team-goal-metric">
+          <div class="team-goal-v">${tS}</div>
+          <div class="team-goal-l">Team Sales</div>
+        </div>
+        <div class="team-goal-metric">
+          <div class="team-goal-v">${tT}</div>
+          <div class="team-goal-l">Target</div>
+        </div>
+        <div class="team-goal-metric">
+          <div class="team-goal-v" style="color:${tP>=100?'var(--salam-2)':'var(--gold)'}">${tP}%</div>
+          <div class="team-goal-l">Progress</div>
+        </div>
+        <div class="team-goal-metric">
+          <div class="team-goal-v" style="color:var(--sblue)">${active}/${emps.length}</div>
+          <div class="team-goal-l">Active Team</div>
+        </div>
+      </div>
+      <div class="team-goal-progress">
+        <div class="team-goal-progress-fill" style="width:${Math.min(100,tP)}%"></div>
+      </div>
+      <div class="team-goal-footer">
+        <span><b>${remaining>0?remaining+' sales to goal':'Goal reached!'}</b></span>
+        <span style="color:${tP>=75?'var(--salam-2)':tP>=50?'var(--gold)':'var(--red)'}">
+          ${tP>=100?'GOAL REACHED!':tP>=75?'Almost there!':tP>=50?'Keep pushing':'Need more effort'}
+        </span>
+      </div>
+    </div>
+
+    <!-- ═══ 5. TOP 10 PERFORMERS (Podium) ═══ -->
+    <div class="sec-t">Top 10 Performers · All Branches</div>
+    ${renderTop5(sorted)}
+
+    <!-- ═══ 6. TOP 5 POSTPAID ═══ -->
+    <div class="sec-t" style="color:var(--blue)">Top 5 · Postpaid Sales</div>
+    ${renderTop5Post(sorted)}
+
+    <!-- ═══ 7. SUPERVISOR CARDS ═══ -->
     ${view==='all'?renderSupCards():''}
 
-    <!-- FTTH & 5G SECTION -->
+    <!-- ═══ 8. FTTH & 5G SECTION ═══ -->
     <div class="ftth-section">
       <div class="ftth-divider">
         <div class="ftth-divider-line"></div>
-        <div class="ftth-divider-badge">📡 FTTH & 5G Performance · ${DATA_DATE}</div>
+        <div class="ftth-divider-badge">FTTH & 5G Performance · ${DATA_DATE}</div>
         <div class="ftth-divider-line"></div>
       </div>
       <div class="ftth-kpi-row">
         <div class="mk mk-ftth">
           <div class="mk-bg-num">${ftthTotalAll}</div>
-          <div class="mk-header"><div><div class="mk-lbl">FTTH + 5G Total</div></div><div class="mk-icon">📡</div></div>
+          <div class="mk-header">
+            <div><div class="mk-lbl">FTTH + 5G Total</div></div>
+            <div class="mk-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="width:18px;height:18px"><path stroke-linecap="round" stroke-linejoin="round" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/></svg>
+            </div>
+          </div>
           <div class="mk-val">${ftthTotalAll}</div>
           <div class="mk-sub">
-            <b style="color:#88D0F8">FTTH: ${ftthEmps.reduce((a,e)=>a+e.ftth,0)}</b> ·
-            <b style="color:#68A8E8">5G: ${ftthEmps.reduce((a,e)=>a+e.g5,0)}</b>
+            <b style="color:var(--sblue)">FTTH: ${ftthEmps.reduce((a,e)=>a+e.ftth,0)}</b> ·
+            <b style="color:var(--blue)">5G: ${ftthEmps.reduce((a,e)=>a+e.g5,0)}</b>
           </div>
-          <div class="mk-segs">${makeSegs(ftthPct,'on-b')}</div>
+          <div class="mk-segs">${makeSegs(ftthPct,'on-sblue')}</div>
         </div>
         <div class="mk mk-ftth">
           <div class="mk-bg-num">${ftthPct}</div>
-          <div class="mk-header"><div><div class="mk-lbl">FTTH & 5G Achievement</div></div><div class="mk-icon">🎯</div></div>
+          <div class="mk-header">
+            <div><div class="mk-lbl">FTTH & 5G Achievement</div></div>
+            <div class="mk-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="width:18px;height:18px"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+            </div>
+          </div>
           <div class="mk-val" style="color:${pc(ftthPct)}">${ftthPct}%</div>
-          <div class="mk-sub">of <b style="color:#88B8E8">${ftthTotalTarget}</b> target · <b style="color:#A8CCEE">${ftthEmps.filter(e=>e.total>0).length}</b> active agents</div>
-          <div class="mk-segs">${makeSegs(ftthPct,'on-b')}</div>
+          <div class="mk-sub">of <b style="color:var(--sblue)">${ftthTotalTarget}</b> target · <b style="color:var(--sblue-2)">${ftthEmps.filter(e=>e.total>0).length}</b> active agents</div>
+          <div class="mk-segs">${makeSegs(ftthPct,'on-sblue')}</div>
         </div>
       </div>
 
-      <div class="sec-t" style="color:#5888A8">Top 5 Employees · FTTH & 5G</div>
+      <div class="sec-t" style="color:var(--sblue)">Top 5 Employees · FTTH & 5G</div>
       <div class="ftth-top5-grid">
         ${ftthTop5.map((e,i)=>{
-          const medals=['🥇','🥈','🥉','4️⃣','5️⃣'];
+          const ranks=['1st','2nd','3rd','4th','5th'];
           const maxT=ftthTop5[0]?ftthTop5[0].total:1;
           const idx=DATA.findIndex(d=>d.user===e.user&&d.name===e.name);
           return`<div class="ftth-top5-card" onclick="openModal(${idx})">
-            <div class="ftth-card-rank">${medals[i]}<span class="ftth-card-rank-n">#${i+1}</span></div>
+            <div class="ftth-card-rank"><span class="ftth-card-rank-n">#${i+1} · ${ranks[i]}</span></div>
             <div class="ftth-card-name">${e.name}</div>
             <div class="ftth-card-branch">${e.branch.replace(' FBO','').replace('Kiosk ','')}</div>
             <div style="display:flex;gap:8px;flex-wrap:wrap">
               <div><div class="ftth-stat-v">${e.total}</div><div class="ftth-stat-l">Total</div></div>
-              <div><div class="ftth-stat-v" style="color:#88D0F8">${e.ftth}</div><div class="ftth-stat-l">FTTH</div></div>
-              <div><div class="ftth-stat-v" style="color:#68A8E8">${e.g5}</div><div class="ftth-stat-l">5G</div></div>
+              <div><div class="ftth-stat-v" style="color:var(--sblue)">${e.ftth}</div><div class="ftth-stat-l">FTTH</div></div>
+              <div><div class="ftth-stat-v" style="color:var(--blue)">${e.g5}</div><div class="ftth-stat-l">5G</div></div>
             </div>
             <div class="ftth-pbar"><div class="ftth-pbar-fill" style="width:${Math.min(100,Math.round(e.total/maxT*100))}%"></div></div>
             <div style="font-size:10px;font-weight:600;color:${pc(e.pct)};margin-top:4px">${e.pct}% of target</div>
@@ -12932,30 +12986,30 @@ function renderView(view){
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px">
         <div>
-          <div class="sec-t" style="color:#5888A8">Top 5 Branches · FTTH & 5G</div>
-          <div style="background:var(--card);border:1px solid rgba(55,138,221,0.2);border-radius:var(--r);overflow:hidden">
+          <div class="sec-t" style="color:var(--sblue)">Top 5 Branches · FTTH & 5G</div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden">
             ${ftthBranchSorted.map(([br,d],i)=>`
-              <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid rgba(55,138,221,0.08)">
-                <div style="font-size:13px;font-weight:700;color:#7EC8F0;width:20px;text-align:center">${i+1}</div>
+              <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--border)">
+                <div style="font-size:13px;font-weight:700;color:var(--sblue);width:20px;text-align:center">${i+1}</div>
                 <div style="flex:1;min-width:0">
-                  <div style="font-size:12px;font-weight:600;color:#E8F4FF;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${br.replace(' FBO','').replace('Kiosk ','K.')}</div>
-                  <div style="font-size:10px;color:#5888A8;margin-top:2px">FTTH: ${d.f} · 5G: ${d.g}</div>
-                  <div style="height:3px;background:rgba(55,138,221,0.12);border-radius:2px;margin-top:5px;overflow:hidden">
-                    <div style="height:100%;width:${Math.round(d.t/maxBr*100)}%;background:linear-gradient(90deg,#185FA5,#5BA8E8);border-radius:2px"></div>
+                  <div style="font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${br.replace(' FBO','').replace('Kiosk ','K.')}</div>
+                  <div style="font-size:10px;color:var(--text-3);margin-top:2px">FTTH: ${d.f} · 5G: ${d.g}</div>
+                  <div style="height:3px;background:var(--surface-3);border-radius:2px;margin-top:5px;overflow:hidden">
+                    <div style="height:100%;width:${Math.round(d.t/maxBr*100)}%;background:linear-gradient(90deg,var(--sblue-deep),var(--sblue));border-radius:2px"></div>
                   </div>
                 </div>
-                <div style="font-size:18px;font-weight:800;color:#A8CCEE">${d.t}</div>
+                <div style="font-size:18px;font-weight:800;color:var(--sblue)">${d.t}</div>
               </div>
             `).join('')}
           </div>
         </div>
         <div>
-          <div class="sec-t" style="color:#5888A8">By Supervisor · FTTH & 5G</div>
-          <div style="background:var(--card);border:1px solid rgba(55,138,221,0.2);border-radius:var(--r);overflow:hidden">
+          <div class="sec-t" style="color:var(--sblue)">By Supervisor · FTTH & 5G</div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden">
             ${[
-              {key:'aw',label:'Abdulwahab M Alshammari',color:'#F6C94E'},
-              {key:'am',label:'Ahmed AlMutairi',color:'#85B7EB'},
-              {key:'ms',label:'Mohammed AlShehri',color:'#5DCAA5'},
+              {key:'aw',label:'Abdulwahab M Alshammari',color:'var(--gold)'},
+              {key:'am',label:'Ahmed AlMutairi',color:'var(--sblue)'},
+              {key:'ms',label:'Mohammed AlShehri',color:'var(--salam-2)'},
               {key:'na',label:'Najwa D AlOmari',color:'#ED93B1'},
             ].map(s=>{
               const sv=ftthEmps.filter(e=>mk(e.mgr)===s.key);
@@ -12968,12 +13022,12 @@ function renderView(view){
                 ftthEmps.filter(e=>mk(e.mgr)==='ms').reduce((a,e)=>a+e.total,0),
                 ftthEmps.filter(e=>mk(e.mgr)==='na').reduce((a,e)=>a+e.total,0),
               ],1);
-              return`<div style="padding:10px 14px;border-bottom:1px solid rgba(55,138,221,0.08)">
+              return`<div style="padding:10px 14px;border-bottom:1px solid var(--border)">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
-                  <span style="font-size:12px;font-weight:600;color:#E8F8F0">${s.label}</span>
-                  <span style="font-size:11px;color:#5888A8">F:${f} · 5G:${g} · <b style="color:${s.color}">${t}</b></span>
+                  <span style="font-size:12px;font-weight:600;color:var(--text)">${s.label}</span>
+                  <span style="font-size:11px;color:var(--text-3)">F:${f} · 5G:${g} · <b style="color:${s.color}">${t}</b></span>
                 </div>
-                <div style="height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden">
+                <div style="height:6px;background:var(--surface-3);border-radius:3px;overflow:hidden">
                   <div style="height:100%;width:${maxT2>0?Math.round(t/maxT2*100):0}%;background:${s.color};border-radius:3px"></div>
                 </div>
               </div>`;
@@ -12983,7 +13037,7 @@ function renderView(view){
       </div>
     </div>
 
-    <!-- CHARTS -->
+    <!-- ═══ 9. CHARTS ═══ -->
     <div class="charts-row">
       <div class="chart-card">
         <div class="chart-title">Branch performance — sales vs target</div>
@@ -12995,9 +13049,14 @@ function renderView(view){
       </div>
     </div>
 
-    <!-- EXPORT -->
+    <!-- ═══ 10. EXPORT PANEL ═══ -->
     <div class="export-panel">
-      <div class="ep-title">📤 Export Branch Report</div>
+      <div class="ep-title">
+        <div class="ep-title-icon">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="width:16px;height:16px"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+        </div>
+        Export Branch Report
+      </div>
       <div class="ep-row">
         <div class="ep-group">
           <div class="ep-label">Supervisor</div>
@@ -13010,61 +13069,68 @@ function renderView(view){
           <div class="ep-label">Branch</div>
           <select class="ep-select" id="ep-br"><option value="">— Select —</option></select>
         </div>
-        <button class="btn btn-gold" onclick="exportBranchReport()" style="height:36px;padding:0 20px;flex-shrink:0">📸 Export PNG</button>
+        <button class="ep-btn" onclick="exportBranchReport()">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="width:14px;height:14px"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          Export PNG
+        </button>
       </div>
     </div>
 
-    <!-- TABLE -->
+    <!-- ═══ 11. EMPLOYEE LEADERBOARD ═══ -->
     <div class="sec-t">Employee Leaderboard</div>
-    <div class="filter-row" id="fpills">
-      ${(()=>{
-        // Compute "All branches" totals
-        const allCount=emps.length;
-        const allSales=emps.reduce((a,e)=>a+(e.sales||0),0);
-        const allTarget=emps.reduce((a,e)=>a+(e.target||0),0);
-        const allPct=allTarget>0?Math.round(allSales/allTarget*100):0;
-        const allCls=allPct>=90?'excellent':allPct>=75?'good':allPct>=50?'warning':allPct>=25?'bad':'critical';
-        const allBarPct=Math.min(allPct,100);
-        return `<button class="pill on" onclick="doFilter('all',this)">All branches${buildBranchTooltip('All branches',allCount,allSales,allTarget,allPct,allCls,allBarPct)}</button>`;
-      })()}
-      ${branches.map(b=>{
-        const brEmps=emps.filter(e=>e.branch===b);
-        const brCount=brEmps.length;
-        const brSales=brEmps.reduce((a,e)=>a+(e.sales||0),0);
-        const brTarget=brEmps.reduce((a,e)=>a+(e.target||0),0);
-        const brPct=brTarget>0?Math.round(brSales/brTarget*100):0;
-        const brCls=brPct>=90?'excellent':brPct>=75?'good':brPct>=50?'warning':brPct>=25?'bad':'critical';
-        const brBarPct=Math.min(brPct,100);
-        const safeB=b.replace(/'/g,"\\'");
-        return `<button class="pill" onclick="doFilter('${safeB}',this)">${b}${buildBranchTooltip(b,brCount,brSales,brTarget,brPct,brCls,brBarPct)}</button>`;
-      }).join('')}
-    </div>
-    <div class="table-card">
-      <div class="tbl-hdr">
-        <span class="tbl-title">Ranked by sales</span>
-        <span class="tbl-cnt" id="tbl-cnt">${emps.length} agents</span>
+    <div class="leaderboard">
+      <div class="lb-header">
+        <div class="lb-title-area">
+          <div class="lb-title">Ranked by sales</div>
+          <div class="lb-sub" id="tbl-cnt">${emps.length} employees · ${branches.length} branches · Click pills below to filter</div>
+        </div>
       </div>
-      <div class="tbl-head">
-        <span class="th thc">#</span>
-        <span class="th thc">⭐</span>
-        <span class="th">Name</span>
-        <span class="th">Supervisor</span>
-        <span class="th thc">Sales</span>
-        <span class="th thc">Target</span>
-        <span class="th thc">Ach%</span>
-        <span class="th thc" style="color:#8ABCE0">Post</span>
-        <span class="th thc" style="color:#D8A8F0">Pre</span>
-        <span class="th thc" style="color:#88D0F8">🌐 Fiber</span>
-        <span class="th thc" style="color:#68A8E8">📡 5G</span>
-        <span class="th thc" style="color:#F6C94E">🎯 Daily</span>
-        <span class="th thr">Progress</span>
+      <div class="filter-row" id="fpills">
+        ${(()=>{
+          const allCount=emps.length;
+          const allSales=emps.reduce((a,e)=>a+(e.sales||0),0);
+          const allTarget=emps.reduce((a,e)=>a+(e.target||0),0);
+          const allPct=allTarget>0?Math.round(allSales/allTarget*100):0;
+          const allCls=allPct>=90?'excellent':allPct>=75?'good':allPct>=50?'warning':allPct>=25?'bad':'critical';
+          const allBarPct=Math.min(allPct,100);
+          return `<button class="pill on" onclick="doFilter('all',this)">All branches${buildBranchTooltip('All branches',allCount,allSales,allTarget,allPct,allCls,allBarPct)}</button>`;
+        })()}
+        ${branches.map(b=>{
+          const brEmps=emps.filter(e=>e.branch===b);
+          const brCount=brEmps.length;
+          const brSales=brEmps.reduce((a,e)=>a+(e.sales||0),0);
+          const brTarget=brEmps.reduce((a,e)=>a+(e.target||0),0);
+          const brPct=brTarget>0?Math.round(brSales/brTarget*100):0;
+          const brCls=brPct>=90?'excellent':brPct>=75?'good':brPct>=50?'warning':brPct>=25?'bad':'critical';
+          const brBarPct=Math.min(brPct,100);
+          const safeB=b.replace(/'/g,"\\'");
+          return `<button class="pill" onclick="doFilter('${safeB}',this)">${b}${buildBranchTooltip(b,brCount,brSales,brTarget,brPct,brCls,brBarPct)}</button>`;
+        }).join('')}
       </div>
-      <div id="tbl-rows"></div>
+      <div class="lb-table">
+        <div class="tbl-cols">
+          <div>#</div>
+          <div>⭐</div>
+          <div>Name</div>
+          <div>Supervisor</div>
+          <div>Sales</div>
+          <div>Target</div>
+          <div>Ach%</div>
+          <div style="color:var(--blue)">Post</div>
+          <div style="color:var(--purple)">Pre</div>
+          <div style="color:var(--sblue)">Fiber</div>
+          <div style="color:var(--blue)">5G</div>
+          <div style="color:var(--gold)">Daily</div>
+          <div>Progress</div>
+        </div>
+        <div id="tbl-rows"></div>
+      </div>
     </div>
-    <div style="font-size:11px;color:#3A7A52;text-align:center;margin-top:10px;padding-bottom:6px">
+
+    <div style="font-size:11px;color:var(--text-3);text-align:center;margin-top:10px;padding-bottom:6px">
       Auto-refresh every 5 min · Data as of ${DATA_DATE}
     </div>
-    <div style="font-size:10px;color:#2A5A42;text-align:center;padding-bottom:20px;opacity:0.7">
+    <div style="font-size:10px;color:var(--text-4);text-align:center;padding-bottom:20px;opacity:0.7">
       © 2026 Eng. Abdulwahab M Alshammari · Retail MT · Internal Use Only
     </div>
   `;
