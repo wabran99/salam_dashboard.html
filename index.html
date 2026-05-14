@@ -6758,6 +6758,22 @@ html[data-theme="dark"]{
   --card2: #22262E !important;
 }
 
+/* ⭐ Override Auth color variables — turn login screen to Light cream */
+:root{
+  --auth-green-deepest: #f5f6f4 !important;
+  --auth-green-darker: #ffffff !important;
+  --auth-green-deep: #f0f2ef !important;
+  --auth-green-mid: #00693E !important;
+  --auth-green-light: #008F54 !important;
+  --auth-green-glow: rgba(0,143,84,0.15) !important;
+  --auth-text: #0d1f17 !important;
+  --auth-text-soft: rgba(13,31,23,0.72) !important;
+  --auth-text-muted: rgba(13,31,23,0.50) !important;
+  --auth-glass-bg: #ffffff !important;
+  --auth-glass-border: #e3e7e3 !important;
+  --auth-glass-highlight: rgba(0,0,0,0.04) !important;
+}
+
 /* Force body to use new theme background */
 html, html body{
   background: var(--bg) !important;
@@ -7313,6 +7329,301 @@ html[data-theme="dark"] .team-goal-metric{
   color: var(--text-3) !important;
 }
 
+/* ═══════════════════════════════════════════════════════════════════
+   🔥 v20.0 FIX-15: AUTH + SPLASH SCREEN — Light Cream Mode
+   Convert the dark green login screen to match the light dashboard
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ━━━ Splash Screen ━━━ */
+#salamSplash{
+  background: #f5f6f4 !important;
+  color: #0d1f17 !important;
+}
+.splash-bg-gradient{
+  background:
+    radial-gradient(ellipse at top right, rgba(0,105,62,0.06) 0%, transparent 55%),
+    radial-gradient(ellipse at bottom left, rgba(212,175,55,0.05) 0%, transparent 55%),
+    linear-gradient(180deg, #ffffff 0%, #f5f6f4 100%) !important;
+}
+.splash-logo{
+  filter: drop-shadow(0 4px 16px rgba(0,105,62,0.15)) !important;
+}
+.splash-spinner{
+  border: 3px solid rgba(0,105,62,0.12) !important;
+  border-top-color: #00693E !important;
+}
+.splash-text{
+  color: #4a5550 !important;
+}
+
+/* ━━━ Auth Overlay (Login Screen) ━━━ */
+#salamAuthOverlay{
+  background: #f5f6f4 !important;
+  color: #0d1f17 !important;
+}
+
+/* Background gradient — soft cream */
+.auth-bg-gradient{
+  background:
+    radial-gradient(ellipse at top right, rgba(0,105,62,0.06) 0%, transparent 55%),
+    radial-gradient(ellipse at bottom left, rgba(212,175,55,0.05) 0%, transparent 55%),
+    linear-gradient(180deg, #ffffff 0%, #f5f6f4 100%) !important;
+}
+
+/* Animated orbs — softer light versions */
+.auth-orb-1{
+  background: radial-gradient(circle, rgba(0,143,84,0.18) 0%, transparent 70%) !important;
+  opacity: 0.5 !important;
+}
+.auth-orb-2{
+  background: radial-gradient(circle, rgba(212,175,55,0.15) 0%, transparent 70%) !important;
+  opacity: 0.35 !important;
+}
+.auth-orb-3{
+  background: radial-gradient(circle, rgba(61,214,140,0.12) 0%, transparent 70%) !important;
+  opacity: 0.30 !important;
+}
+
+/* Grain pattern subtle */
+.auth-bg-grain{
+  opacity: 0.02 !important;
+}
+
+/* ━━━ Brand area ━━━ */
+.auth-logo{
+  filter: drop-shadow(0 4px 16px rgba(0,105,62,0.15)) !important;
+  animation: none !important;
+}
+.auth-brand-title{
+  color: #0d1f17 !important;
+}
+.auth-brand-subtitle{
+  color: #7a8580 !important;
+}
+.auth-brand-divider{
+  background: linear-gradient(90deg, transparent, #9A7A2C, transparent) !important;
+}
+
+/* ━━━ Glass card ━━━ */
+.auth-card{
+  background: #ffffff !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: 1px solid #e3e7e3 !important;
+  box-shadow: 0 10px 40px -10px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04) !important;
+}
+.auth-card::before{
+  background: linear-gradient(90deg, transparent, rgba(154,122,44,0.4), transparent) !important;
+}
+
+/* ━━━ Step titles & text ━━━ */
+.auth-step-title,
+.auth-step h1, .auth-step h2,
+[class*="auth-title"]{
+  color: #0d1f17 !important;
+}
+.auth-step-subtitle,
+.auth-step p,
+[class*="auth-subtitle"],
+[class*="auth-hint"]{
+  color: #4a5550 !important;
+}
+
+/* ━━━ User list (Step 1) ━━━ */
+.auth-user-list{
+  background: transparent !important;
+}
+.auth-user-item,
+[class*="user-card"],
+[class*="user-row"]{
+  background: #fafbfa !important;
+  border: 1px solid #e3e7e3 !important;
+  color: #0d1f17 !important;
+  transition: all 0.2s !important;
+}
+.auth-user-item:hover,
+[class*="user-card"]:hover{
+  background: #f0f2ef !important;
+  border-color: #00693E !important;
+  transform: translateX(2px) !important;
+}
+.auth-user-item.selected,
+.auth-user-item.active,
+[class*="user-card"].selected,
+[class*="user-card"].active{
+  background: #E5EFE9 !important;
+  border-color: #00693E !important;
+  box-shadow: 0 4px 12px -4px rgba(0,105,62,0.2) !important;
+}
+.auth-user-avatar,
+[class*="user-avatar"]{
+  background: linear-gradient(135deg, #00693E, #008F54) !important;
+  color: white !important;
+}
+.auth-user-name,
+.auth-user-info-name{
+  color: #0d1f17 !important;
+}
+.auth-user-role,
+.auth-user-info-role,
+.auth-user-info-sub{
+  color: #7a8580 !important;
+}
+
+/* ━━━ Inputs ━━━ */
+.auth-input,
+.auth-input-wrap input,
+input[class*="auth"]{
+  background: #fafbfa !important;
+  border: 1px solid #e3e7e3 !important;
+  color: #0d1f17 !important;
+}
+.auth-input::placeholder,
+input[class*="auth"]::placeholder{
+  color: #9aa39e !important;
+}
+.auth-input:focus,
+input[class*="auth"]:focus{
+  background: #ffffff !important;
+  border-color: #00693E !important;
+  box-shadow: 0 0 0 3px rgba(0,105,62,0.1) !important;
+  outline: none !important;
+}
+
+/* Input label */
+.auth-input-label,
+.auth-label,
+label[class*="auth"]{
+  color: #4a5550 !important;
+}
+
+/* Password eye toggle */
+.auth-eye,
+.auth-input-eye,
+[class*="eye-btn"]{
+  color: #7a8580 !important;
+}
+.auth-eye:hover{
+  color: #00693E !important;
+}
+
+/* ━━━ Buttons ━━━ */
+/* Primary button — Salam green */
+.auth-btn-primary,
+.auth-btn.primary,
+button[class*="auth-btn-primary"]{
+  background: linear-gradient(135deg, #00693E, #008F54) !important;
+  color: white !important;
+  border: none !important;
+  box-shadow: 0 4px 14px -4px rgba(0,105,62,0.4) !important;
+}
+.auth-btn-primary:hover{
+  background: linear-gradient(135deg, #008F54, #00693E) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 20px -4px rgba(0,105,62,0.5) !important;
+}
+
+/* Secondary / Back button */
+.auth-btn-secondary,
+.auth-btn.secondary,
+.auth-btn-back,
+button[class*="auth-btn-secondary"]{
+  background: #fafbfa !important;
+  color: #4a5550 !important;
+  border: 1px solid #e3e7e3 !important;
+}
+.auth-btn-secondary:hover{
+  background: #f0f2ef !important;
+  border-color: #00693E !important;
+  color: #00693E !important;
+}
+
+/* Ghost / link button */
+.auth-btn-ghost,
+.auth-btn-link,
+[class*="auth-link"]{
+  color: #00693E !important;
+}
+.auth-btn-ghost:hover{
+  color: #008F54 !important;
+}
+
+/* Button spinner */
+.auth-btn-spinner{
+  border-color: rgba(255,255,255,0.3) !important;
+  border-top-color: white !important;
+}
+
+/* ━━━ Strength meter (password) ━━━ */
+.auth-strength{
+  background: #f0f2ef !important;
+}
+.auth-strength-track{
+  background: #e3e7e3 !important;
+}
+.auth-strength-label,
+[class*="strength-label"]{
+  color: #4a5550 !important;
+}
+
+/* ━━━ Notice / Info boxes ━━━ */
+.auth-notice,
+.auth-info,
+[class*="auth-notice"]{
+  background: #fffbeb !important;
+  border: 1px solid #fde68a !important;
+  color: #92400e !important;
+}
+.auth-notice strong{
+  color: #78350f !important;
+}
+
+/* ━━━ Error / Success messages ━━━ */
+.auth-error{
+  background: #fef2f2 !important;
+  border: 1px solid #fecaca !important;
+  color: #991b1b !important;
+}
+.auth-success{
+  background: #f0fdf4 !important;
+  border: 1px solid #bbf7d0 !important;
+  color: #166534 !important;
+}
+
+/* ━━━ Divider ━━━ */
+.auth-divider,
+[class*="auth-divider"]{
+  color: #9aa39e !important;
+}
+.auth-divider::before,
+.auth-divider::after{
+  background: #e3e7e3 !important;
+}
+
+/* ━━━ Footer / Version badge ━━━ */
+.auth-footer,
+.auth-footer-version,
+[class*="auth-footer"]{
+  color: #9aa39e !important;
+}
+
+/* ━━━ Scrollbar inside auth ━━━ */
+#salamAuthOverlay::-webkit-scrollbar{
+  width: 8px !important;
+}
+#salamAuthOverlay::-webkit-scrollbar-track{
+  background: transparent !important;
+}
+#salamAuthOverlay::-webkit-scrollbar-thumb{
+  background: #d0d5d0 !important;
+  border-radius: 4px !important;
+}
+
+/* ━━━ Checkbox / Toggle ━━━ */
+.auth-checkbox input[type="checkbox"],
+input[type="checkbox"][class*="auth"]{
+  accent-color: #00693E !important;
+}
 /* ═══════════════════════════════════════════════════════════════════
    🔥 v20.0 FIX-13: DAILY SALES BLOCK — light theme override
    The old CSS uses hard-coded green gradients (not --g vars)
