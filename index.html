@@ -6723,6 +6723,8 @@ html body{
   background: transparent !important;
   color: var(--text) !important;
 }
+.sinp::placeholder{ color: var(--text-3) !important; }
+.sicon{ color: var(--text-3) !important; }
 
 /* Old tables/leaderboard */
 .tbl-row, .tbl-cols{
@@ -6819,6 +6821,368 @@ html[data-theme="dark"] .search-wrap{
 }
 .page{
   background: var(--bg) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   🔥 v20.0 FIX-1: TEAM GOAL CARD — force light theme + remove glow
+   ═══════════════════════════════════════════════════════════════════ */
+.team-goal-card{
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+.team-goal-card::before{
+  background: linear-gradient(90deg, var(--salam), var(--salam-2)) !important;
+  box-shadow: none !important;
+}
+.team-goal-title{
+  color: var(--salam) !important;
+}
+.team-goal-metric{
+  background: var(--surface-2) !important;
+  border: 1px solid var(--border) !important;
+}
+.team-goal-v{
+  color: var(--text) !important;
+}
+.team-goal-l{
+  color: var(--text-3) !important;
+}
+.team-goal-progress{
+  background: var(--surface-3) !important;
+  border: 1px solid var(--border) !important;
+}
+.team-goal-progress-fill{
+  background: linear-gradient(90deg, var(--salam), var(--salam-2)) !important;
+  box-shadow: none !important;
+}
+.team-goal-footer{
+  color: var(--text-2) !important;
+}
+
+/* DARK mode for team goal */
+html[data-theme="dark"] .team-goal-card{
+  background: var(--surface) !important;
+}
+html[data-theme="dark"] .team-goal-metric{
+  background: var(--surface-2) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   🔥 v20.0 FIX-2: EXPORT PANEL — light background, readable text
+   ═══════════════════════════════════════════════════════════════════ */
+.export-panel{
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+.ep-title{
+  color: var(--text) !important;
+}
+.ep-label{
+  color: var(--text-2) !important;
+}
+.ep-select{
+  background: var(--surface-2) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+}
+.ep-select option{
+  background: var(--surface) !important;
+  color: var(--text) !important;
+}
+.ep-btn{
+  background: linear-gradient(135deg, var(--salam), var(--salam-2)) !important;
+  color: white !important;
+  border: none !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   🔥 v20.0 FIX-3: TOP 10 SLIM ROWS (Ranks 4-10) — readable names
+   ═══════════════════════════════════════════════════════════════════ */
+.top-slim-section{
+  background: transparent !important;
+}
+.top-slim-hdr{
+  color: var(--text-2) !important;
+}
+.top-slim-row{
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text) !important;
+}
+.top-slim-row:hover{
+  background: var(--surface-2) !important;
+  border-color: var(--salam) !important;
+}
+.slim-rank{
+  background: var(--salam-light) !important;
+  color: var(--salam) !important;
+}
+.slim-name{
+  color: var(--text) !important;
+  font-weight: 700 !important;
+}
+.slim-branch{
+  color: var(--text-3) !important;
+}
+.slim-sup{
+  color: var(--text-2) !important;
+}
+.slim-sales{
+  color: var(--text) !important;
+}
+.slim-sales-lbl{
+  color: var(--text-4) !important;
+}
+.slim-pct{
+  font-weight: 800 !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   🔥 v20.0 FIX-4: SIDEBAR QUICK STATS — visible numbers
+   ═══════════════════════════════════════════════════════════════════ */
+.sidebar .sb-stat{
+  padding: 8px 0 !important;
+}
+.sidebar .sb-stat-label{
+  color: var(--text-3) !important;
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+}
+.sidebar .sb-stat-value{
+  color: var(--text) !important;
+  font-size: 24px !important;
+  font-weight: 800 !important;
+  margin-top: 2px !important;
+}
+.sidebar .sb-stat-value.salam{ color: var(--salam) !important; }
+.sidebar .sb-stat-value.red{ color: var(--red) !important; }
+.sidebar .sb-stat-value.sblue{ color: var(--sblue-deep) !important; }
+.sidebar .sb-stat-value.gold{ color: var(--gold) !important; }
+
+/* Make sure the old quick stats (qs-v, qs-l) are styled if visible */
+.qs-l, .qs-v{
+  color: var(--text-2) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   🔥 v20.0 FIX-5: SUPERVISOR CARDS — light theme
+   ═══════════════════════════════════════════════════════════════════ */
+.sup-card-title{
+  color: var(--text) !important;
+}
+.sup-card-sub{
+  color: var(--text-3) !important;
+}
+.sup-card-stat{
+  color: var(--text-2) !important;
+}
+.sup-card-bar{
+  background: var(--surface-3) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   🔥 v20.0 FIX-6: CHART CARDS — readable
+   ═══════════════════════════════════════════════════════════════════ */
+.chart-card{
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+.chart-title{
+  color: var(--text) !important;
+}
+.charts-row{
+  background: transparent !important;
+}
+
+/* Supervisor bars in chart card */
+.sup-bars{
+  background: transparent !important;
+}
+.sup-bar-row{
+  color: var(--text-2) !important;
+}
+.sup-bar-name{
+  color: var(--text) !important;
+}
+.sup-bar-track{
+  background: var(--surface-3) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   🔥 v20.0 FIX-7: SECTION TITLES (.sec-t)
+   ═══════════════════════════════════════════════════════════════════ */
+.sec-t{
+  color: var(--salam) !important;
+  position: relative !important;
+  padding-left: 14px !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.12em !important;
+  margin: 24px 0 14px !important;
+}
+.sec-t::before{
+  content: '' !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 4px !important;
+  height: 14px !important;
+  background: var(--salam) !important;
+  border-radius: 2px !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   🔥 v20.0 FIX-8: PODIUM (pod-* classes from renderTop5)
+   ═══════════════════════════════════════════════════════════════════ */
+.pod-card{
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+}
+.pod-rank-lbl{
+  color: var(--text-3) !important;
+}
+.pod-name{
+  color: var(--text) !important;
+}
+.pod-branch{
+  color: var(--text-3) !important;
+}
+.pod-score{
+  color: var(--text) !important;
+}
+.pod-score-pct{
+  color: var(--salam) !important;
+}
+.pod-score-lbl{
+  color: var(--text-4) !important;
+}
+
+/* Gold for 1st place */
+.pod-1 .pod-card{
+  background: linear-gradient(135deg, rgba(212,175,55,0.08), rgba(212,175,55,0.02)) !important;
+  border-color: var(--gold) !important;
+}
+/* Silver for 2nd place */
+.pod-2 .pod-card{
+  border-color: #C0C0C0 !important;
+}
+/* Bronze for 3rd place */
+.pod-3 .pod-card{
+  border-color: #CD7F32 !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   🔥 v20.0 FIX-9: FTTH SECTION
+   ═══════════════════════════════════════════════════════════════════ */
+.ftth-divider-badge{
+  background: var(--surface) !important;
+  color: var(--sblue) !important;
+  border: 1px solid var(--border) !important;
+}
+.ftth-divider-line{
+  background: var(--border) !important;
+}
+.ftth-top5-card{
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text) !important;
+}
+.ftth-card-name{
+  color: var(--text) !important;
+}
+.ftth-card-branch{
+  color: var(--text-3) !important;
+}
+.ftth-stat-v{
+  color: var(--text) !important;
+}
+.ftth-stat-l{
+  color: var(--text-4) !important;
+}
+.ftth-pbar{
+  background: var(--surface-3) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   🔥 v20.0 FIX-10: DAILY SALES (rendered by renderDailySales JS)
+   ═══════════════════════════════════════════════════════════════════ */
+.daily-card{
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+}
+.daily-title{
+  color: var(--text) !important;
+}
+.daily-info{
+  color: var(--text-3) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   🔥 v20.0 FIX-11: GAP CALCULATOR / GAP CARDS
+   ═══════════════════════════════════════════════════════════════════ */
+.gap-card, .mk-gap{
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+}
+.gap-item{
+  background: var(--surface-2) !important;
+  border: 1px solid var(--border) !important;
+}
+.gap-val{
+  color: var(--text) !important;
+}
+.gap-lbl{
+  color: var(--text-3) !important;
+}
+.gap-status{
+  padding: 6px 14px !important;
+  border-radius: 20px !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+.gap-status-green{
+  background: rgba(61,214,140,0.12) !important;
+  color: var(--salam) !important;
+  border: 1px solid rgba(61,214,140,0.3) !important;
+}
+.gap-status-amber{
+  background: rgba(251,191,36,0.12) !important;
+  color: var(--gold) !important;
+  border: 1px solid rgba(251,191,36,0.3) !important;
+}
+.gap-status-red{
+  background: rgba(248,113,113,0.12) !important;
+  color: var(--red) !important;
+  border: 1px solid rgba(248,113,113,0.3) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   🔥 v20.0 FIX-12: TABLES (.table-card, tbl-hdr, tbl-head)
+   ═══════════════════════════════════════════════════════════════════ */
+.table-card{
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+}
+.tbl-hdr{
+  background: var(--surface-2) !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+.tbl-title, .tbl-cnt{
+  color: var(--text-2) !important;
+}
+.tbl-head{
+  background: var(--surface-2) !important;
+  color: var(--text-3) !important;
+}
+.th{
+  color: var(--text-3) !important;
 }
 
 </style>
