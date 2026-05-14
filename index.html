@@ -3834,6 +3834,23 @@ html[data-theme="dark"] .tbl-row.r3 .t-rank{color:#E89856;}
   /* Auth uses its own dark theme regardless of body theme */
 }
 
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Hide OLD duplicated elements (replaced by new design above)
+   We keep them in DOM for JS compatibility, but hide them visually
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* Hide old header (.hdr) - replaced by new .topbar */
+.hdr{ display:none !important; }
+
+/* Hide old toolbar - replaced by new .header-icons */
+.toolbar{ display:none !important; }
+
+/* Hide old ticker - replaced by new .ticker */
+.ticker-wrap{ display:none !important; }
+
+/* Hide old version badge if it exists outside new layout */
+.version-old, [class*="version-old"]{ display:none !important; }
+
 /* Hide old sidebar structure since we're replacing with new */
 .wrap > .sidebar{ display:none !important; }
 .wrap{ display:block !important; max-width:none !important; }
@@ -3845,6 +3862,9 @@ html[data-theme="dark"] .tbl-row.r3 .t-rank{color:#E89856;}
 
 /* Ensure Time Machine overlay is on top of everything */
 #timeMachineOverlay{ z-index:9999 !important; }
+
+/* Body background: use new theme variable */
+body{ background: var(--bg) !important; color: var(--text) !important; }
 
 
 
