@@ -3845,11 +3845,29 @@ html[data-theme="dark"] .tbl-row.r3 .t-rank{color:#E89856;}
 
 /* Hide old sidebar structure since we're replacing with new */
 .wrap > .sidebar{ display:none !important; }
-.wrap{ display:block !important; max-width:none !important; }
-.wrap > .content{ width:100% !important; max-width:1400px !important; margin:0 auto !important; padding:0 32px !important; }
+
+/* CRITICAL: .wrap is INSIDE .app-shell grid (sidebar + page).
+   The new design uses app-shell with grid 240px and 1fr columns.
+   So .wrap should fill the page column (second column) */
+.wrap{
+  display:block !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:0 !important;
+  background:transparent !important;
+}
+.wrap > .content{
+  background:transparent !important;
+  padding:24px 0 60px !important;
+  margin:0 !important;
+  max-width:none !important;
+  display:flex !important;
+  flex-direction:column !important;
+  gap:18px !important;
+}
 
 @media (max-width: 768px){
-  .wrap > .content{ padding:0 16px !important; }
+  .wrap > .content{ padding:16px 0 40px !important; }
 }
 
 /* Time Machine overlay on top */
@@ -6942,6 +6960,19 @@ html[data-theme="dark"] .team-goal-metric{
 /* ═══════════════════════════════════════════════════════════════════
    🔥 v20.0 FIX-4: SIDEBAR QUICK STATS — visible numbers
    ═══════════════════════════════════════════════════════════════════ */
+.sidebar{
+  width: 240px !important;
+  max-width: 240px !important;
+  overflow-y: visible !important;
+  max-height: none !important;
+}
+@media (max-width: 1024px){
+  .sidebar{
+    /* On mobile, sidebar is fixed/sliding — overrides handled by new CSS */
+    width: 280px !important;
+    max-width: 280px !important;
+  }
+}
 .sidebar .sb-stat{
   padding: 8px 0 !important;
 }
@@ -11968,7 +11999,8 @@ html[data-theme="dark"] .team-goal-metric{
     </div>
   </aside>
 
-  <!-- END NEW DESIGN HEADER STRUCTURE -->
+  <!-- PAGE (right column) - contains the old dashboard inside -->
+  <div class="page">
 
 <!-- ═══════════════════════════════════════════════════════════════════
    🔄 EXISTING DASHBOARD CONTENT (preserved from v19.12.1)
@@ -13079,19 +13111,8 @@ function renderView(view){
       <div class="sres" id="sres"></div>
     </div>
 
-    <!-- ═══ 2. DAILY SALES ═══ -->
-    <div class="daily-card">
-      <div class="daily-hdr">
-        <div class="daily-title">
-          <div class="daily-title-icon">
-            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="width:18px;height:18px"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-          </div>
-          <span>Daily Sales</span>
-        </div>
-        <div class="daily-info">${emps.length} موظف · ${DATA_DATE}</div>
-      </div>
-      <div id="dailySalesContainer"></div>
-    </div>
+    <!-- ═══ 2. DAILY SALES (rendered by renderDailySales JS) ═══ -->
+    <div id="dailySalesContainer"></div>
 
     <!-- ═══ 3. KPI SECTION ═══ -->
     <!-- Row 1: Total Sales + Achievement -->
@@ -22474,6 +22495,7 @@ console.log('✅ New design v20.0 loaded — Phase 2+3 (CSS + Topbar + Sidebar)'
 </script>
 <!-- ═══ END NEW DESIGN v20.0 JS ═══ -->
 
+</div><!-- /.page -->
 </div><!-- /.app-shell (added in v20.0) -->
 
 </body>
