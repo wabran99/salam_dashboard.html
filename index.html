@@ -46,7 +46,7 @@
   v16.9.1  · earlier    · ActivationDateTime + Streak System
 ═══════════════════════════════════════ -->
 
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="light" style="background:#f5f6f4;">
 <head>
 <!-- ═══════════════════════════════════════════════════════════════════
    🔐 SALAM AUTH SYSTEM v18.0 — Step 2.2 (First Login + Password Change)
@@ -3827,11 +3827,38 @@ html[data-theme="dark"] .tbl-row.r3 .t-rank{color:#E89856;}
    ═══════════════════════════════════════════════════════════════════ */
 
 /* Ensure Auth overlay is not affected by new theme */
-#auth-overlay,
-#auth-overlay *,
-#splash-screen,
-#splash-screen *{
+#salamAuthOverlay,
+#salamAuthOverlay *,
+#salamSplash,
+#salamSplash *{
   /* Auth uses its own dark theme regardless of body theme */
+}
+
+/* ⭐ CRITICAL: When Auth/Splash are hidden, ensure their backgrounds don't bleed
+   The .splash-bg-gradient and .auth-bg-gradient are position:absolute inset:0
+   which means they fill their parent. We make sure the parent is only visible
+   when needed, and that body itself has no green background. */
+#salamSplash[style*="display: none"],
+#salamSplash[style*="display:none"],
+#salamAuthOverlay[style*="display: none"],
+#salamAuthOverlay[style*="display:none"]{
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* When auth/splash are visible, they should cover everything BUT
+   when they're hidden, the body underneath must be light */
+body{
+  background: var(--bg) !important;
+  background-color: var(--bg) !important;
+  background-image: none !important;
+}
+
+/* Kill any old body::before/::after that may add green */
+html::before, html::after,
+body::before, body::after{
+  background: transparent !important;
+  background-image: none !important;
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -7286,6 +7313,88 @@ html[data-theme="dark"] .team-goal-metric{
   color: var(--text-3) !important;
 }
 
+/* ═══════════════════════════════════════════════════════════════════
+   🔥 v20.0 FIX-13: DAILY SALES BLOCK — light theme override
+   The old CSS uses hard-coded green gradients (not --g vars)
+   ═══════════════════════════════════════════════════════════════════ */
+.daily-sales-block{
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+.daily-sales-block::before{
+  background: linear-gradient(90deg, var(--salam), var(--salam-2), var(--salam)) !important;
+}
+.daily-sales-block:hover{
+  box-shadow: var(--shadow-md) !important;
+}
+
+/* Supervisor color variants — keep colored stripe but use light bg */
+.daily-sales-block.sup-aw,
+.daily-sales-block.sup-am,
+.daily-sales-block.sup-ms,
+.daily-sales-block.sup-na{
+  background: var(--surface) !important;
+}
+
+/* Daily sales internal elements text colors */
+.daily-sales-block *,
+.ds-hdr, .ds-title, .ds-sub, .ds-cell, .ds-day, .ds-count,
+.ds-grid > *, .ds-stat-v, .ds-stat-l{
+  color: var(--text) !important;
+}
+
+/* Text shades within daily block */
+.daily-sales-block .ds-sub,
+.daily-sales-block .ds-day-num,
+.daily-sales-block .ds-empty{
+  color: var(--text-3) !important;
+}
+
+/* Stat boxes inside daily block */
+.daily-sales-block [class*="stat"],
+.daily-sales-block .ds-stats > div{
+  background: var(--surface-2) !important;
+  border: 1px solid var(--border) !important;
+}
+
+/* Daily grid cells (1, 2, 3...31) */
+.daily-sales-block .ds-cell,
+.daily-sales-block .ds-day{
+  background: var(--surface-2) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text) !important;
+}
+.daily-sales-block .ds-cell.active,
+.daily-sales-block .ds-cell.today,
+.daily-sales-block .ds-cell.has-sales{
+  background: var(--salam-light) !important;
+  border-color: var(--salam) !important;
+  color: var(--salam) !important;
+}
+
+/* Catch-all: any element inside daily-sales-block with green bg */
+.daily-sales-block [style*="background"],
+.daily-sales-block [style*="linear-gradient"]{
+  background: var(--surface-2) !important;
+  background-image: none !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   🔥 v20.0 FIX-14: KILL EDGE GLOW (the green light on page sides)
+   ═══════════════════════════════════════════════════════════════════ */
+/* The faint green glow on edges comes from filter/drop-shadow on
+   the topbar/sidebar/ticker. We kill any glow effects on the page wrappers. */
+.app-shell, .topbar, .ticker, .sidebar, .page{
+  filter: none !important;
+  -webkit-filter: none !important;
+}
+
+/* Remove any drop-shadow that might leak green */
+.topbar{ box-shadow: 0 1px 3px rgba(0,0,0,0.04) !important; }
+.sidebar{ box-shadow: var(--shadow-sm) !important; }
+.ticker{ box-shadow: none !important; }
+
 </style>
 
 <!-- ═══════════════════════════════════════════════════════════════════
@@ -9879,7 +9988,7 @@ html[data-theme="dark"] .team-goal-metric{
   </script>
   
 </head>
-<body>
+<body style="background:#f5f6f4;">
 
 <!-- ═══════════════════════════════════════════════════════════════════
    ⏳ TIME MACHINE MODULE v1.1 — STRUCTURE & CONTROLLER
