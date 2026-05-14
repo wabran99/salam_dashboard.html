@@ -6695,7 +6695,43 @@ body{background:var(--g1);font-family:'Segoe UI',system-ui,sans-serif;color:var(
    🎯 v20.0 FINAL OVERRIDES — Force new theme to win cascade
    ═══════════════════════════════════════════════════════════════════ */
 
-/* Force body to use new theme background (overrides old --g1) */
+/* ⭐ CRITICAL FIX: Redefine OLD green variables to match new theme
+   These variables (--g1, --g2, --g3, ...) are used in 100+ places in
+   the old CSS. By redefining them at :root level, ALL old rules that
+   use background:var(--g1/g2/g3) automatically get the new colors. */
+html[data-theme="light"], :root{
+  --g1: #f5f6f4 !important;   /* old: #061A10 dark green → new: light bg */
+  --g2: #ffffff !important;   /* old: #0A2E1C → new: white surface */
+  --g3: #fafbfa !important;   /* old: #0D3D26 → new: light surface-2 */
+  --g4: #f0f2ef !important;   /* old: #1A5C35 → new: surface-3 */
+  --g5: #00693E !important;   /* old: #1A9E52 → new: salam */
+  --g6: #008F54 !important;   /* old: #3DD68C → new: salam-2 */
+  --g7: #3DD68C !important;   /* old: #6FD49A → new: salam-3 */
+  --t1: #0d1f17 !important;   /* old: white text → new: dark text */
+  --t2: #4a5550 !important;   /* old: light green text → new: text-2 */
+  --t3: #7a8580 !important;   /* old: lighter → new: text-3 */
+  --t4: #9aa39e !important;   /* old: faded → new: text-4 */
+  --card: #ffffff !important; /* card background */
+  --card2: #fafbfa !important;
+}
+
+html[data-theme="dark"]{
+  --g1: #0F1115 !important;
+  --g2: #1A1D23 !important;
+  --g3: #22262E !important;
+  --g4: #2A2E37 !important;
+  --g5: #3DD68C !important;
+  --g6: #5DE8A8 !important;
+  --g7: #3DD68C !important;
+  --t1: #F3F4F6 !important;
+  --t2: #B8BCC4 !important;
+  --t3: #7B8290 !important;
+  --t4: #5B6270 !important;
+  --card: #1A1D23 !important;
+  --card2: #22262E !important;
+}
+
+/* Force body to use new theme background */
 html, html body{
   background: var(--bg) !important;
   color: var(--text) !important;
@@ -6874,6 +6910,14 @@ html[data-theme="dark"] .search-wrap{
   background: var(--surface) !important;
   border: 1px solid var(--border) !important;
   box-shadow: var(--shadow-sm) !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+/* KILL the radial glow that bleeds green to page edges */
+.team-goal-card::after{
+  display: none !important;
+  content: none !important;
+  background: none !important;
 }
 .team-goal-card::before{
   background: linear-gradient(90deg, var(--salam), var(--salam-2)) !important;
